@@ -4,9 +4,7 @@ import Box from '3box';
 import {setEthereumAddress_Action} from '../actions';
 
 import Header from './common/Header';
-import CustomModal from './common/Modal';
 import clipUploading from '../resources/clipUploading.png';
-import gmEmpty from '../resources/gm(1).png';
 import Button from './common/Button';
 import '../App.css';
 
