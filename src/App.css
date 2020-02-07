@@ -1,38 +1,197 @@
+/* Montserrat */
+@import url('https://fonts.googleapis.com/css?family=Montserrat:200,200i,300,300i,400,400i,500,500i,600,600i,700,700i&display=swap');
+/* Rajdhani */
+@import url('https://fonts.googleapis.com/css?family=Rajdhani:300,400,500,600&display=swap');
+
 .App {
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.Main {
+  text-align: center;
+  padding: 10rem;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.Editor {
+  margin-left: 8rem;
+  margin-right: 8rem;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  background-color: #222;
+  height: 150px;
+  padding: 20px;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.App-title {
+  font-size: 1.5em;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+/* Editor text styles */
+.header-one {
+  font-family: 'Raleway';
+  font-weight: 800;
+  font-size: 65px;
+  line-height: 115%;
+  margin-bottom: -10px;
+  color: rgb(55, 55, 55);
+}
+
+.header-two {
+  font-family: 'Raleway';
+  font-weight: 300;
+  font-size: 30px;
+  line-height: 125%;
+  color: rgb(100, 100, 100);
+}
+
+.header-three {
+  font-family: 'Raleway';
+  font-weight: 300;
+  font-size: 25px;
+  line-height: 125%;
+  color: rgb(75, 75, 75);
+}
+
+.editor--p {
+  font-family: 'Montserrat';
+  font-weight: 300;
+  color: rgb(65, 65, 65);
+}
+
+/* Empty home */
+#empty-home-title {
+  font-family: 'Montserrat';
+  font-size: 45px;
+  font-weight: 700;
+  position: fixed;
+  top: 14rem;
+  left: 25rem;
+  color: rgb(55, 55, 55);
+}
+
+#empty-home-text {
+  font-family: 'Montserrat';
+  font-size: 18px;
+  font-weight: 300;
+  position: fixed;
+  top: 20rem;
+  left: 25rem;
+}
+
+#empty-home-text-2 {
+  font-family: 'Montserrat';
+  font-size: 18px;
+  font-weight: 300;
+  position: fixed;
+  top: 22rem;
+  left: 25rem;
+}
+
+#empty.Button {
+  background-color: rgb(6, 1, 60);
+  position: fixed;
+  top: 29rem;
+  left: 11.5rem;
+}
+
+.Text {
+  font-weight: 300;
+  font-style: italic;
+  margin-bottom: 1.5rem;
+}
+
+.Button {
+  height: 2rem;
+  width: 8rem;
+  margin-left: 13.5rem;
+  padding-top: 0.7rem;
+  border-radius: 0.3rem;
+  background-color: rgba(255, 250, 212, 0.745);
+  box-shadow: 0 0 10px rgba(0,0,0,0.2); 
+}
+
+.Button-text {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 600;
+  margin-top: 0rem;
+  color: white;
+}
+
+.small-circle-container {
+  top: 1.25rem;
+  right: 5rem;
+  width: 2.5rem; 
+  height: 2.5rem; 
+  border-radius: 1.25rem;
+  background-color: rgb(199, 199, 199); 
+  position: fixed;
+}
+
+#Header {
+  z-index: 2;
+  font-size: 24px; 
+  width: 100%; 
+  height: 5rem; 
+  background-color: white; 
+  position: fixed;
+  text-align: center;
+}
+
+#Header.active {
+  box-shadow: 0 0 10px rgba(0,0,0,0.15);   
+}
+
+.Modal {
+}
+
+#Modal-Image {
+  height: 25rem;
+  width: 38rem;
+  position: fixed;
+  top: 10rem;
+}
+
+#Header-Image {
+  height: 1.8rem;
+  width: 10rem;
+  position: fixed;
+  top: 1.5rem;
+  left: 2.5rem;
+}
+
+#Circular-Button {
+  z-index: 2;
+  top: 4rem;
+  left: 8rem;
+  width: 3rem; 
+  height: 3rem; 
+  border-radius: 1.5rem;
+  background-color: white; 
+  position: fixed;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1); 
+}
+
+#Circular-Button.active {
+  box-shadow: 0 0 10px rgba(0,0,0,0.15);   
+}
+
+#circular-button-icon {
+  margin-top: 0.75rem;
 }
 
 @keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
