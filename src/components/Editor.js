@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import '../App.css';
 import Box from '3box';
 import DanteEditor from "Dante2";
@@ -8,31 +8,26 @@ import CircularButton from './common/CircularButton';
 const Editor = props => {
 
     const [dateNow, setDateNow] = useState(Date.now());
-    const [item, setItem] = useState(1);
+    const [item, setItem] = useState(1)
 
     const address = useSelector(state => state.user.address);
 
-    const handleAutomaticSave = async editorContext => {
-        console.log('Date now: ', dateNow)
-        console.log('Item: ', item)
-        if (dateNow + 10000 < Date.now()) { 
-            // let box = await Box.openBox(address, window.ethereum)
-            // let space = await box.openSpace('bradbvry--main') // This should not be hardcoded.
-            // let content  = JSON.stringify(editorContext.editorContent.blocks)
-            // await space.private.set(dateNow.toString(), content)
-            const newDate = Date.now()
-            console.log('New Date: ', newDate)
-            setDateNow(newDate)
-            setItem(item + 1)
-            // const spaceData = await space.private.all()
-            // console.log('Space Data: ', spaceData)
+    async function handleAutomaticSave(editorContext) {
+        let modulo = Date.now() % 10000
+        if (modulo < 1000) { 
+            const box = await Box.openBox(address, window.ethereum)
+            const space = await box.openSpace('bradbvry--main')
+            let content  = JSON.stringify(editorContext.editorContent.blocks)
+            await space.private.set(dateNow.toString(), content)
+            console.log('Works!')
+            const spaceData = await space.private.all()
+            console.log('Space Data: ', spaceData)
         }
     }
 
-
     const defaultOptions = {
         debug: false,
-        read_only: true,
+        read_only: true, //This doesn't work.
 
         continuousBlocks: [
             "unstyled",
@@ -91,7 +86,7 @@ const Editor = props => {
                     config={defaultOptions}
                     data_storage={{
                         url: "http://localhost:8000/",
-                        save_handler: async (editorContext, content) => { 
+                        save_handler: (editorContext, content) => { 
                             handleAutomaticSave(editorContext)
                         }}}
                     />
