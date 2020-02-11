@@ -15,6 +15,11 @@ const Home = () => {
     const dispatch = useDispatch();
     const profile = useSelector(state => state.user.profile);
 
+    /**
+     *      const spaceData = await space.private.all()
+            console.log('Space Data: ', spaceData)
+     */
+
     useEffect(() => {FetchUserProfile()}, [])
     
     const FetchUserProfile = async () => {
