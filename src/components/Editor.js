@@ -1,30 +1,39 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
+import {useDispatch, useSelector} from "react-redux";
 import '../App.css';
+import Box from '3box';
 import DanteEditor from "Dante2";
 import CircularButton from './common/CircularButton';
 
 const Editor = props => {
 
+    const [dateNow, setDateNow] = useState(Date.now());
+    const [item, setItem] = useState(1);
+
+    const address = useSelector(state => state.user.address);
+
+    const handleAutomaticSave = async editorContext => {
+        console.log('Date now: ', dateNow)
+        console.log('Item: ', item)
+        if (dateNow + 10000 < Date.now()) { 
+            // let box = await Box.openBox(address, window.ethereum)
+            // let space = await box.openSpace('bradbvry--main') // This should not be hardcoded.
+            // let content  = JSON.stringify(editorContext.editorContent.blocks)
+            // await space.private.set(dateNow.toString(), content)
+            const newDate = Date.now()
+            console.log('New Date: ', newDate)
+            setDateNow(newDate)
+            setItem(item + 1)
+            // const spaceData = await space.private.all()
+            // console.log('Space Data: ', spaceData)
+        }
+    }
+
+
     const defaultOptions = {
         debug: false,
         read_only: true,
 
-        xhr: {
-            before_handler: () => console.log('Try1'),
-            success_handler: () => console.log('Try2'),
-            error_handler: () => console.log('Try3'),
-        },
-
-        data_storage: {
-            url: 'http://localhost:8000/',
-            method: "POST",
-            success_handler: () => console.log('Succeeding'),
-            failure_handler: () => console.log('Failing'),
-            interval: 500,
-            withCredentials: false,
-            crossDomain: false,
-            headers: {}
-        },
         continuousBlocks: [
             "unstyled",
             "blockquote",
@@ -79,13 +88,12 @@ const Editor = props => {
                     read_only={false}
                     default_wrappers={default_wrappers}
                     content={null}  
-                    config={{read_only: true}}
+                    config={defaultOptions}
                     data_storage={{
                         url: "http://localhost:8000/",
-                        save_handler: (editorContext, content) => { 
-                            console.log('Context: ', editorContext)
-                            console.log('Content:', content)}
-                        }}
+                        save_handler: async (editorContext, content) => { 
+                            handleAutomaticSave(editorContext)
+                        }}}
                     />
             </div>
         </div>

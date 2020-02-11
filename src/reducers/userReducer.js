@@ -11,9 +11,10 @@ const initialState = {
 const userProfileReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_USER_PROFILE:     
-      return {profile: action.payload}
+      return {...state, profile: action.payload}
     case SET_ETHEREUM_ADDRESS: 
-      return {address: action.payload}
+      console.log('seted: ', action.payload)
+      return {...state, address: action.payload}
     default: return state
   }
 }

@@ -4,6 +4,7 @@ import {
 } from './types';
 
 export const setEthereumAddress_Action = address => {
+    console.log('Dispatched: ', address)
     return { 
         type: SET_ETHEREUM_ADDRESS, 
         payload: address 

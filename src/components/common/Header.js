@@ -12,7 +12,7 @@ const Header = props => {
 
     return (
         <div id="Header" className={active ? 'active' : null}>
-            <img src={logo} id="Header-Image" />
+            <img src={logo} id="Header-Image" alt=''/>
             <div className="small-circle-container">
 
             </div>
