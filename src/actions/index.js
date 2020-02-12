@@ -4,7 +4,6 @@ import {
 } from './types';
 
 export const setEthereumAddress_Action = address => {
-    console.log('Dispatched: ', address)
     return { 
         type: SET_ETHEREUM_ADDRESS, 
         payload: address 
@@ -17,3 +16,8 @@ export const setUserProfile_Action = user => {
         payload: user
     }
 }
+
+/*
+ * Redux is not beig used at the moment, 
+ * but it's already set up for the future.
+ */

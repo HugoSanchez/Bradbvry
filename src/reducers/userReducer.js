@@ -13,9 +13,13 @@ const userProfileReducer = (state = initialState, action) => {
     case SET_USER_PROFILE:     
       return {...state, profile: action.payload}
     case SET_ETHEREUM_ADDRESS: 
-      console.log('seted: ', action.payload)
       return {...state, address: action.payload}
     default: return state
   }
 }
-export default userProfileReducer
+export default userProfileReducer;
+
+/*
+ * Redux is not beig used at the moment, 
+ * but it's already set up for the future.
+ */
