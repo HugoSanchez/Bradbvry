@@ -1,7 +1,7 @@
 /* Montserrat */
 @import url('https://fonts.googleapis.com/css?family=Montserrat:200,200i,300,300i,400,400i,500,500i,600,600i,700,700i&display=swap');
-/* Rajdhani */
-@import url('https://fonts.googleapis.com/css?family=Rajdhani:300,400,500,600&display=swap');
+/* Raleway */
+@import url('https://fonts.googleapis.com/css?family=Raleway:200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap');
 
 .App {
   text-align: center;
@@ -103,6 +103,88 @@
   position: fixed;
   top: 29rem;
   left: 11.5rem;
+}
+
+/* Home cards */
+
+.profile-card {
+  position: fixed;
+  top: 15vh;
+  left: 4vw;
+  height: 70vh;
+  width: 20vw;
+  border-style: solid;
+  border-width: 0.3vh;
+  border-color: black;
+}
+
+.item-container {
+  margin-left: 16vw;
+  margin-top: -9vh;
+}
+
+.item-card {
+  height: 30vh;
+  width: 62vw;
+  margin-bottom: 4vh;
+
+}
+
+.item-card-date-box {
+  width: 15vw;
+  height: 29vh;
+
+}
+
+.item-card-day {
+  font-family: 'Montserrat';
+  font-weight: 600;
+  font-size: 12vh;
+  margin-top: 15%;
+}
+
+.item-card-month-and-year {
+  
+  font-family: 'Montserrat';
+  font-style: italic;
+  font-weight: 300;
+  font-size: 2.5vh;
+  margin-top: -40%;
+}
+
+.item-card-title {
+  font-family: 'Montserrat';
+  font-weight: 600;
+  font-size: 4vh;
+  margin-top: -27%;
+  margin-left: 15vw;
+  text-align: left;
+  color:rgb(33, 33, 33);
+
+}
+
+.item-card-body {
+  text-align: justify;
+  font-family: 'Montserrat';
+  font-weight: 300;
+  margin-right: 2vw;
+  margin-left: 15vw;
+  line-height: 1.5;
+  color:rgb(75, 75, 75);
+
+}
+
+.list-title {
+  font-family: 'Montserrat';
+  text-align: left;
+}
+
+.list-title-underscore {
+  width: 4vw;
+  margin-top: -2vh;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-color: rgb(55, 55, 55);
 }
 
 .Text {
