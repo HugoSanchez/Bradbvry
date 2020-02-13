@@ -11,11 +11,21 @@ import '../App.css';
 
 const ListItem = props => {
 
+    const item = props.item
+    const months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']
+
+    let timestamp = Object.keys(item)
+    let date      = new Date(timestamp)
+    let day       = date.getDay()
+    let month     = months[date.getMonth()]
+
+    console.log(item)
+
     return (
         <div className="item-card">
             <div className="item-card-date-box">
-                <p className="item-card-day">{props.day}</p>
-                <p className="item-card-month-and-year">{props.month}</p>
+                <p className="item-card-day">{day}</p>
+                <p className="item-card-month-and-year">{month}</p>
             </div>
             <h1 className="item-card-title">{props.title}</h1>
             <p className="item-card-body">{props.body}</p>

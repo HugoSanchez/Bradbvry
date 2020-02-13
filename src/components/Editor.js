@@ -23,9 +23,9 @@ class Editor extends Component {
         let dateUpdate = Date.now()
         let {item, space, originalDate} = this.state
         let intervalBool = originalDate + 10000 < dateUpdate
-        let isSpaceSetBool = !(space == 'undefined' || space == null)
+        let isSpaceSetBool = !(space === 'undefined' || space == null)
         if (intervalBool && isSpaceSetBool) { 
-            
+            console.log('Content: ', editorContext.editorContent)
             let content  = JSON.stringify(editorContext.editorContent.blocks)
             await space.private.set(item.toString(), content)
             this.setState({ originalDate: dateUpdate })

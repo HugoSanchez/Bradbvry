@@ -11,6 +11,10 @@ const store = createStore(reducers);
 
 class App extends Component {
 
+    componentDidMount(){
+        window.ethereum.autoRefreshOnNetworkChange = false
+    }
+
     render() {
         return (
             <main className="App">
