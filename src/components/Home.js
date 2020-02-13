@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import ItemsContainer     from './ItemsContainer';
 import clipUploading      from '../resources/clipUploading.png';
+import CircularButton     from './common/CircularButton';
 import Button             from './common/Button';
 import Header             from './common/Header';
 import Box                from '3box';
@@ -81,7 +82,15 @@ class Home extends Component {
                 <div className="Main">
                     
                     <div className="profile-card">
-
+                         {this.state.profile ? 
+                        <div>
+                            <h3>{this.state.profile.name }</h3>
+                            <h5>{this.state.profile.description}</h5>
+                            <img src={this.state.profile.image} id="" alt=''/>
+                        </div>
+                         : 
+                         null
+                         } 
                     </div>
 
                     {
@@ -90,7 +99,11 @@ class Home extends Component {
                         <ItemsContainer items={this.state.items}/>
                     }
 
-                    
+                    <CircularButton 
+                        plus={true} 
+                        path="/editor"
+                        iconId="home-add-entry-circular-button-icon"
+                        buttonId="home-add-entry-circular-button"/>
                 </div>
             </div>
         );

@@ -124,16 +124,20 @@
 }
 
 .item-card {
-  height: 30vh;
+  height: 32vh;
   width: 62vw;
   margin-bottom: 4vh;
+  border-radius: 10px;
+}
 
+.item-card:hover {
+  box-shadow: 0 0 10px rgba(0,0,0,0.1); 
 }
 
 .item-card-date-box {
   width: 15vw;
   height: 29vh;
-
+  padding-top: 2vh;
 }
 
 .item-card-day {
@@ -141,6 +145,8 @@
   font-weight: 600;
   font-size: 12vh;
   margin-top: 15%;
+  vertical-align: middle;
+  color: rgba(130, 130, 130, 0.529);
 }
 
 .item-card-month-and-year {
@@ -150,16 +156,17 @@
   font-weight: 300;
   font-size: 2.5vh;
   margin-top: -40%;
+  color: rgb(130, 130, 130);
 }
 
 .item-card-title {
   font-family: 'Montserrat';
   font-weight: 600;
   font-size: 4vh;
-  margin-top: -27%;
+  margin-top: -22%;
   margin-left: 15vw;
   text-align: left;
-  color:rgb(33, 33, 33);
+  color:rgb(85, 85, 85);
 
 }
 
@@ -177,6 +184,7 @@
 .list-title {
   font-family: 'Montserrat';
   text-align: left;
+  color:rgb(85, 85, 85);
 }
 
 .list-title-underscore {
@@ -184,7 +192,7 @@
   margin-top: -2vh;
   border-top-style: solid;
   border-top-width: 1px;
-  border-color: rgb(55, 55, 55);
+  color:rgb(85, 85, 85);
 }
 
 .Text {
@@ -235,9 +243,6 @@
   box-shadow: 0 0 10px rgba(0,0,0,0.15);   
 }
 
-.Modal {
-}
-
 #Modal-Image {
   height: 25rem;
   width: 38rem;
@@ -253,7 +258,23 @@
   left: 2.5rem;
 }
 
-#Circular-Button {
+#home-add-entry-circular-button {
+  z-index: 2;
+  bottom: 4rem;
+  right: 5rem;
+  width: 3rem; 
+  height: 3rem; 
+  border-radius: 1.5rem;
+  background-color: white; 
+  position: fixed;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1); 
+}
+
+#home-add-entry-circular-button-icon {
+  margin-top: 0.58rem;
+}
+
+#editor-circular-button {
   z-index: 2;
   top: 4rem;
   left: 8rem;
@@ -265,11 +286,11 @@
   box-shadow: 0 0 10px rgba(0,0,0,0.1); 
 }
 
-#Circular-Button.active {
+#editor-circular-button.active {
   box-shadow: 0 0 10px rgba(0,0,0,0.15);   
 }
 
-#circular-button-icon {
+#editor-circular-button-icon {
   margin-top: 0.75rem;
 }
 

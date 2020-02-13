@@ -94,7 +94,11 @@ class Editor extends Component {
     render(){
         return (
             <div className="Main">
-                <CircularButton />
+                <CircularButton 
+                    path="/"
+                    arrow={true}
+                    iconId="editor-circular-button-icon"
+                    buttonId="editor-circular-button"/>
                 <div className="Editor">
                     <DanteEditor  
                         read_only={false}
