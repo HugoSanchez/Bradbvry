@@ -1,6 +1,6 @@
+import '../App.css';
 import React from 'react';
 import ListItem from './ListItem';
-import '../App.css';
 
 /**
  * This component is just a container containing an iterator.

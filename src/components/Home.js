@@ -43,8 +43,9 @@ class Home extends Component {
              let object = {}
              let element = items[item]
              let parsedEl = JSON.parse(element)
-             object.item = parsedEl[0]
+             object[item.toString()] = parsedEl
              array.push(object)
+             
         }
         return array;
     }
