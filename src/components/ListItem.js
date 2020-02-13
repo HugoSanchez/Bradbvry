@@ -29,11 +29,7 @@ const ListItem = props => {
     // Get the title and parse the body to display.
     // Find first block that is unstyled and not empty.
     let title = item[timestamp].blocks[0].text;
-    let body = item[timestamp].blocks.find(block => {
-        if (block.type === 'unstyled' && block.text.length > 1) {
-            return block
-        }
-    })
+    let body = item[timestamp].blocks.find(block => block.type === 'unstyled' && block.text.length > 1) 
 
     // Return card-item HTML. Slice title and body so that
     // it never surpases the card's height and width limits.

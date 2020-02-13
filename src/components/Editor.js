@@ -7,12 +7,14 @@ import CircularButton from './common/CircularButton';
 class Editor extends Component {
     constructor(props) {
         super(props)
-        this.options = this.defaultOptions()
+        this.options  = this.defaultOptions()
+        this.storage  = this.dataStorageFnc()
         this.wrappers = this.defaultWrappers()
+        
         this.state = {item: null, originalDate: Date.now()}
     }
 
-    async componentWillMount() {
+    async componentDidMount() {
         const accounts = await window.ethereum.enable();
         const box      = await Box.openBox(accounts[0], window.ethereum)
         const space    = await box.openSpace('bradbvry--main')
@@ -25,12 +27,8 @@ class Editor extends Component {
         let intervalBool = originalDate + 10000 < dateUpdate
         let isSpaceSetBool = !(space === 'undefined' || space == null)
         if (intervalBool && isSpaceSetBool) { 
-            console.log('Pre - parsing-content: ', editorContext.editorContent)
             let content  = JSON.stringify(editorContext.editorContent)
-            console.log('content: ', content)
             await space.private.set(item.toString(), content)
-            let saved = await space.private.get(item)
-            console.log('Saved as: ', saved)
             this.setState({ originalDate: dateUpdate })
         }
     }
@@ -93,27 +91,36 @@ class Editor extends Component {
 
         return default_wrappers
     }
+
+    dataStorageFnc() {
+        return {
+            url: "http://localhost:8000/",
+            save_handler: (editorContext, content) => { 
+                this.handleAutomaticSave(editorContext)
+            }
+        }
+    }
+        
     
     render(){
         return (
             <div className="Main">
+
                 <CircularButton 
                     path="/"
                     arrow={true}
                     iconId="editor-circular-button-icon"
                     buttonId="editor-circular-button"/>
+
                 <div className="Editor">
-                    <DanteEditor  
+
+                    <DanteEditor 
+                        content={null} 
                         read_only={false}
-                        default_wrappers={this.wrappers}
-                        content={null}  
                         config={this.options}
-                        data_storage={{
-                            url: "http://localhost:8000/",
-                            save_handler: (editorContext, content) => { 
-                                this.handleAutomaticSave(editorContext)
-                            }}}
-                        />
+                        data_storage={this.storage}
+                        default_wrappers={this.wrappers}/>
+
                 </div>
             </div>
         );

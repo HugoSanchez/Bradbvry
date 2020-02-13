@@ -13,24 +13,21 @@ import '../../App.css';
  * @param {iconId}: css id for the icon.
  * @param {arrow}: arrow-left icon. 
  * @param {plus}: plus sign icon.
- *  
  */
 
 const CircularButton = props => {
-
-    const [active, setActive] = useState(false); 
 
     window.onscroll = function() {
        if(window.pageYOffset === 0) {setActive(false)} else {setActive(true)}
     };
 
-    let size  = props.arrow ? '25px' : '30px'
-    let color = props.arrow ? 'gray' : 'rgb(174, 255, 161)'
+    const [active, setActive] = useState(false); 
+    const  size  = props.arrow ? '25px' : '30px'
 
     return (
         <Link to={props.path}>
             <div id={props.buttonId} className={active ? 'active' : null}>
-                <IconContext.Provider value={{size: size, color: color}}>
+                <IconContext.Provider value={{size: size, color: 'gray'}}>
                     <div id={props.iconId}>
                         {props.arrow ? <RiArrowLeftLine /> : null }
                         {props.plus ? <RiAddLine /> : null}
