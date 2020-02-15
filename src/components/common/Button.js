@@ -14,7 +14,7 @@ const Button = props => {
     return (
         <Link to={props.path} style={{textDecoration: 'none', justifyItems: 'center'}} onClick={props.onClick}>
             <div className="Button" id={props.id}>
-                <h5 className="Button-text">{props.text}</h5>
+                <h5 className="Button-text" id={props.textId}>{props.text}</h5>
             </div>
         </Link>
     );

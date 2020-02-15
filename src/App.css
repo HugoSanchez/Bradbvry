@@ -105,20 +105,70 @@
   left: 11.5rem;
 }
 
-/* Home cards */
+/* HOME CARDS */
 
+/* Profile card.*/
 .profile-card {
   position: fixed;
-  top: 15vh;
-  left: 4vw;
+  top: 19vh;
+  left: 3vw;
   height: 70vh;
   width: 20vw;
+  border-radius: 1vh;
   overflow: hidden;
-  border-style: solid;
-  border-width: 0.3vh;
-  border-color: black;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
 }
 
+.profile-card:hover{
+  box-shadow: 0 0 15px rgba(0,0,0,0.1); 
+}
+
+#profile-cover-photo-container {
+  height: 35%;
+  width: inherit;
+  background-color: rgb(210, 255, 214);
+}
+
+#profile-image {
+  margin-top: -20%;
+  margin-right: 45%;
+  height: 14vh;
+  width: 14vh;
+  border-radius: 7vh;
+}
+
+#profile-name.title {
+  font-family: 'Raleway';
+  text-align: left;
+  padding-left: 10%;
+  font-size: 3.5vh;
+  color: rgb(65, 65, 65);
+}
+
+#profile-description {
+  font-family: 'Montserrat';
+  font-weight: 300;
+  line-height: 1.4;
+  text-align: justify;
+  inset-inline: 1.5;
+  padding-left: 10%;
+  padding-right: 10%;
+  color: rgb(65, 65, 65);
+}
+
+#profile-button {
+  position: fixed;
+  top: 80vh;
+  left: -7vw;
+  background-color: rgb(235, 235, 235);
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+#profile-button-text {
+  color: rgb(55, 55, 55);
+}
+
+/* Items card */
 .item-container {
   margin-left: 16vw;
   margin-top: -9vh;
@@ -151,7 +201,6 @@
 }
 
 .item-card-month-and-year {
-  
   font-family: 'Montserrat';
   font-style: italic;
   font-weight: 300;
@@ -196,6 +245,8 @@
   color:rgb(85, 85, 85);
 }
 
+/*
+*/
 .Text {
   font-weight: 300;
   font-style: italic;
@@ -220,22 +271,25 @@
   color: white;
 }
 
+/* !! maybe not it use anymore */
 .small-circle-container {
   top: 1.25rem;
   right: 5rem;
   width: 2.5rem; 
   height: 2.5rem; 
   border-radius: 1.25rem;
-  background-color: rgb(199, 199, 199); 
+  background-color: rgb(240, 240, 240); 
   position: fixed;
 }
 
-#profile-image {
-  height: 8vh;
-  width: 8vh;
-  border-radius: 4vh;
+/* !! maybe not it use anymore */
+#header-small-circle-image {
+  width: 2.5rem; 
+  height: 2.5rem; 
+  border-radius: 1.25rem;
 }
 
+/* HEADER COMPONENT */
 #Header {
   z-index: 2;
   font-size: 24px; 

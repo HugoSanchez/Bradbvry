@@ -72,9 +72,9 @@ class Home extends Component {
                 <div className="Main">
 
                     {!loading && <ItemsContainer items={items} />}
-                    {loading && <PointSpreadLoading color={"gray"} />}
+                    {loading && <PointSpreadLoading color={"rgb(190, 235, 194)"} />}
                     {profile && <ProfileCard profile={profile} />}
-                    
+
                     <CircularButton 
                         plus={true} 
                         path="/editor"

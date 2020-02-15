@@ -17,16 +17,11 @@ import '../../App.css';
 
 const CircularButton = props => {
 
-    window.onscroll = function() {
-       if(window.pageYOffset === 0) {setActive(false)} else {setActive(true)}
-    };
-
-    const [active, setActive] = useState(false); 
     const  size  = props.arrow ? '25px' : '30px'
 
     return (
         <Link to={props.path}>
-            <div id={props.buttonId} className={active ? 'active' : null}>
+            <div id={props.buttonId}>
                 <IconContext.Provider value={{size: size, color: 'gray'}}>
                     <div id={props.iconId}>
                         {props.arrow ? <RiArrowLeftLine /> : null }

@@ -10,12 +10,11 @@ const Header = props => {
         if(window.pageYOffset === 0) {setActive(false)} else {setActive(true)}
     };
 
+    let imageIPFSaddress = "https://ipfs.io/ipfs/QmZua3V14oN5uak7ux23g3oqg7aZ7mmxXFoTUz76QeuTAd" 
+
     return (
         <div id="Header" className={active ? 'active' : null}>
             <img src={logo} id="Header-Image" alt=''/>
-            <div className="small-circle-container">
-
-            </div>
         </div>
     );
 }
