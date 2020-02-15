@@ -41,7 +41,9 @@ class Home extends Component {
             accounts: accounts, 
             items: parseditems,
             profile, 
-            space }) 
+            space,
+            box 
+        }) 
     }
 
     async parseSpaceItems(items){
@@ -58,18 +60,20 @@ class Home extends Component {
 
     render() {
 
-        const {items, loading, profile} = this.state
-        const {name, description} = this.state.profile ? 
-        this.state.profile : {name: '', description: ''};
-
+        const {
+            items, 
+            profile,
+            loading, 
+        } = this.state
+        
         return (
             <div className="App">
                 <Header />
                 <div className="Main">
 
-                    {!loading && <ItemsContainer items={items}/>}
+                    {!loading && <ItemsContainer items={items} />}
                     {loading && <PointSpreadLoading color={"gray"} />}
-                    {profile && <ProfileCard name={name} description={description}/>}
+                    {profile && <ProfileCard profile={profile} />}
                     
                     <CircularButton 
                         plus={true} 
