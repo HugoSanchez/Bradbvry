@@ -271,24 +271,6 @@
   color: white;
 }
 
-/* !! maybe not it use anymore */
-.small-circle-container {
-  top: 1.25rem;
-  right: 5rem;
-  width: 2.5rem; 
-  height: 2.5rem; 
-  border-radius: 1.25rem;
-  background-color: rgb(240, 240, 240); 
-  position: fixed;
-}
-
-/* !! maybe not it use anymore */
-#header-small-circle-image {
-  width: 2.5rem; 
-  height: 2.5rem; 
-  border-radius: 1.25rem;
-}
-
 /* HEADER COMPONENT */
 #Header {
   z-index: 2;
@@ -317,6 +299,28 @@
   position: fixed;
   top: 1.5rem;
   left: 2.5rem;
+}
+
+/* !! maybe not in use anymore */
+.small-circle-container {
+  top: 1.45rem;
+  right: 10rem;
+  display: inline;
+  position: fixed;
+}
+
+/* !! maybe not in use anymore */
+#header-profile-link {
+  padding-left: 2.5vw;
+  padding-right: 2.5vw;
+  font-family: 'Montserrat';
+  font-weight: 400;
+  font-size: 15px;
+  display: inline;
+}
+
+#header-profile-link:hover {
+  font-weight: 600;
 }
 
 #home-add-entry-circular-button {

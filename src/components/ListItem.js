@@ -34,7 +34,7 @@ const ListItem = props => {
     // Return card-item HTML. Slice title and body so that
     // it never surpases the card's height and width limits.
     return (
-        <div className="item-card">
+        <div className="item-card" onClick={(e) => console.log('e: ', timestamp[0])}>
             <div className="item-card-date-box">
                 <p className="item-card-day">{day}</p>
                 <p className="item-card-month-and-year">{month}</p>
