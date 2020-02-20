@@ -1,17 +1,18 @@
 import '../App.css';
 import React              from 'react';
 import Button             from './common/Button';
-import clipUploading      from '../resources/clipUploading.png';
+import searching      from '../resources/pablo-searching.png';
 
 const EmptyHome = props => {
 
     return (
-        <div className="Modal">
-            <img src={clipUploading} id="Modal-Image" alt=""/>
-            <h1 id="empty-home-title">Hi there!</h1>
-            <p id="empty-home-text">It appears that you haven't saved any entries yet.</p>
-            <p id="empty-home-text-2"> Click on the button below to start creating new memories.</p>
-            <Button id="empty" path={"/editor"} text="New entry" onClick={() => null}/>
+        <div className="install-metamask">
+            <img src={searching} alt=""/>
+            <div className="install-metamask-warning" id="empty-home">
+                <h1>Hi there!</h1>
+                <p>It appears that you haven't saved any entries yet. Click on the button below to start creating new memories.</p>
+                <Button id="empty" path={"/editor"} text="New entry" onClick={() => null}/>
+            </div>
         </div>
     );
 }

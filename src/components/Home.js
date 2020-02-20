@@ -2,6 +2,7 @@ import React, {Component}       from 'react';
 import {PointSpreadLoading}     from 'react-loadingg';
 import CircularButton           from './common/CircularButton';
 import ItemsContainer           from './ItemsContainer';
+import InstallMetamask          from './InstallMetamask';
 import ProfileCard              from './ProfileCard';
 import Header                   from './common/Header';
 import Box                      from '3box';
@@ -25,6 +26,7 @@ class Home extends Component {
 
     async handleMetamaskException(){
         if (typeof window.ethereum == 'undefined') {
+            console.log('Here')
         this.setState({renderMetamask: true})} 
     }
     
@@ -73,14 +75,20 @@ class Home extends Component {
 
                     {!loading && <ItemsContainer items={items} />}
                     {loading && <PointSpreadLoading color={"rgb(190, 235, 194)"} />}
-                    {profile && <ProfileCard profile={profile} />}
+                    {
+                    // profile && <ProfileCard profile={profile} />
+                    }
 
-                    <CircularButton 
-                        plus={true} 
-                        path="/editor"
-                        iconId="home-add-entry-circular-button-icon"
-                        buttonId="home-add-entry-circular-button"
-                    />
+                    {
+                        !loading && 
+                            <CircularButton 
+                            plus={true} 
+                            path="/editor"
+                            iconId="home-add-entry-circular-button-icon"
+                            buttonId="home-add-entry-circular-button"
+                        />
+                    }
+                    
                 </div>
             </div>
         );

@@ -1,5 +1,7 @@
 import React, {useState} from 'react';
-import logo from '../../resources/Bradbury.png'
+import {Link} from 'react-router-dom';
+
+import logo from '../../resources/Bradbury.png';
 import '../../App.css';
 
 const Header = props => {
@@ -14,8 +16,12 @@ const Header = props => {
         <div id="Header" className={active ? 'active' : null}>
             <img src={logo} id="Header-Image" alt=''/>
             <div className="small-circle-container">
-                <p id="header-profile-link">Home</p>
-                <p id="header-profile-link">Settings</p>
+                <Link to="/home" id="header-profile-link-container">
+                    <p id="header-profile-link">Home</p>
+                </Link>
+                <Link to="/home" id="header-profile-link-container">
+                    <p id="header-profile-link">Settings</p>
+                </Link>
             </div>
         </div>
     );

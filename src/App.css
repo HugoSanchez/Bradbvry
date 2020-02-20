@@ -12,7 +12,9 @@
 
 .Main {
   text-align: center;
-  padding: 10rem;
+  padding: 15vh;
+  margin: 0px;
+  height: 100vh;
 }
 
 .Editor {
@@ -73,39 +75,12 @@
 }
 
 /* Empty home */
-#empty-home-title {
-  font-family: 'Montserrat';
-  font-size: 45px;
-  font-weight: 700;
-  position: fixed;
-  top: 14rem;
-  left: 25rem;
-  color: rgb(55, 55, 55);
-}
-
-#empty-home-text {
-  font-family: 'Montserrat';
-  font-size: 18px;
-  font-weight: 300;
-  position: fixed;
-  top: 20rem;
-  left: 25rem;
-}
-
-#empty-home-text-2 {
-  font-family: 'Montserrat';
-  font-size: 18px;
-  font-weight: 300;
-  position: fixed;
-  top: 22rem;
-  left: 25rem;
-}
 
 #empty.Button {
+  margin: 0px;
+  margin-top: 10%;
+  text-align: center;
   background-color: rgb(6, 1, 60);
-  position: fixed;
-  top: 29rem;
-  left: 11.5rem;
 }
 
 /* HOME CARDS */
@@ -257,9 +232,10 @@
 }
 
 .Button {
-  height: 2rem;
-  width: 8rem;
-  margin-left: 13.5rem;
+  min-height: 40px;
+  max-height: 50px;
+  min-width: 120px;
+  max-width: 130px;
   padding-top: 0.7rem;
   border-radius: 0.3rem;
   background-color: rgba(255, 250, 212, 0.745);
@@ -322,6 +298,11 @@
   display: inline;
 }
 
+#header-profile-link-container {
+  text-decoration: none;
+  color:rgb(85, 85, 85);
+}
+
 #header-profile-link:hover {
   font-weight: 600;
 }
@@ -360,6 +341,50 @@
 
 #editor-circular-button-icon {
   margin-top: 0.75rem;
+}
+
+/* INSTALL METAMASK */
+
+.install-metamask {
+  padding-bottom: 30vh;
+  align-items: center;
+  height: inherit;
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.install-metamask img {
+  flex: 1;
+  max-width: 45vw;
+}
+
+.install-metamask-warning {
+  flex: 1;
+  padding: 5%;
+  margin-top: 7%;
+  text-align: left;
+  color:rgb(85, 85, 85);
+}
+
+.install-metamask-warning h1{
+  font-weight: 600;
+}
+
+.install-metamask-warning p{
+  margin-top: 5%;
+  line-height: 1.8;
+  font-size: 18px;
+  font-weight: 300;
+}
+
+.install-metamask-warning a{
+  text-decoration: none;
+  color:rgb(85, 85, 85);
+}
+
+.install-metamask-warning a:hover{
+  text-decoration: underline;
+  color:rgb(85, 85, 85);
 }
 
 /* LANDING PAGE */
@@ -636,7 +661,35 @@ nav {
 	}
 	.intro-text.section.text.description p {
 		font-size: 18px;
-	}
+  }
+  
+  .install-metamask {
+    padding-bottom: 30vh;
+    align-items: center;
+    height: inherit;
+    display: flex;
+    flex-direction: column;
+  }
+  .install-metamask img {
+    max-width: 65vw;
+  }
+  
+  .install-metamask-warning {
+    padding: 0px;
+    text-align: center;
+  }
+  #empty.Button {
+    position: relative;
+    left: 35%
+  }
+  
+}
+
+@media screen and (max-width: 512px) {
+  #empty.Button {
+    position: relative;
+    left: 25%
+  }
 }
 
 
