@@ -107,7 +107,7 @@ class Editor extends Component {
             <div className="Main">
 
                 <CircularButton 
-                    path="/"
+                    path="/home"
                     arrow={true}
                     iconId="editor-circular-button-icon"
                     buttonId="editor-circular-button"/>
