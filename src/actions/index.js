@@ -11,6 +11,7 @@ export const setEthereumAddress_Action = address => {
 }
 
 export const setUserProfile_Action = user => {
+    console.log('Dispatched!')
     return {
         type: SET_USER_PROFILE,
         payload: user

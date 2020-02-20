@@ -2,7 +2,6 @@ import '../App.css';
 import React from 'react';
 import ListItem from './ListItem';
 import EmptyHome from './EmptyHome';
-import InstallMatamask from './InstallMetamask';
 
 /**
  * This component is just a container containing an iterator.

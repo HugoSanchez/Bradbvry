@@ -9,6 +9,7 @@ const initialState = {
 }
 
 const userProfileReducer = (state = initialState, action) => {
+  console.log('Hit! ', action)
   switch (action.type) {
     case SET_USER_PROFILE:     
       return {...state, profile: action.payload}

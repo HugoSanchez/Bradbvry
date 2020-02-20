@@ -1,5 +1,8 @@
 import React, {Component}       from 'react';
+import {connect}                from 'react-redux';
+import {bindActionCreators}     from 'redux'
 import {PointSpreadLoading}     from 'react-loadingg';
+import {setUserProfile_Action}  from '../actions';
 import CircularButton           from './common/CircularButton';
 import ItemsContainer           from './ItemsContainer';
 import InstallMetamask          from './InstallMetamask';
@@ -13,6 +16,7 @@ class Home extends Component {
         super(props)
         this.state = {
             items: [],
+            entries: [],
             loading: true,
             date: new Date(),
             renderMetamask: false,
@@ -26,7 +30,6 @@ class Home extends Component {
 
     async handleMetamaskException(){
         if (typeof window.ethereum == 'undefined') {
-            console.log('Here')
         this.setState({renderMetamask: true})} 
     }
     
@@ -37,6 +40,8 @@ class Home extends Component {
         let profile     = await Box.getProfile(accounts[0])
         let rawitems    = await space.private.all()
         let parseditems = await this.parseSpaceItems(rawitems)
+
+        this.props.setProfile(profile)        
 
         this.setState({
             loading: false,
@@ -64,8 +69,10 @@ class Home extends Component {
 
         const {
             items, 
+            entries,
             profile,
             loading, 
+            renderMetamask
         } = this.state
         
         return (
@@ -73,11 +80,10 @@ class Home extends Component {
                 <Header />
                 <div className="Main">
 
+                    {renderMetamask && !loading && <InstallMetamask /> }
                     {!loading && <ItemsContainer items={items} />}
                     {loading && <PointSpreadLoading color={"rgb(190, 235, 194)"} />}
-                    {
-                    // profile && <ProfileCard profile={profile} />
-                    }
+                    {profile && !renderMetamask && entries.length > 0 && <ProfileCard profile={profile} />}
 
                     {
                         !loading && 
@@ -88,12 +94,22 @@ class Home extends Component {
                             buttonId="home-add-entry-circular-button"
                         />
                     }
-                    
+    
                 </div>
             </div>
         );
     }
 }
 
-export default Home;
+function mapStateToProps(state) {
+    return { state }
+}
+
+function mapDispatchToProps(dispatch) {
+    return { setProfile: (profile) => dispatch(setUserProfile_Action(profile)) }
+}
+
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
 
