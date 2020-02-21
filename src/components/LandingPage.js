@@ -56,7 +56,7 @@ const LandingPage = props => {
 						<h1>It's private.</h1>
 						<p>
 							Your data is encrypted with keys that you control, and stored in IPFS. 
-							<span className="bold">There is no way that we, or anyone else, can actually read any of your files</span> or entries.
+							<span className="bold"> There is no way that we, or anyone else, can actually read any of your files</span> or entries.
 						</p>
 					</div>
 				</div>
@@ -70,7 +70,7 @@ const LandingPage = props => {
 					<div className="intro-text section">
 						<h1>It's on your terms</h1>
 						<p>
-							<span className="bold">You get to choose who gets to see what. </span>  Keep yout files, private, share them with your loved ones or even make them public. 
+							<span className="bold">You get to choose who gets to see what. </span>  Keep yout files private, share them with your loved ones or even make them public. 
 						</p>						
 					</div>
 				</div>

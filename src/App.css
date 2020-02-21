@@ -17,11 +17,6 @@
   height: 100vh;
 }
 
-.Editor {
-  margin-left: 8rem;
-  margin-right: 8rem;
-}
-
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
   height: 80px;
@@ -41,6 +36,36 @@
 .App-intro {
   font-size: large;
 }
+
+/* EDITOR COMPONENT */
+
+.Editor {
+  margin-left: 8rem;
+  margin-right: 8rem;
+  padding: 8%;
+  padding-top: 6%;
+}
+
+#editor-circular-button {
+  z-index: 2;
+  top: 15vh;
+  left: 10vw;
+  width: 3rem; 
+  height: 3rem; 
+  border-radius: 1.5rem;
+  background-color: white; 
+  position: fixed;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1); 
+}
+
+#editor-circular-button.active {
+  box-shadow: 0 0 10px rgba(0,0,0,0.15);   
+}
+
+#editor-circular-button-icon {
+  margin-top: 0.75rem;
+}
+
 
 /* Editor text styles */
 .header-one {
@@ -62,13 +87,14 @@
 
 .header-three {
   font-family: 'Raleway';
-  font-weight: 300;
-  font-size: 25px;
+  font-weight: 500;
+  font-size: 22px;
   line-height: 125%;
   color: rgb(75, 75, 75);
 }
 
 .editor--p {
+  text-align: justify;
   font-family: 'Montserrat';
   font-weight: 300;
   color: rgb(65, 65, 65);
@@ -84,12 +110,25 @@
 }
 
 /* HOME CARDS */
+.home-container {
+  margin-top: -3%;
+  display: flex;
+  flex-direction: row-reverse;
+}
 
 /* Profile card.*/
+
+.profile-card-container {
+  flex: 2;
+  width: 100%;
+  margin-right: 2%;
+  padding-top: 5%;
+  text-align: center;
+  align-items: center;
+}
+
 .profile-card {
   position: fixed;
-  top: 19vh;
-  left: 3vw;
   height: 70vh;
   width: 20vw;
   border-radius: 1vh;
@@ -108,6 +147,9 @@
 }
 
 #profile-image {
+  position: relative;
+  left: 4%;
+  top: 35%;
   margin-top: -20%;
   margin-right: 45%;
   height: 14vh;
@@ -119,6 +161,8 @@
   font-family: 'Raleway';
   text-align: left;
   padding-left: 10%;
+  margin-top: 5%;
+  margin-bottom: 5%;
   font-size: 3.5vh;
   color: rgb(65, 65, 65);
 }
@@ -148,15 +192,20 @@
 
 /* Items card */
 .item-container {
-  margin-left: 16vw;
-  margin-top: -9vh;
+  flex: 6;
+  margin-left: 2%;
+  padding-top: 5%;
+  padding-right: 3%;
 }
 
 .item-card {
+  display: flex;
+  flex-direction: row;
   height: 32vh;
-  width: 62vw;
-  margin-bottom: 4vh;
+  width: 100%;
+  margin-bottom: 5vh;
   border-radius: 10px;
+  vertical-align: middle;
 }
 
 .item-card:hover {
@@ -164,9 +213,11 @@
 }
 
 .item-card-date-box {
-  width: 15vw;
-  height: 29vh;
+  flex: 1;
+  width: 25%;
+  height: 100%;
   padding-top: 2vh;
+  border-radius: 10px;
 }
 
 .item-card-day {
@@ -183,30 +234,38 @@
   font-style: italic;
   font-weight: 300;
   font-size: 2.5vh;
-  margin-top: -40%;
   color: rgb(130, 130, 130);
+}
+
+.item-card-content-box {
+  flex: 3;
+  width: 75%;
+  height: 100%;
+  padding: 4%;
+  position: relative;
+  overflow: hidden;
+}
+
+.item-card-content-box-inside {
+  overflow: hidden;
 }
 
 .item-card-title {
   font-family: 'Montserrat';
   font-weight: 600;
   font-size: 4vh;
-  margin-top: -22%;
-  margin-left: 15vw;
   text-align: left;
+  margin-bottom: 2%;
   color:rgb(85, 85, 85);
-
 }
 
 .item-card-body {
+  margin-top: 2%;
   text-align: justify;
   font-family: 'Montserrat';
   font-weight: 300;
-  margin-right: 2vw;
-  margin-left: 15vw;
   line-height: 1.5;
   color:rgb(75, 75, 75);
-
 }
 
 .list-title {
@@ -217,7 +276,7 @@
 
 .list-title-underscore {
   width: 4vw;
-  margin-top: -2vh;
+  margin-bottom: 2%;
   border-top-style: solid;
   border-top-width: 1px;
   color:rgb(85, 85, 85);
@@ -323,25 +382,6 @@
   margin-top: 0.58rem;
 }
 
-#editor-circular-button {
-  z-index: 2;
-  top: 4rem;
-  left: 8rem;
-  width: 3rem; 
-  height: 3rem; 
-  border-radius: 1.5rem;
-  background-color: white; 
-  position: fixed;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1); 
-}
-
-#editor-circular-button.active {
-  box-shadow: 0 0 10px rgba(0,0,0,0.15);   
-}
-
-#editor-circular-button-icon {
-  margin-top: 0.75rem;
-}
 
 /* INSTALL METAMASK */
 
@@ -590,7 +630,6 @@ nav {
 
 .screenshot img:hover {
 	box-shadow: 0 15px 35px rgba(0,0,0,0.2); 
-
 }
 
 .landing-footer-note {
@@ -610,6 +649,9 @@ nav {
 }
 
 @media screen and (max-width: 1024px) {
+  .Main {
+    padding: 5vh;
+  }
 	.presentation {
 		flex-direction: column;
 		padding-left: 0vw;
@@ -682,7 +724,35 @@ nav {
     position: relative;
     left: 35%
   }
-  
+  .home-container{
+    flex-direction: column-reverse;
+  }
+  .item-container {
+    flex: 3;
+    margin-left: 0%;
+    padding-top: 5%;
+  }
+  .profile-card-container {
+    padding-top: 0%;
+    text-align: center;
+  }
+  .profile-card {
+    position: relative;
+    margin-top: 6vh;
+    height: 40vh;
+    width: 100%;
+    border-radius: 1vh;
+    overflow: hidden;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+  }
+  #profile-image {
+    margin-top: -15%;
+    margin-right: 65%;
+  }
+  #profile-name.title {
+    margin-top: 5%;
+    margin-bottom: 2%;
+  }  
 }
 
 @media screen and (max-width: 512px) {

@@ -16,7 +16,7 @@ class Home extends Component {
         super(props)
         this.state = {
             items: [],
-            entries: [],
+            entries: [{}, {}],
             loading: true,
             date: new Date(),
             renderMetamask: false,
@@ -76,25 +76,25 @@ class Home extends Component {
         } = this.state
         
         return (
-            <div className="App">
+            <div>
                 <Header />
                 <div className="Main">
+                    <div className="home-container">
+                        {renderMetamask && !loading && <InstallMetamask /> }
+                        {!loading && <ItemsContainer items={items} />}
+                        {loading && <PointSpreadLoading color={"rgb(190, 235, 194)"} />}
+                        {profile && !renderMetamask && entries.length > 0 && <ProfileCard profile={profile} />}
 
-                    {renderMetamask && !loading && <InstallMetamask /> }
-                    {!loading && <ItemsContainer items={items} />}
-                    {loading && <PointSpreadLoading color={"rgb(190, 235, 194)"} />}
-                    {profile && !renderMetamask && entries.length > 0 && <ProfileCard profile={profile} />}
-
-                    {
-                        !loading && 
-                            <CircularButton 
-                            plus={true} 
-                            path="/editor"
-                            iconId="home-add-entry-circular-button-icon"
-                            buttonId="home-add-entry-circular-button"
-                        />
-                    }
-    
+                        {
+                            !loading && 
+                                <CircularButton 
+                                plus={true} 
+                                path="/editor"
+                                iconId="home-add-entry-circular-button-icon"
+                                buttonId="home-add-entry-circular-button"
+                            />
+                        }
+                    </div>
                 </div>
             </div>
         );

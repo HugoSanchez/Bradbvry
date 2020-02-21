@@ -39,8 +39,12 @@ const ListItem = props => {
                 <p className="item-card-day">{day}</p>
                 <p className="item-card-month-and-year">{month}</p>
             </div>
-            <h1 className="item-card-title">{title.slice(0, 45)}</h1>
-            <p className="item-card-body">{body.text.slice(0, 308)}...</p>
+            <div className="item-card-content-box">
+                <div className="item-card-content-box-inside">
+                    <h1 className="item-card-title">{title.slice(0, 45)}</h1>
+                    <p className="item-card-body">{body.text.slice(0, 308)}...</p>
+                </div>
+            </div>
         </div>
     );
 }
