@@ -1,4 +1,5 @@
 import React from 'react';
+import {LoremIpsum} from '../constants';
 import '../App.css';
 
 /**
@@ -23,13 +24,14 @@ const ListItem = props => {
     // to get the day and month to display.
     let timestamp = Object.keys(item)
     let date      = new Date(parseInt(timestamp[0]))
-    let day       = date.getDay()
+    let day       = date.getDate()
     let month     = months[date.getMonth()]
 
     // Get the title and parse the body to display.
     // Find first block that is unstyled and not empty.
-    let title = item[timestamp].blocks[0].text;
+    let title = item[timestamp].blocks[0].text || "Unkown Title";
     let body = item[timestamp].blocks.find(block => block.type === 'unstyled' && block.text.length > 1) 
+    let bodyToDisplay = body ? body.text : LoremIpsum;
 
     // Return card-item HTML. Slice title and body so that
     // it never surpases the card's height and width limits.
@@ -42,7 +44,7 @@ const ListItem = props => {
             <div className="item-card-content-box">
                 <div className="item-card-content-box-inside">
                     <h1 className="item-card-title">{title.slice(0, 45)}</h1>
-                    <p className="item-card-body">{body.text.slice(0, 308)}...</p>
+                    <p className="item-card-body">{bodyToDisplay.slice(0, 308)}...</p>
                 </div>
             </div>
         </div>

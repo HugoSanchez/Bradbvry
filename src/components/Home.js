@@ -1,6 +1,5 @@
 import React, {Component}       from 'react';
 import {connect}                from 'react-redux';
-import {bindActionCreators}     from 'redux'
 import {PointSpreadLoading}     from 'react-loadingg';
 import {setUserProfile_Action}  from '../actions';
 import CircularButton           from './common/CircularButton';
