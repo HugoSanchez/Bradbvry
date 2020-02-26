@@ -1,16 +1,23 @@
 import React from 'react';
 import {LoremIpsum} from '../constants';
+import {useSelector, useDispatch} from "react-redux";
+import {deleteEntry_Action} from '../actions';
 import '../App.css';
 
 /**
+ * ---- Props ----
  * @param {day}: day from timestamp - string.
  * @param {month}: month from timestamp - string. 
  * @param {title}: item title if any.
  * @param {body}: item's first block of text. 
  */
 
-
 const ListItem = props => {
+
+    // Get space from global redux store.
+    // Instantiate dispatch function.
+    const space = useSelector(state => state.user.data.space);
+    const dispatch = useDispatch()
 
     // Deconstruct item from props.
     // Create array of months.
@@ -33,10 +40,17 @@ const ListItem = props => {
     let body = item[timestamp].blocks.find(block => block.type === 'unstyled' && block.text.length > 1) 
     let bodyToDisplay = body ? body.text : LoremIpsum;
 
+    // Function that deletes a given element from their space.
+    // Dispatches action to delete item from global store.
+    const deleteEntry = async () => {
+        await space.private.remove(timestamp[0])
+        dispatch(deleteEntry_Action(item))
+    }
+
     // Return card-item HTML. Slice title and body so that
     // it never surpases the card's height and width limits.
     return (
-        <div className="item-card" onClick={(e) => console.log('e: ', timestamp[0])}>
+        <div className="item-card" onClick={() => deleteEntry() }>
             <div className="item-card-date-box">
                 <p className="item-card-day">{day}</p>
                 <p className="item-card-month-and-year">{month}</p>

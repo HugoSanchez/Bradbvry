@@ -12,19 +12,19 @@ import EmptyHome from './EmptyHome';
 
 const ItemsContainer = props => {
 
-    if (props.items.length < 1) {return <EmptyHome />}
+    if (props.items.length < 1) {
+        return <EmptyHome />
+    }
     else {
         return (
             <div className="item-container"> 
                 <p className="list-title">Latest stories</p>
                 <p className="list-title-underscore"></p>
-    
                 {
                     props.items.map((item, index) => {
                         return  <ListItem key={index} item={item} />
                     })
                 }
-    
             </div>
         );
     }

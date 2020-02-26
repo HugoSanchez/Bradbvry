@@ -52,7 +52,8 @@ class Home extends Component {
         this.setState({loading: false})
         let rawitems    = await this.props.space.private.all()
         let parseditems = await this.parseSpaceItems(rawitems)
-        if (parseditems.length > this.props.items.length) {
+        if (parseditems.length !== this.props.items.length) {
+            console.log('We are here')
             this.props.setUserItems(parseditems)
         }
     }
@@ -85,13 +86,12 @@ class Home extends Component {
              let element = items[item]
              let parsedEl = JSON.parse(element)
              object[item.toString()] = parsedEl
-             array.push(object)       
+             array.push(object)  
         }
         return array;
     }
 
     render() {
-        console.log(this.props.profile)
         const {items, profile} = this.props
         const {loading, renderMetamask} = this.state
         
