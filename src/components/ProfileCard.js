@@ -15,7 +15,7 @@ const ProfileCard = props => {
 
     // Get profile from Redux and check if it's complete,
     // If not, use dummy profile.
-    let profile = useSelector(state => state.user.profile);
+    let profile = useSelector(state => state.user.data.profile);
     let plength = Object.keys(profile).length < 2
     if (plength) {profile = dummyProfile}
     

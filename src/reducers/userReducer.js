@@ -1,25 +1,28 @@
 import {
-  SET_ETHEREUM_ADDRESS,
-  SET_USER_PROFILE
+  SET_USER_ITEMS,
+  SET_USER_INITIAL_DATA
 } from '../actions/types';
 
 const initialState = {
+  data: {
+    box: null, 
+    space: null,
     profile: null,
-    address: null
+    accounts: null,
+    parseditems: [], 
+  }
 }
 
 const userProfileReducer = (state = initialState, action) => {
   switch (action.type) {
-    case SET_USER_PROFILE:     
-      return {...state, profile: action.payload}
-    case SET_ETHEREUM_ADDRESS: 
-      return {...state, address: action.payload}
+    case SET_USER_ITEMS: 
+      let newstate = {...state}
+      newstate.data.parseditems = action.payload
+      return {...newstate}
+    case SET_USER_INITIAL_DATA: 
+      return {...state, data: action.payload}
     default: return state
   }
 }
-export default userProfileReducer;
 
-/*
- * Redux is not beig used at the moment, 
- * but it's already set up for the future.
- */
+export default userProfileReducer;

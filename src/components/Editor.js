@@ -15,10 +15,15 @@ class Editor extends Component {
     }
 
     async componentDidMount() {
+        this.mounted = true;
         const accounts = await window.ethereum.enable();
         const box      = await Box.openBox(accounts[0], window.ethereum)
         const space    = await box.openSpace('bradbvry--main')
         this.setState({box, space, item: this.state.originalDate})
+    }
+
+    async componentWillUnmount() {
+        this.mounted = false;
     }
 
     async handleAutomaticSave(editorContext) {
@@ -107,7 +112,7 @@ class Editor extends Component {
             <div className="Main">
 
                 <CircularButton 
-                    path="/homenpm"
+                    path="/home"
                     arrow={true}
                     iconId="editor-circular-button-icon"
                     buttonId="editor-circular-button"/>
