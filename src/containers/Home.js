@@ -1,16 +1,16 @@
 import React, {Component}       from 'react';
 import {connect}                from 'react-redux';
 import {PointSpreadLoading}     from 'react-loadingg';
-import CircularButton           from './common/CircularButton';
-import ItemsContainer           from './ItemsContainer';
-import InstallMetamask          from './InstallMetamask';
-import ProfileCard              from './ProfileCard';
-import Header                   from './common/Header';
+import CircularButton           from '../components/common/CircularButton';
+import ItemsContainer           from '../components/ItemsContainer';
+import InstallMetamask          from '../components/InstallMetamask';
+import ProfileCard              from '../components/ProfileCard';
+import Header                   from '../components/common/Header';
 import Box                      from '3box';
 import {
     setInitialUserData_Action,
     setUserItems_Action
-}                               from '../actions';
+} from '../actions';
 import '../App.css';
 
 class Home extends Component {
@@ -52,7 +52,7 @@ class Home extends Component {
         this.setState({loading: false})
         let rawitems    = await this.props.space.private.all()
         let parseditems = await this.parseSpaceItems(rawitems)
-        if (parseditems.length == this.props.items.length) {
+        if (parseditems.length > this.props.items.length) {
             this.props.setUserItems(parseditems)
         }
     }

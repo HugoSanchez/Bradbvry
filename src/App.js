@@ -3,9 +3,9 @@ import {Switch, Route, Redirect} from 'react-router-dom';
 import {Provider} from 'react-redux';
 import {createStore} from 'redux';
 import reducers from './reducers';
-import LandingPage from './components/LandingPage';
-import Editor from './components/Editor';
-import Home from './components/Home';
+import LandingPage from './containers/LandingPage';
+import Editor from './containers/Editor';
+import Home from './containers/Home';
 import './App.css';
 
 const store = createStore(reducers);

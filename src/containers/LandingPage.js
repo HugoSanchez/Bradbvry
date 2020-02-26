@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import Header from './common/Header';
+import Header from '../components/common/Header';
 import main from '../resources/pablo-downloading.png';
 import screenshot from '../resources/screenshot.png';
 import privacy from '../resources/pablo-camera-access.png';
