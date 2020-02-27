@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 import {LoremIpsum} from '../constants';
 import {useSelector, useDispatch} from "react-redux";
 import {deleteEntry_Action} from '../actions';
@@ -50,18 +51,23 @@ const ListItem = props => {
     // Return card-item HTML. Slice title and body so that
     // it never surpases the card's height and width limits.
     return (
-        <div className="item-card" onClick={() => deleteEntry() }>
-            <div className="item-card-date-box">
-                <p className="item-card-day">{day}</p>
-                <p className="item-card-month-and-year">{month}</p>
-            </div>
-            <div className="item-card-content-box">
-                <div className="item-card-content-box-inside">
-                    <h1 className="item-card-title">{title.slice(0, 45)}</h1>
-                    <p className="item-card-body">{bodyToDisplay.slice(0, 308)}...</p>
+        <Link 
+            to={{pathname: '/editor', item: item, timestamp: timestamp}} 
+            style={{textDecoration: 'none', justifyItems: 'center'}} 
+        >
+            <div className="item-card" onClick={() => (null) }>
+                <div className="item-card-date-box">
+                    <p className="item-card-day">{day}</p>
+                    <p className="item-card-month-and-year">{month}</p>
+                </div>
+                <div className="item-card-content-box">
+                    <div className="item-card-content-box-inside">
+                        <h1 className="item-card-title">{title.slice(0, 45)}</h1>
+                        <p className="item-card-body">{bodyToDisplay.slice(0, 308)}...</p>
+                    </div>
                 </div>
             </div>
-        </div>
+        </Link>
     );
 }
 

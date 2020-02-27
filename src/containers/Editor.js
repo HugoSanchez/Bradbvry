@@ -11,15 +11,25 @@ class Editor extends Component {
         this.storage  = this.dataStorageFnc()
         this.wrappers = this.defaultWrappers()
         
-        this.state = {item: null, originalDate: Date.now()}
+        this.state = {
+            item: null, 
+            content: null,
+            originalDate: Date.now()
+        }
     }
 
     async componentDidMount() {
         this.mounted = true;
-        const accounts = await window.ethereum.enable();
-        const box      = await Box.openBox(accounts[0], window.ethereum)
-        const space    = await box.openSpace('bradbvry--main')
-        this.setState({box, space, item: this.state.originalDate})
+        const accounts = await window.ethereum.enable(); // not necessary
+        const box      = await Box.openBox(accounts[0], window.ethereum) // not necessary
+        const space    = await box.openSpace('bradbvry--main') // not necessary
+        if (this.props.location.item) {
+            let item = this.props.location.item
+            let timestamp = this.props.location.timestamp
+            this.setState({ item: timestamp[0] })
+        } else { 
+            this.setState({box, space, item: this.state.originalDate}) 
+        }
     }
 
     async componentWillUnmount() {
@@ -101,13 +111,19 @@ class Editor extends Component {
         return {
             url: "http://localhost:8000/",
             save_handler: (editorContext, content) => { 
+                console.log('editor context: ', editorContext)
+                console.log('content: ', content)
                 this.handleAutomaticSave(editorContext)
             }
         }
-    }
-        
+    }   
+
     
     render(){
+
+        let item = this.props.location.item
+        let timestamp = this.props.location.timestamp
+        console.log(this.state)
         return (
             <div className="Main">
 
@@ -120,7 +136,7 @@ class Editor extends Component {
                 <div className="Editor">
 
                     <DanteEditor 
-                        content={null} 
+                        content={item ? item[timestamp[0]] : null} 
                         read_only={false}
                         config={this.options}
                         data_storage={this.storage}
