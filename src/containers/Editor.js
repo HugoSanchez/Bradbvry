@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import '../App.css';
-import Box from '3box';
 import DanteEditor from "Dante2";
 import CircularButton from '../components/common/CircularButton';
 
@@ -13,22 +13,17 @@ class Editor extends Component {
         
         this.state = {
             item: null, 
-            content: null,
             originalDate: Date.now()
         }
     }
 
     async componentDidMount() {
         this.mounted = true;
-        const accounts = await window.ethereum.enable(); // not necessary
-        const box      = await Box.openBox(accounts[0], window.ethereum) // not necessary
-        const space    = await box.openSpace('bradbvry--main') // not necessary
         if (this.props.location.item) {
-            let item = this.props.location.item
-            let timestamp = this.props.location.timestamp
-            this.setState({ item: timestamp[0] })
+            let {timestamp} = this.props.location
+            this.setState({item: timestamp[0]})
         } else { 
-            this.setState({box, space, item: this.state.originalDate}) 
+            this.setState({item: this.state.originalDate}) 
         }
     }
 
@@ -38,7 +33,8 @@ class Editor extends Component {
 
     async handleAutomaticSave(editorContext) {
         let dateUpdate = Date.now()
-        let {item, space, originalDate} = this.state
+        let {item, originalDate} = this.state
+        let {space} = this.props
         let intervalBool = originalDate + 10000 < dateUpdate
         let isSpaceSetBool = !(space === 'undefined' || space == null)
         if (intervalBool && isSpaceSetBool) { 
@@ -111,8 +107,6 @@ class Editor extends Component {
         return {
             url: "http://localhost:8000/",
             save_handler: (editorContext, content) => { 
-                console.log('editor context: ', editorContext)
-                console.log('content: ', content)
                 this.handleAutomaticSave(editorContext)
             }
         }
@@ -123,7 +117,7 @@ class Editor extends Component {
 
         let item = this.props.location.item
         let timestamp = this.props.location.timestamp
-        console.log(this.state)
+
         return (
             <div className="Main">
 
@@ -148,4 +142,11 @@ class Editor extends Component {
     } 
 }
 
-export default Editor;
+function mapStateToProps(state) {
+    return {
+        box:        state.user.data.box,
+        space:      state.user.data.space,
+    }
+}
+
+export default connect(mapStateToProps, {})(Editor);

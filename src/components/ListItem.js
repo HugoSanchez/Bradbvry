@@ -1,9 +1,12 @@
+import '../App.css';
 import React from 'react';
 import {Link} from 'react-router-dom';
+import {IconContext} from 'react-icons';
+import {RiDeleteBin6Line} from 'react-icons/ri';
+
 import {LoremIpsum} from '../constants';
 import {useSelector, useDispatch} from "react-redux";
 import {deleteEntry_Action} from '../actions';
-import '../App.css';
 
 /**
  * ---- Props ----
@@ -43,7 +46,8 @@ const ListItem = props => {
 
     // Function that deletes a given element from their space.
     // Dispatches action to delete item from global store.
-    const deleteEntry = async () => {
+    const deleteEntry = async (e) => {
+        e.preventDefault();
         await space.private.remove(timestamp[0])
         dispatch(deleteEntry_Action(item))
     }
@@ -52,18 +56,31 @@ const ListItem = props => {
     // it never surpases the card's height and width limits.
     return (
         <Link 
-            to={{pathname: '/editor', item: item, timestamp: timestamp}} 
-            style={{textDecoration: 'none', justifyItems: 'center'}} 
-        >
-            <div className="item-card" onClick={() => (null) }>
+            to={{
+                pathname: '/editor', 
+                item: item, 
+                timestamp: timestamp}} 
+            style={{
+                textDecoration: 'none', 
+                justifyItems: 'center'}}>
+            <div className="item-card">
                 <div className="item-card-date-box">
                     <p className="item-card-day">{day}</p>
                     <p className="item-card-month-and-year">{month}</p>
                 </div>
                 <div className="item-card-content-box">
                     <div className="item-card-content-box-inside">
-                        <h1 className="item-card-title">{title.slice(0, 45)}</h1>
-                        <p className="item-card-body">{bodyToDisplay.slice(0, 308)}...</p>
+                        <div className="item-card-title-box">
+                            <h1 className="item-card-title">{title.slice(0, 45)}</h1>
+                            <div className="item-card-delete-box" onClick={(e) => deleteEntry(e) }>
+                                <IconContext.Provider value={{size: 22, color: 'gray'}}>
+                                    <RiDeleteBin6Line /> 
+                                </IconContext.Provider> 
+                            </div>
+                        </div>
+                        <div className="item-card-body-box">
+                            <p className="item-card-body">{bodyToDisplay.slice(0, 308)}...</p>
+                        </div>                    
                     </div>
                 </div>
             </div>

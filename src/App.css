@@ -248,6 +248,18 @@
   overflow: hidden;
 }
 
+.item-card-title-box {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.item-card-delete-box {
+  width: 40px;
+  height: 40px;
+  align-self: flex-start;
+}
+
 .item-card-title {
   font-family: 'Montserrat';
   font-weight: 600;
@@ -255,6 +267,10 @@
   text-align: left;
   margin-bottom: 2%;
   color:rgb(85, 85, 85);
+}
+
+.item-card-body-box{
+  height: 100%;
 }
 
 .item-card-body {

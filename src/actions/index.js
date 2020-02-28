@@ -27,7 +27,6 @@ export const setInitialUserData_Action = (user) => {
 }
 
 export const deleteEntry_Action = (entry) => {
-    console.log('Dispatched!')
     return {
         type: DELETE_USER_ENTRY,
         payload: entry
