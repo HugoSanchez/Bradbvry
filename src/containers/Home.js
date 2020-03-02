@@ -1,12 +1,14 @@
 import React, {Component}       from 'react';
 import {connect}                from 'react-redux';
 import {PointSpreadLoading}     from 'react-loadingg';
+
 import CircularButton           from '../components/common/CircularButton';
 import ItemsContainer           from '../components/ItemsContainer';
 import InstallMetamask          from '../components/InstallMetamask';
 import ProfileCard              from '../components/ProfileCard';
 import Header                   from '../components/common/Header';
 import Box                      from '3box';
+import {Mixpanel}               from '../utils';
 import {
     setInitialUserData_Action,
     setUserItems_Action
@@ -68,6 +70,8 @@ class Home extends Component {
         let rawitems    = await space.private.all()
         let parseditems = await this.parseSpaceItems(rawitems)
         this.setState({loading: false})
+        Mixpanel.identify(profile.proof_did.slice(0, 32))
+        Mixpanel.track('New Session')
         this.props.setUserData({
             box, 
             space, 

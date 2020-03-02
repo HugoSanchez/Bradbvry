@@ -1,5 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import {Mixpanel} from '../utils';
 import Header from '../components/common/Header';
 import main from '../resources/pablo-downloading.png';
 import screenshot from '../resources/screenshot.png';
@@ -9,6 +10,8 @@ import beautiful from '../resources/pablo-augmented-reality.png'
 import '../App.css';
 
 const LandingPage = props => {
+
+	Mixpanel.track('Landing visit');
 
     return (
         <div>
