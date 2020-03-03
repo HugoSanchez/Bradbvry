@@ -19,7 +19,7 @@ const Header = props => {
                 <Link to="/home" id="header-profile-link-container">
                     <p id="header-profile-link">Home</p>
                 </Link>
-                <Link to="/home" id="header-profile-link-container">
+                <Link to="/settings" id="header-profile-link-container">
                     <p id="header-profile-link">Settings</p>
                 </Link>
             </div>
