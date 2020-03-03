@@ -2,7 +2,7 @@ export const LoremIpsum = "Lorem ipsum dolor sit amet, consectetur adipiscing el
 
 export const dummyProfile = {
     emoji: "🍿", 
-    description: "Here's a space for you to write a quick description", 
+    description: "Create your own public profile. It will make it easier for other people to find you.", 
     name: "Edit Profile", 
     image: [{contentUrl: {"/": "QmQgQUbBeMTnH1j3QWwNw9LkXjpWDJrjyGYfZpnPp8x5Lu"}}], 
     proof_did: "eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NksifQ.eyJpYXQiOjE…Xl8dHl4713uzITuUyy7kExvN767upGmo3RLiaRXxR48-m1v1A"

@@ -11,16 +11,11 @@ import '../App.css';
 
 const Settings = props => {
 
+    // Get user data from redux state.
     const data = useSelector(state => state.user.data);
-    console.log('Data: ', data.data)
-    console.log('box: ', data.box)
-    console.log('space: ', data.space)
-    console.log('accounts[0]: ', data.accounts[0])
-
-
+    // Track event in Mixpanel.
     Mixpanel.track('Settings visit');
     
-
     if (data.box) {
         return (
             <div>
@@ -31,8 +26,6 @@ const Settings = props => {
                         box={data.box}
                         space={data.space}
                         currentUserAddr={data.accounts[0]}
-    
-                        
                     />
                 </div>
             </div>
@@ -47,8 +40,6 @@ const Settings = props => {
             </div>
         </div>
     )
-
-    
 }
 
 export default Settings;

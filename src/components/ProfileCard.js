@@ -41,17 +41,18 @@ const ProfileCard = props => {
                 <div>
                     <p id="profile-description">{profile.description}</p>
                 </div>
-                {
-                    plength ?
-                    <div>
-                        <Button 
-                            id="profile-button"
-                            textId="profile-button-text"
-                            text="Edit Profile"/>
-                    </div>
-                    :
-                    null
-                }
+                    {
+                        plength ?
+                        <div>
+                            <Button 
+                                path="/settings"
+                                id="profile-button"
+                                textId="profile-button-text"
+                                text="Edit Profile"/>
+                        </div>
+                        :
+                        null
+                    }
             </div>
         </div>
     );
