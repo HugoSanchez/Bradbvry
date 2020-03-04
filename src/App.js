@@ -22,11 +22,11 @@ class App extends Component {
             <main className="App">
                 <Provider store={store}>
                     <Switch>
-                        <Route path='/landing' component={LandingPage} />
+                        <Route path='https://bradbvry.com/landing' component={LandingPage} />
                         <Route path='/home' component={Home} />
                         <Route path='/editor' component={Editor} />
                         <Route path='/settings' component={Settings} />
-                        <Route exact path="/" render={() => (<Redirect to="/landing" />)} /> 
+                        <Route exact path="/" render={() => (<Redirect to="https://bradbvry.com/landing" />)} /> 
                     </Switch>
                 </Provider>
             </main>
