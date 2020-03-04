@@ -12,7 +12,7 @@ let actions = {
     if (env_check) mixpanel.alias(id);
   },
   track: (name, props) => {
-    console.log('NODE_ENV: ', production)
+    console.log('NODE_ENV: ', process.env.NODE_ENV)
     if (env_check) mixpanel.track(name, props);
   },
   people: {
