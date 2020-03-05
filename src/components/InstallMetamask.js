@@ -8,8 +8,8 @@ const InstallMetamask = props => {
         <div className="install-metamask">
             <img src={image} alt=""/>
             <div className="install-metamask-warning">
-                <h1>Install Metamask</h1>
-                <p>It appears that you don't have Metamask installed. Metamask is a plugin that allows you to control your private keys, and log in.
+                <h1>Please enable Metamask</h1>
+                <p>It appears that you don't have Metamask enabled or installed.
                 <span className="bold"> Please install it <a href="https://metamask.io/">here.</a></span></p>
             </div>
         </div>

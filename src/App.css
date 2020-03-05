@@ -400,7 +400,7 @@
 /* INSTALL METAMASK */
 
 .install-metamask {
-  padding-bottom: 30vh;
+  margin: 10vh;
   align-items: center;
   height: inherit;
   display: flex;
@@ -727,7 +727,8 @@ nav {
     flex-direction: column;
   }
   .install-metamask img {
-    max-width: 65vw;
+    margin-top: 20%;
+    width: 45vw;
   }
   
   .install-metamask-warning {
@@ -739,6 +740,7 @@ nav {
     left: 35%
   }
   .home-container{
+    padding-top: 10%;
     flex-direction: column-reverse;
   }
   .item-container {
@@ -749,6 +751,7 @@ nav {
   .profile-card-container {
     padding-top: 0%;
     text-align: center;
+    overflow: hidden;
   }
   .profile-card {
     position: relative;
@@ -773,6 +776,10 @@ nav {
   #empty.Button {
     position: relative;
     left: 25%
+  }
+  .install-metamask img {
+    margin-top: 20%;
+    width: 55vw;
   }
   .cta-add {
     margin-right: -6%;

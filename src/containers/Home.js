@@ -20,7 +20,7 @@ class Home extends Component {
         super(props)
         this.state = {
             loading: true, 
-            renderMetamask: false,
+            renderMetamask: true,
         }
     }
 
@@ -29,6 +29,8 @@ class Home extends Component {
         await this.handleMetamaskException()
         await this.getSessionConfigAndSetItems()
     }
+
+    
 
     async componentWillUnmount() {
         this.mounted = false;
@@ -51,11 +53,13 @@ class Home extends Component {
     // Fetch and set user entries (items) 
     // in global redux store. 
     async fetchAndSetUserItems() {
-        this.setState({loading: false})
+        console.log('Executing fetch items')
+        this.setState({loading: false, renderMetamask: false})
         let rawitems    = await this.props.space.private.all()
         let parseditems = await this.parseSpaceItems(rawitems)
         if (parseditems.length !== this.props.items.length) {
             console.log('We are here')
+            // this.checkItemsFormat(parseditems, null)
             this.props.setUserItems(parseditems)
         }
     }
@@ -64,11 +68,13 @@ class Home extends Component {
     // Then set state in global redux store.
     async setInitialSessionConfig() {
         let accounts    = await window.ethereum.enable();
+        this.setState({renderMetamask: false})
         let box         = await Box.openBox(accounts[0], window.ethereum)
         let space       = await box.openSpace('bradbvry--main')
         let profile     = await Box.getProfile(accounts[0])
         let rawitems    = await space.private.all()
         let parseditems = await this.parseSpaceItems(rawitems)
+        this.checkItemsFormat(parseditems, null)
         this.setState({loading: false})
         Mixpanel.identify(profile.proof_did.slice(0, 32))
         Mixpanel.track('New Session')
@@ -89,24 +95,46 @@ class Home extends Component {
              let object = {}
              let element = items[item]
              let parsedEl = JSON.parse(element)
-             object[item.toString()] = parsedEl
+             parsedEl["timestamp"] = item
+             object['content'] = parsedEl
              array.push(object)  
         }
-        return array;
+        console.log('array: ', array)
+        return array.sort((a, b) => {
+            console.log('sorting', a)
+           return parseInt(b.content.timestamp) - parseInt(a.content.timestamp)
+        });
+    }
+
+    // Helper function to check if content format is correct.
+    // If not, it triggers callback. -- Not working yet.
+    async checkItemsFormat(items, callback){
+        console.log('checking format!')
+        for (let item in items) {
+             let block = items[item]
+             console.log('Block: ', block)
+             if (block) {
+                 console.log('Wrong format')
+                 // call callback.
+                 break;
+             } 
+        }
     }
 
     render() {
         const {items, profile} = this.props
         const {loading, renderMetamask} = this.state
+
+        console.log('Items: ', items.length)
         
         return (
             <div>
                 <Header />
                 <div className="Main">
                     <div className="home-container">
-                        {renderMetamask && !loading && <InstallMetamask /> }
+                        {renderMetamask && !profile && <InstallMetamask /> }
                         {!loading && <ItemsContainer items={items} />}
-                        {loading && <PointSpreadLoading color={"rgb(190, 235, 194)"} />}
+                        {loading && !renderMetamask && <PointSpreadLoading color={"rgb(190, 235, 194)"} />}
                         {profile && !renderMetamask && items.length > 0 && <ProfileCard profile={profile} />}
 
                         {
@@ -130,7 +158,7 @@ function mapStateToProps(state) {
         box:        state.user.data.box,
         space:      state.user.data.space,
         items:      state.user.data.parseditems,
-        profile:    state.user.data.profile
+        profile:    state.user.data.profile,
     }
 }
 

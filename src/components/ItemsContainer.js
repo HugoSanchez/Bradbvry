@@ -1,5 +1,6 @@
 import '../App.css';
 import React from 'react';
+import {useSelector} from "react-redux";
 import ListItem from './ListItem';
 import EmptyHome from './EmptyHome';
 
@@ -12,16 +13,20 @@ import EmptyHome from './EmptyHome';
 
 const ItemsContainer = props => {
 
-    if (props.items.length < 1) {
+    let items = useSelector(state => state.user.data.parseditems);
+
+    if (items.length < 1) {
         return <EmptyHome />
     }
+
     else {
+        console.log('Im rendering', items)
         return (
-            <div className="item-container"> 
+            <div className="item-container" key={items.length}> 
                 <p className="list-title">Latest stories</p>
                 <p className="list-title-underscore"></p>
                 {
-                    props.items.map((item, index) => {
+                    items.map((item, index) => {
                         return  <ListItem key={index} item={item} />
                     })
                 }

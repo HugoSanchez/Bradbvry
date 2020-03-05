@@ -26,7 +26,7 @@ const LandingPage = props => {
                             Bradbvry allows you to own and manage 
                             <span className="bold"> intimate private spaces </span> 
                             to store and share your creations.
-                            <span className=""> We're stating with a text editor that is truly yours.</span> 
+                            <span className=""> We're starting with a text editor that is truly yours.</span> 
 
                         </p>
                     </div>

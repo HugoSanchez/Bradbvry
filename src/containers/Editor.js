@@ -20,8 +20,8 @@ class Editor extends Component {
     async componentDidMount() {
         this.mounted = true;
         if (this.props.location.item) {
-            let {timestamp} = this.props.location
-            this.setState({item: timestamp[0]})
+            let {timestamp, item} = this.props.location
+            this.setState({item: item.content.timestamp})
         } else { 
             this.setState({item: this.state.originalDate}) 
         }
@@ -35,7 +35,7 @@ class Editor extends Component {
         let dateUpdate = Date.now()
         let {item, originalDate} = this.state
         let {space} = this.props
-        let intervalBool = originalDate + 10000 < dateUpdate
+        let intervalBool = originalDate + 4000 < dateUpdate
         let isSpaceSetBool = !(space === 'undefined' || space == null)
         if (intervalBool && isSpaceSetBool) { 
             let content  = JSON.stringify(editorContext.editorContent)
@@ -130,7 +130,7 @@ class Editor extends Component {
                 <div className="Editor">
 
                     <DanteEditor 
-                        content={item ? item[timestamp[0]] : null} 
+                        content={item ? item.content : null} 
                         read_only={false}
                         config={this.options}
                         data_storage={this.storage}

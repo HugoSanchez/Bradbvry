@@ -1,5 +1,5 @@
 import '../App.css';
-import React from 'react';
+import React, {useState} from 'react';
 import {Link} from 'react-router-dom';
 import {IconContext} from 'react-icons';
 import {RiDeleteBin6Line} from 'react-icons/ri';
@@ -18,6 +18,13 @@ import {deleteEntry_Action} from '../actions';
 
 const ListItem = props => {
 
+    // Instantiate state
+    const [isActive, setActive] = useState(false); 
+    // Create setter function
+    const handleMouseOver = () => {
+        setActive(!isActive)
+    }
+
     // Get space from global redux store.
     // Instantiate dispatch function.
     const space = useSelector(state => state.user.data.space);
@@ -33,15 +40,15 @@ const ListItem = props => {
 
     // Parse the item key (which is a timestamp from the day it was created),
     // to get the day and month to display.
-    let timestamp = Object.keys(item)
-    let date      = new Date(parseInt(timestamp[0]))
+    let timestamp = item.content.timestamp
+    let date      = new Date(parseInt(timestamp))
     let day       = date.getDate()
     let month     = months[date.getMonth()]
 
     // Get the title and parse the body to display.
     // Find first block that is unstyled and not empty.
-    let title = item[timestamp].blocks[0].text || "Unkown Title";
-    let body = item[timestamp].blocks.find(block => block.type === 'unstyled' && block.text.length > 1) 
+    let title = item.content.blocks[0].text || "Unkown Title";
+    let body = item.content.blocks.find(block => block.type === 'unstyled' && block.text.length > 1) 
     let bodyToDisplay = body ? body.text : LoremIpsum;
 
     // Function that deletes a given element from their space.
@@ -63,7 +70,9 @@ const ListItem = props => {
             style={{
                 textDecoration: 'none', 
                 justifyItems: 'center'}}>
-            <div className="item-card">
+            <div className="item-card"
+                onMouseEnter={() => handleMouseOver()}
+                onMouseLeave={() => handleMouseOver()}>
                 <div className="item-card-date-box">
                     <p className="item-card-day">{day}</p>
                     <p className="item-card-month-and-year">{month}</p>
@@ -72,14 +81,19 @@ const ListItem = props => {
                     <div className="item-card-content-box-inside">
                         <div className="item-card-title-box">
                             <h1 className="item-card-title">{title.slice(0, 45)}</h1>
-                            <div className="item-card-delete-box" onClick={(e) => deleteEntry(e) }>
-                                <IconContext.Provider value={{size: 22, color: 'gray'}}>
-                                    <RiDeleteBin6Line /> 
-                                </IconContext.Provider> 
-                            </div>
+                            {
+                                isActive ?
+                                <div className="item-card-delete-box" onClick={(e) => deleteEntry(e) }>
+                                    <IconContext.Provider value={{size: 22, color: 'gray'}}>
+                                        <RiDeleteBin6Line /> 
+                                    </IconContext.Provider> 
+                                </div>
+                                :
+                                null
+                            }
                         </div>
                         <div className="item-card-body-box">
-                            <p className="item-card-body">{bodyToDisplay.slice(0, 308)}...</p>
+                            <p className="item-card-body">{bodyToDisplay.slice(0, 250)}...</p>
                         </div>                    
                     </div>
                 </div>
