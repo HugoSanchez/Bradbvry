@@ -55,7 +55,7 @@ const ListItem = props => {
     // Dispatches action to delete item from global store.
     const deleteEntry = async (e) => {
         e.preventDefault();
-        await space.private.remove(timestamp[0])
+        await space.private.remove(timestamp)
         dispatch(deleteEntry_Action(item))
     }
 

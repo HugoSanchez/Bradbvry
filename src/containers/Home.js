@@ -53,12 +53,10 @@ class Home extends Component {
     // Fetch and set user entries (items) 
     // in global redux store. 
     async fetchAndSetUserItems() {
-        console.log('Executing fetch items')
         this.setState({loading: false, renderMetamask: false})
         let rawitems    = await this.props.space.private.all()
         let parseditems = await this.parseSpaceItems(rawitems)
         if (parseditems.length !== this.props.items.length) {
-            console.log('We are here')
             // this.checkItemsFormat(parseditems, null)
             this.props.setUserItems(parseditems)
         }
@@ -99,9 +97,7 @@ class Home extends Component {
              object['content'] = parsedEl
              array.push(object)  
         }
-        console.log('array: ', array)
         return array.sort((a, b) => {
-            console.log('sorting', a)
            return parseInt(b.content.timestamp) - parseInt(a.content.timestamp)
         });
     }
@@ -109,12 +105,9 @@ class Home extends Component {
     // Helper function to check if content format is correct.
     // If not, it triggers callback. -- Not working yet.
     async checkItemsFormat(items, callback){
-        console.log('checking format!')
         for (let item in items) {
              let block = items[item]
-             console.log('Block: ', block)
              if (block) {
-                 console.log('Wrong format')
                  // call callback.
                  break;
              } 
@@ -124,8 +117,6 @@ class Home extends Component {
     render() {
         const {items, profile} = this.props
         const {loading, renderMetamask} = this.state
-
-        console.log('Items: ', items.length)
         
         return (
             <div>
