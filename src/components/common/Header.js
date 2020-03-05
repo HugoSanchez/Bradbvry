@@ -5,7 +5,7 @@ import logo from '../../resources/Bradbury.png';
 import '../../App.css';
 
 const Header = props => {
-
+    
     const [active, setActive] = useState(false); 
 
     window.onscroll = function() {
@@ -16,12 +16,20 @@ const Header = props => {
         <div id="Header" className={active ? 'active' : null}>
             <img src={logo} id="Header-Image" alt=''/>
             <div className="small-circle-container">
-                <Link to="/home" id="header-profile-link-container">
-                    <p id="header-profile-link">Home</p>
-                </Link>
-                <Link to="/settings" id="header-profile-link-container">
-                    <p id="header-profile-link">Settings</p>
-                </Link>
+                {
+                    window.innerWidth < 600 ?
+                    null
+                :
+                <div>
+                    <Link to="/home" id="header-profile-link-container">
+                        <p id="header-profile-link">Home</p>
+                    </Link>
+                    <Link to="/settings" id="header-profile-link-container">
+                        <p id="header-profile-link">Settings</p>
+                    </Link>
+                </div>
+                }
+                
             </div>
         </div>
     );

@@ -688,7 +688,7 @@ nav {
 		padding: 10px 10px 10px 0px;
   }
   .cta-add {
-    margin-right: 0%;
+    margin-right: -0%;
   }
 	.cover img {
 		height: 60%;
@@ -773,6 +773,9 @@ nav {
   #empty.Button {
     position: relative;
     left: 25%
+  }
+  .cta-add {
+    margin-right: -6%;
   }
 }
 
