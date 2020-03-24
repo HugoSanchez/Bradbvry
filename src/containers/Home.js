@@ -2,11 +2,13 @@ import React, {Component}       from 'react';
 import {connect}                from 'react-redux';
 import {PointSpreadLoading}     from 'react-loadingg';
 
-import CircularButton           from '../components/common/CircularButton';
+import {
+    CircularButton,
+    Header
+}                               from '../components/common';
 import ItemsContainer           from '../components/ItemsContainer';
 import InstallMetamask          from '../components/InstallMetamask';
 import ProfileCard              from '../components/ProfileCard';
-import Header                   from '../components/common/Header';
 import Box                      from '3box';
 import {Mixpanel}               from '../utils';
 import {
@@ -29,8 +31,6 @@ class Home extends Component {
         await this.handleMetamaskException()
         await this.getSessionConfigAndSetItems()
     }
-
-    
 
     async componentWillUnmount() {
         this.mounted = false;

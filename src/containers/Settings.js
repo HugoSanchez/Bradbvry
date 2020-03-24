@@ -1,7 +1,7 @@
 import React from 'react';
 import {useSelector}  from "react-redux";
 import {Mixpanel} from '../utils';
-import Header from '../components/common/Header';
+import {Header} from '../components/common/Header';
 import EditProfile from '3box-profile-edit-react';
 import {PointSpreadLoading}     from 'react-loadingg';
 

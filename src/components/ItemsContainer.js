@@ -1,15 +1,17 @@
 import '../App.css';
 import React from 'react';
+import styled from 'styled-components';
 import {useSelector} from "react-redux";
 import ListItem from './ListItem';
 import EmptyHome from './EmptyHome';
+
+import {View} from './proto';
 
 /**
  * This component is just a container containing an iterator.
  * @param {item}: the item to pass on from parent to ListItem
  * @param {index}: to shut up warning. 
  */
-
 
 const ItemsContainer = props => {
 
@@ -20,9 +22,8 @@ const ItemsContainer = props => {
     }
 
     else {
-        console.log('Im rendering', items)
         return (
-            <div className="item-container" key={items.length}> 
+            <View flex={6} key={items.length}> 
                 <p className="list-title">Latest stories</p>
                 <p className="list-title-underscore"></p>
                 {
@@ -30,9 +31,13 @@ const ItemsContainer = props => {
                         return  <ListItem key={index} item={item} />
                     })
                 }
-            </div>
+            </View>
         );
     }
 }
+
+const Container = styled.div`
+
+`;
 
 export default ItemsContainer;

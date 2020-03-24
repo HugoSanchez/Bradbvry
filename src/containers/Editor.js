@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import '../App.css';
 import DanteEditor from "Dante2";
-import CircularButton from '../components/common/CircularButton';
+import {CircularButton} from '../components/common';
 
 class Editor extends Component {
     constructor(props) {

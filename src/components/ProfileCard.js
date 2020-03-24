@@ -1,7 +1,7 @@
 import React from 'react';
 import {useSelector} from "react-redux";
 import {dummyProfile} from '../constants';
-import Button from './common/Button';
+import {Button} from './common';
 import '../App.css';
 
 /**

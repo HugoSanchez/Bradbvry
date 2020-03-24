@@ -1,6 +1,6 @@
 import '../App.css';
-import React              from 'react';
-import Button             from './common/Button';
+import React          from 'react';
+import {Button}       from './common/Button';
 import searching      from '../resources/pablo-searching.png';
 
 const EmptyHome = props => {

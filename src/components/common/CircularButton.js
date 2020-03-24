@@ -33,4 +33,4 @@ const CircularButton = props => {
     );
 }
 
-export default CircularButton;
+export {CircularButton};
