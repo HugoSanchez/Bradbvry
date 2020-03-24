@@ -189,11 +189,18 @@
 }
 
 /* Items card */
+
+/* Items card */
+/* Items card */
+/* Items card */
 .item-container {
   flex: 6;
   margin: 2%;
 }
 
+/* Items card */
+/* Items card */
+/* Items card */
 .item-card {
   display: flex;
   flex-direction: row;
@@ -203,15 +210,12 @@
   border-radius: 10px;
   vertical-align: middle;
 }
-
 .item-card:hover {
   box-shadow: 0 0 10px rgba(0,0,0,0.1); 
 }
 
 .item-card-date-box {
   flex: 1;
-  width: 25%;
-  height: 100%;
   padding-top: 2vh;
   border-radius: 10px;
 }
@@ -235,14 +239,8 @@
 
 .item-card-content-box {
   flex: 3;
-  width: 75%;
-  height: 90%;
-  padding: 4%;
+  padding: 5%;
   position: relative;
-  overflow: hidden;
-}
-
-.item-card-content-box-inside {
   overflow: hidden;
 }
 

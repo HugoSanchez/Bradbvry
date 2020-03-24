@@ -1,6 +1,10 @@
 import '../App.css';
 import React from 'react';
-import {useSelector} from "react-redux";
+
+import {
+    useSelector
+} from "react-redux";
+
 import {
     EmptyHome,
     ListItem
@@ -15,7 +19,7 @@ import {
 /**
  * This component is just a container containing an iterator.
  * @param {item}: the item to pass on from parent to ListItem
- * @param {index}: to shut up warning. 
+ * @param {index}: item index. 
  */
 
 const ItemsContainer = props => {

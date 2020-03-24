@@ -3,5 +3,7 @@ export * from './Underline';
 export * from './Button';
 export * from './Header';
 export * from './Modal';
+export * from './Card';
 export * from './View';
 export * from './Text';
+export * from './Row';

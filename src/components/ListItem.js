@@ -1,11 +1,17 @@
 import '../App.css';
 import React, {useState} from 'react';
+import {useSelector, useDispatch} from "react-redux";
+import styled from 'styled-components';
 import {Link} from 'react-router-dom';
 import {IconContext} from 'react-icons';
 import {RiDeleteBin6Line} from 'react-icons/ri';
 
+import {
+    View,
+    Card
+} from './common';
+
 import {LoremIpsum} from '../constants';
-import {useSelector, useDispatch} from "react-redux";
 import {deleteEntry_Action} from '../actions';
 
 /**
@@ -62,6 +68,7 @@ const ListItem = props => {
     // Return card-item HTML. Slice title and body so that
     // it never surpases the card's height and width limits.
     return (
+
         <Link 
             to={{
                 pathname: '/editor', 
@@ -70,15 +77,17 @@ const ListItem = props => {
             style={{
                 textDecoration: 'none', 
                 justifyItems: 'center'}}>
-            <div className="item-card"
+
+            <Card
                 onMouseEnter={() => handleMouseOver()}
                 onMouseLeave={() => handleMouseOver()}>
-                <div className="item-card-date-box">
+
+                <DateBox>
                     <p className="item-card-day">{day}</p>
                     <p className="item-card-month-and-year">{month}</p>
-                </div>
+                </DateBox>
+
                 <div className="item-card-content-box">
-                    <div className="item-card-content-box-inside">
                         <div className="item-card-title-box">
                             <h1 className="item-card-title">{title.slice(0, 45)}</h1>
                             {
@@ -95,11 +104,16 @@ const ListItem = props => {
                         <div className="item-card-body-box">
                             <p className="item-card-body">{bodyToDisplay.slice(0, 250)}...</p>
                         </div>                    
-                    </div>
                 </div>
-            </div>
+            </Card>
         </Link>
     );
 }
+
+const DateBox = styled(View)`
+    padding-top: 2vh;
+    border-radius: 10px;
+    background-color: #FAFAFA;
+`;
 
 export {ListItem};
