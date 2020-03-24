@@ -240,7 +240,6 @@
 .item-card-content-box {
   flex: 3;
   padding: 5%;
-  position: relative;
   overflow: hidden;
 }
 
@@ -266,7 +265,7 @@
 }
 
 .item-card-body-box{
-  height: 100%;
+
 }
 
 .item-card-body {

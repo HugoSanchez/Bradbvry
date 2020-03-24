@@ -1,14 +1,15 @@
-import '../App.css';
 import React, {useState} from 'react';
 import {useSelector, useDispatch} from "react-redux";
 import styled from 'styled-components';
 import {Link} from 'react-router-dom';
-import {IconContext} from 'react-icons';
-import {RiDeleteBin6Line} from 'react-icons/ri';
 
 import {
+    DeleteBin,
+    Title,
+    Text,
     View,
-    Card
+    Card,
+    Row
 } from './common';
 
 import {LoremIpsum} from '../constants';
@@ -83,28 +84,26 @@ const ListItem = props => {
                 onMouseLeave={() => handleMouseOver()}>
 
                 <DateBox>
-                    <p className="item-card-day">{day}</p>
-                    <p className="item-card-month-and-year">{month}</p>
+                    <DayText>{day}</DayText>
+                    <MonthText>{month}</MonthText>
                 </DateBox>
 
-                <div className="item-card-content-box">
-                        <div className="item-card-title-box">
-                            <h1 className="item-card-title">{title.slice(0, 45)}</h1>
-                            {
-                                isActive ?
-                                <div className="item-card-delete-box" onClick={(e) => deleteEntry(e) }>
-                                    <IconContext.Provider value={{size: 22, color: 'gray'}}>
-                                        <RiDeleteBin6Line /> 
-                                    </IconContext.Provider> 
-                                </div>
-                                :
-                                null
-                            }
-                        </div>
-                        <div className="item-card-body-box">
-                            <p className="item-card-body">{bodyToDisplay.slice(0, 250)}...</p>
-                        </div>                    
-                </div>
+                <ContentBox>
+                    <TitleBox>
+                        <Title>
+                            {title.slice(0, 45)}
+                        </Title>
+                        <DeleteBin 
+                            isActive={isActive}
+                            onClick={(e) => deleteEntry(e)}
+                        />
+                    </TitleBox>
+                    <View>
+                        <Text>
+                            {bodyToDisplay.slice(0, 250)}...
+                        </Text>
+                    </View>                    
+                </ContentBox>
             </Card>
         </Link>
     );
@@ -114,6 +113,34 @@ const DateBox = styled(View)`
     padding-top: 2vh;
     border-radius: 10px;
     background-color: #FAFAFA;
+`;
+
+const ContentBox = styled(View)`
+    flex: 3;
+    padding: 2%;
+    overflow: hidden;
+`;
+
+const TitleBox = styled(Row)`
+    padding-left: 2%;
+    justify-content: space-between;
+`;
+
+const DayText = styled.p`
+    font-family: 'Montserrat';
+    font-weight: 600;
+    font-size: 12vh;
+    margin-top: 15%;
+    vertical-align: middle;
+    color: rgba(130, 130, 130, 0.529);
+`;
+
+const MonthText = styled.p`
+    font-family: 'Montserrat';
+    font-style: italic;
+    font-weight: 300;
+    font-size: 2.5vh;
+    color: rgb(130, 130, 130);
 `;
 
 export {ListItem};
