@@ -19,4 +19,4 @@ const EmptyHome = props => {
 }
 
 
-export default EmptyHome;
+export {EmptyHome};

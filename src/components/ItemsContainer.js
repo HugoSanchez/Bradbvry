@@ -1,11 +1,16 @@
 import '../App.css';
 import React from 'react';
-import styled from 'styled-components';
 import {useSelector} from "react-redux";
-import ListItem from './ListItem';
-import EmptyHome from './EmptyHome';
+import {
+    EmptyHome,
+    ListItem
+} from './index';
 
-import {View} from './proto';
+import {
+    Underline,
+    Text,
+    View
+} from './common';
 
 /**
  * This component is just a container containing an iterator.
@@ -24,8 +29,9 @@ const ItemsContainer = props => {
     else {
         return (
             <View flex={6} key={items.length}> 
-                <p className="list-title">Latest stories</p>
-                <p className="list-title-underscore"></p>
+                <Text>Latest stories</Text>
+                <Underline />
+
                 {
                     items.map((item, index) => {
                         return  <ListItem key={index} item={item} />
@@ -35,9 +41,5 @@ const ItemsContainer = props => {
         );
     }
 }
-
-const Container = styled.div`
-
-`;
 
 export default ItemsContainer;
