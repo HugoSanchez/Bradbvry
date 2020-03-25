@@ -16,6 +16,8 @@ const IconContainer = styled.div`
     align-self: flex-start;
 `;
 
+const size = window.innerWidth < 400 ? 18 : 22
+
 const DeleteBin = props => {
 
     return (
@@ -23,7 +25,7 @@ const DeleteBin = props => {
             {
                 props.isActive ?
                     <View>
-                        <IconContext.Provider value={{size: 22, color: 'gray'}}>
+                        <IconContext.Provider value={{size: size, color: 'gray'}}>
                             <RiDeleteBin6Line /> 
                         </IconContext.Provider> 
                     </View>

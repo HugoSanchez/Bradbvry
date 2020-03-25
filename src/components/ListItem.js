@@ -1,7 +1,13 @@
 import React, {useState} from 'react';
-import {useSelector, useDispatch} from "react-redux";
 import styled from 'styled-components';
 import {Link} from 'react-router-dom';
+import {deleteEntry_Action} from '../actions';
+
+import {
+    useSelector, 
+    useDispatch
+} from "react-redux";
+
 
 import {
     DeleteBin,
@@ -12,8 +18,11 @@ import {
     Row
 } from './common';
 
-import {LoremIpsum} from '../constants';
-import {deleteEntry_Action} from '../actions';
+import {
+    LoremIpsum,
+    device
+} from '../constants';
+
 
 /**
  * ---- Props ----
@@ -54,9 +63,10 @@ const ListItem = props => {
 
     // Get the title and parse the body to display.
     // Find first block that is unstyled and not empty.
-    let title = item.content.blocks[0].text || "Unkown Title";
+    let title = item.content.blocks[0].text.slice(0, 45) || "Unkown Title";
     let body = item.content.blocks.find(block => block.type === 'unstyled' && block.text.length > 1) 
-    let bodyToDisplay = body ? body.text : LoremIpsum;
+    let maxSlice = window.innerWidth < 400 ? 160 : 250;
+    let bodyToDisplay = body ? body.text.slice(0, maxSlice) : LoremIpsum;
 
     // Function that deletes a given element from their space.
     // Dispatches action to delete item from global store.
@@ -77,11 +87,15 @@ const ListItem = props => {
                 timestamp: timestamp}} 
             style={{
                 textDecoration: 'none', 
-                justifyItems: 'center'}}>
+                justifyItems: 'center'}}
+        >
 
             <Card
-                onMouseEnter={() => handleMouseOver()}
-                onMouseLeave={() => handleMouseOver()}>
+                onMouseEnter={() => {
+                    handleMouseOver()}}
+                onMouseLeave={() => {
+                    handleMouseOver()}}
+            >
 
                 <DateBox>
                     <DayText>{day}</DayText>
@@ -91,7 +105,7 @@ const ListItem = props => {
                 <ContentBox>
                     <TitleBox>
                         <Title>
-                            {title.slice(0, 45)}
+                            {title}
                         </Title>
                         <DeleteBin 
                             isActive={isActive}
@@ -100,10 +114,11 @@ const ListItem = props => {
                     </TitleBox>
                     <View>
                         <Text>
-                            {bodyToDisplay.slice(0, 250)}...
+                            {bodyToDisplay}...
                         </Text>
                     </View>                    
                 </ContentBox>
+
             </Card>
         </Link>
     );
@@ -119,11 +134,19 @@ const ContentBox = styled(View)`
     flex: 3;
     padding: 2%;
     overflow: hidden;
+
+    @media ${device.mobileL} {
+        padding-bottom: 30%;
+    }
 `;
 
 const TitleBox = styled(Row)`
     padding-left: 2%;
     justify-content: space-between;
+
+    @media ${device.mobileL} {
+        font-size: 2vh;
+    }
 `;
 
 const DayText = styled.p`
@@ -133,6 +156,10 @@ const DayText = styled.p`
     margin-top: 15%;
     vertical-align: middle;
     color: rgba(130, 130, 130, 0.529);
+    
+    @media ${device.mobileL} {
+        font-size: 8vh;
+    }
 `;
 
 const MonthText = styled.p`
@@ -140,7 +167,7 @@ const MonthText = styled.p`
     font-style: italic;
     font-weight: 300;
     font-size: 2.5vh;
-    color: rgb(130, 130, 130);
+    color: rgb(130, 130, 130);å
 `;
 
 export {ListItem};

@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import {device} from '../../constants';
 import {Row} from './Row';
 
 const Card = styled(Row)`
@@ -14,6 +15,10 @@ const Card = styled(Row)`
     
     &:hover {
         box-shadow: 0 0 10px rgba(0,0,0,0.1); 
+    }
+
+    @media ${device.mobileL} {
+        height: ${props => props.height || '22vh'};
     }
 `;
 

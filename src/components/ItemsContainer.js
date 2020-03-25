@@ -1,5 +1,6 @@
-import '../App.css';
 import React from 'react';
+import styled from 'styled-components';
+import {device} from '../constants';
 
 import {
     useSelector
@@ -32,7 +33,7 @@ const ItemsContainer = props => {
 
     else {
         return (
-            <View flex={6} key={items.length}> 
+            <Container key={items.length}> 
                 <Text>Latest stories</Text>
                 <Underline />
 
@@ -41,9 +42,16 @@ const ItemsContainer = props => {
                         return  <ListItem key={index} item={item} />
                     })
                 }
-            </View>
+            </Container>
         );
     }
 }
+
+const Container = styled(View)`
+    flex: 6;
+    @media ${device.mobileL} {
+        padding-top: 30px;
+    }
+`;
 
 export default ItemsContainer;
