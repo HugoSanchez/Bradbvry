@@ -6,15 +6,17 @@ import {
     CircularButton,
     Header
 }                               from '../components/common';
+
+import {
+    setInitialUserData_Action,
+    setUserItems_Action
+}                               from '../actions';
+
 import ItemsContainer           from '../components/ItemsContainer';
 import InstallMetamask          from '../components/InstallMetamask';
 import ProfileCard              from '../components/ProfileCard';
 import Box                      from '3box';
 import {Mixpanel}               from '../utils';
-import {
-    setInitialUserData_Action,
-    setUserItems_Action
-} from '../actions';
 import '../App.css';
 
 class Home extends Component {
