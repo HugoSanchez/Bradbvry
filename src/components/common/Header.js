@@ -1,11 +1,17 @@
 import React, {useState} from 'react';
 import {Link} from 'react-router-dom';
+import styled from 'styled-components';
+import {useLocation} from 'react-router-dom'
 
 import logo from '../../resources/Bradbury.png';
+import {Text} from '../common'
 import '../../App.css';
 
 const Header = props => {
     
+    let location = useLocation()
+    console.log('Location: ', location.pathname === "/home")
+
     const [active, setActive] = useState(false); 
 
     window.onscroll = function() {
@@ -22,10 +28,10 @@ const Header = props => {
                 :
                 <div>
                     <Link to="/home" id="header-profile-link-container">
-                        <p id="header-profile-link">Home</p>
+                        <HeaderText bold={location.pathname === "/home"}>Home</HeaderText>
                     </Link>
                     <Link to="/settings" id="header-profile-link-container">
-                        <p id="header-profile-link">Settings</p>
+                        <HeaderText bold={location.pathname === "/settings"}>Settings</HeaderText>
                     </Link>
                 </div>
                 }
@@ -34,5 +40,18 @@ const Header = props => {
         </div>
     );
 }
+
+const HeaderText = styled(Text)`
+    padding-left: 2.5vw;
+    padding-right: 2.5vw;
+    font-weight: ${props => props.bold ? '500' : '300'};
+    
+    display: inline;
+    transition: 0.4s ease-out;
+
+    &:hover{
+        font-style: ${props => props.bold ? null : 'italic'};;
+    }
+`;
 
 export {Header};
