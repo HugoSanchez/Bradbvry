@@ -8,7 +8,7 @@ const Title = styled.h1`
     font-size: 4vh;
     text-align: left;
     margin-bottom: 2%;
-    color:rgb(85, 85, 85);
+    color: ${ props => props.color ? props.color : 'rgb(85, 85, 85)'};
     @media ${device.mobileL} {
         font-size: 18px;
     }

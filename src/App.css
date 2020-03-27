@@ -140,7 +140,7 @@
 #profile-cover-photo-container {
   height: 35%;
   width: inherit;
-  background-color: rgb(210, 255, 214);
+  background-color: rgb(231, 245, 241);
 }
 
 #profile-image {
@@ -191,6 +191,9 @@
 
 /*
 */
+
+
+
 .Text {
   font-weight: 300;
   font-style: italic;

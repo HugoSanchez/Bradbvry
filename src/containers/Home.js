@@ -19,6 +19,11 @@ import Box                      from '3box';
 import {Mixpanel}               from '../utils';
 import '../App.css';
 
+import {
+    globalThreadModeratorAddress,
+    threadObj
+} from '../constants';
+
 class Home extends Component {
     constructor(props) {
         super(props)
@@ -74,6 +79,18 @@ class Home extends Component {
         let profile     = await Box.getProfile(accounts[0])
         let rawitems    = await space.private.all()
         let parseditems = await this.parseSpaceItems(rawitems)
+
+        console.log('SPACE: ', space)
+        console.log('ITEMS: ', rawitems)
+
+
+        const thread = await space.joinThread("bradbvry--global--thread", {
+            firstModerator: globalThreadModeratorAddress,
+            members: false
+        });
+        console.log('Thread: ', thread)
+
+        // Check, parse and set items.
         this.checkItemsFormat(parseditems, null)
         this.setState({loading: false})
         Mixpanel.identify(profile.proof_did.slice(0, 32))
@@ -86,6 +103,32 @@ class Home extends Component {
             accounts
         })       
     }
+
+
+    // THEADS: TEMPORARY
+    async getThreads(space) {
+        const thread = await space.joinThread("bradbvry--global--thread", {
+            firstModerator: '0xCc74308838BbAcEEC226611A0C2b3fD5f4a7D8a2',
+            members: false
+        });
+    
+        const subspace = {
+            name: "Awesome Space",
+            url: "<https://exampleapp.com>",
+            appImage: "<https://example-image.png>",
+            description: "An example subspace.",
+            account: "0x2f4ce4f714c68a3fc871d1f543ffc24b9b3c2386",
+            options: JSON.stringify({here: "and there"})
+            //the account of the users who submitted
+        }
+    
+        await thread.post(subspace);
+    
+        const posts = await thread.getPosts()
+        console.log('Thread: ', thread)
+        console.log('Posts: ', posts)
+    } 
+    
 
     // Helper function to parse every entry item
     // into a JSON and push it into an array.

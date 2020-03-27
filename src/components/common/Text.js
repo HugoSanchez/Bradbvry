@@ -7,7 +7,7 @@ const Text = styled.p`
     font-weight: 300;
     line-height: 1.5;
     text-align: ${props => props.textAlign ? props.textAlign : 'left'};
-    color:rgb(85, 85, 85);
+    color: ${ props => props.color ? props.color : 'rgb(85, 85, 85)'};
     @media ${device.mobileL} {
         font-size: 14px;
     }

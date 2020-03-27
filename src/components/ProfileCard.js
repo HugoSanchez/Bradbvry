@@ -2,6 +2,7 @@ import React from 'react';
 import {useSelector} from "react-redux";
 import {dummyProfile} from '../constants';
 import {Button} from './common';
+import styled from 'styled-components';
 import '../App.css';
 
 /**
@@ -57,5 +58,6 @@ const ProfileCard = props => {
         </div>
     );
 }
+
 
 export default ProfileCard;
