@@ -9,9 +9,7 @@ import '../../App.css';
 
 const Header = props => {
     
-    let location = useLocation()
-    console.log('Location: ', location.pathname === "/home")
-
+    let location = useLocation();
     const [active, setActive] = useState(false); 
 
     window.onscroll = function() {

@@ -10,7 +10,7 @@ const initialState = {
     space: null,
     profile: null,
     accounts: null,
-    parseditems: [], 
+    parsedItems: [], 
   }
 }
 

@@ -21,7 +21,7 @@ class Editor extends Component {
         this.mounted = true;
         if (this.props.location.item) {
             let {timestamp, item} = this.props.location
-            this.setState({item: item.content.timestamp})
+            this.setState({item: item.timestamp})
         } else { 
             this.setState({item: this.state.originalDate}) 
         }
@@ -130,7 +130,7 @@ class Editor extends Component {
                 <div className="Editor">
 
                     <DanteEditor 
-                        content={item ? item.content : null} 
+                        content={item ? item : null} 
                         read_only={false}
                         config={this.options}
                         data_storage={this.storage}

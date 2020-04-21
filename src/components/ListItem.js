@@ -8,7 +8,6 @@ import {
     useDispatch
 } from "react-redux";
 
-
 import {
     DeleteBin,
     Title,
@@ -56,15 +55,15 @@ const ListItem = props => {
 
     // Parse the item key (which is a timestamp from the day it was created),
     // to get the day and month to display.
-    let timestamp = item.content.timestamp
+    let timestamp = item.timestamp
     let date      = new Date(parseInt(timestamp))
     let day       = date.getDate()
     let month     = months[date.getMonth()]
 
     // Get the title and parse the body to display.
     // Find first block that is unstyled and not empty.
-    let title = item.content.blocks[0].text.slice(0, 45) || "Unkown Title";
-    let body = item.content.blocks.find(block => block.type === 'unstyled' && block.text.length > 1) 
+    let title = item.blocks[0].text.slice(0, 45) || "Unkown Title";
+    let body = item.blocks.find(block => block.type === 'unstyled' && block.text.length > 1) 
     let maxSlice = window.innerWidth < 400 ? 160 : 250;
     let bodyToDisplay = body ? body.text.slice(0, maxSlice) : LoremIpsum;
 

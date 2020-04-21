@@ -27,7 +27,7 @@ import {
 
 const ItemsContainer = props => {
 
-    let items = useSelector(state => state.user.data.parseditems);
+    let items = useSelector(state => state.user.data.parsedItems);
 
     if (items.length < 1) {
         return <EmptyHome />
@@ -53,7 +53,7 @@ const ItemsContainer = props => {
                     <SpaceCard>
                         <SpaceImage src="https://images.unsplash.com/photo-1534778061111-b71fa828e390?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"/>
                         <Title color={"white"}>Another Space</Title>
-                        <Text color={"white"}>An Awesome collection of short, crazy, stories.</Text>
+                        <Text color={"white"}>An Awesome collection of short, crazy, stories - Charles Bukowski style.</Text>
                     </SpaceCard>
                 </Row>
 

@@ -61,11 +61,11 @@ class Home extends Component {
     // in global redux store. 
     async fetchAndSetUserItems() {
         this.setState({loading: false, renderMetamask: false})
-        let rawitems    = await this.props.space.private.all()
-        let parseditems = await this.parseSpaceItems(rawitems)
-        if (parseditems.length !== this.props.items.length) {
-            // this.checkItemsFormat(parseditems, null)
-            this.props.setUserItems(parseditems)
+        let privThread = await this.props.space.joinThread('bradbvry--def--private--thread')
+        let posts = await privThread.getPosts()
+        let parsedItems = await this.parseSpaceItems(posts)
+        if (parsedItems.length !== this.props.items.length) {
+            this.props.setUserItems(parsedItems)
         }
     }
 
@@ -76,92 +76,45 @@ class Home extends Component {
         this.setState({renderMetamask: false})
         let box         = await Box.openBox(accounts[0], window.ethereum)
         let space       = await box.openSpace('bradbvry--main')
+        let threads     = await space.subscribedThreads()
         let profile     = await Box.getProfile(accounts[0])
-        let rawitems    = await space.private.all()
-        let parseditems = await this.parseSpaceItems(rawitems)
 
-        console.log('SPACE: ', space)
-        console.log('ITEMS: ', rawitems)
+        // Get User private thread posts and set them in state.
+        let privThread  = await space.joinThread('bradbvry--def--private--thread')
+        let posts       = await privThread.getPosts()
+        let parsedItems = await this.parseSpaceItems(posts)
 
-
-        const thread = await space.joinThread("bradbvry--global--thread", {
-            firstModerator: globalThreadModeratorAddress,
-            members: false
-        });
-        console.log('Thread: ', thread)
-
-        // Check, parse and set items.
-        this.checkItemsFormat(parseditems, null)
-        this.setState({loading: false})
         Mixpanel.identify(profile.proof_did.slice(0, 32))
         Mixpanel.track('New Session')
         this.props.setUserData({
             box, 
             space, 
-            profile, 
-            parseditems, 
+            profile,
+            threads, 
+            parsedItems, 
             accounts
-        })       
+        })    
+        this.setState({loading: false})   
     }
-
-
-    // THEADS: TEMPORARY
-    async getThreads(space) {
-        const thread = await space.joinThread("bradbvry--global--thread", {
-            firstModerator: '0xCc74308838BbAcEEC226611A0C2b3fD5f4a7D8a2',
-            members: false
-        });
-    
-        const subspace = {
-            name: "Awesome Space",
-            url: "<https://exampleapp.com>",
-            appImage: "<https://example-image.png>",
-            description: "An example subspace.",
-            account: "0x2f4ce4f714c68a3fc871d1f543ffc24b9b3c2386",
-            options: JSON.stringify({here: "and there"})
-            //the account of the users who submitted
-        }
-    
-        await thread.post(subspace);
-    
-        const posts = await thread.getPosts()
-        console.log('Thread: ', thread)
-        console.log('Posts: ', posts)
-    } 
     
 
     // Helper function to parse every entry item
     // into a JSON and push it into an array.
-    async parseSpaceItems(items){
-        let array = [];
-        for (let item in items) {
-             let object = {}
-             let element = items[item]
-             let parsedEl = JSON.parse(element)
-             parsedEl["timestamp"] = item
-             object['content'] = parsedEl
-             array.push(object)  
-        }
-        return array.sort((a, b) => {
-           return parseInt(b.content.timestamp) - parseInt(a.content.timestamp)
+    async parseSpaceItems(posts){
+        let parsedItems = [];
+        posts.forEach(post => parsedItems.push(JSON.parse(post.message)))
+
+        return parsedItems.sort((a, b) => {
+           return parseInt(b.timestamp) - parseInt(a.timestamp)
         });
     }
 
-    // Helper function to check if content format is correct.
-    // If not, it triggers callback. -- Not working yet.
-    async checkItemsFormat(items, callback){
-        for (let item in items) {
-             let block = items[item]
-             if (block) {
-                 // call callback.
-                 break;
-             } 
-        }
-    }
 
     render() {
         const {items, profile} = this.props
         const {loading, renderMetamask} = this.state
+
+        console.log('ITEMS: ', items)
         
         return (
             <div>
@@ -176,11 +129,12 @@ class Home extends Component {
                         {
                             !loading && 
                                 <CircularButton 
-                                plus={true} 
-                                path="/editor"
-                                iconId="home-add-entry-circular-button-icon"
-                                buttonId="home-add-entry-circular-button"
-                            />
+                                    onPress={() => console.log('CLICK')}
+                                    plus={true} 
+                                    path="/editor"
+                                    iconId="home-add-entry-circular-button-icon"
+                                    buttonId="home-add-entry-circular-button"
+                                />
                         }
                     </div>
                 </div>
@@ -193,7 +147,7 @@ function mapStateToProps(state) {
     return {
         box:        state.user.data.box,
         space:      state.user.data.space,
-        items:      state.user.data.parseditems,
+        items:      state.user.data.parsedItems,
         profile:    state.user.data.profile,
     }
 }
