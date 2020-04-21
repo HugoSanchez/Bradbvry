@@ -9,6 +9,7 @@ import {
 
 import {
     setInitialUserData_Action,
+    setActiveThread_Action,
     setUserItems_Action
 }                               from '../actions';
 
@@ -83,7 +84,8 @@ class Home extends Component {
         let privThread  = await space.joinThread('bradbvry--def--private--thread')
         let posts       = await privThread.getPosts()
         let parsedItems = await this.parseSpaceItems(posts)
-
+        console.log('PARSED POSTS: ', parsedItems)
+        this.props.setActiveThread(privThread)
         Mixpanel.identify(profile.proof_did.slice(0, 32))
         Mixpanel.track('New Session')
         this.props.setUserData({
@@ -99,12 +101,11 @@ class Home extends Component {
     
 
     // Helper function to parse every entry item
-    // into a JSON and push it into an array.
+    // into a JSON and push it into an array. 
+    // Returns sorted array, should be inproved.
     async parseSpaceItems(posts){
-        let parsedItems = [];
-        posts.forEach(post => parsedItems.push(JSON.parse(post.message)))
-
-        return parsedItems.sort((a, b) => {
+        posts.forEach(post => post.message = JSON.parse(post.message))
+        return posts.sort((a, b) => {
            return parseInt(b.timestamp) - parseInt(a.timestamp)
         });
     }
@@ -144,6 +145,7 @@ class Home extends Component {
 }
 
 function mapStateToProps(state) {
+    console.log('STATE: ', state)
     return {
         box:        state.user.data.box,
         space:      state.user.data.space,
@@ -154,6 +156,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return { 
+        setActiveThread: (thread) => dispatch(setActiveThread_Action(thread)),
         setUserData: (data) => dispatch(setInitialUserData_Action(data)),
         setUserItems: (items) => dispatch(setUserItems_Action(items)),
     }

@@ -32,15 +32,23 @@ class Editor extends Component {
     }
 
     async handleAutomaticSave(editorContext) {
+        console.log('Active thread: ', this.props.thread)
+        console.log('Active Item: ', this.props.item)
         let dateUpdate = Date.now()
         let {item, originalDate} = this.state
         let {space} = this.props
         let intervalBool = originalDate + 4000 < dateUpdate
         let isSpaceSetBool = !(space === 'undefined' || space == null)
         if (intervalBool && isSpaceSetBool) { 
-            let content  = JSON.stringify(editorContext.editorContent)
-            await space.private.set(item.toString(), content)
-            this.setState({ originalDate: dateUpdate })
+            this.props.thread.post(editorContext.editorContent)
+            // Active item post id in thread too.
+            // First, delete current thread, 
+            // Save new post with same original timestamp. 
+            // Update redux state to new post id.
+            
+            // let content  = JSON.stringify(editorContext.editorContent)
+            // await space.private.set(item.toString(), content)
+            // this.setState({ originalDate: dateUpdate })
         }
     }
 
@@ -130,7 +138,7 @@ class Editor extends Component {
                 <div className="Editor">
 
                     <DanteEditor 
-                        content={item ? item : null} 
+                        content={item ? item.message : null} 
                         read_only={false}
                         config={this.options}
                         data_storage={this.storage}
@@ -146,6 +154,8 @@ function mapStateToProps(state) {
     return {
         box:        state.user.data.box,
         space:      state.user.data.space,
+        thread:     state.threads.activeThread,
+        item:       state.threads.activeItem,
     }
 }
 

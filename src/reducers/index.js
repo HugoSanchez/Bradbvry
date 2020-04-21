@@ -1,11 +1,8 @@
 import {combineReducers} from 'redux';
 import userReducer from './userReducer';
+import threadsReducer from './threadsReducer';
 
 export default combineReducers({
     user: userReducer,
+    threads: threadsReducer,
 })
-
-/*
- * Redux is not beig used at the moment, 
- * but it's already set up for the future.
- */

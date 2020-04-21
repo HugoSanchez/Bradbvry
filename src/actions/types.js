@@ -1,5 +1,15 @@
-export const SET_USER_INITIAL_DATA = 'SET_USER_INITIAL_DATA';
-export const SET_USER_PROFILE = 'SET_USER_PROFILE;';
-export const SET_USER_ITEMS = 'SET_USER_ITEMS';
+///////////////////////////////////////////////
+////// USER REDUCER
+///////////////////////////////////////////////
 
-export const DELETE_USER_ENTRY = 'DELETE_USER_ENTRY';
+export const SET_USER_INITIAL_DATA    = 'SET_USER_INITIAL_DATA';
+export const SET_USER_PROFILE         = 'SET_USER_PROFILE;';
+export const SET_USER_ITEMS           = 'SET_USER_ITEMS';
+export const DELETE_USER_ENTRY        = 'DELETE_USER_ENTRY';
+
+///////////////////////////////////////////////
+////// THREADS REDUCER
+///////////////////////////////////////////////
+
+export const SET_ACTIVE_ITEM          = 'SET_ACTIVE_ITEM';
+export const SET_ACTIVE_THREAD        = 'SET_ACTIVE_THREAD';
