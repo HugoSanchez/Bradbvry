@@ -9,6 +9,7 @@ import '../../App.css';
 
 /**
  * @param {path}: where to route on click if any.
+ * @param {onCLick}: function to execute.
  * @param {buttonId}: css id for the circle.
  * @param {iconId}: css id for the icon.
  * @param {arrow}: arrow-left icon. 
@@ -20,7 +21,7 @@ const CircularButton = props => {
     const  size  = props.arrow ? '25px' : '30px'
 
     return (
-        <Link to={props.path}>
+        <Link to={props.path} onClick={props.onClick}>
             <div id={props.buttonId}>
                 <IconContext.Provider value={{size: size, color: 'gray'}}>
                     <div id={props.iconId}>

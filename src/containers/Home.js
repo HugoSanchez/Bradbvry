@@ -82,10 +82,12 @@ class Home extends Component {
 
         // Get User private thread posts and set them in state.
         let privThread  = await space.joinThread('bradbvry--def--private--thread')
-        let posts       = await privThread.getPosts()
-        let parsedItems = await this.parseSpaceItems(posts)
-        console.log('PARSED POSTS: ', parsedItems)
+        let parsedItems       = await privThread.getPosts()
+        console.log('Posts: ', parsedItems)
+        // let parsedItems = await this.parseSpaceItems(posts) // Probably not necessay-
+        // console.log('PARSED POSTS: ', parsedItems)
         this.props.setActiveThread(privThread)
+        
         Mixpanel.identify(profile.proof_did.slice(0, 32))
         Mixpanel.track('New Session')
         this.props.setUserData({
@@ -106,7 +108,7 @@ class Home extends Component {
     async parseSpaceItems(posts){
         posts.forEach(post => post.message = JSON.parse(post.message))
         return posts.sort((a, b) => {
-           return parseInt(b.timestamp) - parseInt(a.timestamp)
+           return parseInt(b.message.timestamp) - parseInt(a.message.timestamp)
         });
     }
 
@@ -114,8 +116,6 @@ class Home extends Component {
     render() {
         const {items, profile} = this.props
         const {loading, renderMetamask} = this.state
-
-        console.log('ITEMS: ', items)
         
         return (
             <div>

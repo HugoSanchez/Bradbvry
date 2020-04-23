@@ -1,6 +1,6 @@
+import '../App.css';
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import '../App.css';
 import DanteEditor from "Dante2";
 import {CircularButton} from '../components/common';
 
@@ -13,6 +13,7 @@ class Editor extends Component {
         
         this.state = {
             item: null, 
+            content: null,
             originalDate: Date.now()
         }
     }
@@ -31,7 +32,26 @@ class Editor extends Component {
         this.mounted = false;
     }
 
-    async handleAutomaticSave(editorContext) {
+    async handleSave() {
+        let timestamp
+        let {item, thread} = this.props;
+        
+        if (item) { 
+            timestamp = item.message.timestamp
+            await thread.deletePost(item.postId)}
+
+        else {timestamp = this.state.originalDate}
+        this.state.content.timestamp = timestamp
+        console.log(this.state.content)
+        // await thread.post(this.state.content)
+    }
+
+    async handleAutomaticSave(content) {
+        //this.ref.dispatchEvent(new KeyboardEvent('keypress', {
+          //  key: 'Enter',
+        // }));
+        this.setState({content})
+        /** 
         console.log('Active thread: ', this.props.thread)
         console.log('Active Item: ', this.props.item)
         let dateUpdate = Date.now()
@@ -40,7 +60,16 @@ class Editor extends Component {
         let intervalBool = originalDate + 4000 < dateUpdate
         let isSpaceSetBool = !(space === 'undefined' || space == null)
         if (intervalBool && isSpaceSetBool) { 
-            this.props.thread.post(editorContext.editorContent)
+
+            editorContext.editorContent.timestamp = this.props.item.message.timestamp
+            
+            await this.props.thread.deletePost(this.props.item.postId)
+            await this.props.thread.post(editorContext.editorContent)
+            let posts = await this.props.thread.getPosts()
+            console.log('POSTS AGAIN: ', posts)
+            // this.props.thread.post(editorContext.editorContent)
+            
+            
             // Active item post id in thread too.
             // First, delete current thread, 
             // Save new post with same original timestamp. 
@@ -49,7 +78,10 @@ class Editor extends Component {
             // let content  = JSON.stringify(editorContext.editorContent)
             // await space.private.set(item.toString(), content)
             // this.setState({ originalDate: dateUpdate })
+
+        
         }
+        */
     }
 
     async defaultOptions() {
@@ -115,7 +147,8 @@ class Editor extends Component {
         return {
             url: "http://localhost:8000/",
             save_handler: (editorContext, content) => { 
-                this.handleAutomaticSave(editorContext)
+                console.log('Content: ', content)
+                this.handleAutomaticSave(content)
             }
         }
     }   
@@ -125,12 +158,14 @@ class Editor extends Component {
 
         let item = this.props.location.item
         let timestamp = this.props.location.timestamp
+        console.log('State: ', this.state.content)
 
         return (
             <div className="Main">
 
                 <CircularButton 
                     path="/home"
+                    onClick={() => this.handleSave()}
                     arrow={true}
                     iconId="editor-circular-button-icon"
                     buttonId="editor-circular-button"/>
