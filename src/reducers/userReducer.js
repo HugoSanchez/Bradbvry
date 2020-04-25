@@ -19,14 +19,14 @@ const userProfileReducer = (state = initialState, action) => {
   switch (action.type) {
 
     case DELETE_USER_ENTRY: 
-      let items = newstate.data.parseditems
+      let items = newstate.data.parsedItems
       let newItems = items.filter(item => {
         return item !== action.payload})
-      newstate.data.parseditems = newItems
+      newstate.data.parsedItems = newItems
       return {...newstate}
 
     case SET_USER_ITEMS: 
-      newstate.data.parseditems = action.payload
+      newstate.data.parsedItems = action.payload
       return {...newstate}
 
     case SET_USER_INITIAL_DATA: 

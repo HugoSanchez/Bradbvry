@@ -14,74 +14,36 @@ class Editor extends Component {
         this.state = {
             item: null, 
             content: null,
-            originalDate: Date.now()
+            timestamp: Date.now(),
         }
     }
 
     async componentDidMount() {
         this.mounted = true;
-        if (this.props.location.item) {
-            let {timestamp, item} = this.props.location
-            this.setState({item: item.timestamp})
-        } else { 
-            this.setState({item: this.state.originalDate}) 
-        }
+        if (this.props.item) {
+            this.setState({timestamp: this.props.item.message.timestamp})
+        } 
     }
 
     async componentWillUnmount() {
         this.mounted = false;
     }
 
-    async handleSave() {
-        let timestamp
+    async handleSaveItem() {
+        let {content} = this.state;
         let {item, thread} = this.props;
-        
-        if (item) { 
-            timestamp = item.message.timestamp
-            await thread.deletePost(item.postId)}
+        let timestamp = this.state.timestamp;
+        let isContent = content.blocks.find(block => block.text.length > 0)
 
-        else {timestamp = this.state.originalDate}
-        this.state.content.timestamp = timestamp
-        console.log(this.state.content)
-        // await thread.post(this.state.content)
+        if (isContent) {
+            content.timestamp = timestamp
+            await thread.post(content)
+            if (item) {await thread.deletePost(item.postId)}
+        }
     }
 
     async handleAutomaticSave(content) {
-        //this.ref.dispatchEvent(new KeyboardEvent('keypress', {
-          //  key: 'Enter',
-        // }));
         this.setState({content})
-        /** 
-        console.log('Active thread: ', this.props.thread)
-        console.log('Active Item: ', this.props.item)
-        let dateUpdate = Date.now()
-        let {item, originalDate} = this.state
-        let {space} = this.props
-        let intervalBool = originalDate + 4000 < dateUpdate
-        let isSpaceSetBool = !(space === 'undefined' || space == null)
-        if (intervalBool && isSpaceSetBool) { 
-
-            editorContext.editorContent.timestamp = this.props.item.message.timestamp
-            
-            await this.props.thread.deletePost(this.props.item.postId)
-            await this.props.thread.post(editorContext.editorContent)
-            let posts = await this.props.thread.getPosts()
-            console.log('POSTS AGAIN: ', posts)
-            // this.props.thread.post(editorContext.editorContent)
-            
-            
-            // Active item post id in thread too.
-            // First, delete current thread, 
-            // Save new post with same original timestamp. 
-            // Update redux state to new post id.
-            
-            // let content  = JSON.stringify(editorContext.editorContent)
-            // await space.private.set(item.toString(), content)
-            // this.setState({ originalDate: dateUpdate })
-
-        
-        }
-        */
     }
 
     async defaultOptions() {
@@ -165,7 +127,7 @@ class Editor extends Component {
 
                 <CircularButton 
                     path="/home"
-                    onClick={() => this.handleSave()}
+                    onClick={() => this.handleSaveItem()}
                     arrow={true}
                     iconId="editor-circular-button-icon"
                     buttonId="editor-circular-button"/>

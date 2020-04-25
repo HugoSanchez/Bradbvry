@@ -68,16 +68,15 @@ const ListItem = props => {
     // Find first block that is unstyled and not empty.
     let title = item.message.blocks[0].text.slice(0, 45) || "Unkown Title";
     let body = item.message.blocks.find(block => block.type === 'unstyled' && block.text.length > 1) 
-    console.log('Body: ', body)
     let maxSlice = window.innerWidth < 400 ? 160 : 220;
     let bodyToDisplay = body ? body.text.slice(0, maxSlice) : LoremIpsum.slice(0, maxSlice);
-    console.log('ListItem is rendering!')
 
     // Function that deletes a given element from their space.
     // Dispatches action to delete item from global store.
     const deleteEntry = async (e) => {
         e.preventDefault();
-        await space.private.remove(timestamp)
+        let privThread  = await space.joinThread('bradbvry--def--private--thread')
+        await privThread.deletePost(item.postId)
         dispatch(deleteEntry_Action(item))
     }
 

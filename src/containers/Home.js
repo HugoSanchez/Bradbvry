@@ -62,9 +62,7 @@ class Home extends Component {
     // in global redux store. 
     async fetchAndSetUserItems() {
         this.setState({loading: false, renderMetamask: false})
-        let privThread = await this.props.space.joinThread('bradbvry--def--private--thread')
-        let posts = await privThread.getPosts()
-        let parsedItems = await this.parseSpaceItems(posts)
+        let {parsedItems} = await this.getThreadAndPosts(this.props.space)
         if (parsedItems.length !== this.props.items.length) {
             this.props.setUserItems(parsedItems)
         }
@@ -80,16 +78,15 @@ class Home extends Component {
         let threads     = await space.subscribedThreads()
         let profile     = await Box.getProfile(accounts[0])
 
-        // Get User private thread posts and set them in state.
-        let privThread  = await space.joinThread('bradbvry--def--private--thread')
-        let parsedItems       = await privThread.getPosts()
-        console.log('Posts: ', parsedItems)
-        // let parsedItems = await this.parseSpaceItems(posts) // Probably not necessay-
-        // console.log('PARSED POSTS: ', parsedItems)
+        // Threads & Posts.
+        let {privThread, parsedItems} = await this.getThreadAndPosts(space)
         this.props.setActiveThread(privThread)
         
+        // Mixpane.
         Mixpanel.identify(profile.proof_did.slice(0, 32))
         Mixpanel.track('New Session')
+
+        // Set redux state.
         this.props.setUserData({
             box, 
             space, 
@@ -100,13 +97,18 @@ class Home extends Component {
         })    
         this.setState({loading: false})   
     }
-    
+
+    async getThreadAndPosts(space) {
+        let privThread  = await space.joinThread('bradbvry--def--private--thread')
+        let posts       = await privThread.getPosts()
+        let parsedItems = await this.parseSpaceItems(posts)
+
+        return {privThread, parsedItems}
+    }
 
     // Helper function to parse every entry item
-    // into a JSON and push it into an array. 
     // Returns sorted array, should be inproved.
     async parseSpaceItems(posts){
-        posts.forEach(post => post.message = JSON.parse(post.message))
         return posts.sort((a, b) => {
            return parseInt(b.message.timestamp) - parseInt(a.message.timestamp)
         });
@@ -157,8 +159,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return { 
         setActiveThread: (thread) => dispatch(setActiveThread_Action(thread)),
-        setUserData: (data) => dispatch(setInitialUserData_Action(data)),
-        setUserItems: (items) => dispatch(setUserItems_Action(items)),
+        setUserData: (data)       => dispatch(setInitialUserData_Action(data)),
+        setUserItems: (items)     => dispatch(setUserItems_Action(items)),
     }
 }
 
