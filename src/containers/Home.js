@@ -63,9 +63,7 @@ class Home extends Component {
     async fetchAndSetUserItems() {
         this.setState({loading: false, renderMetamask: false})
         let {parsedItems} = await this.getThreadAndPosts(this.props.space)
-        if (parsedItems.length !== this.props.items.length) {
-            this.props.setUserItems(parsedItems)
-        }
+        this.props.setUserItems(parsedItems)
     }
 
     // Instantiate box, space and fetch user profile and data.
@@ -80,6 +78,7 @@ class Home extends Component {
 
         // Threads & Posts.
         let {privThread, parsedItems} = await this.getThreadAndPosts(space)
+        console.log('parsed items length: ', parsedItems.length)
         this.props.setActiveThread(privThread)
         
         // Mixpane.

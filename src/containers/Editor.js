@@ -21,7 +21,9 @@ class Editor extends Component {
     async componentDidMount() {
         this.mounted = true;
         if (this.props.item) {
-            this.setState({timestamp: this.props.item.message.timestamp})
+            this.setState({
+                timestamp: this.props.item.message.timestamp
+            })
         } 
     }
 
@@ -40,6 +42,8 @@ class Editor extends Component {
             await thread.post(content)
             if (item) {await thread.deletePost(item.postId)}
         }
+
+        this.props.history.push('/home')
     }
 
     async handleAutomaticSave(content) {
@@ -118,15 +122,12 @@ class Editor extends Component {
     
     render(){
 
-        let item = this.props.location.item
-        let timestamp = this.props.location.timestamp
-        console.log('State: ', this.state.content)
+        let {item} = this.props
 
         return (
             <div className="Main">
 
                 <CircularButton 
-                    path="/home"
                     onClick={() => this.handleSaveItem()}
                     arrow={true}
                     iconId="editor-circular-button-icon"
