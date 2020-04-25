@@ -21,16 +21,14 @@ const CircularButton = props => {
     const  size  = props.arrow ? '25px' : '30px'
 
     return (
-        <Link to={props.path} onClick={props.onClick}>
-            <div id={props.buttonId}>
-                <IconContext.Provider value={{size: size, color: 'gray'}}>
-                    <div id={props.iconId}>
-                        {props.arrow ? <RiArrowLeftLine /> : null }
-                        {props.plus ? <RiAddLine /> : null}
-                    </div>
-                </IconContext.Provider> 
-            </div>
-        </Link>
+        <div id={props.buttonId} onClick={props.onClick}>
+            <IconContext.Provider value={{size: size, color: 'gray'}}>
+                <div id={props.iconId}>
+                    {props.arrow ? <RiArrowLeftLine /> : null }
+                    {props.plus ? <RiAddLine /> : null}
+                </div>
+            </IconContext.Provider> 
+        </div>
     );
 }
 

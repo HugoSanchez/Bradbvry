@@ -19,7 +19,7 @@ class Editor extends Component {
     }
 
     async componentDidMount() {
-        this.mounted = true;
+        // this.mounted = true;
         if (this.props.item) {
             this.setState({
                 timestamp: this.props.item.message.timestamp
@@ -28,7 +28,7 @@ class Editor extends Component {
     }
 
     async componentWillUnmount() {
-        this.mounted = false;
+        // this.mounted = false;
     }
 
     async handleSaveItem() {
@@ -113,7 +113,6 @@ class Editor extends Component {
         return {
             url: "http://localhost:8000/",
             save_handler: (editorContext, content) => { 
-                console.log('Content: ', content)
                 this.handleAutomaticSave(content)
             }
         }
@@ -128,6 +127,7 @@ class Editor extends Component {
             <div className="Main">
 
                 <CircularButton 
+                    path={null}
                     onClick={() => this.handleSaveItem()}
                     arrow={true}
                     iconId="editor-circular-button-icon"

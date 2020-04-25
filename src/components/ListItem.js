@@ -36,7 +36,6 @@ import {
  */
 
 const ListItem = props => {
-
     // Instantiate state
     const [isActive, setActive] = useState(false); 
     // Create setter function
