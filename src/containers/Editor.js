@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import DanteEditor from "Dante2";
 import {CircularButton} from '../components/common';
+import {NewSpaceModal} from '../components';
 
 class Editor extends Component {
     constructor(props) {
@@ -15,6 +16,7 @@ class Editor extends Component {
             item: null, 
             content: null,
             timestamp: Date.now(),
+            isOpen: false
         }
     }
 
@@ -48,6 +50,14 @@ class Editor extends Component {
 
     async handleAutomaticSave(content) {
         this.setState({content})
+    }
+
+    async handleOpenModal() {
+        this.setState({isOpen: true})
+    }
+
+    async handleCloseModal() {
+        this.setState({isOpen: false})
     }
 
     async defaultOptions() {
@@ -126,12 +136,19 @@ class Editor extends Component {
         return (
             <div className="Main">
 
+                <NewSpaceModal isOpen={this.state.isOpen} onClose={() => this.handleCloseModal()}/>
+
                 <CircularButton 
-                    path={null}
                     onClick={() => this.handleSaveItem()}
                     arrow={true}
                     iconId="editor-circular-button-icon"
                     buttonId="editor-circular-button"/>
+
+                <CircularButton 
+                    onClick={() => this.handleOpenModal()}
+                    plus={true}
+                    iconId="home-add-entry-circular-button-icon"
+                    buttonId="editor-circular-button-plus"/>
 
                 <div className="Editor">
 

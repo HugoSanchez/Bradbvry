@@ -3,6 +3,7 @@ export * from './Underline';
 export * from './DeleteBin';
 export * from './Button';
 export * from './Header';
+export * from './Column';
 export * from './Title';
 export * from './Modal';
 export * from './Card';

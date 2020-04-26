@@ -38,7 +38,7 @@ const ItemsContainer = props => {
             <Container key={items.length}> 
 
                 <Row>
-                    <SpaceCard>
+                    <SpaceCard onClick={() => console.log('Hello World')}>
                         <SpaceImage src="https://images.unsplash.com/photo-1512168203104-3910bc2bcd54?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=668&q=80"/>
                             <Title color={"white"}>Random Notes</Title>
                             <Text color={"white"}>Stories and pictures about different travels around the world.</Text>

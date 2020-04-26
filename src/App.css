@@ -58,6 +58,18 @@
   box-shadow: 0 0 10px rgba(0,0,0,0.1); 
 }
 
+#editor-circular-button-plus {
+  z-index: 2;
+  top: 25vh;
+  left: 10vw;
+  width: 3rem; 
+  height: 3rem; 
+  border-radius: 1.5rem;
+  background-color: white; 
+  position: fixed;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1); 
+}
+
 #editor-circular-button.active {
   box-shadow: 0 0 10px rgba(0,0,0,0.15);   
 }
@@ -180,7 +192,7 @@
   position: relative;
   margin-top: 30%;
   margin-left: 10%;
-  background-color:  rgb(55, 55, 55);;
+  background-color:  rgb(55, 55, 55);
   box-shadow: 0 0 5px rgba(0,0,0,0.1);
 }
 

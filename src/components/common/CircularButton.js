@@ -8,7 +8,6 @@ import {
 import '../../App.css';
 
 /**
- * @param {path}: where to route on click if any.
  * @param {onCLick}: function to execute.
  * @param {buttonId}: css id for the circle.
  * @param {iconId}: css id for the icon.
