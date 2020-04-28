@@ -121,8 +121,9 @@ class Editor extends Component {
 
     dataStorageFnc() {
         return {
-            url: "http://localhost:8000/",
-            save_handler: (editorContext, content) => { 
+            url: null,
+            save_handler: (editorContext, content) => {
+                console.log('Content: ', content) 
                 this.handleAutomaticSave(content)
             }
         }

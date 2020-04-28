@@ -64,11 +64,16 @@ class Home extends Component {
         let accounts    = await window.ethereum.enable();
         this.setState({renderMetamask: false})
         let box         = await Box.openBox(accounts[0], window.ethereum)
+        console.log('Box: ', box)
         let space       = await box.openSpace('bradbvry--main')
+        console.log('Space: ', space)
         let threads     = await space.subscribedThreads()
+        console.log('Threads: ', threads)
         let profile     = await Box.getProfile(accounts[0])
+        console.log('Profile: ', profile)
 
         let {privThread, parsedItems} = await this.getThreadAndPosts(space)
+        console.log('Parsed: ', parsedItems)
         this.props.setActiveThread(privThread)
         
         Mixpanel.identify(profile.proof_did.slice(0, 32))
@@ -87,10 +92,13 @@ class Home extends Component {
     }
 
     async getThreadAndPosts(space) {
+        console.log('1')
         let privThread  = await space.joinThread('bradbvry--def--private--thread')
+        console.log('2')
         let posts       = await privThread.getPosts()
+        console.log('3')
         let parsedItems = await this.parseSpaceItems(posts)
-
+        console.log('4')
         return {privThread, parsedItems}
     }
 
