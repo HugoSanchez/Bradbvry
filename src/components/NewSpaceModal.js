@@ -4,6 +4,7 @@ import React, {useState} from 'react';
 import {
     Row, 
     Column, 
+    SimpleButton,
     Title,
     Text
 } from '../components/common';
@@ -62,29 +63,7 @@ const NewSpaceModal = props => {
                             <input type="file" name="file" onChange={e => onChangeHandler(e)}/>
                         }
                     </UploadImageBox>
-                    <SpaceTypeBox>
-                        <SpaceType 
-                            color={spaceType == 'public' ? 'rgb(190, 235, 194)' : '#FFF'}
-                            onClick={() => setSpaceType('public')}>
-                            <Text fontWeight={spaceType == 'public' ? '600' : null}>
-                                Make my space public!
-                            </Text>
-                        </SpaceType>
-                        <SpaceType 
-                            color={spaceType == 'members' ? 'rgb(190, 235, 194)' : '#FFF'}
-                            onClick={() => setSpaceType('members')}>
-                            <Text fontWeight={spaceType == 'members' ? '600' : null}>
-                                This space should be Members only
-                            </Text>
-                        </SpaceType>
-                        <SpaceType 
-                            color={spaceType == 'private' ? 'rgb(190, 235, 194)' : '#FFF'}
-                            onClick={() => setSpaceType('private')}>
-                            <Text fontWeight={spaceType == 'private' ? '600' : null}>
-                                I want this to be fully private.
-                            </Text>
-                        </SpaceType>
-                    </SpaceTypeBox>
+                    
                     <FormBodyBox>
                         <form>
                             <TextField
@@ -94,14 +73,16 @@ const NewSpaceModal = props => {
                                 value={name}
                                 onChange={handleNameChange}
                                 style={{
+                                    width: '100%',
                                     fontFamily: 'Montserrat',
                                     fontWeight: '500',
                                 }}
                                 InputProps={{
                                     
                                     style: {
+                                        fontSize: '20px',
                                         fontFamily: 'Montserrat',
-                                        fontWeight: '500',
+                                        fontWeight: '300',
                                         color: "rgba(55, 55, 55, 1)"
                                     }
                                 }}
@@ -114,7 +95,7 @@ const NewSpaceModal = props => {
                                 label="Description"
                                 variant="outlined"
                                 multiline
-                                rows={5}
+                                rows={4}
                                 helperText="Keep it short!"
                                 InputProps={{
                                     style: {
@@ -128,7 +109,10 @@ const NewSpaceModal = props => {
                     </FormBodyBox>
                     
                 </FormContainerRow>
-                <BottomRow />
+                <BottomRow>
+                    <SimpleButton backgroundColor={'rgb(255, 255, 255)'} text={"Cancel"}/>
+                    <SimpleButton text={"Create Space!"}/>  
+                </BottomRow>
             </ModalCard>
         </Modal>
         </Container>
@@ -168,19 +152,22 @@ const ModalTitle = styled(Title)`
 
 const FormContainerRow = styled(Row)`
     flex: 4;
+    justify-content: space-between;
+    padding-left: 5%;
+    padding-right: 5%;
 `;
 
 const UploadImageBox = styled(Row)`
-    flex: 1.5;
+    flex: 1;
     justify-content: center;
     align-items: center;
 `;
 
 const FormBodyBox = styled(Row)`
-    flex: 1.5;
+    flex: 2;
+    padding-left: 5%;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
 `;
 
 const SpaceTypeBox = styled(Column)`
@@ -204,8 +191,8 @@ const Image = styled.img`
     width: 100%;
     height: 100%;
     object-fit: cover;
-    padding: 2%;
-    border-radius: 10px;
+    padding: 5%;
+    border-radius: 20px;
     &:hover{
         opacity: 0.4; 
     }
@@ -215,9 +202,9 @@ const BottomRow = styled(Row)`
     flex: 1;
     justify-content: center;
     align-items: center;
-    border-width: 0.09px;
-    border-style: solid;
-    border-color: green;
+    border-top-width: 0.09px;
+    border-top-style: solid;
+    border-top-color: lightgray;
 `;
 
 const TextInput = styled(TextField)`

@@ -1,5 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import {Text} from './Text';
+import styled from 'styled-components';
 import '../../App.css';
 
 /**
@@ -20,4 +22,37 @@ const Button = props => {
     );
 }
 
-export {Button};
+const SimpleButton = props => {
+
+    console.log('props: ', props)
+
+    return (
+            <ButtonLayout onClick={() => props.onClick}>
+                <Text 
+                    fontWeight='300'
+                    textAlign='center'
+                    color='white'>
+                    {props.text}
+                </Text>
+            </ButtonLayout>
+    );
+}
+
+const ButtonLayout = styled.div`
+    margin: 10px;
+    padding-bottom: 10px;
+    min-height: 40px;
+    max-height: 50px;
+    min-width: 140px;
+    max-width: 140px;
+    padding-top: 0.7rem;
+    border-radius: 0.3rem;
+    box-shadow: 0 0 5px rgba(0,0,0,0.2); 
+    background-color: ${props => props.backgroundColor ? props.backgroundColor : 'rgb(10, 15, 80)'}; 
+    &:hover{
+        opacity: 0.9; 
+        box-shadow: 0 0 8px rgba(0,0,0,0.2); 
+    }
+`;
+
+export {Button, SimpleButton};
