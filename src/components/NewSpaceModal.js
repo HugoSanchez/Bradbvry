@@ -1,12 +1,18 @@
         
 import React, {useState} from 'react';
+
 import {
     Row, 
     Column, 
-    Title
+    Title,
+    Text
 } from '../components/common';
 
-import {Modal} from '@material-ui/core';
+import {
+    TextField,
+    Modal
+} from '@material-ui/core';
+
 import styled from 'styled-components';
 
 
@@ -15,7 +21,12 @@ let height = window.innerHeight;
 
 const NewSpaceModal = props => {
 
+    
+    const [name, setName] = useState(null)
+    const [desc, setDesc] = useState(null)
     const [image, setImage] = useState(null)
+    const [spaceType, setSpaceType] = useState('private')
+
 
     const onChangeHandler = e => {
         setImage(URL.createObjectURL(e.target.files[0]))
@@ -24,6 +35,10 @@ const NewSpaceModal = props => {
     const onRequestClose = () => {
         setImage(null)
         props.onClose()
+    }
+
+    const handleNameChange = e => {
+        console.log(e.target)
     }
 
     return (
@@ -47,9 +62,71 @@ const NewSpaceModal = props => {
                             <input type="file" name="file" onChange={e => onChangeHandler(e)}/>
                         }
                     </UploadImageBox>
+                    <SpaceTypeBox>
+                        <SpaceType 
+                            color={spaceType == 'public' ? 'rgb(190, 235, 194)' : '#FFF'}
+                            onClick={() => setSpaceType('public')}>
+                            <Text fontWeight={spaceType == 'public' ? '600' : null}>
+                                Make my space public!
+                            </Text>
+                        </SpaceType>
+                        <SpaceType 
+                            color={spaceType == 'members' ? 'rgb(190, 235, 194)' : '#FFF'}
+                            onClick={() => setSpaceType('members')}>
+                            <Text fontWeight={spaceType == 'members' ? '600' : null}>
+                                This space should be Members only
+                            </Text>
+                        </SpaceType>
+                        <SpaceType 
+                            color={spaceType == 'private' ? 'rgb(190, 235, 194)' : '#FFF'}
+                            onClick={() => setSpaceType('private')}>
+                            <Text fontWeight={spaceType == 'private' ? '600' : null}>
+                                I want this to be fully private.
+                            </Text>
+                        </SpaceType>
+                    </SpaceTypeBox>
                     <FormBodyBox>
-                        
+                        <form>
+                            <TextField
+                                id="standard-multiline-flexible"
+                                label="New Space Name"
+                                variant="outlined"
+                                value={name}
+                                onChange={handleNameChange}
+                                style={{
+                                    fontFamily: 'Montserrat',
+                                    fontWeight: '500',
+                                }}
+                                InputProps={{
+                                    
+                                    style: {
+                                        fontFamily: 'Montserrat',
+                                        fontWeight: '500',
+                                        color: "rgba(55, 55, 55, 1)"
+                                    }
+                                }}
+                            />
+                            <br></br>
+                            <br></br>
+                            <br></br>
+                            <TextInput
+                                id="standard-multiline-static"
+                                label="Description"
+                                variant="outlined"
+                                multiline
+                                rows={5}
+                                helperText="Keep it short!"
+                                InputProps={{
+                                    style: {
+                                        fontFamily: 'Montserrat',
+                                        fontWeight: '300',
+                                        color: "gray"
+                                    }
+                                }}
+                            />
+                        </form>
                     </FormBodyBox>
+                    
                 </FormContainerRow>
                 <BottomRow />
             </ModalCard>
@@ -91,17 +168,35 @@ const ModalTitle = styled(Title)`
 
 const FormContainerRow = styled(Row)`
     flex: 4;
-    border-width: 0.09px;
-    border-style: solid;
-    border-color: blue;
 `;
 
 const UploadImageBox = styled(Row)`
-    flex: 1;
+    flex: 1.5;
     justify-content: center;
     align-items: center;
+`;
+
+const FormBodyBox = styled(Row)`
+    flex: 1.5;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+`;
+
+const SpaceTypeBox = styled(Column)`
+    flex: 1.5;
+    padding: 3%;
+`;
+
+const SpaceType = styled(Row)`
+    flex: 1;
+    display: flex;
+    align-items: center;
+    padding: 5%;
+    border-radius: 2px;
+    background: ${props => props.color};
     &:hover{
-        box-shadow: 0 0 10px rgba(0,0,0,0.2); 
+        opacity: 0.7; 
     }
 `;
 
@@ -116,15 +211,6 @@ const Image = styled.img`
     }
 `;
 
-const FormBodyBox = styled(Row)`
-    flex: 2;
-    justify-content: center;
-    align-items: center;
-    border-width: 0.09px;
-    border-style: solid;
-    border-color: blue;
-`;
-
 const BottomRow = styled(Row)`
     flex: 1;
     justify-content: center;
@@ -132,6 +218,13 @@ const BottomRow = styled(Row)`
     border-width: 0.09px;
     border-style: solid;
     border-color: green;
+`;
+
+const TextInput = styled(TextField)`
+    width: 100%;
+    border-bottom-width: 2px;
+    border-bottom-style: solid;
+    border-bottom-color: lightgray;
 `;
 
 export {NewSpaceModal}
