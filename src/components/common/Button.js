@@ -23,15 +23,15 @@ const Button = props => {
 }
 
 const SimpleButton = props => {
-
-    console.log('props: ', props)
-
     return (
-            <ButtonLayout onClick={() => props.onClick}>
+            <ButtonLayout 
+                shadow={props.shadow}
+                onClick={props.onClick}
+                backgroundColor={props.backgroundColor}>
                 <Text 
                     fontWeight='300'
                     textAlign='center'
-                    color='white'>
+                    color={props.textColor ? props.textColor : 'white'}>
                     {props.text}
                 </Text>
             </ButtonLayout>
@@ -47,11 +47,13 @@ const ButtonLayout = styled.div`
     max-width: 140px;
     padding-top: 0.7rem;
     border-radius: 0.3rem;
-    box-shadow: 0 0 5px rgba(0,0,0,0.2); 
+    box-shadow: ${props => props.shadow ? '0 0 5px rgba(0,0,0,0.2)' : null}; 
     background-color: ${props => props.backgroundColor ? props.backgroundColor : 'rgb(10, 15, 80)'}; 
+    border-width: 0.8px;
+    border-style: solid;
+    border-color: ${props => props.textColor ? props.textColor : null};
     &:hover{
         opacity: 0.9; 
-        box-shadow: 0 0 8px rgba(0,0,0,0.2); 
     }
 `;
 
