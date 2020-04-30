@@ -31,8 +31,14 @@ const NewSpaceModal = props => {
     const [image, setImage] = useState(null)
     const [spaceType, setSpaceType] = useState('private')
 
-    const onRequestClose = () => {
+    const resetState = () => {
+        setName('')
+        setDesc('')
         setImage(null)
+    }
+
+    const onRequestClose = () => {
+        resetState()
         props.onClose()
     }
 
@@ -67,8 +73,8 @@ const NewSpaceModal = props => {
                             <Image src={image} />
                             :
                             <div>
-                                <Text>Set Space Image</Text>
-                                <input type="file" name="file" onChange={e => onChangeHandler(e)}/>
+                                <Label>Set Space Image</Label>
+                                <FileInput type="file" name="file" onChange={e => onChangeHandler(e)}/>
                             </div>
                         }
                     </UploadImageBox>
@@ -80,6 +86,7 @@ const NewSpaceModal = props => {
                                 placeholder="Space Name"
                                 variant="outlined"
                                 value={name}
+                                required
                                 helperText={name.length + '/20'}
                                 onChange={handleNameChange}
                                 FormHelperTextProps={{style: {textAlign: 'right'}}}
@@ -87,7 +94,6 @@ const NewSpaceModal = props => {
                                 inputProps={{maxLength: '20'}}
                                 InputProps={{
                                     style: {
-                                        fontSize: '16px',
                                         fontFamily: 'Montserrat',
                                         fontWeight: '300',
                                         color: 'rgba(55, 55, 55, 1)'
@@ -101,9 +107,10 @@ const NewSpaceModal = props => {
                                 placeholder="Description"
                                 variant="outlined"
                                 value={desc}
-                                helperText={desc.length + '/140'}
                                 multiline
+                                required
                                 rows={3}
+                                helperText={desc.length + '/140'}
                                 onChange={handleDescriptionChange}
                                 FormHelperTextProps={{style: {textAlign: 'right'}}}
                                 inputProps={{maxLength: '140'}}
@@ -148,7 +155,7 @@ const NewSpaceModal = props => {
                 </FormContainerRow>
                 <BottomRow>
                     <SimpleButton
-                        onClick={() => console.log('CLckejhe')}
+                        onClick={onRequestClose}
                         backgroundColor='rgb(255, 255, 255)' 
                         textColor='rgb(10, 15, 80)'
                         text={"Cancel"}/>
@@ -183,6 +190,15 @@ const HeaderRow = styled(Row)`
     border-bottom-width: 0.09px;
     border-bottom-style: solid;
     border-bottom-color: lightgray;
+`;
+
+const FileInput = styled.input`
+`;
+
+const Label = styled.label`
+    margin-bottom: 15px;
+    font-family: Montserrat;
+    font-weight: 300;
 `;
 
 const ModalTitle = styled(Title)`

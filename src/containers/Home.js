@@ -71,7 +71,8 @@ class Home extends Component {
         console.log('Threads: ', threads)
         let profile     = await Box.getProfile(accounts[0])
         console.log('Profile: ', profile)
-
+        let thread = await space.joinThreadByAddress('/orbitdb/zdpuAyUzNeQ4y7L8iYV52iGFE6KdBed47ju3TJWUBNAu9Ytho/3box.thread.bradbvry--main.bradbvry--def--private--thread')
+        console.log(thread)
         let {privThread, parsedItems} = await this.getThreadAndPosts(space)
         console.log('Parsed: ', parsedItems)
         this.props.setActiveThread(privThread)
@@ -92,6 +93,7 @@ class Home extends Component {
     }
 
     async getThreadAndPosts(space) {
+        /**
         console.log('1')
         let privThread  = await space.joinThread('bradbvry--def--private--thread')
         console.log('2')
@@ -100,6 +102,7 @@ class Home extends Component {
         let parsedItems = await this.parseSpaceItems(posts)
         console.log('4')
         return {privThread, parsedItems}
+         */
     }
 
     async parseSpaceItems(posts){
