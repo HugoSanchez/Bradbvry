@@ -63,6 +63,7 @@ class Home extends Component {
     async setInitialSessionConfig() {
         let accounts    = await window.ethereum.enable();
         this.setState({renderMetamask: false})
+        console.log(accounts[0])
         let box         = await Box.openBox(accounts[0], window.ethereum)
         console.log('Box: ', box)
         let space       = await box.openSpace('bradbvry--main')

@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 
 import {
     Row, 
-    Column, 
+    View, 
     SimpleButton,
     Title,
     Text
@@ -18,23 +18,24 @@ import styled from 'styled-components';
 
 import {RiCheckLine} from 'react-icons/ri';
 
-
-
 let width = window.innerWidth;
 let height = window.innerHeight;
 
 const NewSpaceModal = props => {
 
+    const errorObj = {name: null, desc: null}
     
     const [name, setName] = useState('')
     const [desc, setDesc] = useState('')
     const [image, setImage] = useState(null)
+    const [error, setError] = useState(errorObj)
     const [spaceType, setSpaceType] = useState('private')
 
     const resetState = () => {
         setName('')
         setDesc('')
         setImage(null)
+        setError(errorObj)
     }
 
     const onRequestClose = () => {
@@ -43,15 +44,36 @@ const NewSpaceModal = props => {
     }
 
     const handleNameChange = e => {
+        setError({...error, name: null})
         setName(e.target.value)
     }
 
     const handleDescriptionChange = e => {
+        setError({...error, desc: null})
         setDesc(e.target.value)
     }
 
     const onChangeHandler = e => {
         setImage(URL.createObjectURL(e.target.files[0]))
+    }
+
+    const handleFormSubmit = () => {
+        if (name.length < 1 && desc.length < 1) { setError(errorCodes)}
+        else if (name.length < 1) {setError({...error, name: errorCodes.name})}
+        else if (desc.length < 1) {setError({...error, desc: errorCodes.desc})}
+    }
+
+    const errorCodes = {
+        name: 'A name is required for your space',
+        desc: 'A description is required for your space'
+    }
+
+    const iputPropsConfig = {
+        style: {
+            fontFamily: 'Montserrat',
+            fontWeight: '300',
+            color: 'rgba(55, 55, 55, 1)'
+        }
     }
 
     return (
@@ -67,62 +89,59 @@ const NewSpaceModal = props => {
                     <ModalTitle>Create New Space!</ModalTitle>
                 </HeaderRow>
                 <FormContainerRow>
-                    <UploadImageBox>
+                    <UploadImageBox margin={image}>
                         {
                             image ? 
-                            <Image src={image} />
-                            :
-                            <div>
+                            <Image src={image} /> :
+                            <View>
                                 <Label>Set Space Image</Label>
-                                <FileInput type="file" name="file" onChange={e => onChangeHandler(e)}/>
-                            </div>
+                                <FileInput 
+                                    type="file" 
+                                    name="file" 
+                                    onChange={e => onChangeHandler(e)}
+                                />
+                            </View>
                         }
                     </UploadImageBox>
                     
                     <FormBodyBox>
-                        <form>
+                        <Form>
                             <TextField
-                                id="standard-multiline-flexible"
-                                placeholder="Space Name"
-                                variant="outlined"
                                 value={name}
-                                required
-                                helperText={name.length + '/20'}
-                                onChange={handleNameChange}
-                                FormHelperTextProps={{style: {textAlign: 'right'}}}
+                                variant="outlined"
                                 style={{width: '100%'}}
+                                placeholder="Space Name"
+                                onChange={handleNameChange}
+                                InputProps={iputPropsConfig}
                                 inputProps={{maxLength: '20'}}
-                                InputProps={{
+                                helperText={error.name ? error.name : name.length + '/20'}
+                                FormHelperTextProps={{
                                     style: {
-                                        fontFamily: 'Montserrat',
-                                        fontWeight: '300',
-                                        color: 'rgba(55, 55, 55, 1)'
+                                        textAlign: 'right', 
+                                        color: error.name ? '#F64747' : null
                                     }
                                 }}
                             />
                             <br></br>
                             <br></br>
                             <TextInput
-                                id="standard-multiline-static"
-                                placeholder="Description"
-                                variant="outlined"
-                                value={desc}
-                                multiline
-                                required
                                 rows={3}
-                                helperText={desc.length + '/140'}
-                                onChange={handleDescriptionChange}
-                                FormHelperTextProps={{style: {textAlign: 'right'}}}
+                                multiline
+                                value={desc}
+                                variant="outlined"
+                                placeholder="Description"
+                                InputProps={iputPropsConfig}
                                 inputProps={{maxLength: '140'}}
-                                InputProps={{
+                                onChange={handleDescriptionChange}
+                                helperText={error.desc ? error.desc : desc.length +'/140'}
+                                FormHelperTextProps={{
                                     style: {
-                                        fontFamily: 'Montserrat',
-                                        fontWeight: '300',
-                                        color: 'rgba(55, 55, 55, 1)'
+                                        textAlign: 'right', 
+                                        color: error.desc ? '#F64747' : null
                                     }
                                 }}
                             />
-                        </form>
+                        </Form>
 
                         <SpaceTypeBox>
                             <SpaceType 
@@ -159,7 +178,10 @@ const NewSpaceModal = props => {
                         backgroundColor='rgb(255, 255, 255)' 
                         textColor='rgb(10, 15, 80)'
                         text={"Cancel"}/>
-                    <SimpleButton text={"Create Space!"} shadow={true}/>  
+                    <SimpleButton 
+                        onClick={handleFormSubmit}
+                        text={"Create Space!"} 
+                        shadow={true}/>  
                 </BottomRow>
             </ModalCard>
         </Modal>
@@ -179,7 +201,7 @@ const ModalCard = styled.div`
     width: ${width * 0.55}px;
     height: ${height * 0.65}px;
     background: white;
-    border-radius: 10px;
+    border-radius: 6px;
     outline: none;
 `;
 
@@ -187,12 +209,6 @@ const HeaderRow = styled(Row)`
     flex: 1;
     justify-content: center;
     align-items: center;
-    border-bottom-width: 0.09px;
-    border-bottom-style: solid;
-    border-bottom-color: lightgray;
-`;
-
-const FileInput = styled.input`
 `;
 
 const Label = styled.label`
@@ -218,6 +234,7 @@ const UploadImageBox = styled(Row)`
     flex: 1;
     justify-content: center;
     align-items: center;
+    margin-left: ${props => props.margin ? null : '3%'}
 `;
 
 const FormBodyBox = styled(Row)`
@@ -250,8 +267,8 @@ const Image = styled.img`
     width: 100%;
     height: 92%;
     object-fit: cover;
-    padding: 5%;
-    border-radius: 20px;
+    border-radius: 12px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.2); 
     &:hover{
         opacity: 0.4; 
     }
@@ -261,9 +278,6 @@ const BottomRow = styled(Row)`
     flex: 1;
     justify-content: center;
     align-items: center;
-    border-top-width: 0.09px;
-    border-top-style: solid;
-    border-top-color: lightgray;
 `;
 
 const TextInput = styled(TextField)`
@@ -272,5 +286,9 @@ const TextInput = styled(TextField)`
     border-bottom-style: solid;
     border-bottom-color: lightgray;
 `;
+
+const Form = styled.form``;
+const FileInput = styled.input``;
+
 
 export {NewSpaceModal}
