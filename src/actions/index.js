@@ -5,7 +5,7 @@ import {
     SET_ACTIVE_THREAD,
     SET_INITIAL_CONFIG,
     SET_USER_INITIAL_DATA,
-    
+    SET_THREAD_ARRAY,
 
     DELETE_USER_ENTRY
 } from './types';
@@ -29,11 +29,18 @@ export const setActiveItem_Action = item => {
     }
 }
 
+export const setThreadArray_Action = array => {
+    return {
+        type: SET_THREAD_ARRAY,
+        payload: array
+    }
+}
+
 ///////////////////////////////////////////////
 ////// USER REDUCER ACTIONS
 ///////////////////////////////////////////////
 
-export const setInitialConfiguration = () => {
+export const setInitialConfiguration_Action = () => {
     return {
         type: SET_INITIAL_CONFIG,
     }

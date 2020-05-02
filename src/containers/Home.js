@@ -8,6 +8,7 @@ import {
 }                               from '../components/common';
 
 import {
+    setInitialConfiguration_Action,
     setInitialUserData_Action,
     setActiveThread_Action,
     setUserItems_Action
@@ -64,6 +65,9 @@ class Home extends Component {
     }
 
     async setInitialSessionConfig() {
+        this.props.setInitialConfiguration_Action()
+        console.log('IM RUNNINGGGGG')
+        /** 
         let accounts    = await window.ethereum.enable();
         let box         = await Box.openBox(accounts[0], window.ethereum)
         let space       = await box.openSpace('bradbvry--main')
@@ -91,6 +95,7 @@ class Home extends Component {
         }) 
 
         this.setState({loading: false})   
+        */
     }
 
     async getThreadAndPosts(space) {
@@ -123,7 +128,12 @@ class Home extends Component {
                         {renderMetamask && !profile && <InstallMetamask /> }
                         {!loading && <ItemsContainer items={items} />}
                         {loading && !renderMetamask && <PointSpreadLoading color={"rgb(190, 235, 194)"} />}
-                        {profile && !renderMetamask && items.length > 0 && <ProfileCard profile={profile} />}
+                        
+                        {
+                        !loading && profile && 
+                        !renderMetamask && items.length > 0 && 
+                        <ProfileCard profile={profile} />
+                        }
 
                         {
                             !loading && 
@@ -153,6 +163,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return { 
+        setInitialConfiguration_Action: () => dispatch(setInitialConfiguration_Action()),
         setActiveThread: (thread) => dispatch(setActiveThread_Action(thread)),
         setUserData: (data)       => dispatch(setInitialUserData_Action(data)),
         setUserItems: (items)     => dispatch(setUserItems_Action(items)),
