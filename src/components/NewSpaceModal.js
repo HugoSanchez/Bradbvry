@@ -66,17 +66,18 @@ const NewSpaceModal = props => {
         setDesc(e.target.value)
     }
 
-    const onChangeHandler = async e => {
+    const onImageUpload = async e => {
         // TODO: check that the file is actually an image.
         let stringFile = await getBase64(e.target.files[0])
-        console.time('encryption')
-        for (let i = 0; i < 10; i++) {
-            var _secretKey = SimpleCrypto.generateRandom();
-            var simpleCrypto = new SimpleCrypto(_secretKey);
-            var encrypted = simpleCrypto.encrypt(stringFile);
-        }
+        console.log(stringFile)
         
+        /** 
+        console.time('encryption')
+        var _secretKey = SimpleCrypto.generateRandom();
+        var simpleCrypto = new SimpleCrypto(_secretKey);
+        var encrypted = simpleCrypto.encrypt(stringFile);
         console.timeEnd('encryption')
+        */
         
         // setImage(stringFile)
     }
@@ -86,6 +87,7 @@ const NewSpaceModal = props => {
         else if (name.length < 1) {setError({...error, name: errorCodes.name})}
         else if (desc.length < 1) {setError({...error, desc: errorCodes.desc})}
         else {
+            
             /** 
             name = name.replace(/\s+/g, '-').toLowerCase();
             let threadConfig = Object.assign({}, threadObj)
@@ -100,6 +102,7 @@ const NewSpaceModal = props => {
             console.log('Posts: ', posts)
             // await space.unsubscribeThread(name)
             */
+
         }
     }
 
@@ -138,7 +141,7 @@ const NewSpaceModal = props => {
                                 <FileInput 
                                     type="file" 
                                     name="file" 
-                                    onChange={e => onChangeHandler(e)}
+                                    onChange={onImageUpload}
                                 />
                             </View>
                         }

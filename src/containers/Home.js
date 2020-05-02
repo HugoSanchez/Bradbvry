@@ -75,7 +75,6 @@ class Home extends Component {
         console.log('threads: ', threads)
         // Pending: create threads if they don't exists.
         let profile     = await Box.getProfile(accounts[0])
-        debugger
         let {privThread, parsedItems} = await this.getThreadAndPosts(space)
         this.props.setActiveThread(privThread)
         
@@ -95,6 +94,7 @@ class Home extends Component {
     }
 
     async getThreadAndPosts(space) {
+        debugger
         let privThread  = await space.joinThreadByAddress("/orbitdb/zdpuAqkPaTfzrxACMdDnbtee1PWvht8RTxYncXx6J5MQwBm24/3box.thread.bradbvry--main.hjuay-iy-")
         console.log('PRIV: ', privThread)
         let posts       = await privThread.getPosts()

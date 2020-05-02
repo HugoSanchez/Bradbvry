@@ -3,7 +3,9 @@ import {
     SET_ACTIVE_ITEM,
     SET_USER_PROFILE,
     SET_ACTIVE_THREAD,
+    SET_INITIAL_CONFIG,
     SET_USER_INITIAL_DATA,
+    
 
     DELETE_USER_ENTRY
 } from './types';
@@ -30,6 +32,12 @@ export const setActiveItem_Action = item => {
 ///////////////////////////////////////////////
 ////// USER REDUCER ACTIONS
 ///////////////////////////////////////////////
+
+export const setInitialConfiguration = () => {
+    return {
+        type: SET_INITIAL_CONFIG,
+    }
+}
 
 export const setUserItems_Action = address => {
     return { 
