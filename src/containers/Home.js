@@ -17,7 +17,10 @@ import ItemsContainer           from '../components/ItemsContainer';
 import InstallMetamask          from '../components/InstallMetamask';
 import ProfileCard              from '../components/ProfileCard';
 import Box                      from '3box';
-import {Mixpanel}               from '../utils';
+import {
+    Mixpanel,
+    ThreeBox
+}               from '../utils';
 import '../App.css';
 
 import {
@@ -30,7 +33,7 @@ class Home extends Component {
         super(props)
         this.state = {
             loading: true, 
-            renderMetamask: true,
+            renderMetamask: false,
         }
     }
 
@@ -62,20 +65,18 @@ class Home extends Component {
 
     async setInitialSessionConfig() {
         let accounts    = await window.ethereum.enable();
-        this.setState({renderMetamask: false})
-        console.log(accounts[0])
         let box         = await Box.openBox(accounts[0], window.ethereum)
-        console.log('Box: ', box)
         let space       = await box.openSpace('bradbvry--main')
-        console.log('Space: ', space)
+        let enc = await space.user.encrypt('Hello world')
+        let dec = await space.user.decrypt(enc)
+        console.log('user: ', dec)
+        // await space.unsubscribeThread("/orbitdb/zdpuAuhcVwcNgtTj57JVi4gytnQquq8FH6vv9gadcBCfcEyLf/3box.thread.bradbvry--main.awesome-essays") 
         let threads     = await space.subscribedThreads()
-        console.log('Threads: ', threads)
+        console.log('threads: ', threads)
+        // Pending: create threads if they don't exists.
         let profile     = await Box.getProfile(accounts[0])
-        console.log('Profile: ', profile)
-        let thread = await space.joinThreadByAddress('/orbitdb/zdpuAyUzNeQ4y7L8iYV52iGFE6KdBed47ju3TJWUBNAu9Ytho/3box.thread.bradbvry--main.bradbvry--def--private--thread')
-        console.log(thread)
+        debugger
         let {privThread, parsedItems} = await this.getThreadAndPosts(space)
-        console.log('Parsed: ', parsedItems)
         this.props.setActiveThread(privThread)
         
         Mixpanel.identify(profile.proof_did.slice(0, 32))
@@ -94,16 +95,12 @@ class Home extends Component {
     }
 
     async getThreadAndPosts(space) {
-        /**
-        console.log('1')
-        let privThread  = await space.joinThread('bradbvry--def--private--thread')
-        console.log('2')
+        let privThread  = await space.joinThreadByAddress("/orbitdb/zdpuAqkPaTfzrxACMdDnbtee1PWvht8RTxYncXx6J5MQwBm24/3box.thread.bradbvry--main.hjuay-iy-")
+        console.log('PRIV: ', privThread)
         let posts       = await privThread.getPosts()
-        console.log('3')
+        console.log('posts: ', posts)
         let parsedItems = await this.parseSpaceItems(posts)
-        console.log('4')
         return {privThread, parsedItems}
-         */
     }
 
     async parseSpaceItems(posts){

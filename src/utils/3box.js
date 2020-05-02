@@ -1,4 +1,6 @@
 // THEADS: TEMPORARY
+
+/**
 async function getThreads(space) {
     const thread = await space.joinThread("bradbvry--global--thread", {
         firstModerator: '0xCc74308838BbAcEEC226611A0C2b3fD5f4a7D8a2',
@@ -34,3 +36,23 @@ const privThread = await space.createConfidentialThread("bradbvry--def--private-
     firstModerator: globalThreadModeratorAddress,
     members: false
 });
+
+ */
+
+
+const actions = {
+    // Creates thread and subscribes to it. 
+    // Returns thread object.
+    createConfidentialThread: async (space, account, name, type) => {
+        let thread = await space.createConfidentialThread(name, {
+            firstModerator: account,
+            members: type === 'private' || type === 'members' ? true : false
+        })
+
+        await space.subscribeThread(thread.address)
+
+        return thread;
+    }
+}
+
+export let ThreeBox = actions;

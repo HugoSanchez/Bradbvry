@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Link} from 'react-router-dom';
 import styled from 'styled-components';
 import {useLocation} from 'react-router-dom'
@@ -9,11 +9,17 @@ import '../../App.css';
 
 const Header = props => {
     
+    let isMounted;
     let location = useLocation();
     const [active, setActive] = useState(false); 
 
+    useEffect(() => {
+        isMounted = true; 
+        return () => {isMounted = false;};
+    }, [])
+
     window.onscroll = function() {
-        if(window.pageYOffset === 0) {setActive(false)} else {setActive(true)}
+        if(window.pageYOffset === 0 && isMounted) {setActive(false)} else {setActive(true)}
     };
 
     return (

@@ -7,9 +7,8 @@ export const globalThreadModeratorAddress = "0xCc74308838BbAcEEC226611A0C2b3fD5f
 export const threadObj =  {
     owner                 : null,       // Owner's did
     image                 : null,       // Image to display
-    type                  : null,       // [open || paid || members only || private]
-    threadId              : null,       // Thead's name,
-    title                 : null,       // Title to display,
+    type                  : null,       // [open || members only || private]
+    name                  : null,       // Title to display,
     description           : null,       // Description to display.
     isOwner               : null,       // Bool, whether or not user owns it or is just a read-member.
     subscriptionList      : null,       // Subscription thread DID.
