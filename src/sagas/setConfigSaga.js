@@ -1,8 +1,9 @@
 import {SET_INITIAL_CONFIG} from '../actions/types';
-import {takeEvery, put, call, all} from 'redux-saga/effects';
+import {takeEvery, put} from 'redux-saga/effects';
 import {ThreeBox} from '../utils';
 import Box from '3box';
 import {
+    setUserItems_Action,
     setThreadArray_Action,
     setInitialUserData_Action
 } from '../actions';
@@ -24,8 +25,10 @@ function* handleThreads(threads, space, account) {
     }
 
     let {itemsArray, parsedThreads} = yield parseThreadsAndPosts_Helper(threads, space)
+    yield put(setThreadArray_Action(parsedThreads))
 
-    // Continue here ...
+    let sortedItems = yield sortItemsArray(itemsArray)
+    yield put(setUserItems_Action(sortedItems))
 }
 
 function* handleConfig() {
@@ -63,7 +66,7 @@ const parseThreadsAndPosts_Helper = async (threads, space) => {
                 parsedThreads.push(thread)
             }
             else { 
-                posts[z].threadName = thread.config.name
+                posts[z].threadName = thread._name
                 posts[z].threadAddress = thread.address
                 posts[z].threadowner = thread._firstModerator
                 itemsArray.push(posts[z])
@@ -72,5 +75,10 @@ const parseThreadsAndPosts_Helper = async (threads, space) => {
     }
     return {itemsArray, parsedThreads}
 }
-    
+
+const sortItemsArray = (itemsArray) => {
+    return itemsArray.sort((a, b) => {
+       return parseInt(b.message.timestamp) - parseInt(a.message.timestamp)
+    });
+}
         

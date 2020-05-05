@@ -27,7 +27,7 @@ import {
 
 const ItemsContainer = props => {
 
-    let items = useSelector(state => state.user.data.parsedItems);
+    let items = useSelector(state => state.threads.itemsArray);
 
     if (items.length < 1) {
         return <EmptyHome />
