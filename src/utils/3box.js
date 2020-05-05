@@ -1,5 +1,7 @@
 // THEADS: TEMPORARY
 
+import { threadObj } from "../constants";
+
 /**
 async function getThreads(space) {
     const thread = await space.joinThread("bradbvry--global--thread", {
@@ -40,9 +42,10 @@ const privThread = await space.createConfidentialThread("bradbvry--def--private-
  */
 
 
+
+
 const actions = {
-    // Creates thread and subscribes to it. 
-    // Returns thread object.
+
     createConfidentialThread: async (space, account, name, type) => {
         let thread = await space.createConfidentialThread(name, {
             firstModerator: account,
@@ -52,6 +55,27 @@ const actions = {
         await space.subscribeThread(thread.address)
 
         return thread;
+    },
+
+    getPrivateThreadObject: () => {
+        let pirvateThreadObject = Object.assign({}, threadObj)
+        pirvateThreadObject.name = 'private-thread';
+        pirvateThreadObject.image = null
+        pirvateThreadObject.type = 'private';
+        pirvateThreadObject.description = 'This is a personal space, for you to store your memories, and unleash your creativity'
+    
+        return pirvateThreadObject;
+    
+    },
+    
+    getGlobalThreadObject: () => {
+        let globalThreadObject = Object.assign({}, threadObj)
+        globalThreadObject.name = 'bradbvry-global-thread';
+        globalThreadObject.image = null
+        globalThreadObject.type = 'public'
+        globalThreadObject.description = 'This is a global directory of public spaces.'
+    
+        return globalThreadObject;
     }
 }
 

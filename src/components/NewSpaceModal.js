@@ -15,7 +15,6 @@ import {
 } from '@material-ui/core';
 
 import {
-    fileFromBase64,
     getBase64,
     ThreeBox
 } from '../utils';
@@ -40,8 +39,8 @@ const NewSpaceModal = props => {
     let [error, setError] = useState(errorObj)
     let [spaceType, setSpaceType] = useState('private')
 
-    // const space = useSelector(state => state.user.data.space);
-    // const account = useSelector(state => state.user.data.accounts[0]);
+    const space = useSelector(state => state.user.data.space);
+    const account = useSelector(state => state.user.data.accounts[0]);
 
 
     const resetState = () => {
@@ -87,7 +86,7 @@ const NewSpaceModal = props => {
         else if (name.length < 1) {setError({...error, name: errorCodes.name})}
         else if (desc.length < 1) {setError({...error, desc: errorCodes.desc})}
         else {
-            
+
             /** 
             name = name.replace(/\s+/g, '-').toLowerCase();
             let threadConfig = Object.assign({}, threadObj)

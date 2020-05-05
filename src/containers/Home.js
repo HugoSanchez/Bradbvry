@@ -67,7 +67,7 @@ class Home extends Component {
     async setInitialSessionConfig() {
         this.props.setInitialConfiguration_Action()
         console.log('IM RUNNINGGGGG')
-        /** 
+        /**
         let accounts    = await window.ethereum.enable();
         let box         = await Box.openBox(accounts[0], window.ethereum)
         let space       = await box.openSpace('bradbvry--main')
@@ -77,14 +77,23 @@ class Home extends Component {
         // await space.unsubscribeThread("/orbitdb/zdpuAuhcVwcNgtTj57JVi4gytnQquq8FH6vv9gadcBCfcEyLf/3box.thread.bradbvry--main.awesome-essays") 
         let threads     = await space.subscribedThreads()
         console.log('threads: ', threads)
+
+        let parsedThreads = [];
+        let itemsArray = [];
+        
+        let result = await this.parseEverything(space, threads, parsedThreads, itemsArray)
+        console.log('IA: ', result)
         // Pending: create threads if they don't exists.
+         
         let profile     = await Box.getProfile(accounts[0])
         let {privThread, parsedItems} = await this.getThreadAndPosts(space)
         this.props.setActiveThread(privThread)
         
+        
+        
         Mixpanel.identify(profile.proof_did.slice(0, 32))
         Mixpanel.track('New Session')
-
+       
         this.props.setUserData({
             box, 
             space, 
@@ -96,6 +105,32 @@ class Home extends Component {
 
         this.setState({loading: false})   
         */
+    }
+
+    parseEverything = (space, threads, parsedThreads, itemsArray) => {
+        return new Promise((resolve, reject) => {
+            threads.forEach(async threadObj => {
+
+                let thread = await space.joinThreadByAddress(threadObj.address) 
+                let posts = await thread.getPosts()
+            
+                posts.forEach(post => {
+        
+                    if (post.message.type === 'config') { 
+                        thread.config = post.message.content
+                        parsedThreads.push(thread)
+                    }
+                    else {
+                        post.threadName = thread.config.name
+                        post.threadAddress = thread.address
+                        post.threadowner = thread._firstModerator
+                        itemsArray.push(post)
+                        console.log(itemsArray)
+                    }
+                })
+            })
+            resolve(itemsArray)
+        })
     }
 
     async getThreadAndPosts(space) {
@@ -130,9 +165,9 @@ class Home extends Component {
                         {loading && !renderMetamask && <PointSpreadLoading color={"rgb(190, 235, 194)"} />}
                         
                         {
-                        !loading && profile && 
-                        !renderMetamask && items.length > 0 && 
-                        <ProfileCard profile={profile} />
+                            !loading && profile && 
+                            !renderMetamask && items.length > 0 && 
+                            <ProfileCard profile={profile} />
                         }
 
                         {
