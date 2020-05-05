@@ -8,10 +8,7 @@ import {
 } from '../actions';
 
 
-function* handleThreads(threads, space, account) {
-    let parsedThreads = [];
-    let itemsArray = [];
-    
+function* handleThreads(threads, space, account) {    
     if (threads.length === 0) {
 
         let privateThreadConfigObject = ThreeBox.getPrivateThreadObject()
@@ -26,10 +23,9 @@ function* handleThreads(threads, space, account) {
         yield globalThread.post({type: 'config', content: globalThreadConfigObject})
     }
 
-    let array = yield call(parseThreadsAndPosts_Helper, space, threads, [], [])
-    yield console.log('here', array)
-    
-    // yield put(setThreadArray_Action(parsedThreads))    
+    let {itemsArray, parsedThreads} = yield parseThreadsAndPosts_Helper(threads, space)
+
+    // Continue here ...
 }
 
 function* handleConfig() {
@@ -53,31 +49,28 @@ export default function * watchInitialConfig() {
 /////// HELPER FUNCTIONS
 ////////////////////////////////////////////////
 
-function parseThreadsAndPosts_Helper(space, threads, itemsArray, parsedThreads) {
+const parseThreadsAndPosts_Helper = async (threads, space) => {
+    let itemsArray = [];
+    let parsedThreads = [];
 
-    return new Promise((resolve, reject) => {
-        threads.forEach(async threadObj => {
+    for (let i = 0; i < threads.length; i++) {
+        let thread = await space.joinThreadByAddress(threads[i].address)
+        let posts = await thread.getPosts()
 
-            let thread = await space.joinThreadByAddress(threadObj.address) 
-            let posts = await thread.getPosts()
-        
-            posts.forEach(post => {
-    
-                if (post.message.type === 'config') { 
-                    thread.config = post.message.content
-                    parsedThreads.push(thread)
-                }
-                else {
-                    post.threadName = thread.config.name
-                    post.threadAddress = thread.address
-                    post.threadowner = thread._firstModerator
-                    itemsArray.push(post)
-                    console.log(itemsArray)
-                }
-            })
-        })
-        resolve({itemsArray, parsedThreads})
-    })
+        for(let z = 0; z < posts.length; z++) {
+            if (posts[z].message.type === 'config') {
+                thread.config = posts[z].message.content
+                parsedThreads.push(thread)
+            }
+            else { 
+                posts[z].threadName = thread.config.name
+                posts[z].threadAddress = thread.address
+                posts[z].threadowner = thread._firstModerator
+                itemsArray.push(posts[z])
+            }
+        }
+    }
+    return {itemsArray, parsedThreads}
 }
     
         
