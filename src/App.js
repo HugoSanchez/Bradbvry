@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {Switch, Route, Redirect} from 'react-router-dom';
 import {Provider} from 'react-redux';
 import configureStore from './store';
-import reducers from './reducers';
 import LandingPage from './containers/LandingPage';
 import Settings from './containers/Settings';
 import Editor from './containers/Editor';

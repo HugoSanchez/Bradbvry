@@ -7,7 +7,6 @@ import {
 } from "react-redux";
 
 import {
-    EmptyHome,
     ListItem
 } from './index';
 
@@ -25,52 +24,44 @@ import {
  * @param {index}: item index. 
  */
 
-const ItemsContainer = props => {
+const ItemsContainer = React.memo((props) => {
 
     let items = useSelector(state => state.threads.itemsArray);
-    console.log('items: ', items)
     let entries = items.filter(item => item.message.type === 'entry')
-    console.log('entries: ', entries)
 
-    if (entries.length < 1) {
-        return <EmptyHome />
-    }
+    return (
+        <Container key={items.length}> 
 
-    else {
-        return (
-            <Container key={items.length}> 
+            <Row>
+                <SpaceCard onClick={() => console.log('Hello World')}>
+                    <SpaceImage src="https://images.unsplash.com/photo-1512168203104-3910bc2bcd54?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=668&q=80"/>
+                        <Title color={"white"}>Random Notes</Title>
+                        <Text color={"white"}>Stories and pictures about different travels around the world.</Text>
+                </SpaceCard>
 
-                <Row>
-                    <SpaceCard onClick={() => console.log('Hello World')}>
-                        <SpaceImage src="https://images.unsplash.com/photo-1512168203104-3910bc2bcd54?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=668&q=80"/>
-                            <Title color={"white"}>Random Notes</Title>
-                            <Text color={"white"}>Stories and pictures about different travels around the world.</Text>
-                    </SpaceCard>
+                <SpaceCard>
+                    <SpaceImage src="https://images.unsplash.com/photo-1503075131240-fe4b3a7fa473?ixlib=rb-1.2.1&auto=format&fit=crop&w=668&q=80"/>
+                    <Title color={"white"}>Kitch Essays</Title>
+                    <Text color={"white"}>A collection of essays on the future of technology and society.</Text>
+                </SpaceCard>
 
-                    <SpaceCard>
-                        <SpaceImage src="https://images.unsplash.com/photo-1503075131240-fe4b3a7fa473?ixlib=rb-1.2.1&auto=format&fit=crop&w=668&q=80"/>
-                        <Title color={"white"}>Kitch Essays</Title>
-                        <Text color={"white"}>A collection of essays on the future of technology and society.</Text>
-                    </SpaceCard>
+                <SpaceCard>
+                    <SpaceImage src="https://images.unsplash.com/photo-1534778061111-b71fa828e390?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"/>
+                    <Title color={"white"}>Another Space</Title>
+                    <Text color={"white"}>An Awesome collection of short, crazy, stories - Charles Bukowski style.</Text>
+                </SpaceCard>
+            </Row>
 
-                    <SpaceCard>
-                        <SpaceImage src="https://images.unsplash.com/photo-1534778061111-b71fa828e390?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"/>
-                        <Title color={"white"}>Another Space</Title>
-                        <Text color={"white"}>An Awesome collection of short, crazy, stories - Charles Bukowski style.</Text>
-                    </SpaceCard>
-                </Row>
-
-                <Text>Latest stories</Text>
-                <Underline />
-                {
-                    entries.map((entry, index) => {
-                        return  <ListItem key={index} item={entry} />
-                    })
-                }
-            </Container>
-        );
-    }
-}
+            <Text>Latest stories</Text>
+            <Underline />
+            {
+                entries.map((entry, index) => {
+                    return  <ListItem key={index} item={entry} />
+                })
+            }
+        </Container>
+    );
+});
 
 const Container = styled(View)`
     flex: 6;
@@ -103,9 +94,6 @@ const SpaceCard = styled.div`
         box-shadow: 0 0 10px rgba(0,0,0,0.2); 
         transform: translateY(5px);
     }
-`;
-
-const SpaceInfo = styled.div`
 `;
 
 

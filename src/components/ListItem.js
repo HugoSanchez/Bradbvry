@@ -35,7 +35,7 @@ import {
  * @param {body}: item's first block of text. 
  */
 
-const ListItem = props => {
+const ListItem = React.memo((props) => {
     // Instantiate state
     const [isActive, setActive] = useState(false); 
     // Create setter function
@@ -127,7 +127,7 @@ const ListItem = props => {
             </Card>
         </Link>
     );
-}
+});
 
 const DateBox = styled(View)`
     padding-top: 2vh;

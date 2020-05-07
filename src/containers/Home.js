@@ -1,4 +1,4 @@
-import React, {Component}       from 'react';
+import React, {Component, Fragment}       from 'react';
 import {connect}                from 'react-redux';
 import {PointSpreadLoading}     from 'react-loadingg';
 import ItemsContainer           from '../components/ItemsContainer';
@@ -20,24 +20,18 @@ class Home extends Component {
     }
 
     async componentDidMount(){
-        this.mounted = true;
         await this.handleMetamaskException()
         if (!this.props.space) {this.setInitialSessionConfig()}
-
+        else {this.setState({loading: false})}
     }
 
     async shouldComponentUpdate(nextProps, nextState) {
-        // if (nextProps.items.length > 0 && this.state.loading == true) {
-           if (nextProps.space && this.state.loading == true) {this.setState({loading: false})}
-        //}
-    }
-
-    async componentWillUnmount() {
-        this.mounted = false;
+        if (nextProps.space && this.state.loading === true) {
+            this.setState({loading: false})}
     }
 
     async handleMetamaskException(){
-        if (typeof window.ethereum == 'undefined') {
+        if (typeof window.ethereum === 'undefined') {
         this.setState({renderMetamask: true})} 
     }
 
@@ -57,17 +51,14 @@ class Home extends Component {
                 <div className="Main">
                     <div className="home-container">
                         {renderMetamask && !profile && <InstallMetamask /> }
-                        {!loading && <ItemsContainer items={items} />}
                         {loading && !renderMetamask && <PointSpreadLoading color={"rgb(190, 235, 194)"} />}
                         
                         {
                             !loading && profile && 
                             !renderMetamask && items.length > 0 && 
-                            <ProfileCard profile={profile} />
-                        }
-
-                        {
-                            !loading && 
+                            <Fragment>
+                                <ItemsContainer items={items} />
+                                <ProfileCard profile={profile} />
                                 <CircularButton 
                                     onClick={() => history.push('/editor')}
                                     plus={true} 
@@ -75,7 +66,9 @@ class Home extends Component {
                                     iconId="home-add-entry-circular-button-icon"
                                     buttonId="home-add-entry-circular-button"
                                 />
+                            </Fragment>
                         }
+
                     </div>
                 </div>
             </div>

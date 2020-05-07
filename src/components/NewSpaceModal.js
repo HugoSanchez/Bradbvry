@@ -15,16 +15,12 @@ import {
 } from '@material-ui/core';
 
 import {
-    getBase64,
-    ThreeBox
+    getBase64
 } from '../utils';
 
-import {threadObj} from '../constants';
-import {useSelector} from "react-redux";
+// import {useSelector} from "react-redux";
 import {RiCheckLine} from 'react-icons/ri';
-import SimpleCrypto from "simple-crypto-js";
 import styled from 'styled-components';
-
 
 let width = window.innerWidth;
 let height = window.innerHeight;
@@ -39,8 +35,8 @@ const NewSpaceModal = props => {
     let [error, setError] = useState(errorObj)
     let [spaceType, setSpaceType] = useState('private')
 
-    const space = useSelector(state => state.user.data.space);
-    const account = useSelector(state => state.user.data.accounts[0]);
+    // const space = useSelector(state => state.user.data.space);
+    // const account = useSelector(state => state.user.data.accounts[0]);
 
 
     const resetState = () => {
@@ -69,15 +65,6 @@ const NewSpaceModal = props => {
         // TODO: check that the file is actually an image.
         let stringFile = await getBase64(e.target.files[0])
         console.log(stringFile)
-        
-        /** 
-        console.time('encryption')
-        var _secretKey = SimpleCrypto.generateRandom();
-        var simpleCrypto = new SimpleCrypto(_secretKey);
-        var encrypted = simpleCrypto.encrypt(stringFile);
-        console.timeEnd('encryption')
-        */
-        
         // setImage(stringFile)
     }
 

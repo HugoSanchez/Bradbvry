@@ -14,7 +14,6 @@ function* handleThreads(threads, space, account) {
     // If it's a new user, it creates the first two threads with its config posts
     // and also it posts the welcome message. If not, for each thread, 
     // it parses and sets the items.
-    console.log('Threads: ', threads)
     if (threads.length === 0) {
         let stringify = JSON.stringify(firstDefaultEntry)
         let parse = JSON.parse(stringify)
@@ -33,11 +32,9 @@ function* handleThreads(threads, space, account) {
     }
 
     let {itemsArray, parsedThreads} = yield parseThreadsAndPosts_Helper(threads, space)
-    console.log(itemsArray)
     yield put(setThreadArray_Action(parsedThreads))
 
     let sortedItems = yield sortItemsArray(itemsArray)
-    console.log('sorted: ', sortedItems)
     yield put(setUserItems_Action(sortedItems))
 }
 

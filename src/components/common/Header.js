@@ -8,19 +8,17 @@ import {Text} from '../common'
 import '../../App.css';
 
 const Header = props => {
-    
-    let isMounted;
-    let location = useLocation();
+
+    const location = useLocation();
     const [active, setActive] = useState(false); 
 
     useEffect(() => {
-        isMounted = true; 
+        let isMounted = true; 
+        window.onscroll = function() {
+            if(window.pageYOffset === 0 && isMounted) {setActive(false)} else {setActive(true)}
+        };
         return () => {isMounted = false;};
     }, [])
-
-    window.onscroll = function() {
-        if(window.pageYOffset === 0 && isMounted) {setActive(false)} else {setActive(true)}
-    };
 
     return (
         <div id="Header" className={active ? 'active' : null}>
