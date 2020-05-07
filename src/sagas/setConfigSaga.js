@@ -1,5 +1,6 @@
 import {SET_INITIAL_CONFIG} from '../actions/types';
 import {takeEvery, put} from 'redux-saga/effects';
+import {firstDefaultEntry} from '../constants';
 import {ThreeBox} from '../utils';
 import Box from '3box';
 import {
@@ -9,13 +10,20 @@ import {
 } from '../actions';
 
 
-function* handleThreads(threads, space, account) {    
+function* handleThreads(threads, space, account) {  
+    // If it's a new user, it creates the first two threads with its config posts
+    // and also it posts the welcome message. If not, for each thread, 
+    // it parses and sets the items.
+    console.log('Threads: ', threads)
     if (threads.length === 0) {
+        let stringify = JSON.stringify(firstDefaultEntry)
+        let parse = JSON.parse(stringify)
 
         let privateThreadConfigObject = ThreeBox.getPrivateThreadObject()
         let privateThread = yield ThreeBox.createConfidentialThread(
             space, account, 'private-thread', 'private')
         yield privateThread.post({type: 'config', content: privateThreadConfigObject})
+        yield privateThread.post({type: 'entry', content: parse})
 
         
         let globalThreadConfigObject = ThreeBox.getGlobalThreadObject()
@@ -25,19 +33,24 @@ function* handleThreads(threads, space, account) {
     }
 
     let {itemsArray, parsedThreads} = yield parseThreadsAndPosts_Helper(threads, space)
+    console.log(itemsArray)
     yield put(setThreadArray_Action(parsedThreads))
 
     let sortedItems = yield sortItemsArray(itemsArray)
+    console.log('sorted: ', sortedItems)
     yield put(setUserItems_Action(sortedItems))
 }
 
 function* handleConfig() {
-
+    // Identify user, instantiate 3box elements, 
+    // and set them in redux state. Next handle threads.
     let accounts    = yield window.ethereum.enable();
     let box         = yield Box.openBox(accounts[0], window.ethereum)
     let space       = yield box.openSpace('bradbvry--main')
     let profile     = yield Box.getProfile(accounts[0])
     let threads     = yield space.subscribedThreads()
+
+    // threads.forEach(async thread => await space.unsubscribeThread(thread.address))
 
     yield put(setInitialUserData_Action({box, space, profile, accounts}))
     yield handleThreads(threads, space, accounts[0])

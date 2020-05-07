@@ -21,16 +21,11 @@ class Editor extends Component {
     }
 
     async componentDidMount() {
-        // this.mounted = true;
         if (this.props.item) {
             this.setState({
                 timestamp: this.props.item.message.timestamp
             })
         } 
-    }
-
-    async componentWillUnmount() {
-        // this.mounted = false;
     }
 
     async handleSaveItem() {
@@ -123,7 +118,7 @@ class Editor extends Component {
         return {
             url: null,
             save_handler: (editorContext, content) => {
-                console.log('Content: ', content) 
+                console.log('Content: ', JSON.stringify(content))
                 this.handleAutomaticSave(content)
             }
         }

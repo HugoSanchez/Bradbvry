@@ -28,8 +28,11 @@ import {
 const ItemsContainer = props => {
 
     let items = useSelector(state => state.threads.itemsArray);
+    console.log('items: ', items)
+    let entries = items.filter(item => item.message.type === 'entry')
+    console.log('entries: ', entries)
 
-    if (items.length < 1) {
+    if (entries.length < 1) {
         return <EmptyHome />
     }
 
@@ -60,8 +63,8 @@ const ItemsContainer = props => {
                 <Text>Latest stories</Text>
                 <Underline />
                 {
-                    items.map((item, index) => {
-                        return  <ListItem key={index} item={item} />
+                    entries.map((entry, index) => {
+                        return  <ListItem key={index} item={entry} />
                     })
                 }
             </Container>

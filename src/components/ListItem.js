@@ -58,15 +58,15 @@ const ListItem = props => {
 
     // Parse the item key (which is a timestamp from the day it was created),
     // to get the day and month to display.
-    let timestamp = item.message.timestamp
+    let timestamp = item.message.content.timestamp ? item.message.content.timestamp : item.timestamp
     let date      = new Date(parseInt(timestamp))
     let day       = date.getDate()
     let month     = months[date.getMonth()]
 
     // Get the title and parse the body to display.
     // Find first block that is unstyled and not empty.
-    let title = item.message.blocks[0].text.slice(0, 45) || "Unkown Title";
-    let body = item.message.blocks.find(block => block.type === 'unstyled' && block.text.length > 1) 
+    let title = item.message.content.blocks[0].text.slice(0, 45) || "Unkown Title";
+    let body = item.message.content.blocks.find(block => block.type === 'unstyled' && block.text.length > 1) 
     let maxSlice = window.innerWidth < 400 ? 160 : 220;
     let bodyToDisplay = body ? body.text.slice(0, maxSlice) : LoremIpsum.slice(0, maxSlice);
 

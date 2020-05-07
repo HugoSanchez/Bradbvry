@@ -27,8 +27,9 @@ class Home extends Component {
     }
 
     async shouldComponentUpdate(nextProps, nextState) {
-        if (nextProps.items.length > 0 && this.state.loading == true) {
-            this.setState({loading: false})}
+        // if (nextProps.items.length > 0 && this.state.loading == true) {
+           if (nextProps.space && this.state.loading == true) {this.setState({loading: false})}
+        //}
     }
 
     async componentWillUnmount() {
@@ -83,7 +84,6 @@ class Home extends Component {
 }
 
 function mapStateToProps(state) {
-    console.log(state.threads.itemsArray)
     return {
         box:        state.user.data.box,
         space:      state.user.data.space,
