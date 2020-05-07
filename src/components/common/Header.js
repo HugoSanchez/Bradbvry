@@ -1,16 +1,18 @@
-import React, {useState, useEffect} from 'react';
+import React, {Fragment, useState, useEffect} from 'react';
 import {Link} from 'react-router-dom';
 import styled from 'styled-components';
-import {useLocation} from 'react-router-dom'
+import {useLocation} from 'react-router-dom';
+import {useSelector} from "react-redux";
 
 import logo from '../../resources/Bradbury.png';
 import {Text} from '../common'
 import '../../App.css';
 
-const Header = props => {
+const Header = React.memo((props) => {
 
     const location = useLocation();
     const [active, setActive] = useState(false); 
+    const space = useSelector(state => state.user.data.space);
 
     useEffect(() => {
         let isMounted = true; 
@@ -19,6 +21,21 @@ const Header = props => {
         };
         return () => {isMounted = false;};
     }, [])
+
+    const renderLinks = () => {
+        if (space) {
+            return (
+                <Fragment>
+                    <Link to="/home" id="header-profile-link-container">
+                        <HeaderText bold={location.pathname === "/home"}>Home</HeaderText>
+                    </Link>
+                    <Link to="/settings" id="header-profile-link-container">
+                        <HeaderText bold={location.pathname === "/settings"}>Settings</HeaderText>
+                    </Link>
+                </Fragment>
+            );
+        }
+    }
 
     return (
         <div id="Header" className={active ? 'active' : null}>
@@ -29,19 +46,14 @@ const Header = props => {
                     null
                 :
                 <div>
-                    <Link to="/home" id="header-profile-link-container">
-                        <HeaderText bold={location.pathname === "/home"}>Home</HeaderText>
-                    </Link>
-                    <Link to="/settings" id="header-profile-link-container">
-                        <HeaderText bold={location.pathname === "/settings"}>Settings</HeaderText>
-                    </Link>
+                    {renderLinks()}
                 </div>
                 }
                 
             </div>
         </div>
     );
-}
+});
 
 const HeaderText = styled(Text)`
     padding-left: 2.5vw;

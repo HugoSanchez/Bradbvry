@@ -21,9 +21,10 @@ class Editor extends Component {
     }
 
     async componentDidMount() {
-        if (this.props.item) {
+        let {item} = this.props;
+        if (item.message.content.timestamp) {
             this.setState({
-                timestamp: this.props.item.message.timestamp
+                timestamp: item.message.content.timestamp
             })
         } 
     }
@@ -149,7 +150,7 @@ class Editor extends Component {
                 <div className="Editor">
 
                     <DanteEditor 
-                        content={item ? item.message : null} 
+                        content={item ? item.message.content : null} 
                         read_only={false}
                         config={this.options}
                         data_storage={this.storage}

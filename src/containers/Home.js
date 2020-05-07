@@ -1,10 +1,10 @@
 import React, {Component, Fragment}       from 'react';
-import {connect}                from 'react-redux';
-import {PointSpreadLoading}     from 'react-loadingg';
-import ItemsContainer           from '../components/ItemsContainer';
-import InstallMetamask          from '../components/InstallMetamask';
-import ProfileCard              from '../components/ProfileCard';
-import {Mixpanel}               from '../utils';
+import {connect}                          from 'react-redux';
+import {PointSpreadLoading}               from 'react-loadingg';
+import ItemsContainer                     from '../components/ItemsContainer';
+import InstallMetamask                    from '../components/InstallMetamask';
+import ProfileCard                        from '../components/ProfileCard';
+import {Mixpanel}                         from '../utils';
 import '../App.css';
 
 import {CircularButton, Header} from '../components/common';
