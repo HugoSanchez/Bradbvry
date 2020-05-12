@@ -21,6 +21,7 @@ class Editor extends Component {
     }
 
     async componentDidMount() {
+        window.scrollTo(0, 0)
         let {item} = this.props;
         if (item.message.content.timestamp) {
             this.setState({
@@ -34,13 +35,19 @@ class Editor extends Component {
         let {item, thread} = this.props;
         let timestamp = this.state.timestamp;
         let isContent = content.blocks.find(block => block.text.length > 0)
+        content.timestamp = timestamp
 
-        if (isContent) {
-            content.timestamp = timestamp
-            await thread.post(content)
-            if (item) {await thread.deletePost(item.postId)}
+        if (item) {
+            console.log('Content: ', content.blocks)
+            console.log('item: ', item.message.content.blocks)
+            if (JSON.stringify(item.message.content.blocks) 
+                !== JSON.stringify(content.blocks)) {
+                // await thread.deletePost(item.postId)
+                // await thread.post(content)
+            } 
+        } else if (isContent) {
+            // await thread.post(content)
         }
-
         this.props.history.push('/home')
     }
 
