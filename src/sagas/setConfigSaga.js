@@ -68,6 +68,10 @@ const parseThreadsAndPosts_Helper = async (threads, space) => {
 
     for (let i = 0; i < threads.length; i++) {
         let thread = await space.joinThreadByAddress(threads[i].address)
+        // let stringify = JSON.stringify(firstDefaultEntry)
+        // let parse = JSON.parse(stringify)
+        // await thread.post({type: 'entry', content: parse})
+        // await thread.post({type: 'entry', content: parse})
         let posts = await thread.getPosts()
 
         for(let z = 0; z < posts.length; z++) {

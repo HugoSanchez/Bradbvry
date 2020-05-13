@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
-import {Link} from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 import {
     deleteEntry_Action, 
-    setActiveItem_Action
+    setActiveItem_Action,
+    setActiveThread_Action
 } from '../actions';
 
 import {
@@ -43,10 +44,12 @@ const ListItem = React.memo((props) => {
         setActive(!isActive)
     }
 
-    // Get space from global redux store.
+    // Get threads from global redux store.
     // Instantiate dispatch function.
-    const space = useSelector(state => state.user.data.space);
+    const history = useHistory();
     const dispatch = useDispatch()
+    const threads = useSelector(state => state.threads.threadsArray);
+    
 
     // Deconstruct item from props.
     // Create array of months.
@@ -73,34 +76,27 @@ const ListItem = React.memo((props) => {
     // Function that deletes a given element from their space.
     // Dispatches action to delete item from global store.
     const deleteEntry = async (e) => {
-        e.preventDefault();
-        let privThread  = await space.joinThread('bradbvry--def--private--thread')
-        await privThread.deletePost(item.postId)
+        e.stopPropagation();
+        let thread = threads.find(thread => thread._name === item.threadName)
+        await thread.deletePost(item.postId)
         dispatch(deleteEntry_Action(item))
     }
 
-    // Return card-item HTML. Slice title and body so that
-    // it never surpases the card's height and width limits.
+    // On clicking the item card, this function sets the active thread in redux state
+    // as well as the active item and navigates the user to the Editor.
+    const onItemClick = async () => {
+       let thread = threads.find(thread => thread._name === item.threadName)
+       dispatch(setActiveThread_Action(thread))
+       dispatch(setActiveItem_Action(item))
+       history.push('/editor')
+    }
+
     return (
 
-        <Link 
-            to={{
-                pathname: '/editor', 
-                item: item, 
-                timestamp: timestamp}} 
-            style={{
-                textDecoration: 'none', 
-                justifyItems: 'center'}}
-        >
-
             <Card
-                onMouseEnter={() => {
-                    handleMouseOver()}}
-                onMouseLeave={() => {
-                    handleMouseOver()}}
-                onClick={() => {
-                    dispatch(setActiveItem_Action(item))}}
-            >
+                onClick={() => {onItemClick()}}
+                onMouseEnter={() => {handleMouseOver()}}
+                onMouseLeave={() => {handleMouseOver()}}>
 
                 <DateBox>
                     <DayText>{day}</DayText>
@@ -109,23 +105,18 @@ const ListItem = React.memo((props) => {
 
                 <ContentBox>
                     <TitleBox>
-                        <Title>
-                            {title}
-                        </Title>
+                        <Title>{title}</Title>
                         <DeleteBin 
                             isActive={isActive}
                             onClick={(e) => deleteEntry(e)}
                         />
                     </TitleBox>
                     <View>
-                        <Text>
-                            {bodyToDisplay}...
-                        </Text>
+                        <Text> {bodyToDisplay}...</Text>
                     </View>                    
                 </ContentBox>
 
             </Card>
-        </Link>
     );
 });
 

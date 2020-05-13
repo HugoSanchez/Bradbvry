@@ -35,18 +35,17 @@ class Editor extends Component {
         let {item, thread} = this.props;
         let timestamp = this.state.timestamp;
         let isContent = content.blocks.find(block => block.text.length > 0)
-        content.timestamp = timestamp
+        let entry = {type: 'entry', content: content.timestamp = timestamp}
 
         if (item) {
-            console.log('Content: ', content.blocks)
-            console.log('item: ', item.message.content.blocks)
-            if (JSON.stringify(item.message.content.blocks) 
-                !== JSON.stringify(content.blocks)) {
-                // await thread.deletePost(item.postId)
-                // await thread.post(content)
+            let stringContent = JSON.stringify(content.blocks)
+            let stringItem = JSON.stringify(item.message.content.blocks)
+            if (stringContent !== stringItem) {
+                await thread.deletePost(item.postId)
+                await thread.post(entry)
             } 
         } else if (isContent) {
-            // await thread.post(content)
+            await thread.post(content)
         }
         this.props.history.push('/home')
     }
