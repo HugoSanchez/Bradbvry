@@ -4,6 +4,10 @@ import {connect} from 'react-redux';
 import DanteEditor from "Dante2";
 import {CircularButton} from '../components/common';
 import {NewSpaceModal} from '../components';
+import {
+    deleteEntry_Action,
+    handleSaveItem_Action,
+} from '../actions';
 
 class Editor extends Component {
     constructor(props) {
@@ -32,21 +36,9 @@ class Editor extends Component {
 
     async handleSaveItem() {
         let {content} = this.state;
-        let {item, thread} = this.props;
-        let timestamp = this.state.timestamp;
-        let isContent = content.blocks.find(block => block.text.length > 0)
-        let entry = {type: 'entry', content: content.timestamp = timestamp}
+        content.timestamp = this.state.timestamp
 
-        if (item) {
-            let stringContent = JSON.stringify(content.blocks)
-            let stringItem = JSON.stringify(item.message.content.blocks)
-            if (stringContent !== stringItem) {
-                await thread.deletePost(item.postId)
-                await thread.post(entry)
-            } 
-        } else if (isContent) {
-            await thread.post(content)
-        }
+        this.props.handleSaveItem_Action(content)
         this.props.history.push('/home')
     }
 
@@ -177,4 +169,16 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps, {})(Editor);
+function mapDispatchToProps(dispatch) {
+    return { 
+        handleSaveItem_Action: (item) => {
+            dispatch(handleSaveItem_Action(item))},
+        deleteEntry_Action: (item) => {
+            dispatch(deleteEntry_Action(item))}
+    }
+}
+
+export default connect(
+    mapStateToProps, 
+    mapDispatchToProps
+)(Editor);

@@ -6,8 +6,8 @@ import {
     SET_INITIAL_CONFIG,
     SET_USER_INITIAL_DATA,
     SET_THREAD_ARRAY,
-
-    DELETE_USER_ENTRY
+    DELETE_USER_ENTRY,
+    HANDLE_SAVE_ITEM,
 } from './types';
 
 
@@ -36,13 +36,10 @@ export const setThreadArray_Action = array => {
     }
 }
 
-///////////////////////////////////////////////
-////// USER REDUCER ACTIONS
-///////////////////////////////////////////////
-
-export const setInitialConfiguration_Action = () => {
+export const deleteEntry_Action = (entry) => {
     return {
-        type: SET_INITIAL_CONFIG,
+        type: DELETE_USER_ENTRY,
+        payload: entry
     }
 }
 
@@ -50,6 +47,23 @@ export const setUserItems_Action = address => {
     return { 
         type: SET_USER_ITEMS, 
         payload: address 
+    }
+}
+
+export const handleSaveItem_Action = item => {
+    return { 
+        type: HANDLE_SAVE_ITEM, 
+        payload: item 
+    }
+}
+
+///////////////////////////////////////////////
+////// USER REDUCER ACTIONS
+///////////////////////////////////////////////
+
+export const setInitialConfiguration_Action = () => {
+    return {
+        type: SET_INITIAL_CONFIG,
     }
 }
 
@@ -67,9 +81,4 @@ export const setInitialUserData_Action = (user) => {
     }
 }
 
-export const deleteEntry_Action = (entry) => {
-    return {
-        type: DELETE_USER_ENTRY,
-        payload: entry
-    }
-}
+

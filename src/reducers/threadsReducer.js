@@ -4,15 +4,17 @@ import {
     SET_THREAD_ARRAY,
     SET_ACTIVE_ITEM,
     SET_ACTIVE_THREAD,
-    DELETE_USER_ENTRY
+    DELETE_USER_ENTRY,
     
   } from '../actions/types';
   
   const initialState = {
+
     itemsArray: [],
     threadsArray: [],
     activeThread: null, 
     activeItem: null,
+
   }
   
   const threadsReducer = (state = initialState, action) => {
@@ -31,8 +33,8 @@ import {
         return {...state, itemsArray: action.payload}
         
       case DELETE_USER_ENTRY: 
-        let items = state.itemsArray
-        let newItems = items.filter(item => item !== action.payload)
+        let itemsArray = state.itemsArray
+        let newItems = itemsArray.filter(item => item !== action.payload)
         return {...state, itemsArray: newItems}
   
       default: return state
