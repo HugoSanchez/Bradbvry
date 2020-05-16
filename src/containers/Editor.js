@@ -18,19 +18,18 @@ class Editor extends Component {
         
         this.state = {
             item: null, 
+            isOpen: false,
             content: null,
             timestamp: Date.now(),
-            isOpen: false
         }
     }
 
     async componentDidMount() {
         window.scrollTo(0, 0)
         let {item} = this.props;
-        if (item.message.content.timestamp) {
-            this.setState({
-                timestamp: item.message.content.timestamp
-            })
+        let {timestamp} = item.message.content;
+        if (item) {
+            this.setState({timestamp: timestamp})
         } 
     }
 
@@ -117,7 +116,6 @@ class Editor extends Component {
         return {
             url: null,
             save_handler: (editorContext, content) => {
-                console.log('Content: ', JSON.stringify(content))
                 this.handleAutomaticSave(content)
             }
         }

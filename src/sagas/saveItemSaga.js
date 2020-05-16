@@ -9,9 +9,8 @@ function* handleSaveItem(action) {
     // this function gets called which handles 3 posible scenarios:
     // A new post, a update to existing one, nothing.
 
-    const newItem = {type: 'entry', content: action.payload}
-    console.log(newItem)
     const state = yield select(getThreadsState)
+    const newItem = {type: 'entry', content: action.payload}
     const isContent = newItem.content.blocks.find(block => block.text.length > 0)
 
     const {
@@ -23,7 +22,6 @@ function* handleSaveItem(action) {
     // If activeItem exists, it means that the user edited an existing post
     // We check weather any changes were actually made and update if so.
     if (activeItem) {
-        console.time('here')
         let stringContent = JSON.stringify(newItem.content.blocks)
         let stringItem = JSON.stringify(activeItem.message.content.blocks)
 
@@ -32,10 +30,9 @@ function* handleSaveItem(action) {
             let newPost = yield postAndParse(activeThread, newItem)
             let index = itemsArray.indexOf(activeItem)
             let array = itemsArray.filter(item => item !== activeItem)
-            array[index] = newPost
+            array.splice(index, 0, newPost)
             yield put(setUserItems_Action(array))
         }
-        console.timeEnd('here')
     }
     // If there was no activeItem, content is new. We check if content is not empty
     // if so, post new entry and update itemsArray.
