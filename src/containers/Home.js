@@ -27,6 +27,7 @@ class Home extends Component {
 
     async shouldComponentUpdate(nextProps, nextState) {
         if (nextProps.space && this.state.loading === true) {
+            console.log('here')
             this.setState({loading: false})}
     }
 
@@ -49,11 +50,12 @@ class Home extends Component {
             <div>
                 <Header />
                 <div className="Main">
+
                     <div className="home-container">
                         {renderMetamask && !profile && <InstallMetamask /> }
-                        {loading && !renderMetamask && <PointSpreadLoading color={"rgb(190, 235, 194)"} />}
+                        {loading && console.log(loading)  && <PointSpreadLoading color={"rgb(190, 235, 194)"} />}
                         
-                        {
+                        {   
                             !loading && profile && 
                             !renderMetamask && items.length > 0 && 
                             <Fragment>
