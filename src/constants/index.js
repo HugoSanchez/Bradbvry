@@ -61,3 +61,18 @@ export const dummyProfile = {
 }
 
 
+////////////////////////////////////
+////// SPACE IMAGES
+////////////////////////////////////
+
+
+export const images = [
+    "https://images.unsplash.com/photo-1512168203104-3910bc2bcd54?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=668&q=80",
+    "https://images.unsplash.com/photo-1503075131240-fe4b3a7fa473?ixlib=rb-1.2.1&auto=format&fit=crop&w=668&q=80",
+    "https://images.unsplash.com/photo-1534778061111-b71fa828e390?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+    "https://images.unsplash.com/photo-1558725177-79763c6e9014?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+    "https://images.unsplash.com/photo-1559871753-75a00941f6b2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+    "https://images.unsplash.com/photo-1559248457-80403d9e3898?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+    "https://images.unsplash.com/photo-1522279602607-85334538fabd?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
+    "https://images.unsplash.com/photo-1587480346370-f9097215a7a1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"
+]

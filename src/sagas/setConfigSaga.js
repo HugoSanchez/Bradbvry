@@ -9,7 +9,6 @@ import {
     setInitialUserData_Action
 } from '../actions';
 
-
 function* handleThreads(threads, space, account) {  
     // If it's a new user, it creates the first two threads with its config posts
     // and also it posts the welcome message. If not, for each thread, 
@@ -75,8 +74,9 @@ const parseThreadsAndPosts_Helper = async (threads, space) => {
         let posts = await thread.getPosts()
 
         for(let z = 0; z < posts.length; z++) {
+            
             if (posts[z].message.type === 'config') {
-                thread.config = posts[z].message.content
+                                thread.config = posts[z].message.content
                 parsedThreads.push(thread)
             }
             else { 

@@ -1,6 +1,7 @@
 export * from './CircularButton';
 export * from './Underline';
 export * from './DeleteBin';
+export * from './Carousel';
 export * from './Button';
 export * from './Header';
 export * from './Column';
