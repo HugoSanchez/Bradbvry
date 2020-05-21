@@ -287,66 +287,6 @@
   font-weight: 600;
 }
 
-#home-add-entry-circular-button {
-  z-index: 2;
-  bottom: 7rem;
-  right: 5rem;
-  width: 3rem; 
-  height: 3rem; 
-  border-radius: 1.5rem;
-  background-color: white; 
-  position: fixed;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1); 
-}
-
-#home-add-entry-circular-button-icon {
-  margin-top: 0.58rem;
-}
-
-
-/* INSTALL METAMASK */
-
-.install-metamask {
-  margin: 10vh;
-  align-items: center;
-  height: inherit;
-  display: flex;
-  flex-direction: row-reverse;
-}
-
-.install-metamask img {
-  flex: 1;
-  max-width: 45vw;
-}
-
-.install-metamask-warning {
-  flex: 1;
-  padding: 5%;
-  margin-top: 7%;
-  text-align: left;
-  color:rgb(85, 85, 85);
-}
-
-.install-metamask-warning h1{
-  font-weight: 600;
-}
-
-.install-metamask-warning p{
-  margin-top: 5%;
-  line-height: 1.8;
-  font-size: 18px;
-  font-weight: 300;
-}
-
-.install-metamask-warning a{
-  text-decoration: none;
-  color:rgb(85, 85, 85);
-}
-
-.install-metamask-warning a:hover{
-  text-decoration: underline;
-  color:rgb(85, 85, 85);
-}
 
 /* LANDING PAGE */
 * {

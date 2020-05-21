@@ -13,24 +13,38 @@ function* handleThreads(threads, space, account) {
     // If it's a new user, it creates the first two threads with its config posts
     // and also it posts the welcome message. If not, for each thread, 
     // it parses and sets the items.
+    
     if (threads.length === 0) {
         let stringify = JSON.stringify(firstDefaultEntry)
         let parse = JSON.parse(stringify)
 
-        let privateThreadConfigObject = ThreeBox.getPrivateThreadObject()
-        let privateThread = yield ThreeBox.createConfidentialThread(
-            space, account, 'private-thread', 'private')
-        yield privateThread.post({type: 'config', content: privateThreadConfigObject})
-        yield privateThread.post({type: 'entry', content: parse})
+        let privateThreadConfigObject_one = ThreeBox.getFirstPrivateThreadObject()
+        let privateThread_one = yield ThreeBox.createConfidentialThread(
+            space, account, 'random-notes', 'private')
+        yield privateThread_one.post({type: 'config', content: privateThreadConfigObject_one})
+        yield privateThread_one.post({type: 'entry', content: parse})
 
-        
+        let privateThreadConfigObject_two = ThreeBox.getSecondPrivateThreadObject()
+        let privateThread_two = yield ThreeBox.createConfidentialThread(
+            space, account, 'diary-entries', 'private')
+        yield privateThread_two.post({type: 'config', content: privateThreadConfigObject_two})
+        yield privateThread_two.post({type: 'entry', content: parse})
+
+        let privateThreadConfigObject_three = ThreeBox.getThirdPrivateThreadObject()
+        let privateThread_three = yield ThreeBox.createConfidentialThread(
+            space, account, 'photo-collection', 'private')
+        yield privateThread_three.post({type: 'config', content: privateThreadConfigObject_three})
+        yield privateThread_three.post({type: 'entry', content: parse})
+
         let globalThreadConfigObject = ThreeBox.getGlobalThreadObject()
         let globalThread = yield ThreeBox.createConfidentialThread(
             space, account, 'bradbvry-global-test', 'public')
         yield globalThread.post({type: 'config', content: globalThreadConfigObject})
+       
     }
 
-    let {itemsArray, parsedThreads} = yield parseThreadsAndPosts_Helper(threads, space)
+    let reversedThreads = threads.reverse()
+    let {itemsArray, parsedThreads} = yield parseThreadsAndPosts_Helper(reversedThreads, space)
     yield put(setThreadArray_Action(parsedThreads))
 
     let sortedItems = yield sortItemsArray(itemsArray)

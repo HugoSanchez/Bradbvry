@@ -15,7 +15,7 @@ export const SpaceCard = props => {
     let {thread} = props
     let image = thread.config.image
     let spacename = thread.config.name.replace(/-/g, ' ')
-    let description = thread.config.description.slice(0, 85)
+    let description = thread.config.description.slice(0, 96)
 
     return (
         <SpaceCardContainer onClick={props.onPress}>

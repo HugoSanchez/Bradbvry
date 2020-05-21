@@ -1,6 +1,7 @@
 // THEADS: TEMPORARY
 
 import { threadObj } from "../constants";
+import {images} from '../constants'
 
 /**
 async function getThreads(space) {
@@ -57,12 +58,34 @@ const actions = {
         return thread;
     },
 
-    getPrivateThreadObject: () => {
+    getFirstPrivateThreadObject: () => {
         let pirvateThreadObject = Object.assign({}, threadObj)
-        pirvateThreadObject.name = 'private-thread';
-        pirvateThreadObject.image = null
+        pirvateThreadObject.name = 'random-notes';
+        pirvateThreadObject.image = images[0]
         pirvateThreadObject.type = 'private';
-        pirvateThreadObject.description = 'This is a personal space, for you to store your memories, and unleash your creativity'
+        pirvateThreadObject.description = 'This is a private and personal space for you to keep loose ideas, notes, verses or even pictures'
+    
+        return pirvateThreadObject;
+    
+    },
+
+    getSecondPrivateThreadObject: () => {
+        let pirvateThreadObject = Object.assign({}, threadObj)
+        pirvateThreadObject.name = 'diary-entries';
+        pirvateThreadObject.image = images[1]
+        pirvateThreadObject.type = 'private';
+        pirvateThreadObject.description = 'This is a place to keep a personal diary, feel it with pictures, text, and a little bit of love'
+    
+        return pirvateThreadObject;
+    
+    },
+
+    getThirdPrivateThreadObject: () => {
+        let pirvateThreadObject = Object.assign({}, threadObj)
+        pirvateThreadObject.name = 'photo-collection';
+        pirvateThreadObject.image = images[2]
+        pirvateThreadObject.type = 'private';
+        pirvateThreadObject.description = 'A space for the kind of pictures you would like to never lose and keep forever'
     
         return pirvateThreadObject;
     
@@ -71,7 +94,7 @@ const actions = {
     getGlobalThreadObject: () => {
         let globalThreadObject = Object.assign({}, threadObj)
         globalThreadObject.name = 'bradbvry-global-thread';
-        globalThreadObject.image = null
+        globalThreadObject.image = images[3]
         globalThreadObject.type = 'public'
         globalThreadObject.description = 'This is a global directory of public spaces.'
     

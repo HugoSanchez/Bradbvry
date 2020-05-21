@@ -1,7 +1,7 @@
 import React, {Component, Fragment}       from 'react';
 import {connect}                          from 'react-redux';
 import {PointSpreadLoading}               from 'react-loadingg';
-import ItemsContainer                     from '../components/ItemsContainer';
+import ItemsAndSpaces                     from '../components/ItemsAndSpaces';
 import InstallMetamask                    from '../components/InstallMetamask';
 import ProfileCard                        from '../components/ProfileCard';
 import {Mixpanel}                         from '../utils';
@@ -59,15 +59,9 @@ class Home extends Component {
                             !loading && profile && 
                             !renderMetamask && items.length > 0 && 
                             <Fragment>
-                                <ItemsContainer items={items} />
+                                <ItemsAndSpaces items={items} />
                                 <ProfileCard profile={profile} />
-                                <CircularButton 
-                                    onClick={() => history.push('/editor')}
-                                    plus={true} 
-                                    path="/editor"
-                                    iconId="home-add-entry-circular-button-icon"
-                                    buttonId="home-add-entry-circular-button"
-                                />
+                                
                             </Fragment>
                         }
 
