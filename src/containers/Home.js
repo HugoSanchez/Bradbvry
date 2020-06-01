@@ -7,7 +7,7 @@ import ProfileCard                        from '../components/ProfileCard';
 import {Mixpanel}                         from '../utils';
 import '../App.css';
 
-import {CircularButton, Header} from '../components/common';
+import {Header} from '../components/common';
 import {setInitialConfiguration_Action} from '../actions';
 
 class Home extends Component {
@@ -38,12 +38,12 @@ class Home extends Component {
 
     async setInitialSessionConfig() {
         this.props.setInitialConfiguration_Action()
-        Mixpanel.track('New Session')
+        // Mixpanel.track('New Session')
     }
 
     render() {
 
-        const {items, profile, history} = this.props
+        const {items, profile} = this.props
         const {loading, renderMetamask} = this.state
         
         return (
@@ -61,7 +61,6 @@ class Home extends Component {
                             <Fragment>
                                 <ItemsAndSpaces items={items} />
                                 <ProfileCard profile={profile} />
-                                
                             </Fragment>
                         }
 

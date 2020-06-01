@@ -286,7 +286,32 @@
 #header-profile-link:hover {
   font-weight: 600;
 }
+/* KJHSKJHS */
 
+.itemsAndSpaces {
+  flex: 6;
+  overflow: hidden;
+  padding-left: 7px;
+  padding-right: 7px;
+  align-items: flex-start;
+
+  /*
+  @media ${device.mobileL} {
+      padding-top: 30px;
+  }
+  */
+}
+
+[type="file"] {
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+  height: 100px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute !important;
+  white-space: nowrap;
+  width: 100px;
+}
 
 /* LANDING PAGE */
 * {

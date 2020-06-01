@@ -1,9 +1,11 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components';
 import {device} from '../constants';
 import {useSelector} from "react-redux";
+import '../App.css'
 
 import {
+    CreateNewSpace,
     SpacesCarousel,
     ItemsList
 } from './index';
@@ -24,16 +26,28 @@ const ItemsAndSpaces = React.memo((props) => {
     let items = useSelector(state => state.threads.itemsArray);
     let entries = items.filter(item => item.message.type === 'entry')
 
-    return (
-        <Container key={items.length}> 
-            <SpacesCarousel /> 
-            <ItemsList entries={entries}/>
-            <CircularButton 
-                onClick={() => console.log('wea')}
-                plus={true} 
-            />
-        </Container>
-    );
+    let [renderForm, setRenderForm] = useState(false);
+
+    if (renderForm === false) {
+        return (
+        <div className="itemsAndSpaces" key={items.length}> 
+            <CreateNewSpace />
+        </div>
+        )
+    }
+
+    else {
+        return (
+            <div className="itemsAndSpaces" key={items.length}> 
+                <SpacesCarousel /> 
+                <ItemsList entries={entries}/>
+                <CircularButton 
+                    onClick={() => setRenderForm(true)}
+                    plus={true} 
+                />
+            </div>
+        );
+    }
 });
 
 
@@ -42,6 +56,9 @@ const Container = styled(View)`
     overflow: hidden;
     padding-left: 7px;
     padding-right: 7px;
+    border-width: 2px;
+    border-style: solid;
+    border-color: red;
     @media ${device.mobileL} {
         padding-top: 30px;
     }
