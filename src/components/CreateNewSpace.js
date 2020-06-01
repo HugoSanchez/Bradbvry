@@ -223,16 +223,17 @@ export const CreateNewSpace = props => {
 }
 
 const Container = styled(View)`
-    border-radius: 8px;
+
+    dislay: flex;
 `;
 
 const HeaderRow = styled(Row)`
     flex: 1;
     flex-direction: row;
+    margin-bottom: 2%;
 `;
 
 const ModalTitle = styled(Title)`
-    margin-top: 4%;
     width: 100%;
     text-align: center;
     font-family: Raleway;
@@ -249,8 +250,10 @@ const FormContainerRow = styled(Row)`
 
 const StyledFileInput = styled(FileInput)`
     background: ${props => props.image ? primaryGreen : '#FFF' };
-    height: 10%;
-    padding-top: 2%;
+    height: 50px;
+    padding-top: 1.5%;
+    margin-top: 2%;
+    margin-bottom:2%;
     color: ${primaryGray85};
     font-family: Montserrat;
     font-style: italic;
@@ -266,10 +269,9 @@ const FormBodyBox = styled(Row)`
 `;
 
 const SpaceTypeBox = styled(Row)`
+    flex: 1;
     margin-top: 2%;
-    margin-bottom: 3%;
-    height: 5%;
-    padding: 3%;
+    margin-bottom: 2%;
 `;
 
 const SpaceType = styled(Row)`
@@ -286,7 +288,7 @@ const SpaceType = styled(Row)`
 `;
 
 const BottomRow = styled(Row)`
-    flex: 0.5;
+    height: 60px;
     justify-content: center;
     align-items: space-between;
 `;
@@ -296,7 +298,8 @@ const ButtonBox = styled(Row)`
     margin: 0.2%;
     border-width: 2px;
     border-style: solid;
-    border-color: ${primaryGreen}
+    border-color: #FFF;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);   
 `;
 
 const TextInput = styled(TextField)`
