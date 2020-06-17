@@ -31,6 +31,8 @@ const CircularButton = props => {
     );
 }
 
+
+
 const Button = styled.div`
     z-index: 2;
     bottom: 7rem;
@@ -42,6 +44,7 @@ const Button = styled.div`
     position: fixed;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);     
 `;
+
 
 const IconContainer = styled.div`
     margin-top: 0.58rem;

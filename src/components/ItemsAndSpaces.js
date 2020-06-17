@@ -2,6 +2,8 @@ import React, {useState} from 'react';
 import styled from 'styled-components';
 import {device} from '../constants';
 import {useSelector} from "react-redux";
+import Drawer from '@material-ui/core/Drawer';
+/// import SlidingPane from "react-sliding-pane";
 import '../App.css'
 
 import {
@@ -28,26 +30,20 @@ const ItemsAndSpaces = React.memo((props) => {
 
     let [renderForm, setRenderForm] = useState(false);
 
-    if (renderForm === false) {
-        return (
+   
+    return (
         <div className="itemsAndSpaces" key={items.length}> 
-            <CreateNewSpace />
+            <SpacesCarousel /> 
+            <ItemsList entries={entries}/>
+            <Drawer anchor={'right'} open={renderForm} onClose={() => setRenderForm(false)} >
+                <CreateNewSpace/>
+            </Drawer>
+            <CircularButton 
+                onClick={() => setRenderForm(true)}
+                plus={true} 
+            />
         </div>
-        )
-    }
-
-    else {
-        return (
-            <div className="itemsAndSpaces" key={items.length}> 
-                <SpacesCarousel /> 
-                <ItemsList entries={entries}/>
-                <CircularButton 
-                    onClick={() => setRenderForm(true)}
-                    plus={true} 
-                />
-            </div>
-        );
-    }
+    );
 });
 
 

@@ -10,8 +10,10 @@ import {
 } from '../components/common';
 
 import {
+    lightGray150,
     primaryGray85,
-    primaryGreen
+    primaryGreen,
+    primaryGray45,
 } from '../constants/colors';
 
 import {
@@ -28,6 +30,7 @@ import { FileInput, Snackbar } from 'react-md';
 // import {useSelector} from "react-redux";
 import {RiCheckLine} from 'react-icons/ri';
 import styled from 'styled-components';
+import { BLAKE2B_24 } from 'multicodec';
 
 // let width = window.innerWidth;
 // let height = window.innerHeight;
@@ -103,164 +106,73 @@ export const CreateNewSpace = props => {
         desc: 'A description is required for your space'
     }
 
+    const titleInputProps = {
+        style: {
+            fontFamily: 'Montserrat',
+            fontWeight: '300',
+            color: 'rgba(55, 55, 55, 1)',
+        }
+    }
+
     const iputPropsConfig = {
         style: {
             fontFamily: 'Montserrat',
             fontWeight: '300',
             color: 'rgba(55, 55, 55, 1)',
-            borderColor: 'red',
         }
     }
 
     return (
         <Container>          
-            <FormContainerRow>
-                <FormBodyBox>
-                    <HeaderRow>
-                        <ModalTitle>Create New Space</ModalTitle>
-                    </HeaderRow>
-
-                    <Form>
-                        <TextField
-                            value={name}
-                            variant="standard"
-                            style={{width: '100%'}}
-                            placeholder="Space Name"
-                            onChange={handleNameChange}
-                            InputProps={{
-                                classes: {
-                                    focused: {
-                                          borderColor: "yellow"
-                                    }
-                                }
-                            }}
-                            inputProps={{maxLength: '20'}}
-                            helperText={error.name ? error.name : name.length + '/20'}
-                            FormHelperTextProps={{
-                                style: {
-                                    textAlign: 'left', 
-                                    color: error.name ? '#F64747' : null
-                                }
-                            }}
-                        />
-                        <br></br>
-                        <br></br>
-                        <TextInput
-                            rows={3}
-                            multiline
-                            value={desc}
-                            variant="outlined"
-                            placeholder="Description"
-                            InputProps={iputPropsConfig}
-                            inputProps={{maxLength: '140'}}
-                            onChange={handleDescriptionChange}
-                            helperText={error.desc ? error.desc : desc.length +'/140'}
-                            FormHelperTextProps={{
-                                style: {
-                                    textAlign: 'left', 
-                                    color: error.desc ? '#F64747' : null
-                                }
-                            }}
-                        />
-                    </Form>
-
-                    <StyledFileInput
-                        id="duplicate-file-selection"
-                        label="Choose file"
-                        accept="image/*,video/*"
-                        onChange={() => setImage(true)}
-                        className={null}
-                        primary
-                        iconBefore
-                        allowDuplicates
-                        icon={null}
-                        image={image}
-                    />
-
-                    <SpaceTypeBox>
-                        <SpaceType 
-                            onClick={() => setSpaceType('public')}>
-                            <Text
-                                fontWeight={spaceType === 'public' ? '500' : null}>
-                                    Public
-                            </Text>
-                            {spaceType === 'public' ? <RiCheckLine size={22} /> : null }
-                        </SpaceType>
-                        <SpaceType
-                            onClick={() => setSpaceType('members')}>
-                            <Text
-                                fontWeight={spaceType === 'members' ? '500' : null}>
-                                    Members
-                            </Text>
-                            {spaceType === 'members' ? <RiCheckLine size={22} /> : null }
-                        </SpaceType>
-                        <SpaceType
-                            onClick={() => setSpaceType('private')}>
-                            <Text
-                                fontWeight={spaceType === 'private' ? '500' : null}>
-                                    Private
-                            </Text>
-                            {spaceType === 'private' ? <RiCheckLine size={22} /> : null }
-                        </SpaceType>
-                    </SpaceTypeBox>
-
-                    <BottomRow>
-                        <ButtonBox>
-
-                        </ButtonBox>
-                    
-                        <ButtonBox>
-
-                        </ButtonBox>
-                    </BottomRow>
-                </FormBodyBox>
-                
             
-               
-            </FormContainerRow>
+            <HeaderRow>
+                <ModalTitle>Create New Space</ModalTitle>
+            </HeaderRow>
+
+            <FormBodyBox>
+                <Label>1. Set your space name</Label>
+                <NameInput 
+                    height={'60px'}
+                    value={name}
+                    maxLength="20"
+                    onChange={(e) => setName(e.target.value)}/>
+
+                <Label>2. Type a brief description</Label>
+                <NameInput 
+                    height={'120px'}
+                    value={name}
+                    maxLength="20"
+                    onChange={(e) => setName(e.target.value)}/>
+            </FormBodyBox>               
         </Container>
     )
 }
 
-const Container = styled(View)`
-
+const Container = styled.div`
+    padding-top: 15%;
+    padding-right: 6%;
+    padding-left: 6%;
+    width: 500px;
+    height: 100%;
     dislay: flex;
+    overflow: hidden;
+    background: #191919;
+    opacity: 0.9;
 `;
 
 const HeaderRow = styled(Row)`
     flex: 1;
     flex-direction: row;
-    margin-bottom: 2%;
 `;
 
 const ModalTitle = styled(Title)`
     width: 100%;
     text-align: center;
-    font-family: Raleway;
-    font-weight: 700;
-    font-size: 32px;
-`;
-
-const FormContainerRow = styled(Row)`
-    flex: 4;
-    justify-content: space-between;
-    padding-left: 5%;
-    padding-right: 5%;
-`;
-
-const StyledFileInput = styled(FileInput)`
-    background: ${props => props.image ? primaryGreen : '#FFF' };
-    height: 50px;
-    padding-top: 1.5%;
-    margin-top: 2%;
-    margin-bottom:2%;
-    color: ${primaryGray85};
     font-family: Montserrat;
-    font-style: italic;
-    border-width: 3px;
-    border-style: solid;
-    border-color: ${primaryGreen};
-`
+    font-weight: 600;
+    font-size: 44px;
+    color: ${lightGray150};
+`;
 
 const FormBodyBox = styled(Row)`
     flex: 2;
@@ -268,45 +180,31 @@ const FormBodyBox = styled(Row)`
     justify-content: center;
 `;
 
-const SpaceTypeBox = styled(Row)`
-    flex: 1;
-    margin-top: 2%;
-    margin-bottom: 2%;
+const Label = styled.label`
+    color: ${lightGray150};
+    font-family: Montserrat;
+    font-size: 22px;
+    font-weight: 500;
+    margin: 2%;
+    margin-bottom: 4%;
+    margin-top: 8%;
 `;
 
-const SpaceType = styled(Row)`
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 2%;
-    border-radius: 2px;
-    background: ${props => props.color};
-    &:hover{
-        opacity: 0.7; 
+const NameInput = styled.input`
+    padding: 5%;
+    margin-right: 2%;
+    margin-left: 2%;
+    height: ${props => props.height};
+    font-family: Montserrat;
+    font-weight: 300;
+    font-size: 22px;
+    font-style: italic;
+    border-radius: 5px;
+    background: rgb(30,30, 30);
+    color: ${lightGray150};
+    border:0;
+    :focus {
+        outline-width: 0;
     }
 `;
 
-const BottomRow = styled(Row)`
-    height: 60px;
-    justify-content: center;
-    align-items: space-between;
-`;
-
-const ButtonBox = styled(Row)`
-    flex: 1;
-    margin: 0.2%;
-    border-width: 2px;
-    border-style: solid;
-    border-color: #FFF;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);   
-`;
-
-const TextInput = styled(TextField)`
-    width: 100%;
-    border-bottom-width: 2px;
-    border-bottom-style: solid;
-    border-bottom-color: lightgray;
-`;
-
-const Form = styled.form``;
