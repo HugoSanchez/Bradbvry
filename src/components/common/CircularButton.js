@@ -35,7 +35,7 @@ const CircularButton = props => {
 
 const Button = styled.div`
     z-index: 2;
-    bottom: 7rem;
+    bottom: 5rem;
     right: 5rem;
     width: 3rem; 
     height: 3rem; 

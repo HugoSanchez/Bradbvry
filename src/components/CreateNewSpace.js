@@ -126,30 +126,60 @@ export const CreateNewSpace = props => {
         <Container>          
             
             <HeaderRow>
-                <ModalTitle>Create New Space</ModalTitle>
+                <ModalTitle>Create A New Collection</ModalTitle>
             </HeaderRow>
 
             <FormBodyBox>
-                <Label>1. Set your space name</Label>
+                <Label><Gn>1.</Gn> Set your Collection's name</Label>
                 <NameInput 
-                    height={'60px'}
                     value={name}
                     maxLength="20"
                     onChange={(e) => setName(e.target.value)}/>
 
-                <Label>2. Type a brief description</Label>
-                <NameInput 
-                    height={'120px'}
-                    value={name}
-                    maxLength="20"
-                    onChange={(e) => setName(e.target.value)}/>
+                <Label><Gn>2.</Gn> Enter a brief description</Label>
+                <DescriptionInput 
+                    rows={4}
+                    value={desc}
+                    maxLength="140"
+                    onChange={(e) => setDesc(e.target.value)}/>
+
+                <Label><Gn>3.</Gn> Select your Collection's type</Label>
+                <SpaceTypeBox>
+                    <SpaceType 
+                        color={ spaceType === 'public' ? primaryGray45 : null }
+                        onClick={() => setSpaceType('public')}>
+                        <Text
+                            color={lightGray150}
+                            fontWeight={spaceType === 'public' ? '500' : null}>
+                                Public
+                        </Text>
+                    </SpaceType>
+                    <SpaceType
+                        color={ spaceType === 'members' ? primaryGray45 : null }
+                        onClick={() => setSpaceType('members')}>
+                        <Text
+                            color={lightGray150}
+                            fontWeight={spaceType === 'members' ? '500' : null}>
+                                Members
+                        </Text>
+                    </SpaceType>
+                    <SpaceType
+                        color={ spaceType === 'private' ? primaryGray45 : null }
+                        onClick={() => setSpaceType('private')}>
+                        <Text
+                            color={lightGray150}
+                            fontWeight={spaceType === 'private' ? '500' : null}>
+                                Private
+                        </Text>
+                    </SpaceType>
+                </SpaceTypeBox>
             </FormBodyBox>               
         </Container>
     )
 }
 
 const Container = styled.div`
-    padding-top: 15%;
+    padding-top: 6%;
     padding-right: 6%;
     padding-left: 6%;
     width: 500px;
@@ -183,28 +213,69 @@ const FormBodyBox = styled(Row)`
 const Label = styled.label`
     color: ${lightGray150};
     font-family: Montserrat;
-    font-size: 22px;
-    font-weight: 500;
+    font-size: 18px;
+    font-weight: 600;
     margin: 2%;
     margin-bottom: 4%;
     margin-top: 8%;
+`;
+
+const Gn = styled.span`
+    color: ${primaryGreen}
 `;
 
 const NameInput = styled.input`
     padding: 5%;
     margin-right: 2%;
     margin-left: 2%;
-    height: ${props => props.height};
+    height: 60px;
     font-family: Montserrat;
     font-weight: 300;
-    font-size: 22px;
+    font-size: 18px;
     font-style: italic;
-    border-radius: 5px;
+    border-radius: 3px;
     background: rgb(30,30, 30);
     color: ${lightGray150};
     border:0;
     :focus {
         outline-width: 0;
+    }
+`;
+
+const DescriptionInput = styled.textarea`
+    padding: 5%;
+    margin-right: 2%;
+    margin-left: 2%;
+    font-family: Montserrat;
+    font-weight: 300;
+    font-size: 18px;
+    font-style: italic;
+    border-radius: 3px;
+    background: rgb(30,30, 30);
+    color: ${lightGray150};
+    resize: none;
+    border:0;
+    :focus {
+        outline-width: 0;
+    }
+`;
+
+const SpaceTypeBox = styled(Row)`
+    flex: 1;
+`;
+
+const SpaceType = styled(Row)`
+    flex: 1;
+    display: flex;
+    height: 50px;
+    align-items: center;
+    justify-content: center;
+    margin: 2%;
+    margin-top: 0%;
+    border-radius: 2px;
+    background: ${props => props.color};
+    &:hover{
+        opacity: 0.7; 
     }
 `;
 

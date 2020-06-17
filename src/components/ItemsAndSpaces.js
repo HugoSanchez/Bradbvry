@@ -32,7 +32,7 @@ const ItemsAndSpaces = React.memo((props) => {
 
    
     return (
-        <div className="itemsAndSpaces" key={items.length}> 
+        <Container> 
             <SpacesCarousel /> 
             <ItemsList entries={entries}/>
             <Drawer anchor={'right'} open={renderForm} onClose={() => setRenderForm(false)} >
@@ -42,7 +42,7 @@ const ItemsAndSpaces = React.memo((props) => {
                 onClick={() => setRenderForm(true)}
                 plus={true} 
             />
-        </div>
+        </Container>
     );
 });
 
@@ -52,9 +52,6 @@ const Container = styled(View)`
     overflow: hidden;
     padding-left: 7px;
     padding-right: 7px;
-    border-width: 2px;
-    border-style: solid;
-    border-color: red;
     @media ${device.mobileL} {
         padding-top: 30px;
     }
