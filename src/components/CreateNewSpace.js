@@ -138,7 +138,7 @@ export const CreateNewSpace = props => {
 
                 <Label><Gn>2.</Gn> Enter a brief description</Label>
                 <DescriptionInput 
-                    rows={4}
+                    rows={3}
                     value={desc}
                     maxLength="140"
                     onChange={(e) => setDesc(e.target.value)}/>
@@ -173,6 +173,14 @@ export const CreateNewSpace = props => {
                         </Text>
                     </SpaceType>
                 </SpaceTypeBox>
+
+                <Label><Gn>4.</Gn> Upload a cover image</Label>
+                <NameInput 
+                    value={name}
+                    maxLength="20"
+                    onChange={(e) => setName(e.target.value)}/>
+                
+                <Button />
             </FormBodyBox>               
         </Container>
     )
@@ -185,9 +193,12 @@ const Container = styled.div`
     width: 500px;
     height: 100%;
     dislay: flex;
-    overflow: hidden;
+    overflow: scroll;
     background: #191919;
     opacity: 0.9;
+    ::-webkit-scrollbar {
+        width: 0px;  
+    }
 `;
 
 const HeaderRow = styled(Row)`
@@ -200,7 +211,7 @@ const ModalTitle = styled(Title)`
     text-align: center;
     font-family: Montserrat;
     font-weight: 600;
-    font-size: 44px;
+    font-size: 38px;
     color: ${lightGray150};
 `;
 
@@ -213,7 +224,7 @@ const FormBodyBox = styled(Row)`
 const Label = styled.label`
     color: ${lightGray150};
     font-family: Montserrat;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 600;
     margin: 2%;
     margin-bottom: 4%;
@@ -225,13 +236,16 @@ const Gn = styled.span`
 `;
 
 const NameInput = styled.input`
-    padding: 5%;
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-top: 2%;
+    padding-bottom: 2%;
     margin-right: 2%;
     margin-left: 2%;
-    height: 60px;
+    height: 50px;
     font-family: Montserrat;
     font-weight: 300;
-    font-size: 18px;
+    font-size: 16px;
     font-style: italic;
     border-radius: 3px;
     background: rgb(30,30, 30);
@@ -243,12 +257,15 @@ const NameInput = styled.input`
 `;
 
 const DescriptionInput = styled.textarea`
-    padding: 5%;
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-top: 2%;
+    padding-bottom: 2%;
     margin-right: 2%;
     margin-left: 2%;
     font-family: Montserrat;
     font-weight: 300;
-    font-size: 18px;
+    font-size: 16px;
     font-style: italic;
     border-radius: 3px;
     background: rgb(30,30, 30);
@@ -257,6 +274,9 @@ const DescriptionInput = styled.textarea`
     border:0;
     :focus {
         outline-width: 0;
+    }
+    ::-webkit-scrollbar {
+        width: 0px;  
     }
 `;
 
@@ -270,12 +290,20 @@ const SpaceType = styled(Row)`
     height: 50px;
     align-items: center;
     justify-content: center;
-    margin: 2%;
-    margin-top: 0%;
+    margin-left: 2%;
+    margin-right: 2%;
     border-radius: 2px;
     background: ${props => props.color};
     &:hover{
         opacity: 0.7; 
     }
+`;
+
+const Button = styled.div`
+    background: ${primaryGreen};
+    margin-top: 4%;
+    margin-right: 2%;
+    margin-left: 2%;
+    height: 50px;
 `;
 
