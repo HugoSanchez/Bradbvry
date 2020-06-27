@@ -3,6 +3,7 @@ export * from './DescriptionInput';
 export * from './CircularButton';
 export * from './NameInput';
 export * from './Underline';
+export * from './FileInput';
 export * from './DeleteBin';
 export * from './Carousel';
 export * from './Button';

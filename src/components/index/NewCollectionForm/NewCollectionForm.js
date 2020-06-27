@@ -3,17 +3,16 @@ import React, {useState} from 'react';
 import {getBase64} from '../../../utils';
 
 import {
+    Gn,
+    Label,
     Container,
     ModalTitle,
     FormBodyBox,
-    Label,
-    Gn,
     Button,
-    FileInputBox,
-    FileInput
 } from './styles';
 
 import {
+    FileInput,
     NameInput,
     DescriptionInput,
     CollectionTypeSel
@@ -27,7 +26,7 @@ export const NewCollectionForm = props => {
     
     let [name, setName] = useState('')
     let [desc, setDesc] = useState('')
-    let [image, setImage] = useState(null)
+    let [image, setImage] = useState(false)
     let [error, setError] = useState(errorObj)
     let [collectionType, setCollectionType] = useState('private')
 
@@ -58,9 +57,11 @@ export const NewCollectionForm = props => {
     }
 
     const onImageUpload = async e => {
+        console.log(e.target.files[0].name)
+        let fileName = e.target.files[0].name
         let stringFile = await getBase64(e.target.files[0])
         console.log(stringFile)
-        setImage(stringFile)
+        setImage({name: fileName, file: stringFile})
     }
 
     const handleFormSubmit = async () => {
@@ -120,11 +121,12 @@ export const NewCollectionForm = props => {
                 />
 
                 <Label><Gn>4.</Gn> Upload a cover image</Label>
-                <FileInputBox>
-                    <FileInput />  
-                </FileInputBox> 
+                <FileInput 
+                    file={image}
+                    onChange={(e) => onImageUpload(e)}
+                />  
 
-                <Button />
+               { name && desc && image && <Button />}
             </FormBodyBox>               
         </Container>
     )

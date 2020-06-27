@@ -26,11 +26,6 @@ export const Container = styled.div`
     }
 `;
 
-export const HeaderRow = styled(Row)`
-    flex: 1;
-    flex-direction: row;
-`;
-
 export const ModalTitle = styled(Title)`
     width: 100%;
     text-align: center;
@@ -67,23 +62,3 @@ export const Button = styled.div`
     margin-left: 2%;
     height: 50px;
 `;
-
-export const FileInputBox = styled.div`
-    margin-right: 2%;
-    margin-left: 2%;
-    height: 50px;
-    border-radius: 3px;
-    background: rgb(30,30, 30);
-    border-style: dashed;
-    border-color: ${primaryGray85};
-    border-width: 2px;
-`;
-
-export const FileInput = styled.input.attrs({ type: 'file' })`
-    height: 100%;
-    width: 100%;
-    opacity: 0;
-    cursor: pointer;
-    z-index: -1;
-    background: rgb(240, 240, 240);
-`
