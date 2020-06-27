@@ -7,7 +7,7 @@ import Drawer from '@material-ui/core/Drawer';
 import '../App.css'
 
 import {
-    CreateNewSpace,
+    NewCollectionForm,
     SpacesCarousel,
     ItemsList
 } from './index';
@@ -35,8 +35,11 @@ const ItemsAndSpaces = React.memo((props) => {
         <Container> 
             <SpacesCarousel /> 
             <ItemsList entries={entries}/>
-            <Drawer anchor={'right'} open={renderForm} onClose={() => setRenderForm(false)} >
-                <CreateNewSpace/>
+            <Drawer 
+                anchor={'right'} 
+                open={renderForm} 
+                onClose={() => setRenderForm(false)} >
+                <NewCollectionForm/>
             </Drawer>
             <CircularButton 
                 onClick={() => setRenderForm(true)}
