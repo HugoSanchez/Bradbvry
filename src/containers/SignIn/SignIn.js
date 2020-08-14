@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import { useHistory } from "react-router-dom";
-import logo from '../../../blogo.png';
-import {magicKey} from '../../../config';
+import logo from '../../resources/blogo.png';
+// import {magicKey} from '../../../config';
 
 import {
     SignInCard,
@@ -15,14 +15,16 @@ import {
 
 
 const { Magic } = require('magic-sdk');
-const magic = new Magic(magicKey);
+// const magic = new Magic(magicKey);
 
 export const SignIn = props => {
 
     const history = useHistory();
 
     useEffect(() => {
-      checkLoginAndRedirect()},
+      console.log('HE: ', process.env.REACT_APP_HELLO)
+      // checkLoginAndRedirect()
+    },
     [])
 
     const checkLoginAndRedirect = async () => {
