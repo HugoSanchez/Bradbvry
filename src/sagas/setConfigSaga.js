@@ -9,6 +9,9 @@ import {
     setInitialUserData_Action
 } from '../actions';
 
+const { Magic } = require('magic-sdk');
+const magic = new Magic(process.env.REACT_APP_MAGIC_API_KEY);
+
 function* handleThreads(threads, space, account) {  
     // If it's a new user, it creates the first two threads with its config posts
     // and also it posts the welcome message. If not, for each thread, 
@@ -55,6 +58,9 @@ function* handleThreads(threads, space, account) {
 function* handleConfig() {
     // Identify user, instantiate 3box elements, 
     // and set them in redux state. Next handle threads.
+
+    yield console.log('hit!!!!', magic)
+    /** 
     let accounts    = yield window.ethereum.enable();
     let box         = yield Box.openBox(accounts[0], window.ethereum)
     let space       = yield box.openSpace('bradbvry--main')
@@ -67,6 +73,7 @@ function* handleConfig() {
 
     yield put(setInitialUserData_Action({box, space, profile, accounts}))
     yield handleThreads(threads, space, accounts[0])
+    */
 }
 
 export default function * watchInitialConfig() {

@@ -1,7 +1,9 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import { useHistory } from "react-router-dom";
-import logo from '../../resources/blogo.png';
-// import {magicKey} from '../../../config';
+import { useDispatch } from 'react-redux';
+import logo from '../../resources/favicon.png';
+import {setInitialConfiguration_Action} from '../../actions';
+
 
 import {
     SignInCard,
@@ -13,56 +15,49 @@ import {
     ButtonText
 } from './styles';
 
-
 const { Magic } = require('magic-sdk');
-// const magic = new Magic(magicKey);
+const magic = new Magic(process.env.REACT_APP_MAGIC_API_KEY);
 
 export const SignIn = props => {
 
     const history = useHistory();
-
-    useEffect(() => {
-      console.log('HE: ', process.env.REACT_APP_HELLO)
-      // checkLoginAndRedirect()
-    },
-    [])
-
-    const checkLoginAndRedirect = async () => {
-        let isLogged = await magic.user.isLoggedIn();
-        if (isLogged) {
-          let data = await magic.user.getMetadata()
-          // history.push(`/app/${data.publicAddress}`)
-        }
-    }
+    const dispatch = useDispatch()
 
     const handleLogin = async e => {
         e.preventDefault();
+
+        dispatch(setInitialConfiguration_Action())
         const email = new FormData(e.target).get("email");
-        console.log(email)
+
         if (email) {
-            
-            await magic.auth.loginWithMagicLink({ email });
-            await magic.user.isLoggedIn();
+          await magic.auth.loginWithMagicLink({ email });
+          await magic.user.isLoggedIn();
 
-            let data = await magic.user.getMetadata()
-            history.push(`/app/${data.publicAddress}`)
-
+          let data = await magic.user.getMetadata()
+          history.push(`/app/${data.publicAddress}`)
         }
     }
 
     return (
-        <SignInCard>
+      <SignInCard>
         <Logo src={logo} alt=''/>
-        <Title>Please Sign In</Title>
+        <Title>Hey, welcome!</Title>
         <Text>
             Enter your email here to either log in or sign up. 
             The process might take a few seconds, so please be patient.
         </Text>
-        <form onSubmit={handleLogin}>
-          <Input type="email" name="email" required="required" placeholder="thomas.pynchon@email.com" />
+        <form 
+          autocomplete="off" 
+          onSubmit={handleLogin}>
+          <Input 
+            type="email" 
+            name="email" 
+            required="required"
+            autocomplete="off" 
+            placeholder="thomas.pynchon@email.com" />
           <br></br>
           <Button type="submit">
-            <ButtonText>Log in / Sign up</ButtonText>
+            <ButtonText>Sign In</ButtonText>
           </Button>
         </form>
       </SignInCard>
