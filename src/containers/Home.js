@@ -38,13 +38,21 @@ class Home extends Component {
 
     async setInitialSessionConfig() {
         this.props.setInitialConfiguration_Action()
-        // Mixpanel.track('New Session')
     }
 
     render() {
 
         const {items, profile} = this.props
         const {loading, renderMetamask} = this.state
+
+        console.log('I rendered!')
+
+        console.log('loading: ', !loading)
+        console.log('profile: ', !!profile)
+        console.log(profile)
+        console.log('render Metamask: ', !renderMetamask)
+        console.log('Items: ', items.length)
+        console.log(items)
         
         return (
             <div>

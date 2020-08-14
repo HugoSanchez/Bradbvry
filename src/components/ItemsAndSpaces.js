@@ -29,7 +29,8 @@ const ItemsAndSpaces = React.memo((props) => {
     let entries = items.filter(item => item.message.type === 'entry')
 
     let [renderForm, setRenderForm] = useState(false);
-
+    
+    console.log('me too')
    
     return (
         <Container> 

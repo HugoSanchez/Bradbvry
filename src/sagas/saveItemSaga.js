@@ -7,7 +7,7 @@ const getThreadsState = state => state.threads
 function* handleSaveItem(action) {
     // Every time the user presses the round "back button" in the Editor
     // this function gets called which handles 3 posible scenarios:
-    // A new post, a update to existing one, nothing.
+    // 1) A new post, 2) an update to existing one, 3) nothing.
 
     const state = yield select(getThreadsState)
     const newItem = {type: 'entry', content: action.payload}
