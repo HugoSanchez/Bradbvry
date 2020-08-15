@@ -50,10 +50,7 @@ function* handleThreads(threads, space, account) {
     yield put(setThreadArray_Action(parsedThreads))
 
     let sortedItems = yield sortItemsArray(itemsArray)
-    yield console.log('Sorted items: ', sortedItems)
     yield put(setUserItems_Action(sortedItems))
-
-    console.log('we here')
 }
 
 function* handleConfig() {
@@ -68,14 +65,9 @@ function* handleConfig() {
     let space       = yield box.openSpace('bradbvry--main')
     let profile     = yield Box.getProfile(address)
     let threads     = yield space.subscribedThreads()
-
-    yield console.log('threads: ', threads)
-
     // threads.forEach(async thread => await space.unsubscribeThread(thread.address))
-
-
-   yield put(setInitialUserData_Action({box, space, profile, address, email}))
-   yield handleThreads(threads, space, address)
+    yield put(setInitialUserData_Action({box, space, profile, address, email}))
+    yield handleThreads(threads, space, address)
 
 }
 
@@ -89,20 +81,16 @@ export default function * watchInitialConfig() {
 ////////////////////////////////////////////////
 
 const parseThreadsAndPosts_Helper = async (threads, space) => {
-    console.log('----------- hit -----------')
     let itemsArray = [];
     let parsedThreads = [];
 
     for (let i = 0; i < threads.length; i++) {
-        console.log('1 ', i)
         let thread = await space.joinThreadByAddress(threads[i].address)
-        console.log('2 ', i)
         // let stringify = JSON.stringify(firstDefaultEntry)
         // let parse = JSON.parse(stringify)
         // await thread.post({type: 'entry', content: parse})
         // await thread.post({type: 'entry', content: parse})
         let posts = await thread.getPosts()
-        console.log('3', i)
 
         for(let z = 0; z < posts.length; z++) {
             

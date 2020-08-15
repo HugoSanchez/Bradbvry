@@ -10,6 +10,9 @@ import '../App.css';
 import {Header} from '../components/common';
 import {setInitialConfiguration_Action} from '../actions';
 
+const { Magic } = require('magic-sdk');
+const magic = new Magic(process.env.REACT_APP_MAGIC_API_KEY);
+
 class Home extends Component {
     constructor(props) {
         super(props)
@@ -20,24 +23,20 @@ class Home extends Component {
     }
 
     async componentDidMount(){
-        await this.handleMetamaskException()
-        if (!this.props.space) {this.setInitialSessionConfig()}
-        else {this.setState({loading: false})}
+        let isLogged = await magic.user.isLoggedIn();
+        if (!isLogged) { this.props.history.push(`/signin`)} 
+        else {this.handleConfig()}
     }
 
     async shouldComponentUpdate(nextProps, nextState) {
         if (nextProps.space && this.state.loading === true) {
-            console.log('here')
-            this.setState({loading: false})}
+            this.setState({loading: false})
+        }
     }
 
-    async handleMetamaskException(){
-        if (typeof window.ethereum === 'undefined') {
-        this.setState({renderMetamask: true})} 
-    }
-
-    async setInitialSessionConfig() {
-        this.props.setInitialConfiguration_Action()
+    async handleConfig(){
+        if (!this.props.space) {this.props.setInitialConfiguration_Action()}
+        else {this.setState({loading: false})}
     }
 
     render() {
@@ -46,13 +45,6 @@ class Home extends Component {
         const {loading, renderMetamask} = this.state
 
         console.log('I rendered!')
-
-        console.log('loading: ', !loading)
-        console.log('profile: ', !!profile)
-        console.log(profile)
-        console.log('render Metamask: ', !renderMetamask)
-        console.log('Items: ', items.length)
-        console.log(items)
         
         return (
             <div>
@@ -61,7 +53,7 @@ class Home extends Component {
 
                     <div className="home-container">
                         {renderMetamask && !profile && <InstallMetamask /> }
-                        {loading && console.log(loading)  && <PointSpreadLoading color={"rgb(190, 235, 194)"} />}
+                        {loading && <PointSpreadLoading color={"rgb(190, 235, 194)"} />}
                         
                         {   
                             !loading && profile && 
