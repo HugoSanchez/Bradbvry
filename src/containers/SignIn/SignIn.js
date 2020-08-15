@@ -26,13 +26,14 @@ export const SignIn = props => {
     const handleLogin = async e => {
         e.preventDefault();
 
-        dispatch(setInitialConfiguration_Action())
+        
         const email = new FormData(e.target).get("email");
 
         if (email) {
           await magic.auth.loginWithMagicLink({ email });
           await magic.user.isLoggedIn();
 
+          dispatch(setInitialConfiguration_Action())
           let data = await magic.user.getMetadata()
           history.push(`/app/${data.publicAddress}`)
         }

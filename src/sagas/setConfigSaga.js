@@ -43,7 +43,6 @@ function* handleThreads(threads, space, account) {
         let globalThread = yield ThreeBox.createConfidentialThread(
             space, account, 'bradbvry-global-test', 'public')
         yield globalThread.post({type: 'config', content: globalThreadConfigObject})
-       
     }
 
     let reversedThreads = threads.reverse()
@@ -53,27 +52,31 @@ function* handleThreads(threads, space, account) {
     let sortedItems = yield sortItemsArray(itemsArray)
     yield console.log('Sorted items: ', sortedItems)
     yield put(setUserItems_Action(sortedItems))
+
+    console.log('we here')
 }
 
 function* handleConfig() {
     // Identify user, instantiate 3box elements, 
     // and set them in redux state. Next handle threads.
 
-    yield console.log('hit!!!!', magic)
-    /** 
-    let accounts    = yield window.ethereum.enable();
-    let box         = yield Box.openBox(accounts[0], window.ethereum)
+    let data        = yield magic.user.getMetadata()
+    let email       = data.email
+    let address     = data.publicAddress
+
+    let box         = yield Box.openBox(address, magic.rpcProvider)
     let space       = yield box.openSpace('bradbvry--main')
-    let profile     = yield Box.getProfile(accounts[0])
+    let profile     = yield Box.getProfile(address)
     let threads     = yield space.subscribedThreads()
 
     yield console.log('threads: ', threads)
 
     // threads.forEach(async thread => await space.unsubscribeThread(thread.address))
 
-    yield put(setInitialUserData_Action({box, space, profile, accounts}))
-    yield handleThreads(threads, space, accounts[0])
-    */
+
+   yield put(setInitialUserData_Action({box, space, profile, address, email}))
+   yield handleThreads(threads, space, address)
+
 }
 
 export default function * watchInitialConfig() {
@@ -86,7 +89,7 @@ export default function * watchInitialConfig() {
 ////////////////////////////////////////////////
 
 const parseThreadsAndPosts_Helper = async (threads, space) => {
-    console.log('hit')
+    console.log('----------- hit -----------')
     let itemsArray = [];
     let parsedThreads = [];
 

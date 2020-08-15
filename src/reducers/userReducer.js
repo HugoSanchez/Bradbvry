@@ -7,7 +7,8 @@ const initialState = {
     box: null, 
     space: null,
     profile: null,
-    accounts: null,
+    address: null,
+    email: null,
   }
 }
 

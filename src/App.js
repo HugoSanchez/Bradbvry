@@ -26,10 +26,10 @@ class App extends Component {
                     <Switch>
                         <Route path='/signin' component={SignIn} />
                         <Route path='/landing' component={LandingPage} />
-                        <Route path='/home' component={Home} />
+                        <Route path='/app/:user' component={Home} />
                         <Route path='/editor' component={Editor} />
                         <Route path='/settings' component={Settings} />
-                        <Route exact path="/" render={() => (<Redirect to="/landing" />)} /> 
+                        <Route exact path="/" render={() => (<Redirect to="/signin" />)} /> 
                     </Switch>
                 </Provider>
             </main>
