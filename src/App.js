@@ -5,7 +5,10 @@ import configureStore from './store';
 import LandingPage from './containers/LandingPage';
 import Settings from './containers/Settings';
 import Editor from './containers/Editor';
-import {SignIn} from './containers/SignIn';
+import {
+    SignIn,
+    Collection
+} from './containers';
 import Home from './containers/Home';
 import './App.css';
 
@@ -26,6 +29,7 @@ class App extends Component {
                     <Switch>
                         <Route path='/signin' component={SignIn} />
                         <Route path='/landing' component={LandingPage} />
+                        <Route path='/app/:user/:thread' component={Collection} />
                         <Route path='/app/:user' component={Home} />
                         <Route path='/editor' component={Editor} />
                         <Route path='/settings' component={Settings} />

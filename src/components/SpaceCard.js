@@ -1,9 +1,11 @@
 import React  from 'react';
 import styled from 'styled-components';
+import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
 import {View, Title, Text} from './common';
+import {setActiveThread_Action} from '../actions';
 
 /**
- * 
  * @param {onPress} props: function to execute;
  * @param {image} props: image to display;
  * @param {name} props: space's name;
@@ -17,8 +19,18 @@ export const SpaceCard = props => {
     let spacename = thread.config.name.replace(/-/g, ' ')
     let description = thread.config.description.slice(0, 96)
 
+    let address = useSelector(state => state.user.data.address);
+
+    const history = useHistory();
+    const dispatch = useDispatch()
+
+    const handleOnClick = () => {
+        dispatch(setActiveThread_Action(thread))
+        history.push(`app/${address + thread._address}`)
+    }
+
     return (
-        <SpaceCardContainer onClick={props.onPress}>
+        <SpaceCardContainer onClick={handleOnClick}>
             <SpaceImage src={image}/>
             <TextBox>
                 <SpaceTitle color={"white"}>{spacename}</SpaceTitle>
