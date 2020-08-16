@@ -13,6 +13,7 @@ const Card = styled(Row)`
     vertical-align: ${props => props.verticalAlign || 'middle'};
     background-color: ${props => props.backgroundColor || 'white'};
     transition: 0.4s ease-out;
+    box-shadow: ${props => props.shadow ? '0 0 80px rgba(0,0,0,0.1);' : null}; 
 
     &:hover {
         box-shadow: 0 0 10px rgba(0,0,0,0.1); 

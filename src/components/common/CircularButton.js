@@ -3,9 +3,12 @@ import {IconContext} from 'react-icons';
 import styled from 'styled-components';
 import {
     RiArrowLeftLine, 
+    RiImageAddLine,
+    RiBallPenLine,
     RiAddLine
 } from 'react-icons/ri'
-import '../../App.css';
+
+import {primaryGray85} from '../../constants/colors'
 
 /**
  * @param {onCLick}: function to execute.
@@ -17,12 +20,19 @@ import '../../App.css';
 
 const CircularButton = props => {
 
-    const  size  = props.arrow ? '25px' : '30px'
+    const  size  = props.size ? props.size : '30px'
 
     return (
-        <Button id={props.buttonId} onClick={props.onClick}>
-            <IconContext.Provider value={{size: size, color: 'gray'}}>
+        <Button 
+            id={props.buttonId} 
+            right={props.right}
+            bottom={props.bottom}
+            background={props.background}
+            onClick={props.onClick}>
+            <IconContext.Provider value={{size: size, color: primaryGray85}}>
                 <IconContainer id={props.iconId}>
+                    {props.imageAdd ? <RiImageAddLine /> : null }
+                    {props.quillPen ? <RiBallPenLine /> : null }
                     {props.arrow ? <RiArrowLeftLine /> : null }
                     {props.plus ? <RiAddLine /> : null}
                 </IconContainer>
@@ -35,19 +45,26 @@ const CircularButton = props => {
 
 const Button = styled.div`
     z-index: 2;
-    bottom: 5rem;
-    right: 5rem;
+    position: fixed;
+    bottom: ${props => props.bottom || '10vh'};
+    right: ${props => props.right || '5vw'};
     width: 3rem; 
     height: 3rem; 
     border-radius: 1.5rem;
-    background-color: white; 
-    position: fixed;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);     
+    background-color: ${props => props.background || 'white'}; 
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);    
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    cursor: pointer;
+
+    &:hover{
+        box-shadow: 0 0 10px rgba(0,0,0,0.2); 
+    }
 `;
 
 
 const IconContainer = styled.div`
-    margin-top: 0.58rem;
 `;
 
 export {CircularButton};

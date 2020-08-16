@@ -1,11 +1,12 @@
 import React, {useEffect, useState, Fragment} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {Header} from '../../components/common';
 
 import {
   CollectionCardBig,
+  CircularButton,
   LoadingCard,
   ItemsList, 
+  Header
 } from '../../components';
 
 import {
@@ -70,6 +71,8 @@ export const Collection = props => {
     }
   }
 
+  // Get all items that belong to the appropriate thread.
+  // And set them in state.
   const setThreadItems = () => {
     if (itemsArray.length > 0 && items.length < 1) {
       let threadItems = itemsArray.filter(item => item.threadName === threadName)
@@ -86,15 +89,28 @@ export const Collection = props => {
 
   return (
     <Fragment>
-      <Header />
-      <FlexContainer>
-        <LeftContainer>
-          <CollectionCardBig thread={activeThread} />
-        </LeftContainer>
-        <RightContainer>
-          <ItemsList entries={items}/>
-        </RightContainer>
-      </FlexContainer>
+		<Header />
+		<FlexContainer>
+			<LeftContainer>
+				<CollectionCardBig 
+					thread={activeThread} />
+			</LeftContainer>
+			<RightContainer>
+				<ItemsList 
+					entries={items} shadow={true}/>
+			</RightContainer>
+		</FlexContainer>
+		<CircularButton
+			imageAdd
+			size={'25px'}
+			bottom={'16.5vh'} 
+			onClick={() => console.log('clicked')}
+		/>
+		<CircularButton
+			quillPen
+			size={'25px'}
+			onClick={() => console.log('clicked')}
+		/>
     </Fragment>
     
   )

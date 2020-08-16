@@ -93,7 +93,8 @@ const ListItem = React.memo((props) => {
 
     return (
 
-            <Card
+            <Card 
+                shadow={props.shadow}
                 onClick={() => {onItemClick()}}
                 onMouseEnter={() => {handleMouseOver()}}
                 onMouseLeave={() => {handleMouseOver()}}>
