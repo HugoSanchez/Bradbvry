@@ -1,6 +1,13 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, Fragment} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {LoadingCard} from '../../components';
+import {Header} from '../../components/common';
+
+import {
+  CollectionCardBig,
+  LoadingCard,
+  ItemsList, 
+} from '../../components';
+
 import {
   setActiveThread_Action, 
   setInitialConfiguration_Action
@@ -70,23 +77,26 @@ export const Collection = props => {
     }
   }
 
-  /** 
+
   if (items.length < 1){
     return (
       <LoadingCard />
     )
   }
-  */
 
   return (
-    <FlexContainer>
-      <LeftContainer>
-
-      </LeftContainer>
-      <RightContainer>
-
-      </RightContainer>
-    </FlexContainer>
+    <Fragment>
+      <Header />
+      <FlexContainer>
+        <LeftContainer>
+          <CollectionCardBig thread={activeThread} />
+        </LeftContainer>
+        <RightContainer>
+          <ItemsList entries={items}/>
+        </RightContainer>
+      </FlexContainer>
+    </Fragment>
+    
   )
   
 }
