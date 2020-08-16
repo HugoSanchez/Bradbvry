@@ -1,6 +1,7 @@
 export * from './CollectionTypeSel';
 export * from './DescriptionInput';
 export * from './CircularButton';
+export * from './DrawerCont';
 export * from './NameInput';
 export * from './Underline';
 export * from './FileInput';

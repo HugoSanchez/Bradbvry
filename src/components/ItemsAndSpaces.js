@@ -3,8 +3,6 @@ import styled from 'styled-components';
 import {device} from '../constants';
 import {useSelector} from "react-redux";
 import Drawer from '@material-ui/core/Drawer';
-/// import SlidingPane from "react-sliding-pane";
-import '../App.css'
 
 import {
     NewCollectionForm,

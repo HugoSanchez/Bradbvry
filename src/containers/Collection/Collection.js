@@ -1,8 +1,10 @@
 import React, {useEffect, useState, Fragment} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
+import Drawer from '@material-ui/core/Drawer';
 
 import {
   CollectionCardBig,
+  UploadImageForm,
   CircularButton,
   LoadingCard,
   ItemsList, 
@@ -31,7 +33,9 @@ export const Collection = props => {
   } = props.match.params
 
   const dispatch = useDispatch()
+
   const [items, setItems] = useState([])
+  const [renderForm, setRenderForm] = useState(false)
 
   const threadsArray = useSelector(state => state.threads.threadsArray)
   const itemsArray = useSelector(state => state.threads.itemsArray)
@@ -90,26 +94,32 @@ export const Collection = props => {
   return (
     <Fragment>
 		<Header />
+		<Drawer 
+			anchor={'right'} 
+			open={renderForm} 
+			onClose={() => setRenderForm(false)} >
+				<UploadImageForm/>
+		</Drawer>
+
 		<FlexContainer>
 			<LeftContainer>
-				<CollectionCardBig 
-					thread={activeThread} />
+				<CollectionCardBig thread={activeThread} />
 			</LeftContainer>
 			<RightContainer>
-				<ItemsList 
-					entries={items} shadow={true}/>
+				<ItemsList entries={items} shadow={true}/>
 			</RightContainer>
 		</FlexContainer>
+
 		<CircularButton
 			imageAdd
 			size={'25px'}
 			bottom={'16.5vh'} 
-			onClick={() => console.log('clicked')}
+			onClick={() => setRenderForm(true)}
 		/>
 		<CircularButton
 			quillPen
 			size={'25px'}
-			onClick={() => console.log('clicked')}
+			onClick={() => setRenderForm(true)}
 		/>
     </Fragment>
     

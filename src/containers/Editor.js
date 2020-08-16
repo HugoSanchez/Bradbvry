@@ -3,7 +3,6 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import DanteEditor from "Dante2";
 import {CircularButton} from '../components/common';
-import {NewSpaceModal} from '../components';
 import {
     deleteEntry_Action,
     handleSaveItem_Action,
@@ -128,8 +127,6 @@ class Editor extends Component {
 
         return (
             <div className="Main">
-
-                <NewSpaceModal isOpen={this.state.isOpen} onClose={() => this.handleCloseModal()}/>
 
                 <CircularButton 
                     onClick={() => this.handleSaveItem()}

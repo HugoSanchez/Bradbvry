@@ -5,7 +5,6 @@ import {getBase64} from '../../../utils';
 import {
     Gn,
     Label,
-    Container,
     ModalTitle,
     FormBodyBox,
     Button,
@@ -16,12 +15,11 @@ import {
     NameInput,
     DrawerCont,
     DescriptionInput,
-    CollectionTypeSel
 } from '../../common';
 
 // import {useSelector} from "react-redux";
 
-export const NewCollectionForm = props => {
+export const UploadImageForm = props => {
 
     let errorObj = {name: null, desc: null}
     
@@ -29,7 +27,6 @@ export const NewCollectionForm = props => {
     let [desc, setDesc] = useState('')
     let [image, setImage] = useState(false)
     let [error, setError] = useState(errorObj)
-    let [collectionType, setCollectionType] = useState('private')
 
     // const space = useSelector(state => state.user.data.space);
     // const account = useSelector(state => state.user.data.accounts[0]);
@@ -98,11 +95,11 @@ export const NewCollectionForm = props => {
         <DrawerCont>          
             
             <ModalTitle>
-                Create A New Collection
+                Upload Image
             </ModalTitle>
 
             <FormBodyBox>
-                <Label><Gn>1.</Gn> Set your Collection's name</Label>
+                <Label><Gn>1.</Gn> Choose a title </Label>
                 <NameInput 
                     value={name}
                     maxLength="20"
@@ -115,13 +112,7 @@ export const NewCollectionForm = props => {
                     maxLength="140"
                     onChange={(e) => setDesc(e.target.value)}/>
 
-                <Label><Gn>3.</Gn> Select your Collection's type</Label>
-                <CollectionTypeSel 
-                    collectionType={collectionType}
-                    setCollectionType={setCollectionType}
-                />
-
-                <Label><Gn>4.</Gn> Upload a cover image</Label>
+                <Label><Gn>3.</Gn> Upload a cover image</Label>
                 <FileInput 
                     file={image}
                     onChange={(e) => onImageUpload(e)}
