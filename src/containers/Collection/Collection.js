@@ -6,20 +6,33 @@ import {
   setInitialConfiguration_Action
 } from '../../actions';
 
+import {
+  FlexContainer,
+  LeftContainer,
+  RightContainer
+} from './styles';
+
 const { Magic } = require('magic-sdk');
 const magic = new Magic(process.env.REACT_APP_MAGIC_API_KEY);
 
 export const Collection = props => {
 
-  const dispatch = useDispatch()
+  let {
+    threadAddress, 
+    threadName
+  } = props.match.params
 
-  const [loading, setLoading] = useState(true)
+  const dispatch = useDispatch()
+  const [items, setItems] = useState([])
+
   const threadsArray = useSelector(state => state.threads.threadsArray)
+  const itemsArray = useSelector(state => state.threads.itemsArray)
   const activeThread = useSelector(state => state.threads.activeThread)
 
   useEffect(() => {
     isLoggedIn()
     checkActiveThread()
+    setThreadItems()
   })
 
   // Check if user is logged in. 
@@ -37,28 +50,44 @@ export const Collection = props => {
   const handleConfig = async () => {
     if (threadsArray.length < 1) {
       dispatch(setInitialConfiguration_Action())}
-    else {
-      // console.log('here')
-      // checkActiveThread()
-      setLoading(false)
-    }
   }
 
   // Check selectedThread is correct.
   // If activeThread is not set, user is reloading and should be set.
   // Else handle other cases.
-  const checkActiveThread = async () => {
-    if (!threadsArray.length < 1 && !activeThread && loading) {
-      let {threadAddress, threadName} = props.match.params
+  const checkActiveThread = () => {
+    if (!threadsArray.length < 1 && !activeThread && items.length < 1) {
       let paramsThreadAddress = `/orbitdb/${threadAddress}/${threadName}`
-      
       let thread = threadsArray.find(thread => thread._address === paramsThreadAddress)
       dispatch(setActiveThread_Action(thread))
     }
   }
 
+  const setThreadItems = () => {
+    if (itemsArray.length > 0 && items.length < 1) {
+      let threadItems = itemsArray.filter(item => item.threadName === threadName)
+      setItems(threadItems)
+    }
+  }
+
+  /** 
+  if (items.length < 1){
+    return (
+      <LoadingCard />
+    )
+  }
+  */
+
   return (
-    <LoadingCard />
+    <FlexContainer>
+      <LeftContainer>
+
+      </LeftContainer>
+      <RightContainer>
+
+      </RightContainer>
+    </FlexContainer>
   )
+  
 }
 
