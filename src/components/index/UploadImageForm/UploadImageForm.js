@@ -40,7 +40,7 @@ export const UploadImageForm = props => {
         }
 
         dispatch(handleSaveImage_Action(object))
-        
+        props.onClose()
     }
 
     return (

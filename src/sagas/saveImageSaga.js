@@ -8,23 +8,19 @@ function* handleSaveImage(action) {
     // Every time the user saves a new photo from the UploadImageForm
     // this saga gets executed.
     const state = yield select(getThreadsState)
-    const newImage = {type: 'photo', content: action.payload}
+    const newImage = {type: 'image', content: action.payload}
 
     const {
         activeThread,
         itemsArray,
     } = state;
 
-    // It stringifies the object, post it and 
+    // It stringifies the object, posts it and 
     // updates the state with the parsed post.
-    let stringifiedImage = JSON.stringify(newImage)
-
-    console.log('--- hit ---')
-    console.log('Obje: ', newImage)
-    
-    let newPost = yield postAndParse(activeThread, stringifiedImage)
-    let array = itemsArray.push(newPost)
-    yield put(setUserItems_Action(array))
+    let newPost = yield postAndParse(activeThread, newImage)
+    let newArray = [...itemsArray]
+    newArray.push(newPost)
+    yield put(setUserItems_Action(newArray))
 }
 
 

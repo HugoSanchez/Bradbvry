@@ -67,10 +67,10 @@ export const Collection = props => {
   // Check selectedThread is correct.
   // If activeThread is not set, user is reloading and should be set.
   // Else handle other cases.
-  const checkActiveThread = () => {
+  const checkActiveThread = async () => {
     if (!threadsArray.length < 1 && !activeThread && items.length < 1) {
       let paramsThreadAddress = `/orbitdb/${threadAddress}/${threadName}`
-      let thread = threadsArray.find(thread => thread._address === paramsThreadAddress)
+	  let thread = threadsArray.find(thread => thread._address === paramsThreadAddress)
       dispatch(setActiveThread_Action(thread))
     }
   }
@@ -78,14 +78,18 @@ export const Collection = props => {
   // Get all items that belong to the appropriate thread.
   // And set them in state.
   const setThreadItems = () => {
-    if (itemsArray.length > 0 && items.length < 1) {
-      let threadItems = itemsArray.filter(item => item.threadName === threadName)
-      setItems(threadItems)
+	let threadItems = itemsArray.filter(item => item.threadName === threadName)
+    if (threadItems.length !== items.length) {
+		console.log('here')
+		setItems(threadItems)
     }
   }
 
-  console.log(items)
+  const onImageUpload = () => {
+	  setRenderForm()
+  }
 
+  console.log(itemsArray)
 
   if (items.length < 1){
     return (
@@ -100,7 +104,7 @@ export const Collection = props => {
 			anchor={'right'} 
 			open={renderForm} 
 			onClose={() => setRenderForm(false)} >
-				<UploadImageForm/>
+				<UploadImageForm onClose={() => onImageUpload()}/>
 		</Drawer>
 
 		<FlexContainer>
