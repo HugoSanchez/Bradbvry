@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { ListItem } from './index';
 import Masonry from 'react-masonry-css'
 import styled from 'styled-components';
@@ -26,7 +26,6 @@ const MasonryIterator = props => {
 } 
 
 const ListItemsIterator = props => {
-    console.log('here!')
     return props.items.map((item, index) => {
         return  <ListItem key={index} item={item} shadow={props.shadow} />
     })
@@ -46,20 +45,23 @@ export const ItemsList = props => {
     // This is a nested iterator that will render either
     // groups of text entries, of groups of images using 
     // a masontry layout.
-    let groupedItems = groupItemsByType(props.entries)
-
-    console.log('render!')
+    let groupedItems = groupItemsByType(props.items)
 
     return (
         <Container>
             <Text>Latest entries</Text>
             <Underline />
             {
-                groupedItems.map(group => {
+                groupedItems.map((group, index) => {
                     if (group.groupType === 'entry') {
-                        return <ListItemsIterator items={group.items} shadow={props.shadow}/>
+                        return <ListItemsIterator 
+                            key={index}
+                            items={group.items} 
+                            shadow={props.shadow}/>
                     } else if (group.groupType === 'image') {
-                        return <MasonryIterator items={group.items}/>
+                        return <MasonryIterator 
+                            key={index}
+                            items={group.items}/>
                     }
                 })
             }

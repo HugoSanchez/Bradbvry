@@ -18,7 +18,7 @@ export const SpacesCarousel = props => {
     let threads = useSelector(state => state.threads.threadsArray);
     return (
         <Fragment>
-            <Text>Your spaces</Text>
+            <Text>Your collections</Text>
             <Underline />
             <Carousel>
                 {

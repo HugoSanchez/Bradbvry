@@ -25,7 +25,7 @@ const Settings = props => {
                         // required
                         box={data.box}
                         space={data.space}
-                        currentUserAddr={data.accounts[0]}
+                        currentUserAddr={data.address}
                     />
                 </div>
             </div>

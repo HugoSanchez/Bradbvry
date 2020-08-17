@@ -24,14 +24,15 @@ import {
 const ItemsAndSpaces = React.memo((props) => {
 
     let items = useSelector(state => state.threads.itemsArray);
-    let entries = items.filter(item => item.message.type === 'entry')
 
     let [renderForm, setRenderForm] = useState(false);
+
+    console.log('NOW!')
        
     return (
         <Container> 
             <SpacesCarousel /> 
-            <ItemsList entries={entries}/>
+            <ItemsList items={items}/>
             <Drawer 
                 anchor={'right'} 
                 open={renderForm} 

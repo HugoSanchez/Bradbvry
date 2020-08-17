@@ -103,7 +103,7 @@ export const Collection = props => {
 					<CollectionCardBig thread={activeThread} />
 				</LeftContainer>
 				<RightContainer>
-					<ItemsList entries={threadItems} shadow={true}/>
+					<ItemsList items={threadItems} shadow={true}/>
 				</RightContainer>
 			</FlexContainer>
 
