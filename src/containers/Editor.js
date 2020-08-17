@@ -26,10 +26,15 @@ class Editor extends Component {
     async componentDidMount() {
         window.scrollTo(0, 0)
         let {item} = this.props;
-        let {timestamp} = item.message.content;
+        
         if (item) {
+            let {timestamp} = item.message.contents
             this.setState({timestamp: timestamp})
         } 
+
+        // To do.
+        // We need to check that user is signed in
+
     }
 
     async handleSaveItem() {
@@ -37,7 +42,7 @@ class Editor extends Component {
         content.timestamp = this.state.timestamp
 
         this.props.handleSaveItem_Action(content)
-        this.props.history.push('/home')
+        this.props.history.goBack() // fix this.
     }
 
     async handleAutomaticSave(content) {

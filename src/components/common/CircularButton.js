@@ -47,7 +47,7 @@ const Button = styled.div`
     z-index: 2;
     position: fixed;
     bottom: ${props => props.bottom || '10vh'};
-    right: ${props => props.right || '5vw'};
+    right: ${props => props.right || '4vw'};
     width: 3rem; 
     height: 3rem; 
     border-radius: 1.5rem;

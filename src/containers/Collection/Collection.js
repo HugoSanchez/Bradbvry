@@ -81,9 +81,8 @@ export const Collection = props => {
 		setRenderForm(false)
 	}
 
-  	console.log(threadItems)
 
-	if (threadItems.length < 1){
+	if (threadItems.length < 1 && !activeThread){
 		return (
 			<LoadingCard />
 		)
@@ -111,13 +110,13 @@ export const Collection = props => {
 			<CircularButton
 				imageAdd
 				size={'25px'}
-				bottom={'16.5vh'} 
+				bottom={'18vh'} 
 				onClick={() => setRenderForm(true)}
 			/>
 			<CircularButton
 				quillPen
 				size={'25px'}
-				onClick={() => setRenderForm(true)}
+				onClick={() => props.history.push('/editor')}
 			/>
 		</Fragment>
   	)

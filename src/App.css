@@ -75,7 +75,7 @@
 }
 
 #editor-circular-button-icon {
-  margin-top: 0.75rem;
+  margin-top: 0.30rem;
 }
 
 /* Editor text styles */
@@ -110,6 +110,23 @@
   font-weight: 300;
   color: rgb(65, 65, 65);
 }
+
+/* Masonry Layout  */
+.my-masonry-grid {
+  display: -webkit-box; /* Not needed if autoprefixing */
+  display: -ms-flexbox; /* Not needed if autoprefixing */
+  display: flex;
+  width: auto;
+}
+
+.my-masonry-grid_column {
+  background-clip: padding-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 
 /* EMPTY HOME */
 #empty.Button {
