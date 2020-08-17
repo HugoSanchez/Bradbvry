@@ -15,7 +15,9 @@ export const ItemsList = props => {
             <Underline />
             {
                 props.entries.map((entry, index) => {
-                    return  <ListItem key={index} item={entry} shadow={props.shadow} />
+                    if (entry.message.type === 'entry') {
+                        return  <ListItem key={index} item={entry} shadow={props.shadow} />
+                    }
                 })
             } 
         </Fragment>

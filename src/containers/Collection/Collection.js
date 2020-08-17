@@ -84,6 +84,8 @@ export const Collection = props => {
     }
   }
 
+  console.log(items)
+
 
   if (items.length < 1){
     return (

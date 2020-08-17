@@ -8,6 +8,7 @@ import {
     SET_THREAD_ARRAY,
     DELETE_USER_ENTRY,
     HANDLE_SAVE_ITEM,
+    HANDLE_SAVE_IMAGE,
 } from './types';
 
 
@@ -54,6 +55,13 @@ export const handleSaveItem_Action = item => {
     return { 
         type: HANDLE_SAVE_ITEM, 
         payload: item 
+    }
+}
+
+export const handleSaveImage_Action = object => {
+    return { 
+        type: HANDLE_SAVE_IMAGE, 
+        payload: object 
     }
 }
 
