@@ -6,6 +6,7 @@ export * from './index/NewCollectionForm';
 export * from './index/CollectionCardBig';
 export * from './index/UploadImageForm';
 export * from './index/LoadingCard';
+export * from './index/ImageCard';
 export * from './SpacesCarousel';
 
 export * from './common';

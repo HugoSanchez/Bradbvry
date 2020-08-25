@@ -8,6 +8,8 @@ import {
     Text,
 } from './common';
 
+import {ImageCard} from '../components'
+
 const MasonryIterator = props => {
     return (
         <Masonry
@@ -17,7 +19,7 @@ const MasonryIterator = props => {
             {
                 props.items.map((p, i) => {
                     return (
-                        <Image src={p.message.content.image.file} alt={i} key={i}/>
+                        <ImageCard image={p.message.content.image.file} alt={i} key={i}/>
                     )
                 })
             }
@@ -73,6 +75,11 @@ export const ItemsList = props => {
 /////// HELPER FUNCTIONS
 ////////////////////////////////////////////////
 
+// This function returns an array of blocks (objects) of content by type.
+// For instance: block 1 == type entry, block 2 == type image.
+// This allows to render the collection's content 
+// by chronological order. 
+
 const groupItemsByType = entries => {
 
     let currentTypeOfEntry = null
@@ -96,26 +103,5 @@ const groupItemsByType = entries => {
     return groupedItems;
 }
 
-/**
- * 
- export const ItemsList = props => {
-
-    let groupedItems = groupItemsByType(props.entries)
-
-    return (
-        <Fragment>
-            <Text>Latest entries</Text>
-            <Underline />
-            {
-                props.entries.map((entry, index) => {
-                    if (entry.message.type === 'entry') {
-                        return  <ListItem key={index} item={entry} shadow={props.shadow} />
-                    }
-                })
-            } 
-        </Fragment>
-    );
-} 
- */
 
 
