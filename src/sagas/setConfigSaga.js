@@ -16,7 +16,6 @@ function* handleThreads(threads, space, account) {
     // If it's a new user, it creates the first two threads with its config posts
     // and also it posts the welcome message. If not, for each thread, 
     // it parses and sets the items.
-    
     if (threads.length === 0) {
         let stringify = JSON.stringify(firstDefaultEntry)
         let parse = JSON.parse(stringify)
@@ -51,12 +50,12 @@ function* handleThreads(threads, space, account) {
 
     let sortedItems = yield sortItemsArray(itemsArray)
     yield put(setUserItems_Action(sortedItems))
+    
 }
 
 function* handleConfig() {
     // Identify user, instantiate 3box elements, 
     // and set them in redux state. Next handle threads.
-
     let data        = yield magic.user.getMetadata()
     let email       = data.email
     let address     = data.publicAddress
@@ -81,15 +80,17 @@ export default function * watchInitialConfig() {
 ////////////////////////////////////////////////
 
 const parseThreadsAndPosts_Helper = async (threads, space) => {
+
     let itemsArray = [];
     let parsedThreads = [];
-
+    
     for (let i = 0; i < threads.length; i++) {
         let thread = await space.joinThreadByAddress(threads[i].address)
         // let stringify = JSON.stringify(firstDefaultEntry)
         // let parse = JSON.parse(stringify)
         // await thread.post({type: 'entry', content: parse})
         // await thread.post({type: 'entry', content: parse})
+        
         let posts = await thread.getPosts()
 
         for(let z = 0; z < posts.length; z++) {

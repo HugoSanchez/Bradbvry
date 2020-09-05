@@ -38,8 +38,9 @@ function* handleSaveItem(action) {
     // if so, post new entry and update itemsArray.
     else if (isContent) {
         let newPost = yield postAndParse(activeThread, newItem)
-        let array = itemsArray.push(newPost)
-        yield put(setUserItems_Action(array))
+        let newArray = [...itemsArray]
+        newArray.push(newPost)
+        yield put(setUserItems_Action(newArray))
     }
 }
 

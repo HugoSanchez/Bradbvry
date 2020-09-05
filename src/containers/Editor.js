@@ -17,7 +17,6 @@ class Editor extends Component {
         
         this.state = {
             item: null, 
-            isOpen: false,
             content: null,
             timestamp: Date.now(),
         }
@@ -28,7 +27,8 @@ class Editor extends Component {
         let {item} = this.props;
         
         if (item) {
-            let {timestamp} = item.message.contents
+            console.log(item)
+            let {timestamp} = item.message.content
             this.setState({timestamp: timestamp})
         } 
 
@@ -40,21 +40,12 @@ class Editor extends Component {
     async handleSaveItem() {
         let {content} = this.state;
         content.timestamp = this.state.timestamp
-
         this.props.handleSaveItem_Action(content)
-        this.props.history.goBack() // fix this.
+        this.props.history.goBack()
     }
 
     async handleAutomaticSave(content) {
         this.setState({content})
-    }
-
-    async handleOpenModal() {
-        this.setState({isOpen: true})
-    }
-
-    async handleCloseModal() {
-        this.setState({isOpen: false})
     }
 
     async defaultOptions() {
@@ -138,12 +129,6 @@ class Editor extends Component {
                     arrow={true}
                     iconId="editor-circular-button-icon"
                     buttonId="editor-circular-button"/>
-
-                <CircularButton 
-                    onClick={() => this.handleOpenModal()}
-                    plus={true}
-                    iconId="home-add-entry-circular-button-icon"
-                    buttonId="editor-circular-button-plus"/>
 
                 <div className="Editor">
 

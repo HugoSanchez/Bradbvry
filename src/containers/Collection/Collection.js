@@ -12,8 +12,9 @@ import {
 } from '../../components';
 
 import {
-  setActiveThread_Action, 
-  setInitialConfiguration_Action
+	setActiveItem_Action,
+	setActiveThread_Action, 
+	setInitialConfiguration_Action
 } from '../../actions';
 
 import {
@@ -77,10 +78,14 @@ export const Collection = props => {
 		}
 	}
 
+	const handleNewEditor = async () => {
+		dispatch(setActiveItem_Action(null))
+		props.history.push('/editor')
+	}
+
 	const onImageUpload = () => {
 		setRenderForm(false)
 	}
-
 
 	if (threadItems.length < 1 && !activeThread){
 		return (
@@ -116,7 +121,7 @@ export const Collection = props => {
 			<CircularButton
 				quillPen
 				size={'25px'}
-				onClick={() => props.history.push('/editor')}
+				onClick={handleNewEditor}
 			/>
 		</Fragment>
   	)

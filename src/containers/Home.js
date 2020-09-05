@@ -28,7 +28,7 @@ class Home extends Component {
     }
 
     async shouldComponentUpdate(nextProps, nextState) {
-        if (nextProps.space && this.state.loading === true) {
+        if (nextProps.items.length > 0 && this.state.loading === true) {
             this.setState({loading: false})
         }
     }

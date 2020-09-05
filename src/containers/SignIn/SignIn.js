@@ -54,7 +54,7 @@ export const SignIn = props => {
             type="email" 
             name="email" 
             required="required"
-            autocomplete="off" 
+            autoComplete="off" 
             placeholder="thomas.pynchon@email.com" />
           <br></br>
           <Button type="submit">

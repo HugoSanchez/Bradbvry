@@ -117,6 +117,7 @@
   display: -ms-flexbox; /* Not needed if autoprefixing */
   display: flex;
   width: auto;
+  margin-bottom: 2.5%;
 }
 
 .my-masonry-grid_column {
