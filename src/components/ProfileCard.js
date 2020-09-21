@@ -12,6 +12,7 @@ import '../App.css';
  */
 
 const ProfileCard = props => {
+    console.log('rendered')
 
     // Get profile from Redux and check if it's complete,
     // If not, use dummy profile.

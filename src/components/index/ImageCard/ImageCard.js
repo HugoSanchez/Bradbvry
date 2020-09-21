@@ -24,7 +24,7 @@ export const ImageCard = props => {
     // let description = thread.config.description.slice(0, 96)
 
     return (
-        <ImageCardContainer className="test">
+        <ImageCardContainer className="test" shadow={props.shadow}>
             <Image src={props.image}/>
         </ImageCardContainer>
     );

@@ -139,14 +139,27 @@
 }
 
 /* HOME CARDS */
-.home-container {
+.container {
   display: flex;
-  flex-direction: row-reverse;
+  flex-direction: row;
+  padding-top: 20vh;
+  padding-left: 8vw;
+  padding-right: 8vw;
+}
+
+.left {
+  flex: 1;
+  display: flex;
+
+}
+
+.right {
+  flex: 3;
+  overflow: hidden;
 }
 
 /* Profile card.*/
 .profile-card-container {
-  flex: 2;
   width: 100%;
   margin-right: 2%;
   padding-top: 2.2%;

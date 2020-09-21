@@ -3,6 +3,7 @@ import {device} from '../../constants';
 import {Row} from './Row';
 
 const Card = styled(Row)`
+    cursor: pointer;
     height: ${props => props.height || '32vh'};
     width: ${props => props.width || '100%'};
     margin-top: ${props => props.marginTop || '0px'};

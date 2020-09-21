@@ -13,6 +13,7 @@ const Header = React.memo((props) => {
     const location = useLocation();
     const [active, setActive] = useState(false); 
     const space = useSelector(state => state.user.data.space);
+    const user = useSelector(state => state.user.data);
 
     useEffect(() => {
         let isMounted = true; 
@@ -26,7 +27,7 @@ const Header = React.memo((props) => {
         if (space) {
             return (
                 <Fragment>
-                    <Link to="/home" id="header-profile-link-container">
+                    <Link to={'/app/' + user.address} id="header-profile-link-container">
                         <HeaderText bold={location.pathname === "/home"}>Home</HeaderText>
                     </Link>
                     <Link to="/settings" id="header-profile-link-container">

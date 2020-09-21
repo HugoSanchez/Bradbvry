@@ -6,7 +6,13 @@ import {LoadingCard}                        from '../components';
 import {Mixpanel}                         from '../utils';
 import '../App.css';
 
-import {Header} from '../components/common';
+import {
+    Header, 
+    FlexContainer, 
+    LeftContainer, 
+    RightContainer
+} from '../components';
+
 import {setInitialConfiguration_Action} from '../actions';
 
 const { Magic } = require('magic-sdk');
@@ -39,29 +45,28 @@ class Home extends Component {
     }
 
     render() {
-
+        
         const {items, profile} = this.props
         const {loading} = this.state
 
         return (
             <div>
                 <Header />
-                <div className="Main">
 
-                    <div className="home-container">
-                        {loading && <LoadingCard />}
-                        
-                        {   
-                            !loading && profile && 
-                            items.length > 0 && 
-                            <Fragment>
-                                <ItemsAndSpaces items={items} />
+                    {loading && <LoadingCard />}
+                    
+                    {   
+                        !loading && profile && 
+                        items.length > 0 && 
+                        <div className='container'>
+                            <div className='left'>
                                 <ProfileCard profile={profile} />
-                            </Fragment>
-                        }
-
-                    </div>
-                </div>
+                            </div>
+                            <div className='right'>
+                                <ItemsAndSpaces items={items} />
+                            </div>
+                        </div>
+                    }
             </div>
         );
     }

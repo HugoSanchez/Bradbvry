@@ -54,12 +54,13 @@ function* handleThreads(threads, space, account) {
 }
 
 function* handleConfig() {
+    yield console.log('saga')
+
     // Identify user, instantiate 3box elements, 
     // and set them in redux state. Next handle threads.
     let data        = yield magic.user.getMetadata()
     let email       = data.email
     let address     = data.publicAddress
-
     let box         = yield Box.openBox(address, magic.rpcProvider)
     let space       = yield box.openSpace('bradbvry--main')
     let profile     = yield Box.getProfile(address)
