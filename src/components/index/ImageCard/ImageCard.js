@@ -1,31 +1,41 @@
 import React  from 'react';
 
 import {
-    ImageCardContainer,
+    Date,
     Image,
     ImageTitle,
     Description,
-    DetailsBox,
-    TextBox
+    ImageCardContainer,
 } from './styles';
-
-/**
- * @param {onPress} props: function to execute;
- * @param {image} props: image to display;
- * @param {name} props: space's name;
- * @param {description} props: space's description;
- */
 
 
 export const ImageCard = props => {
-    // let {thread} = props
-    // let image = thread.config.image
-    // let spacename = thread.config.name.replace(/-/g, ' ')
-    // let description = thread.config.description.slice(0, 96)
+    
+    let {
+        title,
+        description
+    } = props.image.message.content;
+
+    let base64Image = props.image.message.content.image.file
+
+    const months = ['JAN', 'FEB', 'MAR', 
+                    'APR', 'MAY', 'JUN', 
+                    'JUL', 'AUG', 'SEP', 
+                    'OCT', 'NOV', 'DEC']
+
+    let date = new window.Date(props.image.timestamp)
+    let day = date.getDay()
+    let month = months[date.getMonth()]
+    let year = date.getFullYear()
+
+    console.log(new window.Date(props.image.timestamp))
 
     return (
         <ImageCardContainer className="test" shadow={props.shadow}>
-            <Image src={props.image}/>
+            <Image src={base64Image}/>
+            <ImageTitle>{title}</ImageTitle>
+            <Description>{description}</Description>
+            <Date>{day + ' ' + month + ' ' + year}</Date>
         </ImageCardContainer>
     );
 }

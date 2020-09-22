@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import {View, Title, Text} from '../../common';
+import {Title, Text} from '../../common';
 
 export const ImageCardContainer = styled.div`
     position: relative;
@@ -22,35 +22,56 @@ export const ImageCardContainer = styled.div`
 export const ImageTitle = styled(Title)`
     text-transform: capitalize; 
     font-size: 3vh;
+    color: white;
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    height: 20%;
+    width: 80%;
+    border: solid 1px red;
+    z-indez: 1;
 `
 
 export const Description = styled(Text)`
-    font-size: 1.2vh;
+    position: absolute;
+    top: 25%;
+    left: 10%;
+    height: 40%;
+    width: 80%;
+    font-size: 2vh;
     font-weight: 400;
+    color: white;
     line-height: 1.6;
     margin-top: 5%;
+    z-indez: 1;
+    border: solid 1px red;
 `
 
-export const TextBox = styled(View)`
-    width: 100%;
-    padding: 8%;
+export const Date = styled(Text)`
+    position: absolute;
+    bottom: 7%;
+    left: 10%;
+    height: 10%;
+    width: 80%;
+    font-size: 2vh;
+    font-weight: 300;
+    font-style: italic;
+    color: white;
+    line-height: 1.6;
     margin-top: 5%;
-`;
-
-export const DetailsBox = styled.div`
+    z-indez: 1;
     display: flex;
-    flex-direction: row;
-    align-items: center;
+    flex-direction: column;
     align-self: flex-end;
-    width: 100%;
-    height: 100px;
-    padding-left: 8%;
+    border: solid 1px red;
 `;
 
 export const Image = styled.img`
     width: 100%;
+    object-fit: cover;
     border-radius: 12px;
     opacity: 1;
+    z-index: 2;
     &:hover{
         opacity: 0.2; 
 		transition: 0.7s;

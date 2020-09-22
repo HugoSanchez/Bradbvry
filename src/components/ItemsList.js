@@ -19,7 +19,7 @@ const MasonryIterator = props => {
             {
                 props.items.map((p, i) => {
                     return (
-                        <ImageCard image={p.message.content.image.file} alt={i} key={i} shadow={props.shadow}/>
+                        <ImageCard image={p} alt={i} key={i} shadow={props.shadow}/>
                     )
                 })
             }
