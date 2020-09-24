@@ -54,8 +54,6 @@ function* handleThreads(threads, space, account) {
 }
 
 function* handleConfig() {
-    yield console.log('saga')
-
     // Identify user, instantiate 3box elements, 
     // and set them in redux state. Next handle threads.
     let data        = yield magic.user.getMetadata()
@@ -87,11 +85,6 @@ const parseThreadsAndPosts_Helper = async (threads, space) => {
     
     for (let i = 0; i < threads.length; i++) {
         let thread = await space.joinThreadByAddress(threads[i].address)
-        // let stringify = JSON.stringify(firstDefaultEntry)
-        // let parse = JSON.parse(stringify)
-        // await thread.post({type: 'entry', content: parse})
-        // await thread.post({type: 'entry', content: parse})
-        
         let posts = await thread.getPosts()
 
         for(let z = 0; z < posts.length; z++) {
@@ -113,7 +106,7 @@ const parseThreadsAndPosts_Helper = async (threads, space) => {
 
 const sortItemsArray = (itemsArray) => {
     return itemsArray.sort((a, b) => {
-       return parseInt(b.message.timestamp) - parseInt(a.message.timestamp)
+       return parseInt(b.timestamp) - parseInt(a.timestamp)
     });
 }
         

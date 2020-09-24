@@ -18,9 +18,9 @@ import {
 } from '../../actions';
 
 import {
-  FlexContainer,
-  LeftContainer,
-  RightContainer
+	FlexContainer,
+	LeftContainer,
+	RightContainer
 } from './styles';
 
 const { Magic } = require('magic-sdk');

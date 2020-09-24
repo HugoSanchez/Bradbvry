@@ -8,6 +8,7 @@ export * from './DrawerCont';
 export * from './NameInput';
 export * from './Underline';
 export * from './FileInput';
+export * from './Container';
 export * from './DeleteBin';
 export * from './Carousel';
 export * from './Button';

@@ -1,10 +1,12 @@
 import React from "react";
 import { ListItem } from './index';
 import Masonry from 'react-masonry-css'
-import styled from 'styled-components';
 
 import {
+    Container,
     Underline,
+    Title,
+    Row,
     Text,
 } from './common';
 
@@ -33,16 +35,6 @@ const ListItemsIterator = props => {
     })
 }
 
-const Image = styled.img`
-    width: 95%;
-    border-radius: 5%;
-    margin-bottom: 5%;
-    box-shadow: 0 0 80px rgba(0,0,0,0.1);
-`
-const Container = styled.div`
-    margin-bottom: 12%;
-`;
-
 export const ItemsList = props => {
     // This is a nested iterator that will render either
     // groups of text entries, of groups of images using 
@@ -54,6 +46,13 @@ export const ItemsList = props => {
             <Text>Latest entries</Text>
             <Underline />
             {
+                groupedItems.length === 0 ?
+                    <Row>
+                        <Title marginTop={'2%'} >
+                            This collection is empty.
+                        </Title>
+                    </Row>
+                :
                 groupedItems.map((group, index) => {
                     if (group.groupType === 'entry') {
                         return <ListItemsIterator 
