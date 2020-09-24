@@ -28,7 +28,6 @@ export const ImageTitle = styled(Title)`
     left: 10%;
     height: 20%;
     width: 80%;
-    border: solid 1px red;
     z-indez: 1;
 `
 
@@ -38,32 +37,26 @@ export const Description = styled(Text)`
     left: 10%;
     height: 40%;
     width: 80%;
-    font-size: 2vh;
+    font-size: 1.6vh;
     font-weight: 400;
     color: white;
     line-height: 1.6;
     margin-top: 5%;
     z-indez: 1;
-    border: solid 1px red;
+    overflow: hidden;
 `
 
 export const Date = styled(Text)`
     position: absolute;
     bottom: 7%;
     left: 10%;
-    height: 10%;
     width: 80%;
-    font-size: 2vh;
+    font-size: 1.2vh;
     font-weight: 300;
     font-style: italic;
     color: white;
     line-height: 1.6;
-    margin-top: 5%;
     z-indez: 1;
-    display: flex;
-    flex-direction: column;
-    align-self: flex-end;
-    border: solid 1px red;
 `;
 
 export const Image = styled.img`
