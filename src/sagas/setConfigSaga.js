@@ -63,7 +63,11 @@ function* handleConfig() {
     let space       = yield box.openSpace('bradbvry--main')
     let profile     = yield Box.getProfile(address)
     let threads     = yield space.subscribedThreads()
-    // threads.forEach(async thread => await space.unsubscribeThread(thread.address))
+    
+    //threads.forEach(async thread => await space.unsubscribeThread(thread.address))
+    //let threads2     = yield space.subscribedThreads()
+    //yield console.log(threads2)
+
     yield put(setInitialUserData_Action({box, space, profile, address, email}))
     yield handleThreads(threads, space, address)
 

@@ -63,7 +63,7 @@ const actions = {
         pirvateThreadObject.name = 'random-notes';
         pirvateThreadObject.image = images[0]
         pirvateThreadObject.type = 'private';
-        pirvateThreadObject.description = 'This is a private and personal space for you to keep loose ideas, notes, verses or even pictures'
+        pirvateThreadObject.description = 'This is a private and personal collection for you to keep loose ideas, notes, or pictures'
     
         return pirvateThreadObject;
     
@@ -74,7 +74,7 @@ const actions = {
         pirvateThreadObject.name = 'diary-entries';
         pirvateThreadObject.image = images[1]
         pirvateThreadObject.type = 'private';
-        pirvateThreadObject.description = 'This is a place to keep a personal diary, feel it with pictures, text, and a little bit of love'
+        pirvateThreadObject.description = 'This is a place to keep a personal diary, fill it with pictures, text, and a little bit of love'
     
         return pirvateThreadObject;
     
@@ -85,7 +85,7 @@ const actions = {
         pirvateThreadObject.name = 'photo-collection';
         pirvateThreadObject.image = images[2]
         pirvateThreadObject.type = 'private';
-        pirvateThreadObject.description = 'A space for the kind of pictures you would like to never lose and keep forever'
+        pirvateThreadObject.description = 'A collection for the kind of pictures you would like to keep forever'
     
         return pirvateThreadObject;
     

@@ -3,12 +3,13 @@ import {useDispatch, useSelector} from 'react-redux';
 import Drawer from '@material-ui/core/Drawer';
 
 import {
-  CollectionCardBig,
-  UploadImageForm,
-  CircularButton,
-  LoadingCard,
-  ItemsList, 
-  Header
+	CollectionButtons,
+	CollectionCardBig,
+	UploadImageForm,
+	AddMemberForm,
+	LoadingCard,
+	ItemsList, 
+	Header
 } from '../../components';
 
 import {
@@ -38,6 +39,7 @@ export const Collection = props => {
 	// Try to fix this:
 	// This makes the component re-render everytime the modal is opened and closed.
 	const [renderForm, setRenderForm] = useState(false) 
+	const [renderMemberForm, setRenderMemberForm] = useState(false) 
 
 	const threadsArray = useSelector(state => state.threads.threadsArray)
 	const itemsArray = useSelector(state => state.threads.itemsArray)
@@ -49,6 +51,9 @@ export const Collection = props => {
 
 	useEffect(() => {
 		isLoggedIn()
+	}, [])
+
+	useEffect(() => {
 		checkActiveThread()
 	})
 
@@ -64,6 +69,7 @@ export const Collection = props => {
 	// If state is empty, set initial configuration.
 	// Else, make sure selectedThread is properly set.
 	const handleConfig = async () => {
+		console.log('called')
 		if (threadsArray.length < 1) {
 		dispatch(setInitialConfiguration_Action())}
 	}
@@ -103,6 +109,13 @@ export const Collection = props => {
 					<UploadImageForm onClose={() => onImageUpload()}/>
 			</Drawer>
 
+			<Drawer 
+				anchor={'right'} 
+				open={renderMemberForm} 
+				onClose={() => setRenderMemberForm(false)} >
+					<AddMemberForm onClose={() => onImageUpload()}/>
+			</Drawer>
+
 			<FlexContainer>
 				<LeftContainer>
 					<CollectionCardBig thread={activeThread} />
@@ -112,23 +125,11 @@ export const Collection = props => {
 				</RightContainer>
 			</FlexContainer>
 
-			<CircularButton
-				userAdd
-				size={'25px'}
-				bottom={'26vh'} 
-				onClick={() => setRenderForm(true)}
-			/>
-			<CircularButton
-				imageAdd
-				size={'25px'}
-				bottom={'18vh'} 
-				onClick={() => setRenderForm(true)}
-			/>
-			<CircularButton
-				quillPen
-				size={'25px'}
-				onClick={handleNewEditor}
-			/>
+			<CollectionButtons 
+				addMember={() => setRenderMemberForm(true)}
+				addImage={() => setRenderForm(true)}
+				openEditor={() => handleNewEditor}
+				activeThread={activeThread}/>
 		</Fragment>
   	)
 }
