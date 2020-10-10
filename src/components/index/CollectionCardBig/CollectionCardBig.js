@@ -31,10 +31,6 @@ export const CollectionCardBig = props => {
                 <CollectionTitle color={"white"}>{spacename}</CollectionTitle>
                 <Description color={"white"}>{description}</Description>
             </TextBox>
-            <DetailsBox>
-                <ProfilePic />
-                <Description color={"white"}>71 members</Description>
-            </DetailsBox>
         </CollectionCardContainer>
     );
 }

@@ -16,10 +16,9 @@ const store = configureStore();
 
 class App extends Component {
 
+
     componentDidMount(){
-        if (typeof window.ethereum !== 'undefined') {
-            window.ethereum.autoRefreshOnNetworkChange = false
-        }
+        window.ethereum.autoRefreshOnNetworkChange = false
     }
 
     render() {

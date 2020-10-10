@@ -31,6 +31,10 @@ export const Description = styled(Text)`
     font-weight: 400;
     line-height: 1.6;
     margin-top: 5%;
+    &:hover{
+        color: red;
+        text-decoration: underline;
+    }
 `
 
 export const TextBox = styled(View)`
@@ -65,10 +69,10 @@ export const CollectionImage = styled.img`
     top: 0;
     left: 0;
     border-radius: 10px;
-    opacity: 0.2;
+    opacity: 1;
     
     &:hover{
-        opacity: 1; 
+        opacity: 0.2; 
 		transition: 0.7s;
     }
 `;

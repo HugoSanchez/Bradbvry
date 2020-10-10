@@ -5,6 +5,7 @@ import {
     RiArrowLeftLine, 
     RiImageAddLine,
     RiBallPenLine,
+    RiUserAddLine,
     RiAddLine
 } from 'react-icons/ri'
 
@@ -31,9 +32,10 @@ const CircularButton = props => {
             onClick={props.onClick}>
             <IconContext.Provider value={{size: size, color: primaryGray85}}>
                 <IconContainer id={props.iconId}>
-                    {props.imageAdd ? <RiImageAddLine /> : null }
-                    {props.quillPen ? <RiBallPenLine /> : null }
-                    {props.arrow ? <RiArrowLeftLine /> : null }
+                    {props.imageAdd ? <RiImageAddLine /> : null}
+                    {props.quillPen ? <RiBallPenLine /> : null}
+                    {props.userAdd ? <RiUserAddLine /> : null}
+                    {props.arrow ? <RiArrowLeftLine /> : null}
                     {props.plus ? <RiAddLine /> : null}
                 </IconContainer>
             </IconContext.Provider> 
@@ -47,7 +49,7 @@ const Button = styled.div`
     z-index: 2;
     position: fixed;
     bottom: ${props => props.bottom || '10vh'};
-    right: ${props => props.right || '4vw'};
+    right: ${props => props.right || '3vw'};
     width: 3rem; 
     height: 3rem; 
     border-radius: 1.5rem;

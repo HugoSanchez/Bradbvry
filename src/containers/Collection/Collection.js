@@ -113,6 +113,12 @@ export const Collection = props => {
 			</FlexContainer>
 
 			<CircularButton
+				userAdd
+				size={'25px'}
+				bottom={'26vh'} 
+				onClick={() => setRenderForm(true)}
+			/>
+			<CircularButton
 				imageAdd
 				size={'25px'}
 				bottom={'18vh'} 
