@@ -1,8 +1,14 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import {Text} from './Text';
+import {WaveLoading} from 'react-loadingg';
 import styled from 'styled-components';
 import '../../App.css';
+
+import {
+    primaryGray55,
+    primaryGreen
+} from '../../constants/colors';
 
 /**
  * @param {path}: where to route on click if any.
@@ -54,6 +60,27 @@ const SimpleEmptyButton = props => {
     );
 }
 
+const FormButton = props => {
+    return (
+        <FormButtonLayout onClick={props.onClick}>
+            {
+                props.loading ? 
+                <WaveLoading 
+                    speed={2}
+                    size='small' 
+                    color={primaryGray55}/>
+                : 
+                <Text 
+                    fontWeight='600'
+                    textAlign='center'
+                    color={primaryGray55}>
+                    {props.text}
+                </Text>
+            }
+        </FormButtonLayout>
+    )
+}
+
 const ButtonLayout = styled.div`
     margin: 10px;
     padding-bottom: 10px;
@@ -89,4 +116,16 @@ const EmptyButtonLayout = styled.div`
     }
 `;
 
-export {Button, SimpleButton, SimpleEmptyButton};
+const FormButtonLayout = styled.div`
+    background: ${primaryGreen};
+    margin-top: 4%;
+    margin-right: 2%;
+    margin-left: 2%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+`;
+
+export {Button, SimpleButton, SimpleEmptyButton, FormButton};

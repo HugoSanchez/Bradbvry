@@ -1,8 +1,17 @@
-export const globalThreadModeratorAddress = "0xCc74308838BbAcEEC226611A0C2b3fD5f4a7D8a2";
+////////////////////////////////////
+////// URLS
+////////////////////////////////////
+
+export const shareBaseUrl = 'http://localhost:1000/api/share/send-invite-email'
+
+
 
 ////////////////////////////////////
 ////// THREAD OBJECT
 ////////////////////////////////////
+
+export const globalThreadModeratorAddress = "0xCc74308838BbAcEEC226611A0C2b3fD5f4a7D8a2";
+
 
 export const threadObj =  {
     owner                 : null,       // Owner's did
