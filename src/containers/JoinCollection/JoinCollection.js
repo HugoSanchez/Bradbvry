@@ -1,22 +1,23 @@
 import React, {useEffect, useState, Fragment} from 'react';
-import { useHistory } from "react-router-dom";
+import {useHistory} from "react-router-dom";
 import logo from '../../resources/favicon.png';
-//import {magicKey} from '../../../config';
 import axios from 'axios';
 
 import {
 	SignInCard,
+	Span,
 	Logo, 
 	Title, 
 	Text,
 	Input,
+	FormBody, 
 	Button,
 	ButtonText
 } from './styles';
 
 //const Box = require('3box');
-//const { Magic } = require('magic-sdk');
-//const magic = new Magic(magicKey);
+const { Magic } = require('magic-sdk');
+const magic = new Magic(process.env.REACT_APP_MAGIC_API_KEY);
 
 export const JoinCollection = props => {
 
@@ -30,7 +31,11 @@ export const JoinCollection = props => {
 	const [loading, setLoading] = useState(true)
 	const [isLoggedIn, setIsLoggedIn] = useState(false)
 
-	const collectionName = threadName.slice(27).replace(/-/g,' ').replace(/(?:^|\s|["'([{])+\S/g, match => match.toUpperCase())
+	const collectionName = threadName
+							.slice(27)
+							.replace(/-/g,' ')
+							.replace(/(?:^|\s|["'([{])+\S/g,
+							match => match.toUpperCase())
 
 	useEffect(() => {
 	  checkLoginAndRedirect()
@@ -102,22 +107,22 @@ export const JoinCollection = props => {
 	  <SignInCard>
 		<Logo src={logo} alt=''/>
 		<Title>You've been invited to 
-				<span style={{fontWeight: 600, whiteSpace: 'pre'}}>
-					{
-						' ' + collectionName
-					}
-				</span>
+			<Span>{' ' + collectionName}</Span>
 		</Title>
 		<Text>
-		  {collectionName + ' '} is a members-only collection. To join this collection please sign in here.      
+		  {collectionName + ' '} is a members-only collection. 
+		  To join this collection please sign in here.      
 		</Text>
-		<form onSubmit={handleLogin}>
-		  <Input type="email" name="email" required="required" placeholder="thomas.pynchon@email.com" />
-		  <br></br>
-		  <Button type="submit">
-			<ButtonText>Sign In</ButtonText>
-		  </Button>
-		</form>
+		<FormBody onSubmit={handleLogin}>
+			<Input 
+				type="email" 
+				name="email" 
+				required="required" 
+				placeholder="thomas.pynchon@email.com" />
+			<Button type="submit">
+				<ButtonText>Sign In</ButtonText>
+			</Button>
+		</FormBody>
 	  </SignInCard>
 	)
 }

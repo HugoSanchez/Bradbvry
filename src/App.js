@@ -5,10 +5,10 @@ import configureStore from './store';
 import LandingPage from './containers/LandingPage';
 import Settings from './containers/Settings';
 import Editor from './containers/Editor';
-import {JoinCollection} from './containers/JoinCollection/JoinCollection';
 import {
     SignIn,
     Collection,
+    JoinCollection
 } from './containers';
 import Home from './containers/Home';
 import './App.css';
