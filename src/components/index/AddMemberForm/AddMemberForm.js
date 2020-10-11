@@ -1,9 +1,12 @@
 import React, {useState} from 'react';
 import {FormButton} from '../../common';
 import {useSelector} from 'react-redux';
-import {shareBaseUrl} from '../../../constants';
-
 import axios from 'axios';
+
+import {
+    joinCollectionUrl,
+    shareBaseUrl
+} from '../../../constants';
 
 import {
     Gn,
@@ -25,15 +28,15 @@ export const AddMemberForm = props => {
 
     const sender = useSelector(state => state.user.data.email)
     const senderAddress = useSelector(state => state.user.data.address)
-    const collectionNameRaw = useSelector(state => state.threads.activeThread.config.name)
+    const activeThread = useSelector(state => state.threads.activeThread)
 
 
     const handleFormSubmit = async () => {
         setEmail('')
         setLoading(true)
 
-        let joinUrl = 'http://localhost:3000/app/0xA425AC19545A9fe277673d317AEB20Cbe7aF6531'
-        let collectionName = collectionNameRaw.replace(/-/g,' ').replace(/(?:^|\s|["'([{])+\S/g, match => match.toUpperCase())
+        let joinUrl = joinCollectionUrl(activeThread._address.slice(9))
+        let collectionName = activeThread.config.name.replace(/-/g,' ').replace(/(?:^|\s|["'([{])+\S/g, match => match.toUpperCase())
         let recepientEmail = email
         
         let data = {
@@ -44,8 +47,9 @@ export const AddMemberForm = props => {
             joinUrl
         }
 
-        let req = await axios.post(shareBaseUrl, data)
-        if (req.data.success) {props.onClose(true)}
+        let res = await axios.post(shareBaseUrl, data)
+        console.log(res)
+        if (res.data.success) {props.onClose(true)}
         else {props.onClose(false)}
     }
 

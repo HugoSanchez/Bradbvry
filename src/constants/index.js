@@ -3,7 +3,7 @@
 ////////////////////////////////////
 
 export const shareBaseUrl = 'http://localhost:1000/api/share/send-invite-email'
-
+export const joinCollectionUrl = threadAddress => 'http://localhost:3000/app/accept-invite/' + threadAddress
 
 
 ////////////////////////////////////

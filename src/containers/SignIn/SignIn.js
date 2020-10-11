@@ -4,7 +4,6 @@ import { useDispatch } from 'react-redux';
 import logo from '../../resources/favicon.png';
 import {setInitialConfiguration_Action} from '../../actions';
 
-
 import {
     SignInCard,
     Logo, 
@@ -25,8 +24,6 @@ export const SignIn = props => {
 
     const handleLogin = async e => {
         e.preventDefault();
-
-        
         const email = new FormData(e.target).get("email");
 
         if (email) {
