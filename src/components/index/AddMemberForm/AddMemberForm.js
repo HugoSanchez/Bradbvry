@@ -34,10 +34,9 @@ export const AddMemberForm = props => {
     const handleFormSubmit = async () => {
         setEmail('')
         setLoading(true)
-
-        let joinUrl = joinCollectionUrl(activeThread._address.slice(9))
-        let collectionName = activeThread.config.name.replace(/-/g,' ').replace(/(?:^|\s|["'([{])+\S/g, match => match.toUpperCase())
         let recepientEmail = email
+        let joinUrl = joinCollectionUrl(senderAddress, activeThread._address.slice(9))
+        let collectionName = activeThread.config.name.replace(/-/g,' ').replace(/(?:^|\s|["'([{])+\S/g, match => match.toUpperCase())
         
         let data = {
             sender, 
@@ -46,9 +45,8 @@ export const AddMemberForm = props => {
             recepientEmail, 
             joinUrl
         }
-
+        
         let res = await axios.post(shareBaseUrl, data)
-        console.log(res)
         if (res.data.success) {props.onClose(true)}
         else {props.onClose(false)}
     }

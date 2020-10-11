@@ -29,7 +29,7 @@ class App extends Component {
                     <Switch>
                         <Route path='/signin' component={SignIn} />
                         <Route path='/landing' component={LandingPage} />
-                        <Route path='/app/accept-invite/:thread/:threadName' component={JoinCollection}/>
+                        <Route path='/app/accept-invite/:user/:thread/:threadName' component={JoinCollection}/>
                         <Route path='/app/:user/:threadAddress/:threadName' component={Collection} />
                         <Route path='/app/:user' component={Home} />
                         <Route path='/editor' component={Editor} />

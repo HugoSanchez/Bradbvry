@@ -27,6 +27,8 @@ export const Title = styled.h1`
     margin-top: 5%;
     margin-bottom: 10%;
     color: rgb(75, 75, 75);
+    padding-left: 2%;
+    padding-right: 2%;
 `;
 
 export const Span = styled.span`
@@ -35,8 +37,8 @@ export const Span = styled.span`
 `;
 
 export const Text = styled.p`
-    padding-left: 5%;
-    padding-right: 5%;
+    padding-left: 4%;
+    padding-right: 4%;
     font-family: 'Montserrat';
     font-weight: 300;
     font-size: 16px;
@@ -86,6 +88,7 @@ export const Button = styled.button`
     width: 90%;
     background-color: ${primaryGray85};
     box-shadow: 0 0 10px rgba(0,0,0,0.1); 
+    text-align: center;
 
     :hover {
         box-shadow: 0 0 10px rgba(0,0,0,0.15); 
