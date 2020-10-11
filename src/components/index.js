@@ -10,5 +10,7 @@ export * from './index/AddMemberForm';
 export * from './index/LoadingCard';
 export * from './index/ImageCard';
 export * from './SpacesCarousel';
+export * from './index/SnackBar';
+
 
 export * from './common';

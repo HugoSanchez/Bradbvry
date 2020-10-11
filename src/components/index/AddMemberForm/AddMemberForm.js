@@ -45,9 +45,8 @@ export const AddMemberForm = props => {
         }
 
         let req = await axios.post(shareBaseUrl, data)
-        console.log(req)
-        props.onClose()
-
+        if (req.data.success) {props.onClose(true)}
+        else {props.onClose(false)}
     }
 
     return (

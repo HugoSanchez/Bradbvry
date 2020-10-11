@@ -9,6 +9,7 @@ import {
 	AddMemberForm,
 	LoadingCard,
 	ItemsList, 
+	SnackBar,
 	Header
 } from '../../components';
 
@@ -40,13 +41,13 @@ export const Collection = props => {
 	// This makes the component re-render everytime the modal is opened and closed.
 	const [renderForm, setRenderForm] = useState(false) 
 	const [renderMemberForm, setRenderMemberForm] = useState(false) 
+	const [openSnack, setOpenSnack] = useState('')
+	const [uploadSuccess, setUploadSuccess] = useState(false)
+	const [message, setMessage] = useState(null)
 
 	const threadsArray = useSelector(state => state.threads.threadsArray)
 	const itemsArray = useSelector(state => state.threads.itemsArray)
 	const activeThread = useSelector(state => state.threads.activeThread)
-	
-	// Filter all items from this thread/collection
-	// and keep them as a const.
 	const threadItems = itemsArray.filter(item => item.threadName === threadName)
 
 	useEffect(() => {
@@ -84,6 +85,20 @@ export const Collection = props => {
 		}
 	}
 
+	const handleShowSnackbar = bool => {
+		if (bool) {setMessage('Success !')}
+		else {setMessage('Something went wrong, please try again.')}
+	
+        setUploadSuccess(bool)
+        setOpenSnack('show')
+        setTimeout(() => setOpenSnack(''), 4000)
+	}
+	
+	const handleCloseMemberForm = bool => {
+		handleShowSnackbar(bool)
+		setRenderMemberForm(false)
+	}
+
 	const handleNewEditor = async () => {
 		dispatch(setActiveItem_Action(null))
 		props.history.push('/editor')
@@ -113,8 +128,10 @@ export const Collection = props => {
 				anchor={'right'} 
 				open={renderMemberForm} 
 				onClose={() => setRenderMemberForm(false)} >
-					<AddMemberForm onClose={() => onImageUpload()}/>
+					<AddMemberForm onClose={(bool) => handleCloseMemberForm(bool)}/>
 			</Drawer>
+
+			<SnackBar className={openSnack} success={uploadSuccess} message={message}/>
 
 			<FlexContainer>
 				<LeftContainer>
