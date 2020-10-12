@@ -1,6 +1,9 @@
 import React, {useState} from 'react';
 
-import {getBase64} from '../../../utils';
+import {
+    useSelector,
+    useDispatch
+} from "react-redux";
 
 import {
     Gn,
@@ -12,6 +15,7 @@ import {
 } from './styles';
 
 import {
+    FormButton,
     FileInput,
     NameInput,
     DrawerCont,
@@ -19,7 +23,11 @@ import {
     CollectionTypeSel
 } from '../../common';
 
-// import {useSelector} from "react-redux";
+import {getBase64} from '../../../utils';
+import {threadObj} from '../../../constants';
+import {ThreeBox} from '../../../utils/3box';
+import {setThreadArray_Action} from '../../../actions';
+
 
 export const NewCollectionForm = props => {
 
@@ -29,11 +37,13 @@ export const NewCollectionForm = props => {
     let [desc, setDesc] = useState('')
     let [image, setImage] = useState(false)
     let [error, setError] = useState(errorObj)
+    let [loading, setLoading] = useState(false)
     let [collectionType, setCollectionType] = useState('private')
 
-    // const space = useSelector(state => state.user.data.space);
-    // const account = useSelector(state => state.user.data.accounts[0]);
-
+    const dispatch = useDispatch()
+    const space = useSelector(state => state.user.data.space);
+    const account = useSelector(state => state.user.data.address);
+    const threadsArray = useSelector(state => state.threads.threadsArray);
 
     const resetState = () => {
         setName('')
@@ -42,50 +52,35 @@ export const NewCollectionForm = props => {
         setError(errorObj)
     }
 
-    const onRequestClose = () => {
-        resetState()
-        props.onClose()
-    }
-
-    const handleNameChange = e => {
-        setError({...error, name: null})
-        setName(e.target.value)
-    }
-
-    const handleDescriptionChange = e => {
-        setError({...error, desc: null})
-        setDesc(e.target.value)
-    }
-
     const onImageUpload = async e => {
-        console.log(e.target.files[0].name)
         let fileName = e.target.files[0].name
         let stringFile = await getBase64(e.target.files[0])
-        console.log(stringFile)
         setImage({name: fileName, file: stringFile})
     }
 
     const handleFormSubmit = async () => {
+        setLoading(true)
         if (name.length < 1 && desc.length < 1) { setError(errorCodes)}
         else if (name.length < 1) {setError({...error, name: errorCodes.name})}
         else if (desc.length < 1) {setError({...error, desc: errorCodes.desc})}
         else {
-
-            /** 
+            // First parse thread config object.
             name = name.replace(/\s+/g, '-').toLowerCase();
             let threadConfig = Object.assign({}, threadObj)
             threadConfig.name = name
             threadConfig.description = desc
-            threadConfig.image = image
-
-            let thread = await ThreeBox.createConfidentialThread(space, account, name, spaceType)
-            console.log('Thread: ', thread)
-            await thread.post({threadConfig})
-            let posts = await thread.getPosts()
-            console.log('Posts: ', posts)
-            // await space.unsubscribeThread(name)
-            */
-
+            threadConfig.image = image.file
+            // Create thread, post config object and subscribe.
+            let thread = await ThreeBox.createConfidentialThread(space, account, name, collectionType)
+            let config = {type: 'config', content: threadConfig}
+            await space.subscribeThread(thread._address)
+            await thread.post(config)
+            // Add thread to current threadsArray (reducer).
+            thread.config = threadConfig
+            let array = [...threadsArray]
+            array.push(thread)
+            dispatch(setThreadArray_Action(array.reverse()))
+            props.onClose()
         }
     }
 
@@ -127,7 +122,15 @@ export const NewCollectionForm = props => {
                     onChange={(e) => onImageUpload(e)}
                 />  
 
-               { name && desc && image && <Button />}
+               { 
+                    name && 
+                    desc && 
+                    image && 
+                    <FormButton 
+                        text={'Create Collection'}
+                        loading={loading}
+                        onClick={handleFormSubmit}/>
+                }
             </FormBodyBox>               
         </DrawerCont>
     )

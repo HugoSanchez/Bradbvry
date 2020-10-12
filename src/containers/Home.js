@@ -30,7 +30,7 @@ class Home extends Component {
     async componentDidMount(){
         let isLogged = await magic.user.isLoggedIn();
         if (!isLogged) { this.props.history.push(`/signin`)} 
-        else { await magic.user.logout()}
+        else {this.handleConfig()}
     }
 
     async shouldComponentUpdate(nextProps, nextState) {

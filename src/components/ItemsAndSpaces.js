@@ -37,7 +37,7 @@ const ItemsAndSpaces = React.memo((props) => {
                 anchor={'right'} 
                 open={renderForm} 
                 onClose={() => setRenderForm(false)} >
-                <NewCollectionForm/>
+                <NewCollectionForm onClose={() => setRenderForm(false)}/>
             </Drawer>
             <CircularButton 
                 onClick={() => setRenderForm(true)}

@@ -22,7 +22,7 @@ export const SpacesCarousel = props => {
             <Underline />
             <Carousel>
                 {
-                    threads.map((thread, index) => {
+                    threads.reverse().map((thread, index) => {
                         return <SpaceCard key={index} thread={thread} />
                     })
                 }

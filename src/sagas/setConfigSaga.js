@@ -30,13 +30,11 @@ function* handleThreads(threads, space, account) {
         let privateThread_two = yield ThreeBox.createConfidentialThread(
             space, account, 'diary-entries', 'private')
         yield privateThread_two.post({type: 'config', content: privateThreadConfigObject_two})
-        yield privateThread_two.post({type: 'entry', content: parse})
 
         let privateThreadConfigObject_three = ThreeBox.getThirdPrivateThreadObject()
         let privateThread_three = yield ThreeBox.createConfidentialThread(
             space, account, 'photo-collection', 'private')
         yield privateThread_three.post({type: 'config', content: privateThreadConfigObject_three})
-        yield privateThread_three.post({type: 'entry', content: parse})
 
         let globalThreadConfigObject = ThreeBox.getGlobalThreadObject()
         let globalThread = yield ThreeBox.createConfidentialThread(
@@ -63,6 +61,7 @@ function* handleConfig() {
     let space       = yield box.openSpace('bradbvry--main')
     let profile     = yield Box.getProfile(address)
     let threads     = yield space.subscribedThreads()
+    yield console.log(threads)
     
     //threads.forEach(async thread => await space.unsubscribeThread(thread.address))
     //let threads2     = yield space.subscribedThreads()
@@ -88,22 +87,32 @@ const parseThreadsAndPosts_Helper = async (threads, space) => {
     let parsedThreads = [];
     
     for (let i = 0; i < threads.length; i++) {
-        let thread = await space.joinThreadByAddress(threads[i].address)
-        let posts = await thread.getPosts()
+        try {
+            let thread = await space.joinThreadByAddress(threads[i].address)
+            let posts = await thread.getPosts()
+            console.log('Thread ', i)
+            console.log(posts)
 
-        for(let z = 0; z < posts.length; z++) {
-            
-            if (posts[z].message.type === 'config') {
-                thread.config = posts[z].message.content
-                parsedThreads.push(thread)
+
+            for(let z = 0; z < posts.length; z++) {
+                
+                if (posts[z].message.type === 'config') {
+                    thread.config = posts[z].message.content
+                    parsedThreads.push(thread)
+                }
+                else { 
+                    posts[z].threadName = thread._name
+                    posts[z].threadAddress = thread.address
+                    posts[z].threadowner = thread._firstModerator
+                    itemsArray.push(posts[z])
+                }
             }
-            else { 
-                posts[z].threadName = thread._name
-                posts[z].threadAddress = thread.address
-                posts[z].threadowner = thread._firstModerator
-                itemsArray.push(posts[z])
-            }
+        } 
+        catch (error) {
+            console.log('error', error)
+            return null
         }
+        
     }
     return {itemsArray, parsedThreads}
 }
