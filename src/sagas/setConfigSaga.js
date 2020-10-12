@@ -16,7 +16,7 @@ function* handleThreads(threads, space, account) {
     // If it's a new user, it creates the first two threads with its config posts
     // and also it posts the welcome message. If not, for each thread, 
     // it parses and sets the items.
-    if (threads.length === 0) {
+    if (threads.length <= 1) {
         let stringify = JSON.stringify(firstDefaultEntry)
         let parse = JSON.parse(stringify)
 
@@ -35,11 +35,6 @@ function* handleThreads(threads, space, account) {
         let privateThread_three = yield ThreeBox.createConfidentialThread(
             space, account, 'photo-collection', 'private')
         yield privateThread_three.post({type: 'config', content: privateThreadConfigObject_three})
-
-        let globalThreadConfigObject = ThreeBox.getGlobalThreadObject()
-        let globalThread = yield ThreeBox.createConfidentialThread(
-            space, account, 'bradbvry-global-test', 'public')
-        yield globalThread.post({type: 'config', content: globalThreadConfigObject})
     }
 
     let reversedThreads = threads.reverse()
@@ -48,8 +43,8 @@ function* handleThreads(threads, space, account) {
 
     let sortedItems = yield sortItemsArray(itemsArray)
     yield put(setUserItems_Action(sortedItems))
-    
 }
+
 
 function* handleConfig() {
     // Identify user, instantiate 3box elements, 
@@ -61,11 +56,10 @@ function* handleConfig() {
     let space       = yield box.openSpace('bradbvry--main')
     let profile     = yield Box.getProfile(address)
     let threads     = yield space.subscribedThreads()
-    yield console.log(threads)
     
-    //threads.forEach(async thread => await space.unsubscribeThread(thread.address))
-    //let threads2     = yield space.subscribedThreads()
-    //yield console.log(threads2)
+    // threads.forEach(async thread => await space.unsubscribeThread(thread.address))
+    // let threads2     = yield space.subscribedThreads()
+    // yield console.log(threads2)
 
     yield put(setInitialUserData_Action({box, space, profile, address, email}))
     yield handleThreads(threads, space, address)
@@ -90,9 +84,6 @@ const parseThreadsAndPosts_Helper = async (threads, space) => {
         try {
             let thread = await space.joinThreadByAddress(threads[i].address)
             let posts = await thread.getPosts()
-            console.log('Thread ', i)
-            console.log(posts)
-
 
             for(let z = 0; z < posts.length; z++) {
                 
@@ -110,7 +101,6 @@ const parseThreadsAndPosts_Helper = async (threads, space) => {
         } 
         catch (error) {
             console.log('error', error)
-            return null
         }
         
     }
