@@ -5,7 +5,6 @@ import {
 
 import {
     lightGray150,
-    primaryGray85,
     primaryGreen,
 } from '../../../constants/colors';
 
@@ -38,12 +37,4 @@ export const Label = styled.label`
 
 export const Gn = styled.span`
     color: ${primaryGreen}
-`;
-
-export const Button = styled.div`
-    background: ${primaryGreen};
-    margin-top: 4%;
-    margin-right: 2%;
-    margin-left: 2%;
-    height: 50px;
 `;

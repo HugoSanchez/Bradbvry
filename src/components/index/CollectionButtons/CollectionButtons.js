@@ -23,18 +23,19 @@ export const CollectionButtons = props => {
 
 
     useEffect(() => {
+        // Collection Buttons should only be rendered if user is moderator.
+        // We check whether that is true and render accordingly.
+        const checkModerators = async () => {
+            let config = await Box.getConfig(address) 
+            let did = config.spaces['bradbvry--main'].DID
+            let moderators = await props.activeThread.listModerators();
+            let includes = moderators.includes(did) || moderators.includes(address)
+            setIsModerator(includes)
+        }
         checkModerators()
-    }, [])
+    },[address, props.activeThread])
 
-    // Collection Buttons should only be rendered if user is moderator.
-    // We check whether that is true and render accordingly.
-    const checkModerators = async () => {
-        let config = await Box.getConfig(address) 
-        let did = config.spaces['bradbvry--main'].DID
-        let moderators = await props.activeThread.listModerators();
-        let includes = moderators.includes(did) || moderators.includes(address)
-        setIsModerator(includes)
-    }
+    
 
     if (isModerator) {
         return (

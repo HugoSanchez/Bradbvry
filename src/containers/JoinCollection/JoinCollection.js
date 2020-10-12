@@ -1,4 +1,4 @@
-import React, {useEffect, useState, Fragment} from 'react';
+import React, {useState} from 'react';
 import {useHistory} from "react-router-dom";
 import {LoadingCard} from '../../components';
 import logo from '../../resources/favicon.png';

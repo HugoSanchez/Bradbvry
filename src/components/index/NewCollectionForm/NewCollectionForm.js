@@ -8,10 +8,8 @@ import {
 import {
     Gn,
     Label,
-    Container,
     ModalTitle,
     FormBodyBox,
-    Button,
 } from './styles';
 
 import {
@@ -44,13 +42,6 @@ export const NewCollectionForm = props => {
     const space = useSelector(state => state.user.data.space);
     const account = useSelector(state => state.user.data.address);
     const threadsArray = useSelector(state => state.threads.threadsArray);
-
-    const resetState = () => {
-        setName('')
-        setDesc('')
-        setImage(null)
-        setError(errorObj)
-    }
 
     const onImageUpload = async e => {
         let fileName = e.target.files[0].name

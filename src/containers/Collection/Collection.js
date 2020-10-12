@@ -51,21 +51,29 @@ export const Collection = props => {
 	const threadItems = itemsArray.filter(item => item.threadName === threadName)
 
 	useEffect(() => {
+		// Check if user is logged in. 
+		// If not, redirect to sign in url
+		// Else handle config.
+		const isLoggedIn = async () => {
+			let isLogged = await magic.user.isLoggedIn();
+			if (!isLogged) { props.history.push(`/signin`)} 
+			else { handleConfig() }
+		}
 		isLoggedIn()
-	}, [])
+	}, [props.history])
 
 	useEffect(() => {
+		// Check selectedThread is correct.
+		// If activeThread is not set, user is reloading and should be set.
+		const checkActiveThread = async () => {
+			if (!activeThread) {
+				let paramsThreadAddress = `/orbitdb/${threadAddress}/${threadName}`
+				let thread = threadsArray.find(thread => thread._address === paramsThreadAddress)
+				dispatch(setActiveThread_Action(thread))
+			}
+		}
 		checkActiveThread()
 	})
-
-	// Check if user is logged in. 
-	// If not, redirect to sign in url
-	// Else handle config.
-	const isLoggedIn = async () => {
-		let isLogged = await magic.user.isLoggedIn();
-		if (!isLogged) { props.history.push(`/signin`)} 
-		else { handleConfig() }
-	}
 
 	// If state is empty, set initial configuration.
 	// Else, make sure selectedThread is properly set.
@@ -73,16 +81,6 @@ export const Collection = props => {
 		console.log('called')
 		if (threadsArray.length < 1) {
 		dispatch(setInitialConfiguration_Action())}
-	}
-
-	// Check selectedThread is correct.
-	// If activeThread is not set, user is reloading and should be set.
-	const checkActiveThread = async () => {
-		if (!activeThread) {
-			let paramsThreadAddress = `/orbitdb/${threadAddress}/${threadName}`
-			let thread = threadsArray.find(thread => thread._address === paramsThreadAddress)
-			dispatch(setActiveThread_Action(thread))
-		}
 	}
 
 	const handleShowSnackbar = bool => {

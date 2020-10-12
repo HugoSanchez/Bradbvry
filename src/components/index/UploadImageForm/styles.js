@@ -5,7 +5,6 @@ import {
 
 import {
     lightGray150,
-    primaryGray85,
     primaryGreen,
 } from '../../../constants/colors';
 

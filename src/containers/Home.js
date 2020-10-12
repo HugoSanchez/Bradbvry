@@ -1,16 +1,12 @@
-import React, {Component, Fragment}       from 'react';
+import React, {Component}                 from 'react';
 import {connect}                          from 'react-redux';
 import ItemsAndSpaces                     from '../components/ItemsAndSpaces';
 import ProfileCard                        from '../components/ProfileCard';
-import {LoadingCard}                        from '../components';
-import {Mixpanel}                         from '../utils';
-import '../App.css';
+// import {Mixpanel}                         from '../utils';
 
 import {
     Header, 
-    FlexContainer, 
-    LeftContainer, 
-    RightContainer
+    LoadingCard
 } from '../components';
 
 import {setInitialConfiguration_Action} from '../actions';

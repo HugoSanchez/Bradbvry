@@ -5,8 +5,6 @@ import {
     CollectionImage,
     CollectionTitle,
     Description,
-    DetailsBox,
-    ProfilePic,
     TextBox
 } from './styles';
 

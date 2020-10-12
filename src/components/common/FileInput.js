@@ -3,7 +3,6 @@ import styled from 'styled-components';
 
 import {Text} from './Text';
 import {primaryGray85, primaryGreen} from '../../constants/colors';
-import { setActiveItem_Action } from '../../actions';
 
 export const FileInput = props => {
     let {

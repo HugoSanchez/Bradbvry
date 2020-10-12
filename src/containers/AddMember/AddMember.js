@@ -51,14 +51,15 @@ export const AddMember = props => {
 
 
     useEffect(() => {
-      checkLoginAndRedirect()},
-    [])
+		const checkLoginAndRedirect = async () => {
+			let isLogged = await magic.user.isLoggedIn();
+			if (!isLogged) {history.push(`/signin`, {redirect: props.match.url})} 
+			else if (!space) { dispatch(setInitialConfiguration_Action())}
+		}
+      	checkLoginAndRedirect()},
+    [history, dispatch, props.match.url, space])
 
-    const checkLoginAndRedirect = async () => {
-		let isLogged = await magic.user.isLoggedIn();
-		if (!isLogged) {history.push(`/signin`, {redirect: props.match.url})} 
-		else if (!space) { dispatch(setInitialConfiguration_Action())}
-    }
+    
 
     const handleConfirmMember = async e => {
 		let data = await magic.user.getMetadata()
