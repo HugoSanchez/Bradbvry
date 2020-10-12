@@ -26,8 +26,6 @@ const ItemsAndSpaces = React.memo((props) => {
     let items = useSelector(state => state.threads.itemsArray);
 
     let [renderForm, setRenderForm] = useState(false);
-
-    console.log('NOW!')
        
     return (
         <Container> 
