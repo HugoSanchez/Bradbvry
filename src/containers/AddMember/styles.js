@@ -59,6 +59,7 @@ export const Button = styled.button`
     background-color: ${primaryGray85};
     box-shadow: 0 0 10px rgba(0,0,0,0.1); 
     text-align: center;
+    cursor: pointer;
 
     :hover {
         box-shadow: 0 0 10px rgba(0,0,0,0.15); 
@@ -69,7 +70,7 @@ export const ButtonText = styled.p`
     color: ${primaryGreen};
     font-family: 'Montserrat';
     font-size: 18px;
-    font-weight: 400;
+    font-weight: 400;∫
 `;
 
 export const FormBody = styled.form``;

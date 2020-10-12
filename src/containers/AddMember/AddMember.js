@@ -1,7 +1,11 @@
 import React, {useEffect, useState, Fragment} from 'react';
 import {useHistory} from "react-router-dom";
-import {useSelector, useDispatch} from 'react-redux';
 import logo from '../../resources/favicon.png';
+
+import {
+	useSelector, 
+	useDispatch
+} from 'react-redux';
 
 import {
 	SnackBar,
@@ -9,12 +13,12 @@ import {
 } from '../../components';
 
 import {
-    SignInCard,
     Logo, 
     Title, 
     Text,
     Button,
-    ButtonText
+	ButtonText,
+	SignInCard,
 } from './styles';
 
 import {
@@ -42,39 +46,38 @@ export const AddMember = props => {
 	const dispatch = useDispatch()
     const history = useHistory();
 	const [openSnack, setOpenSnack] = useState('')
+	const [loading, setLoading] = useState(false)
 	const space = useSelector(state => state.user.data.space)
 
-	
+
     useEffect(() => {
       checkLoginAndRedirect()},
     [])
 
     const checkLoginAndRedirect = async () => {
 		let isLogged = await magic.user.isLoggedIn();
-		if (!isLogged) {history.push(`/signin`)} 
+		if (!isLogged) {history.push(`/signin`, {redirect: props.match.url})} 
 		else if (!space) { dispatch(setInitialConfiguration_Action())}
     }
 
     const handleConfirmMember = async e => {
-		console.log('hello')
 		let data = await magic.user.getMetadata()
 		let threadAddress = `/orbitdb/${thread}/${threadName}`
 		let threadInstance = await space.joinThreadByAddress(threadAddress, {members: true})
-		await threadInstance.addMember(memberAddress)
-		console.log('here')
-		
+		await threadInstance.addMember(memberAddress)		
 		showSnackBarAndRedirect(data.publicAddress)
     }
 
     const showSnackBarAndRedirect = address => {
+		setLoading(true)
 		setOpenSnack('show')
 		setTimeout(() => {
 			setOpenSnack('')
-			history.push(`/app/${address}`)
+			history.push(`/app/${address}`, {redirect: true})
 		}, 3500)
 	}
 	
-	if (!space) {
+	if (!space || loading) {
 		return <LoadingCard />
 	}
 
