@@ -9,7 +9,6 @@ import {
 	acceptBaseUrl
 } from '../../constants';
 
-
 import {
 	SignInCard,
 	Span,
@@ -37,7 +36,11 @@ export const JoinCollection = props => {
 	const history = useHistory();
 	const [loading, setLoading] = useState(false)
 
-	const collectionName = threadName.slice(27).replace(/-/g,' ').replace(/(?:^|\s|["'([{])+\S/g, match => match.toUpperCase())
+	const collectionName = threadName
+							.slice(27)
+							.replace(/-/g,' ')
+							.replace(/(?:^|\s|["'([{])+\S/g, 
+								match => match.toUpperCase())
 	
 	const handleLogin = async e => {
 		setLoading(true)	

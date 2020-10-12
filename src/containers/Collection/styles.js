@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const FlexContainer = styled.div`
   display: flex;
   flex-direction: row;
-  padding-top: 20vh;
+  padding-top: 14vh;
   padding-left: 3vw;
   padding-right: 8vw;
 `;

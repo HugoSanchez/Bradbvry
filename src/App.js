@@ -7,6 +7,7 @@ import Settings from './containers/Settings';
 import Editor from './containers/Editor';
 import {
     SignIn,
+    AddMember,
     Collection,
     JoinCollection
 } from './containers';
@@ -28,7 +29,8 @@ class App extends Component {
                 <Provider store={store}>
                     <Switch>
                         <Route path='/signin' component={SignIn} />
-                        <Route path='/landing' component={LandingPage} />
+                        <Route path='/landing' component={LandingPage} />          
+                        <Route path='/app/add-member/:memberAddress/:thread/:threadName/:email' component={AddMember}/>
                         <Route path='/app/accept-invite/:user/:thread/:threadName' component={JoinCollection}/>
                         <Route path='/app/:user/:threadAddress/:threadName' component={Collection} />
                         <Route path='/app/:user' component={Home} />

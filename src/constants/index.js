@@ -5,7 +5,7 @@
 export const shareBaseUrl = 'http://localhost:1000/api/share/send-invite-email'
 export const acceptBaseUrl = 'http://localhost:1000/api/share/add-invited-member';
 export const joinCollectionUrl = (address, threadAddress) => 'http://localhost:3000/app/accept-invite/' + address + '/' + threadAddress
-export const addMemberUrl = (data, thread, threadName) => `http://localhost:1000/add-member/${data.publicAddress}/${thread}/${threadName}/${data.email}`
+export const addMemberUrl = (data, thread, threadName) => `http://localhost:3000/app/add-member/${data.publicAddress}/${thread}/${threadName}/${data.email}`
 
 ////////////////////////////////////
 ////// THREAD OBJECT
