@@ -36,7 +36,7 @@ class App extends Component {
                         <Route path='/app/:user' component={Home} />
                         <Route path='/editor' component={Editor} />
                         <Route path='/settings' component={Settings} />
-                        <Route exact path="/" render={() => (<Redirect to="/signin" />)} /> 
+                        <Route exact path="/" render={() => (<Redirect to="/landing" />)} /> 
                     </Switch>
                 </Provider>
             </main>
