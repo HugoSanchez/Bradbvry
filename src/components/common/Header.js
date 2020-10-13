@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import {useLocation} from 'react-router-dom';
 import {useSelector} from "react-redux";
 
-import logo from '../../resources/Bradbury.png';
+import logo from '../../resources/blogo.png';
 import {Text} from '../common'
 import '../../App.css';
 
