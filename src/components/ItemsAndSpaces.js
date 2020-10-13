@@ -7,7 +7,8 @@ import Drawer from '@material-ui/core/Drawer';
 import {
     NewCollectionForm,
     SpacesCarousel,
-    ItemsList
+    ItemsList,
+    SnackBar,
 } from './index';
 
 import {
@@ -26,16 +27,32 @@ const ItemsAndSpaces = React.memo((props) => {
     let items = useSelector(state => state.threads.itemsArray);
 
     let [renderForm, setRenderForm] = useState(false);
+    let [openSnack, setOpenSnack] = useState('')
+
+    const handleDrawerClose = () => {
+        handleShowSnackbar()
+        setRenderForm(false)
+    }
+
+    const handleShowSnackbar = () => {
+	    setOpenSnack('show')
+        setTimeout(() => setOpenSnack(''), 4000)
+	}
+
        
     return (
         <Container> 
+            <SnackBar 
+                className={openSnack} 
+                success={true} 
+                message={'Success!'}/>
             <SpacesCarousel /> 
             <ItemsList items={items}/>
             <Drawer 
                 anchor={'right'} 
                 open={renderForm} 
                 onClose={() => setRenderForm(false)} >
-                <NewCollectionForm onClose={() => setRenderForm(false)}/>
+                <NewCollectionForm onClose={() => handleDrawerClose()}/>
             </Drawer>
             <CircularButton 
                 onClick={() => setRenderForm(true)}

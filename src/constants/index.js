@@ -2,10 +2,10 @@
 ////// URLS
 ////////////////////////////////////
 
-export const shareBaseUrl = 'http://localhost:1000/api/share/send-invite-email'
-export const acceptBaseUrl = 'http://localhost:1000/api/share/add-invited-member';
-export const joinCollectionUrl = (address, threadAddress) => 'http://localhost:3000/app/accept-invite/' + address + '/' + threadAddress
-export const addMemberUrl = (data, thread, threadName) => `http://localhost:3000/app/add-member/${data.publicAddress}/${thread}/${threadName}/${data.email}`
+export const shareBaseUrl = `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}/api/share/send-invite-email`;
+export const acceptBaseUrl = `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}/api/share/add-invited-member`;
+export const joinCollectionUrl = (address, threadAddress) => `${process.env.REACT_APP_BRADBVRY_URL}/app/accept-invite/${address}/${threadAddress}`
+export const addMemberUrl = (data, thread, threadName) => `${process.env.REACT_APP_BRADBVRY_URL}/app/add-member/${data.publicAddress}/${thread}/${threadName}/${data.email}`
 
 ////////////////////////////////////
 ////// THREAD OBJECT

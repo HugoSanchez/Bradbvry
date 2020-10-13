@@ -8,10 +8,10 @@ import {
     Label,
     ModalTitle,
     FormBodyBox,
-    Button,
 } from './styles';
 
 import {
+    FormButton,
     FileInput,
     NameInput,
     DrawerCont,
@@ -70,7 +70,9 @@ export const UploadImageForm = props => {
                     onChange={(e) => onImageUpload(e)}
                 />  
 
-               { image && <Button onClick={handleFormSubmit}/>}
+                {image && <FormButton 
+                    text={'Upload Picture'}
+                    onClick={handleFormSubmit}/>}
             </FormBodyBox>               
         </DrawerCont>
     )
