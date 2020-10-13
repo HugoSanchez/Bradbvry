@@ -32,7 +32,7 @@ const LandingPage = props => {
                         </p>
                     </div>
                     <div className="cta">
-                        <Link to="/home">
+                        <Link to="/signin">
                             <button className="cta-add">Start Creating</button>
                         </Link>
                     </div>

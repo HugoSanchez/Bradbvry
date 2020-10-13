@@ -1,6 +1,6 @@
 import React from 'react';
-import { useHistory } from "react-router-dom";
-import { useDispatch } from 'react-redux';
+import {useHistory} from "react-router-dom";
+import {useDispatch} from 'react-redux';
 import logo from '../../resources/favicon.png';
 import {setInitialConfiguration_Action} from '../../actions';
 

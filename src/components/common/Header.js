@@ -28,7 +28,7 @@ const Header = React.memo((props) => {
             return (
                 <Fragment>
                     <Link to={'/app/' + user.address} id="header-profile-link-container">
-                        <HeaderText bold={location.pathname === "/home"}>Home</HeaderText>
+                        <HeaderText bold={location.pathname === '/app/' + user.address}>Home</HeaderText>
                     </Link>
                     <Link to="/settings" id="header-profile-link-container">
                         <HeaderText bold={location.pathname === "/settings"}>Settings</HeaderText>
