@@ -41,7 +41,6 @@ class Home extends Component {
     }
 
     render() {
-        
         const {items, profile} = this.props
         const {loading} = this.state
 

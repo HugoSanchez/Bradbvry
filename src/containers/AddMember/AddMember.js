@@ -62,19 +62,22 @@ export const AddMember = props => {
     
 
     const handleConfirmMember = async e => {
+		setLoading(true)
 		let data = await magic.user.getMetadata()
 		let threadAddress = `/orbitdb/${thread}/${threadName}`
-		let threadInstance = await space.joinThreadByAddress(threadAddress, {members: true})
-		await threadInstance.addMember(memberAddress)		
+		try {
+			let threadInstance = await space.joinThreadByAddress(threadAddress, {members: true})
+			await threadInstance.addMember(memberAddress)	
+		}
+		catch (error) {console.log(error)}
 		showSnackBarAndRedirect(data.publicAddress)
     }
 
     const showSnackBarAndRedirect = address => {
-		setLoading(true)
 		setOpenSnack('show')
 		setTimeout(() => {
 			setOpenSnack('')
-			history.push(`/app/${address}`, {redirect: true})
+			history.push(`/app/${address}`)
 		}, 3500)
 	}
 	
