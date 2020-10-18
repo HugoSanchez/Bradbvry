@@ -37,6 +37,25 @@
   font-size: large;
 }
 
+.test {
+  height: 15%;
+  width: 15%;
+  position: absolute;
+  top: 10%;
+  right: 5%;
+  z-index: 3;
+}
+
+.test2 {
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  height: 70%;
+  width: 70%;
+  z-index: 1;
+  border: 1px solid red;
+}
+
 /* EDITOR COMPONENT */
 
 .Editor {

@@ -13,36 +13,24 @@ const { Magic } = require('magic-sdk');
 const magic = new Magic(process.env.REACT_APP_MAGIC_API_KEY);
 
 function* handleThreads(threads, space, account) {  
-    // If it's a new user, it creates the first two threads with its config posts
-    // and also it posts the welcome message. If not, for each thread, 
-    // it parses and sets the items.
+    
     if (threads.length <= 1) {
-        let stringify = JSON.stringify(firstDefaultEntry)
-        let parse = JSON.parse(stringify)
+        
+        // If it's a new user, it creates the first three threads with its config posts
+        // and also it posts the welcome message.
+        let {sortedItems, parsedThreads} = yield createFirstThreeCollections(space, account)
+        yield put(setThreadArray_Action(parsedThreads))
+        yield put(setUserItems_Action(sortedItems))
 
-        let privateThreadConfigObject_one = ThreeBox.getFirstPrivateThreadObject()
-        let privateThread_one = yield ThreeBox.createConfidentialThread(
-            space, account, 'random-notes', 'private')
-        yield privateThread_one.post({type: 'config', content: privateThreadConfigObject_one})
-        yield privateThread_one.post({type: 'entry', content: parse})
+    } else {
 
-        let privateThreadConfigObject_two = ThreeBox.getSecondPrivateThreadObject()
-        let privateThread_two = yield ThreeBox.createConfidentialThread(
-            space, account, 'diary-entries', 'private')
-        yield privateThread_two.post({type: 'config', content: privateThreadConfigObject_two})
+        // If not, for each thread, 
+        // it parses and sets the items.
+        let {sortedItems, parsedThreads} = yield parseThreadsAndPosts_Helper(threads, space)
+        yield put(setThreadArray_Action(parsedThreads))
+        yield put(setUserItems_Action(sortedItems))
 
-        let privateThreadConfigObject_three = ThreeBox.getThirdPrivateThreadObject()
-        let privateThread_three = yield ThreeBox.createConfidentialThread(
-            space, account, 'photo-collection', 'private')
-        yield privateThread_three.post({type: 'config', content: privateThreadConfigObject_three})
     }
-
-    let reversedThreads = threads.reverse()
-    let {itemsArray, parsedThreads} = yield parseThreadsAndPosts_Helper(reversedThreads, space)
-    yield put(setThreadArray_Action(parsedThreads))
-
-    let sortedItems = yield sortItemsArray(itemsArray)
-    yield put(setUserItems_Action(sortedItems))
 }
 
 
@@ -52,14 +40,31 @@ function* handleConfig() {
     let data        = yield magic.user.getMetadata()
     let email       = data.email
     let address     = data.publicAddress
+    // Instantiate 3Box space and threads.
+    // Console.log each step for debugging (will delete someday).
     let box         = yield Box.openBox(address, magic.rpcProvider)
+    yield console.log('1 - box')
     let space       = yield box.openSpace('bradbvry--main')
+    yield console.log('2- space')
     let profile     = yield Box.getProfile(address)
+    yield console.log('3- profile')
     let threads     = yield space.subscribedThreads()
+    yield console.log('4- threads: ', threads)
+
+    if (threads.length === 0) {
+        // We are instantiating 3box and spaces twice to make sure that 
+        // 3box is not returning an empty array by mistake (it happens when
+        // user clears cookies or user is new). Ugly fix, but works.
+        let box         = yield Box.openBox(address, magic.rpcProvider)
+        yield console.log('5- box 2')
+        let space       = yield box.openSpace('bradbvry--main')
+        yield console.log('6- space 2')
+        let threads     = yield space.subscribedThreads()
+        yield console.log('7- threads2: ', threads)
+    }
     // threads.forEach(async thread => await space.unsubscribeThread(thread.address))
     // let threads2     = yield space.subscribedThreads()
     // yield console.log(threads2)
-
     yield put(setInitialUserData_Action({box, space, profile, address, email}))
     yield handleThreads(threads, space, address)
 
@@ -74,19 +79,47 @@ export default function * watchInitialConfig() {
 /////// HELPER FUNCTIONS
 ////////////////////////////////////////////////
 
+const createFirstThreeCollections = async (space, account) => {
+    let stringify = JSON.stringify(firstDefaultEntry)
+    let parse = JSON.parse(stringify)
+
+    let privateThreadConfigObject_one = ThreeBox.getFirstPrivateThreadObject()
+    let privateThread_one = await ThreeBox.createConfidentialThread(
+        space, account, 'random-notes', 'private')
+    await privateThread_one.post({type: 'config', content: privateThreadConfigObject_one})
+    await privateThread_one.post({type: 'entry', content: parse})
+
+    let privateThreadConfigObject_two = ThreeBox.getSecondPrivateThreadObject()
+    let privateThread_two = await ThreeBox.createConfidentialThread(
+        space, account, 'diary-entries', 'private')
+    await privateThread_two.post({type: 'config', content: privateThreadConfigObject_two})
+
+    let privateThreadConfigObject_three = ThreeBox.getThirdPrivateThreadObject()
+    let privateThread_three = await ThreeBox.createConfidentialThread(
+        space, account, 'photo-collection', 'private')
+    await privateThread_three.post({type: 'config', content: privateThreadConfigObject_three})
+
+    let threadsUpatedAgain = await space.subscribedThreads()
+    let {sortedItems, parsedThreads} = await parseThreadsAndPosts_Helper(threadsUpatedAgain, space)
+    
+    return {sortedItems, parsedThreads}
+}
+
 const parseThreadsAndPosts_Helper = async (threads, space) => {
+
+    console.log('Parsing user data...')
 
     let itemsArray = [];
     let parsedThreads = [];
+    let reversedThreads = threads.reverse()
     
-    for (let i = 0; i < threads.length; i++) {
+    for (let i = 0; i < reversedThreads.length; i++) {
         try {
-            let thread = await space.joinThreadByAddress(threads[i].address)
+            let thread = await space.joinThreadByAddress(reversedThreads[i].address)
             let posts = await thread.getPosts()
-
             for(let z = 0; z < posts.length; z++) {
-                
                 if (posts[z].message.type === 'config') {
+                    console.log(posts[z])
                     thread.config = posts[z].message.content
                     parsedThreads.push(thread)
                 }
@@ -103,7 +136,9 @@ const parseThreadsAndPosts_Helper = async (threads, space) => {
         }
         
     }
-    return {itemsArray, parsedThreads}
+
+    let sortedItems = await sortItemsArray(itemsArray)
+    return {sortedItems, parsedThreads}
 }
 
 const sortItemsArray = (itemsArray) => {

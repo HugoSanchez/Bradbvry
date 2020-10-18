@@ -23,27 +23,29 @@ export const ImageTitle = styled(Title)`
     text-transform: capitalize; 
     font-size: 3vh;
     color: white;
+    z-indez: 1;
+    flex: 1;
+`
+
+export const TextBox = styled.div`
     position: absolute;
     top: 10%;
     left: 10%;
-    height: 20%;
-    width: 80%;
-    z-indez: 1;
-`
+    height: 70%;
+    width: 70%;
+    z-index: 1;
+`;
+
 
 export const Description = styled(Text)`
-    position: absolute;
-    top: 25%;
-    left: 10%;
-    height: 40%;
-    width: 80%;
-    font-size: 1.6vh;
+    font-size: 1.8vh;
     font-weight: 400;
     color: white;
     line-height: 1.6;
     margin-top: 5%;
     z-indez: 1;
     overflow: hidden;
+    flex: 1;
 `
 
 export const Date = styled(Text)`
@@ -57,6 +59,15 @@ export const Date = styled(Text)`
     color: white;
     line-height: 1.6;
     z-indez: 1;
+`;
+
+export const DeleteBox = styled.div`
+    height: 15%;
+    width: 15%;
+    position: absolute;
+    top: 10%;
+    right: 5%;
+    z-index: 3;
 `;
 
 export const Image = styled.img`
