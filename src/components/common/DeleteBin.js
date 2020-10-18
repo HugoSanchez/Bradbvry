@@ -7,6 +7,7 @@ import {RiDeleteBin6Line} from 'react-icons/ri';
 
 /**
  * @param {isActive}: bool, wether or not to render.
+ * @param {isModerator}: if user has "write"-access to the item.
  * @param {onClick}: function to execute on click if any. 
  */
 
@@ -20,8 +21,12 @@ const size = window.innerWidth < 400 ? 18 : 22
 
 const DeleteBin = props => {
 
+    if (!props.isModerator) {
+        return null
+    }
+
     return (
-        <IconContainer onClick={(e) => props.onClick(e) }>
+        <IconContainer>
             {
                 props.isActive ?
                     <View>

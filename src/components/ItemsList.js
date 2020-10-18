@@ -21,7 +21,12 @@ const MasonryIterator = props => {
             {
                 props.items.map((p, i) => {
                     return (
-                        <ImageCard image={p} alt={i} key={i} shadow={props.shadow}/>
+                        <ImageCard 
+                            alt={i} 
+                            key={i} 
+                            image={p} 
+                            shadow={props.shadow}
+                            isModerator={props.isModerator}/>
                     )
                 })
             }
@@ -31,7 +36,12 @@ const MasonryIterator = props => {
 
 const ListItemsIterator = props => {
     return props.items.map((item, index) => {
-        return  <ListItem key={index} item={item} shadow={props.shadow} />
+        return  <ListItem 
+                    key={index} 
+                    item={item} 
+                    shadow={props.shadow} 
+                    isModerator={props.isModerator}/>
+
     })
 }
 
@@ -58,11 +68,13 @@ export const ItemsList = props => {
                         return <ListItemsIterator 
                             key={index}
                             items={group.items} 
-                            shadow={props.shadow}/>
+                            shadow={props.shadow}
+                            isModerator={props.isModerator}/>
                     } else if (group.groupType === 'image') {
                         return <MasonryIterator 
                             key={index}
-                            items={group.items}/>
+                            items={group.items}
+                            isModerator={props.isModerator}/>
                     }
                 })
             }

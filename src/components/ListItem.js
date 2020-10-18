@@ -96,7 +96,7 @@ const ListItem = React.memo((props) => {
             <Card 
                 shadow={props.shadow}
                 onClick={() => {onItemClick()}}
-                onMouseEnter={() => {handleMouseOver()}}
+                onMouseOver={() => setActive(true)}
                 onMouseLeave={() => {handleMouseOver()}}>
 
                 <DateBox>
@@ -110,7 +110,7 @@ const ListItem = React.memo((props) => {
                         <DeleteBin 
                             isActive={isActive}
                             onClick={(e) => deleteEntry(e)}
-                        />
+                            isModerator={props.isModerator}/>
                     </TitleBox>
                     <View>
                         <Text> {bodyToDisplay}...</Text>

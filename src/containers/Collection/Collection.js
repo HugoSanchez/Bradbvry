@@ -1,6 +1,7 @@
 import React, {useEffect, useState, Fragment} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import Drawer from '@material-ui/core/Drawer';
+import Box from '3box';
 
 import {
 	CollectionButtons,
@@ -44,7 +45,9 @@ export const Collection = props => {
 	const [openSnack, setOpenSnack] = useState('')
 	const [uploadSuccess, setUploadSuccess] = useState(false)
 	const [message, setMessage] = useState(null)
+	const [isModerator, setIsModerator] = useState(false)
 
+    const address = useSelector(state => state.user.data.address)
 	const threadsArray = useSelector(state => state.threads.threadsArray)
 	const itemsArray = useSelector(state => state.threads.itemsArray)
 	const activeThread = useSelector(state => state.threads.activeThread)
@@ -75,6 +78,22 @@ export const Collection = props => {
 		checkActiveThread()
 	})
 
+	useEffect(() => {
+		// Check whether a user has "write"-acces to the collection
+		// And sets permissions accordingly (publish and delete). 
+		const checkAndSetModerator = async (thread) => {
+			if (activeThread) {
+				let config = await Box.getConfig(address) 
+				let did = config.spaces['bradbvry--main'].DID
+				let moderators = await activeThread.listModerators();
+				let includes = moderators.includes(did) || moderators.includes(address)
+				setIsModerator(includes)
+			}
+		}
+		checkAndSetModerator()
+	})
+
+	
 	// If state is empty, set initial configuration.
 	// Else, make sure selectedThread is properly set.
 	const handleConfig = async () => {
@@ -135,7 +154,10 @@ export const Collection = props => {
 					<CollectionCardBig thread={activeThread} />
 				</LeftContainer>
 				<RightContainer>
-					<ItemsList items={threadItems} shadow={true}/>
+					<ItemsList 
+						items={threadItems} 
+						shadow={true} 
+						isModerator={isModerator}/>
 				</RightContainer>
 			</FlexContainer>
 

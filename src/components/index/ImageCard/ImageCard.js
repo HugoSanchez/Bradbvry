@@ -71,7 +71,7 @@ export const ImageCard = props => {
                     <DeleteBin 
                         isActive={isActive}
                         onClick={(e) => deleteImage(e)}
-                    />
+                        isModerator={props.isModerator}/>
                 </DeleteBox>
                 <TextBox>
                     <ImageTitle>{title}</ImageTitle>
