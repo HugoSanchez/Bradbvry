@@ -1,5 +1,5 @@
 import {SET_INITIAL_CONFIG} from '../actions/types';
-import {takeEvery, put} from 'redux-saga/effects';
+import {takeLeading, put} from 'redux-saga/effects';
 import {firstDefaultEntry} from '../constants';
 import {ThreeBox} from '../utils';
 import Box from '3box';
@@ -15,7 +15,7 @@ const magic = new Magic(process.env.REACT_APP_MAGIC_API_KEY);
 function* handleThreads(threads, space, account) {  
     
     if (threads.length <= 1) {
-        
+
         // If it's a new user, it creates the first three threads with its config posts
         // and also it posts the welcome message.
         let {sortedItems, parsedThreads} = yield createFirstThreeCollections(space, account)
@@ -71,7 +71,7 @@ function* handleConfig() {
 }
 
 export default function * watchInitialConfig() {
-    yield takeEvery(SET_INITIAL_CONFIG, handleConfig)
+    yield takeLeading(SET_INITIAL_CONFIG, handleConfig)
 }
 
 
