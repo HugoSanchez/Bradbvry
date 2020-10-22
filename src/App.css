@@ -73,6 +73,7 @@
 .three {
   flex: 1.5;
   display: flex;
+  white-space: nowrap;
   align-items: center;
 }
 
@@ -80,6 +81,14 @@
   margin: 2%;
   margin-top: 10%;
   justify-content: center;
+}
+
+.tooltip {
+  background-color: '#C5FFDC';
+}
+
+.icon-wrapper {
+  margin: 10%;
 }
 
 /* EDITOR COMPONENT */
