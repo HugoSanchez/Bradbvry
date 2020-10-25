@@ -57,6 +57,13 @@
   justify-content: center;
 }
 
+#profile-image-2 {
+  position: relative;
+  height: 40px;
+  width: 40px;
+  border-radius: 20px;
+}
+
 .one {
   flex: 1;
   display: flex;

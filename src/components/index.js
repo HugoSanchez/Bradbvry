@@ -8,6 +8,7 @@ export * from './index/CollectionCardBig';
 export * from './index/UploadImageForm';
 export * from './index/AddMemberForm';
 export * from './index/LoadingCard';
+export * from './index/ProfileRow';
 export * from './index/ImageCard';
 export * from './SpacesCarousel';
 export * from './index/SnackBar';

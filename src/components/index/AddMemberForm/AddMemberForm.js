@@ -4,16 +4,6 @@ import {useSelector} from 'react-redux';
 import axios from 'axios';
 import Box from '3box';
 
-import styled from 'styled-components';
-import {IconContext} from 'react-icons';
-import {RiUserSmileLine, RiInformationLine} from 'react-icons/ri';
-import ReactTooltip from 'react-tooltip';
-
-import {
-    joinCollectionUrl,
-    shareBaseUrl
-} from '../../../constants';
-
 import {
     Gn,
     Note,
@@ -25,71 +15,32 @@ import {
 import {
     Text,
     NameInput,
+    ProfileRow,
     DrawerCont,
-} from '../../common';
+} from '../../index';
+
+import {
+    shareBaseUrl,
+    joinCollectionUrl
+} from '../../../constants';
 
 const RenderProfiles = props => {
-   return props.members.map((m, i) => {
-       return (
-            <div className='test' key={i}>
-                <div className='one'>
-                    <div className='avatar'>
-                        <IconContext.Provider value={{size: '25px', color: 'gray'}}>
-                            <RiUserSmileLine /> 
-                        </IconContext.Provider> 
-                    </div>
-                </div>
-                <div className='two'>
-                    <ProfileName>{m.name || 'Unkown '}</ProfileName>
-                </div>
-                <div className='three'>
-                    {
-                        i === '0' ?
-                        <div>
-                            <Editor data-tip data-for='editor-tip'>Editor</Editor>
-                            <ReactTooltip id='editor-tip' className='tooltip'>
-                                <Text>This user can add and delete posts</Text>
-                            </ReactTooltip>
 
-                        </div>
-                        :
-                        <div>
-                            <Gn>Allow Edit</Gn>
-                            <span className='icon-wrapper'>
-                                <IconContext.Provider
-                                    value={{size: '15px', color: 'gray'}}>
-                                    <RiInformationLine  data-tip data-for='allow-editor-tip'/> 
-                                </IconContext.Provider> 
-                            </span>
-                            <ReactTooltip id='allow-editor-tip' className='tooltip'>
-                                <Text>Allow user to post to this Collection</Text>
-                            </ReactTooltip>
-                        </div>
-                    }
-                </div>
-            </div>
-        )
+    return props.members.map((m, i) => {
+        return <ProfileRow 
+                    key={i} 
+                    member={m} 
+                    moderators={props.moderators}/>
     })
 }
 
-const ProfileName = styled(Text)`
-    font-size: 16px;
-    font-weight: 600;
-    color: rgba(150, 150, 150, 1);
-`
-
-const Editor = styled(Text)`
-    font-size: 16px;
-    font-weight: 300;
-    font-style: italic;
-    color: rgba(150, 150, 150, 1);
-`
 
 export const AddMemberForm = props => {
 
     let [email, setEmail] = useState('')
     let [loading, setLoading] = useState(false)
     let [profiles, setProfiles] = useState([])
+    let [moderators, setModerator] = useState([])
 
     const sender = useSelector(state => state.user.data.email)
     const senderAddress = useSelector(state => state.user.data.address)
@@ -99,11 +50,17 @@ export const AddMemberForm = props => {
     useEffect(() => {
         const getMembers = async () => {
             let members = await activeThread.listMembers()
-            console.log(members)
-
             getProfilesAndSet(members)
         }
         getMembers()
+    }, [])
+
+    useEffect(() => {
+        const getModerators = async () => {
+            let moderators = await activeThread.listModerators()
+            setModerator(moderators)
+        }
+        getModerators()
     }, [])
 
     const getProfilesAndSet = async members => {
@@ -171,7 +128,9 @@ export const AddMemberForm = props => {
                 </Label>
                 {
                     profiles.length > 0 ?
-                    <RenderProfiles members={profiles}/>
+                    <RenderProfiles 
+                        members={profiles} 
+                        moderators={moderators}/>
                     :
                     null
                 }  
