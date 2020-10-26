@@ -1,7 +1,7 @@
 
 
 
-export const primaryGray85 = 'rgba(85, 85, 85, 1)';
+export const primaryGray85 = 'rgba(85, 85, 85, 1)'; // Darker
 export const primaryGray75 = 'rgba(75, 75, 75, 1)'; // Darker
 export const primaryGray55 = 'rgba(55, 55, 55, 1)'; // Darker
 export const primaryGray45 = 'rgba(45, 45, 45, 1)'; // Darker
