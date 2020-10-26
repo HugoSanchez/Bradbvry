@@ -51,7 +51,6 @@ class Editor extends Component {
     async defaultOptions() {
         const default_options = {
             debug: false,
-            read_only: true, //This doesn't work.
     
             continuousBlocks: [
                 "unstyled",
@@ -119,7 +118,7 @@ class Editor extends Component {
     
     render(){
 
-        let {item} = this.props
+        let {item, location} = this.props
 
         return (
             <div className="Main">
@@ -134,7 +133,7 @@ class Editor extends Component {
 
                     <DanteEditor 
                         content={item ? item.message.content : null} 
-                        read_only={false}
+                        read_only={location.state.onlyRead}
                         config={this.options}
                         data_storage={this.storage}
                         default_wrappers={this.wrappers}/>

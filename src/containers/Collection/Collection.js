@@ -117,7 +117,7 @@ export const Collection = props => {
 
 	const handleNewEditor = async () => {
 		dispatch(setActiveItem_Action(null))
-		props.history.push('/editor')
+		props.history.push('/editor', {onlyRead: !isModerator})
 	}
 
 	const onImageUpload = () => {

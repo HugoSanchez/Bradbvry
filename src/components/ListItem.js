@@ -88,7 +88,7 @@ const ListItem = React.memo((props) => {
        let thread = threads.find(thread => thread._name === item.threadName)
        dispatch(setActiveThread_Action(thread))
        dispatch(setActiveItem_Action(item))
-       history.push('/editor')
+       history.push('/editor', {onlyRead: !props.isModerator})
     }
 
     return (
