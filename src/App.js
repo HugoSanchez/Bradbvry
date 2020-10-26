@@ -12,7 +12,6 @@ import {
     JoinCollection
 } from './containers';
 import Home from './containers/Home';
-import MetaTags from 'react-meta-tags';
 import './App.css';
 
 const store = configureStore();
@@ -23,11 +22,6 @@ class App extends Component {
         return (
 
             <main className="App">
-                <MetaTags>
-                    <title>Bradbry - Create, Store and Share your Collections.</title>
-                    <meta id="meta-description" name="description" content="Mic check one two" />
-                    <meta id="og-image" property="og:image" content="./resources/favicon.png'" />
-                </MetaTags>
                 <Provider store={store}>
                     <Switch>
                         <Route path='/signin' component={SignIn} />
