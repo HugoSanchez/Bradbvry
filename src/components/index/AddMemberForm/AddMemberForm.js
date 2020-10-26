@@ -8,12 +8,12 @@ import {
     Gn,
     Note,
     Label,
+    MemberCont,
     ModalTitle,
     FormBodyBox,
 } from './styles';
 
 import {
-    Text,
     NameInput,
     ProfileRow,
     DrawerCont,
@@ -30,7 +30,10 @@ const RenderProfiles = props => {
         return <ProfileRow 
                     key={i} 
                     member={m} 
-                    moderators={props.moderators}/>
+                    moderators={props.moderators}
+                    handleAddModerator={member => {
+                        props.handleAddModerator(member)}}
+                />
     })
 }
 
@@ -50,31 +53,29 @@ export const AddMemberForm = props => {
     useEffect(() => {
         const getMembers = async () => {
             let members = await activeThread.listMembers()
+            console.log('Members: ', members)
             getProfilesAndSet(members)
         }
         getMembers()
-    }, [])
-
-    useEffect(() => {
-        const getModerators = async () => {
-            let moderators = await activeThread.listModerators()
-            setModerator(moderators)
-        }
         getModerators()
     }, [])
+
+    const getModerators = async () => {
+        let moderators = await activeThread.listModerators()
+        setModerator(moderators)
+    }
 
     const getProfilesAndSet = async members => {
         let profiles = []
 
         for (let i = 0; i < members.length; i++) {
             let profile = await Box.getProfile(members[i])
+            profile.did = members[i]
             profiles.push(profile)
         }
 
         setProfiles(profiles)
     }
-
-    console.log(profiles)
 
     const handleFormSubmit = async () => {
         setEmail('')
@@ -94,6 +95,11 @@ export const AddMemberForm = props => {
         let res = await axios.post(shareBaseUrl, data)
         if (res.data.success) {props.onClose(true)}
         else {props.onClose(false)}
+    }
+
+    const handleAddModerator = async member => {
+        await activeThread.addModerator(member)
+        getModerators()
     }
 
     return (
@@ -120,9 +126,7 @@ export const AddMemberForm = props => {
                 </FormButton>
             </FormBodyBox>   
 
-            
-
-            <div className="test2">
+            <MemberCont>
                 <Label>
                     Current Members ({profiles.length})
                 </Label>
@@ -130,11 +134,13 @@ export const AddMemberForm = props => {
                     profiles.length > 0 ?
                     <RenderProfiles 
                         members={profiles} 
-                        moderators={moderators}/>
+                        moderators={moderators}
+                        handleAddModerator={member => handleAddModerator(member)}
+                        />
                     :
                     null
                 }  
-            </div>
+            </MemberCont>
                       
         </DrawerCont>
     )

@@ -100,7 +100,7 @@ export const Collection = props => {
 		if (threadsArray.length < 1) {
 		dispatch(setInitialConfiguration_Action())}
 	}
-
+	
 	const handleShowSnackbar = bool => {
 		if (bool) {setMessage('Success !')}
 		else {setMessage('Something went wrong, please try again.')}

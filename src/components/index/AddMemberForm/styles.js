@@ -46,3 +46,9 @@ export const Label = styled.label`
 export const Gn = styled.span`
     color: ${primaryGreen}
 `;
+
+export const MemberCont = styled.div`
+    margin: 2%;
+    margin-top: 10%;
+    justify-content: center;  
+`;
