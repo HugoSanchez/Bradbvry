@@ -36,8 +36,8 @@ class Home extends Component {
     }
 
     async handleConfig(){
-        if (!this.props.space) {this.props.setInitialConfiguration_Action()}
-        else if (this.props.space && this.props.items.length > 0) {this.setState({loading: false})}
+        this.props.setInitialConfiguration_Action()
+        if (this.props.space && this.props.items.length > 0) {this.setState({loading: false})}
     }
 
     render() {

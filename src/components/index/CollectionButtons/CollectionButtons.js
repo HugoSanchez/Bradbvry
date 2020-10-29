@@ -20,6 +20,7 @@ export const CollectionButtons = props => {
 
     const [isModerator, setIsModerator] = useState(false)
     const address = useSelector(state => state.user.data.address)
+    const activeThread = useSelector(state => state.threads.activeThread)
 
 
     useEffect(() => {
@@ -28,7 +29,8 @@ export const CollectionButtons = props => {
         const checkModerators = async () => {
             let config = await Box.getConfig(address) 
             let did = config.spaces['bradbvry--main'].DID
-            let moderators = await props.activeThread.listModerators();
+            console.log(activeThread)
+            let moderators = await activeThread.listModerators();
             let includes = moderators.includes(did) || moderators.includes(address)
             setIsModerator(includes)
         }
