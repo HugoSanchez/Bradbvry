@@ -1,6 +1,7 @@
 import {HANDLE_SAVE_ITEM} from '../actions/types';
 import {take, put, select} from 'redux-saga/effects';
 import {setUserItems_Action} from '../actions';
+import {Mixpanel} from '../utils';
 
 const getThreadsState = state => state.threads
 
@@ -32,6 +33,7 @@ function* handleSaveItem(action) {
             let array = itemsArray.filter(item => item !== activeItem)
             array.splice(index, 0, newPost)
             yield put(setUserItems_Action(array))
+            Mixpanel.track('NEW_ITEM', {'type': 'post'})
         }
     }
     // If there was no activeItem, content is new. We check if content is not empty
@@ -41,6 +43,7 @@ function* handleSaveItem(action) {
         let newArray = [...itemsArray]
         newArray.push(newPost)
         yield put(setUserItems_Action(newArray))
+        Mixpanel.track('NEW_ITEM', {type: 'post'})
     }
 }
 

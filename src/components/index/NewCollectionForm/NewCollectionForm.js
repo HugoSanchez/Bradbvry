@@ -21,7 +21,11 @@ import {
     CollectionTypeSel
 } from '../../common';
 
-import {getBase64} from '../../../utils';
+import {
+    getBase64, 
+    Mixpanel
+} from '../../../utils';
+
 import {threadObj} from '../../../constants';
 import {ThreeBox} from '../../../utils/3box';
 import {setThreadArray_Action} from '../../../actions';
@@ -66,6 +70,7 @@ export const NewCollectionForm = props => {
             let config = {type: 'config', content: threadConfig}
             await space.subscribeThread(thread._address)
             await thread.post(config)
+            Mixpanel.track('NEW_COLLECTION');
             // Add thread to current threadsArray (reducer).
             thread.config = threadConfig
             let array = [...threadsArray]

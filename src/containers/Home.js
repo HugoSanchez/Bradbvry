@@ -2,7 +2,7 @@ import React, {Component}                 from 'react';
 import {connect}                          from 'react-redux';
 import ItemsAndSpaces                     from '../components/ItemsAndSpaces';
 import ProfileCard                        from '../components/ProfileCard';
-// import {Mixpanel}                         from '../utils';
+import {Mixpanel}                         from '../utils';
 
 import {
     Header, 
@@ -24,6 +24,7 @@ class Home extends Component {
     }
 
     async componentDidMount(){
+        Mixpanel.track('HOME');
         let isLogged = await magic.user.isLoggedIn();
         if (!isLogged) { this.props.history.push(`/signin`)} 
         else {this.handleConfig()}

@@ -1,6 +1,7 @@
 import React, {useEffect, useState, Fragment} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import Drawer from '@material-ui/core/Drawer';
+import {Mixpanel} from '../../utils';
 import Box from '3box';
 
 import {
@@ -30,6 +31,8 @@ const { Magic } = require('magic-sdk');
 const magic = new Magic(process.env.REACT_APP_MAGIC_API_KEY);
 
 export const Collection = props => {
+	
+	Mixpanel.track('COLLECTION');
 
 	let {
 		threadAddress, 

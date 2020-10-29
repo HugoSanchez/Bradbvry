@@ -1,6 +1,7 @@
 import {HANDLE_SAVE_IMAGE} from '../actions/types';
 import {take, put, select} from 'redux-saga/effects';
 import {setUserItems_Action} from '../actions';
+import {Mixpanel} from '../utils';
 
 const getThreadsState = state => state.threads
 
@@ -21,6 +22,7 @@ function* handleSaveImage(action) {
     let newArray = [...itemsArray]
     newArray.push(newPost)
     yield put(setUserItems_Action(newArray))
+    Mixpanel.track('NEW_ITEM', {'type': 'image'})
 }
 
 

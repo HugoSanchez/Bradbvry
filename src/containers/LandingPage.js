@@ -12,7 +12,7 @@ import '../App.css';
 
 const LandingPage = props => {
 
-	Mixpanel.track('Landing visit');
+	Mixpanel.track('LANDING_VISIT');
 
     return (
         <div>
