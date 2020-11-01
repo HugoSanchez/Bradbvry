@@ -29,7 +29,7 @@ const DeleteBin = props => {
         <IconContainer>
             {
                 props.isActive ?
-                    <View>
+                    <View onClick={props.onClick}>
                         <IconContext.Provider value={{size: size, color: 'gray'}}>
                             <RiDeleteBin6Line /> 
                         </IconContext.Provider> 

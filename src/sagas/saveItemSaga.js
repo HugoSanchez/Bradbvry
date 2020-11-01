@@ -32,6 +32,7 @@ function* handleSaveItem(action) {
             let index = itemsArray.indexOf(activeItem)
             let array = itemsArray.filter(item => item !== activeItem)
             array.splice(index, 0, newPost)
+            yield console.log('new item')
             yield put(setUserItems_Action(array))
             Mixpanel.track('NEW_ITEM', {'type': 'post'})
         }
@@ -43,7 +44,8 @@ function* handleSaveItem(action) {
         let newArray = [...itemsArray]
         newArray.push(newPost)
         yield put(setUserItems_Action(newArray))
-        Mixpanel.track('NEW_ITEM', {type: 'post'})
+        yield console.log('new item')
+        Mixpanel.track('NEW_ITEM', {'type': 'post'})
     }
 }
 

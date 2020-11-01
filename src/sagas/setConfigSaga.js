@@ -16,6 +16,7 @@ function* handleThreads(threads, space, account) {
     
     if (threads.length <= 1) {
 
+        yield console.log('we here...')
         // If it's a new user, it creates the first three threads with its config posts
         // and also it posts the welcome message.
         let {sortedItems, parsedThreads} = yield createFirstThreeCollections(space, account)
