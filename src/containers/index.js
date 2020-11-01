@@ -3,3 +3,4 @@ export * from './Home';
 export * from './Collection';
 export * from './JoinCollection';
 export * from './AddMember';
+export * from './Gallery';
