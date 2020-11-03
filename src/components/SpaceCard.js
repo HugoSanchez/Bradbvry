@@ -14,6 +14,9 @@ import {setActiveThread_Action} from '../actions';
 
 
 export const SpaceCard = props => {
+
+    // Heavy changes comming here.
+
     let {thread} = props
     let image = thread.config.image
     let spacename = thread.config.name.replace(/-/g, ' ')
