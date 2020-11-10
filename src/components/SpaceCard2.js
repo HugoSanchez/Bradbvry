@@ -43,10 +43,8 @@ export const SpaceCard2 = props => {
 console.log(Math.random() * (60,  80))
 
 const SpaceCardContainer = styled.div`
-    width: 80%;
-    height: ${props => props.width}%;
-    margin-top: 0px;
-    margin-bottom: 10%;
+    width: 100%;
+    height: 60%%;
     display: flex;
     flex-direction: column;
 	border-radius: 10px;

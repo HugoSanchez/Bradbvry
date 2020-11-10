@@ -3,10 +3,10 @@ import {useHistory} from "react-router-dom";
 import {useDispatch} from 'react-redux';
 import logo from '../../resources/favicon.png';
 import {setInitialConfiguration_Action} from '../../actions';
-import {LoadingCard, Header, SpaceCard2, RightContainer, LeftContainer, Title} from '../../components';
+import {LoadingCard, Header, SpaceCard2, Title, Text} from '../../components';
 import Box from '3box';
 
-import {} from './styles';
+import {ColTitle} from './styles';
 
 const { Magic } = require('magic-sdk');
 const magic = new Magic(process.env.REACT_APP_MAGIC_API_KEY);
@@ -53,7 +53,20 @@ export const Gallery = props => {
 					collections.map(col => {
 						if (col.message.type) {
 							col.message.config = col.message.content
-							return <div className='public-card'></div>
+							return (
+								<div className='public-card'>
+									<img className="card-image" src={col.message.config.image}/>
+
+									<div className='public-card-image'>
+									</div>
+									<div className='public-card-title'>
+										<ColTitle>{col.message.config.name}</ColTitle>
+									</div>
+									<div className='public-card-details'>
+										<Text>{col.message.config.description}</Text>
+									</div>
+								</div>
+							)
 						}
 					})
 				}
