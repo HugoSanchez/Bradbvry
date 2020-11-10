@@ -13,8 +13,8 @@ import {setActiveThread_Action} from '../actions';
  */
 
 
-export const SpaceCard = props => {
-    let {thread} = props
+export const SpaceCard2 = props => {
+    let {thread, width} = props
     let image = thread.config.image
     let spacename = thread.config.name.replace(/-/g, ' ')
     let description = thread.config.description.slice(0, 96)
@@ -30,7 +30,7 @@ export const SpaceCard = props => {
     }
 
     return (
-        <SpaceCardContainer onClick={handleOnClick}>
+        <SpaceCardContainer onClick={handleOnClick} width={width}>
             <SpaceImage src={image}/>
             <TextBox>
                 <SpaceTitle color={"white"}>{spacename}</SpaceTitle>
@@ -40,12 +40,13 @@ export const SpaceCard = props => {
     );
 }
 
+console.log(Math.random() * (60,  80))
+
 const SpaceCardContainer = styled.div`
-    width: 200px;
-    height: 260px;
+    width: 80%;
+    height: ${props => props.width}%;
     margin-top: 0px;
-    margin-right: 60px;
-    margin-bottom: 60px;
+    margin-bottom: 10%;
     display: flex;
     flex-direction: column;
 	border-radius: 10px;

@@ -3,7 +3,7 @@ import {useHistory} from "react-router-dom";
 import {useDispatch} from 'react-redux';
 import logo from '../../resources/favicon.png';
 import {setInitialConfiguration_Action} from '../../actions';
-import {LoadingCard, Header} from '../../components'
+import {LoadingCard, Header, SpaceCard2, RightContainer, LeftContainer, Title} from '../../components';
 import Box from '3box';
 
 import {} from './styles';
@@ -45,7 +45,19 @@ export const Gallery = props => {
     return (
 		<div>
 			<Header />
-			<h1>Hello World!</h1>
+			<h1 className="collection-header">Gallery</h1>
+			<h1 className="collection-header-2">Browse through some of the best Collections</h1>
+			<div className="test">
+				
+				{
+					collections.map(col => {
+						if (col.message.type) {
+							col.message.config = col.message.content
+							return <div className='public-card'></div>
+						}
+					})
+				}
+			</div>
 		</div>
 	)
 }

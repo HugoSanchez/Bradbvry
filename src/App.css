@@ -3,6 +3,8 @@
 /* Raleway */
 @import url('https://fonts.googleapis.com/css?family=Raleway:200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap');
 
+@import url('https://fonts.googleapis.com/css2?family=Xanh+Mono&display=swap');
+
 .App {
   margin: 0px;
   padding: 0px;
@@ -125,6 +127,8 @@
   display: flex;
   width: auto;
   margin-bottom: 2.5%;
+  border: solid 1px red;
+
 }
 
 .my-masonry-grid_column {
@@ -133,6 +137,45 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.test {
+  margin: 0 auto;
+  padding: 10%;
+  padding-top: 10%;
+
+  max-width: 1200px;
+  min-height: 2000px;
+  display: grid;
+  grid-gap: 1rem;
+}
+
+@media (min-width: 800px) {
+  .test { 
+    grid-template-columns: repeat(2, 1fr); 
+  }
+}
+
+.public-card {
+  padding: 2%;
+  background-color: lightsalmon;
+}
+
+.collection-header {
+  padding: 10%;
+  padding-top: 15%;
+  padding-bottom: 1%;
+  font-size: 60px;
+	font-family: 'Montserrat';
+  font-weight: 500;
+  font-style: italic;
+}
+
+.collection-header-2 {
+  font-size: 35px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 200;
+  font-style: oblique;
 }
 
 /* SNACK BAR */
