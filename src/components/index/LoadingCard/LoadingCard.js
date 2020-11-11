@@ -1,5 +1,8 @@
 import React from 'react';
 import logo from '../../../resources/favicon.png';
+import {primaryGray85} from '../../../constants/colors';
+import {WaveLoading} from 'react-loadingg';
+
 
 import {
     LoadingCardBox,
@@ -10,8 +13,11 @@ import {
 export const LoadingCard = props => {
   return (
     <LoadingCardBox>
-      <Logo src={logo} alt=''/>
-      <Title>Please wait...</Title>
+		<Title>This usually takes a while. Please wait!</Title>
+		<WaveLoading 
+			speed={2}
+			size='small' 
+			color={primaryGray85}/>
     </LoadingCardBox>
   )
 }

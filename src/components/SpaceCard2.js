@@ -40,8 +40,6 @@ export const SpaceCard2 = props => {
     );
 }
 
-console.log(Math.random() * (60,  80))
-
 const SpaceCardContainer = styled.div`
     width: 100%;
     height: 60%%;

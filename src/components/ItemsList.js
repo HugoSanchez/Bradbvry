@@ -15,7 +15,7 @@ import {ImageCard} from '../components'
 const MasonryIterator = props => {
     return (
         <Masonry
-            breakpointCols={3}
+            breakpointCols={window.innerWidth < 550 ? 2 : 3}
             className="my-masonry-grid"
             columnClassName="my-masonry-grid_column">
             {

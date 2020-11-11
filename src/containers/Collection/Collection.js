@@ -129,7 +129,10 @@ export const Collection = props => {
 
 	if (threadItems.length < 1 && !activeThread){
 		return (
-			<LoadingCard />
+			<Fragment>
+				<Header />
+				<LoadingCard />
+			</Fragment>
 		)
 	}
 
@@ -153,9 +156,15 @@ export const Collection = props => {
 			<SnackBar className={openSnack} success={uploadSuccess} message={message}/>
 
 			<FlexContainer>
-				<LeftContainer>
-					<CollectionCardBig thread={activeThread} />
-				</LeftContainer>
+				{
+					window.innerWidth < 500 ?
+					null
+					:
+					<LeftContainer>
+						<CollectionCardBig thread={activeThread} />
+					</LeftContainer>
+				}
+				
 				<RightContainer>
 					<ItemsList 
 						items={threadItems} 

@@ -70,7 +70,7 @@ const ListItem = React.memo((props) => {
     // Find first block that is unstyled and not empty.
     let title = item.message.content.blocks[0].text.slice(0, 45) || "Unkown Title";
     let body = item.message.content.blocks.find(block => block.type === 'unstyled' && block.text.length > 1) 
-    let maxSlice = window.innerWidth < 400 ? 160 : 220;
+    let maxSlice = window.innerWidth < 400 ? 30 : 220;
     let bodyToDisplay = body ? body.text.slice(0, maxSlice) : LoremIpsum.slice(0, maxSlice);
 
     // Function that deletes a given element from their space.
@@ -125,6 +125,13 @@ const DateBox = styled(View)`
     padding-top: 2vh;
     border-radius: 10px;
     background-color: #FAFAFA;
+    @media ${device.mobileL} {
+        padding-top: 0vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
 `;
 
 const ContentBox = styled(View)`
@@ -142,7 +149,7 @@ const TitleBox = styled(Row)`
     justify-content: space-between;
 
     @media ${device.mobileL} {
-        font-size: 2vh;
+        font-size: 1.6vh;
     }
 `;
 
@@ -155,7 +162,8 @@ const DayText = styled.p`
     color: rgba(130, 130, 130, 0.529);
     
     @media ${device.mobileL} {
-        font-size: 8vh;
+        font-size: 6vh;
+        margin-top: 0%;
     }
 `;
 
