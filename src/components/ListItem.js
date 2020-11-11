@@ -70,7 +70,7 @@ const ListItem = React.memo((props) => {
     // Find first block that is unstyled and not empty.
     let title = item.message.content.blocks[0].text.slice(0, 45) || "Unkown Title";
     let body = item.message.content.blocks.find(block => block.type === 'unstyled' && block.text.length > 1) 
-    let maxSlice = window.innerWidth < 400 ? 30 : 220;
+    let maxSlice = window.innerWidth < 400 ? 20 : 220;
     let bodyToDisplay = body ? body.text.slice(0, maxSlice) : LoremIpsum.slice(0, maxSlice);
 
     // Function that deletes a given element from their space.
