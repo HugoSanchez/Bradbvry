@@ -3,13 +3,11 @@ import {useHistory} from "react-router-dom";
 import {useDispatch} from 'react-redux';
 import logo from '../../resources/favicon.png';
 import {setInitialConfiguration_Action} from '../../actions';
-import {LoadingCard, Header, SpaceCard2, Title, Text} from '../../components';
+import {LoadingCard, Header, SpaceCard2, Title, Text, UserAvatar} from '../../components';
 import Box from '3box';
 
 import {ColTitle} from './styles';
 
-const { Magic } = require('magic-sdk');
-const magic = new Magic(process.env.REACT_APP_MAGIC_API_KEY);
 
 export const Gallery = props => {
 
@@ -32,9 +30,9 @@ export const Gallery = props => {
 
 	const load3box = async () => {
 		// /orbitdb/zdpuAtDMPJT8Q43ZRabKGME5Lk3SxidXdKzJUJWrBpwFv71kH/3box.thread.bradbvry--main.bv_gallery
-		let data        = await magic.user.getMetadata()
-		let email       = data.email
-		let address     = data.publicAddress
+		//let data        = await magic.user.getMetadata()
+		//let email       = data.email
+		//et address     = data.publicAddress
 		// Instantiate 3Box space and threads.
 		// Console.log each step for debugging (will delete someday).		
 		let getCollections         = await Box.getThreadByAddress(process.env.REACT_APP_COLLECTIONS_GALLERY)
@@ -60,10 +58,12 @@ export const Gallery = props => {
 									<div className='public-card-image'>
 									</div>
 									<div className='public-card-title'>
-										<ColTitle>{col.message.config.name}</ColTitle>
+										<ColTitle>Collection</ColTitle>
 									</div>
 									<div className='public-card-details'>
 										<Text>{col.message.config.description}</Text>
+											<UserAvatar imageIPFSaddress={false}/>
+										<div className='avatar'></div>
 									</div>
 								</div>
 							)

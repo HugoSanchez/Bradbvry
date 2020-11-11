@@ -127,8 +127,6 @@
   display: flex;
   width: auto;
   margin-bottom: 2.5%;
-  border: solid 1px red;
-
 }
 
 .my-masonry-grid_column {
@@ -143,58 +141,49 @@
   margin: 0 auto;
   margin-top: 10%;
   max-width: 85%;
-  min-height: 100%;
   display: grid;
   grid-gap: 2rem;
   grid-template-columns: repeat(3, 1fr); 
   margin-bottom: 10%;
 }
 
-.card-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  position: absolute;
-  border-radius: 5px;
-  top: 0;
-  left: 0;
-}
 
-@media (max-width: 1300px) {
+
+@media (max-width: 1100px) {
   .test { 
     grid-template-columns: repeat(2, 1fr); 
   }
   .public-card {
-    height: 500px;
+    max-height: 500px;
   }
 }
 
-@media (max-width: 800px) {
+@media (max-width: 570px) {
   .test { 
+    max-width: 98%;
+    grid-gap: 1rem;
     grid-template-columns: repeat(1, 1fr); 
   }
-  .public-card {
-    height: 500px;
+  .collection-header {
+    font-size: 4vh;
+    margin-top: 180px;
   }
-}
-
-@media (max-width: 600px) {
-  .test { 
-    grid-template-columns: repeat(1, 1fr); 
+  .collection-header-2 {
+    font-size: 2vh;
+    margin-bottom: 200px;
   }
   .public-card {
-    height: 400px;
+    max-height: 470px;
   }
 }
 
 .public-card {
-  background-color: rgba(233, 233, 233, 0.194);
+  background-color: rgb(55, 55, 55);
   display: flex;
   flex-direction: column;
-  height: 580px;
+  height: 555px;
   transition: 0.4s ease-out;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.2); 
+  box-shadow: 0 0 100px rgba(0,0,0,0.2); 
   position: relative;
 }
 
@@ -204,39 +193,59 @@
 }
 
 .public-card-image {
-  flex: 6;
+  flex: 5;
+  position: relative;
+}
+
+.card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+
+}
+
+.card-image:hover{
+  opacity: 1; 
+  transition: 0.7s;
 }
 
 .public-card-title {
   flex: 0.5;
   padding-left: 5%;
   padding-top: 3%;
+  opacity: 1;
+  background-color: rgba(255, 255, 255, 1);
   z-index: 1;
-  background-color: rgb(255, 255, 255);
-  opacity: 0.9;
+
 }
 
 .public-card-details {
   flex: 2;
   padding-left: 5%;
+  opacity: 1;
+  background-color: rgba(255, 255, 255, 1);
   z-index: 1;
-  background-color: rgb(255, 255, 255);
-  opacity: 0.9;
-
 } 
+
 
 .collection-header {
   padding: 10%;
   padding-top: 15%;
   padding-bottom: 1%;
-  font-size: 60px;
+  font-size: 7vh;
 	font-family: 'Montserrat';
   font-weight: 500;
   font-style: italic;
 }
 
 .collection-header-2 {
-  font-size: 35px;
+  margin-bottom: 200px;
+  padding-right: 10%;
+  padding-left: 10%;
+  font-size: 3.5vh;
   font-family: 'Montserrat', sans-serif;
   font-weight: 200;
   font-style: oblique;
@@ -426,6 +435,7 @@
   height: 5rem; 
   background-color: white; 
   position: fixed;
+  top: 0;
   text-align: center;
 }
 
@@ -446,6 +456,18 @@
   position: fixed;
   top: 1.5rem;
   left: 2.5rem;
+}
+
+@media (max-width: 570px) {
+  #Header { 
+    height: 8vh; 
+  }
+  #Header-Image {
+    height: 1.2rem;
+    width: 7rem;
+    top: 1rem;
+    left: 0.8rem;
+  }
 }
 
 /* !! maybe not in use anymore */
