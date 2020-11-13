@@ -28,8 +28,11 @@ export const CollectionButtons = props => {
         const checkModerators = async () => {
             let config = await Box.getConfig(address) 
             let did = config.spaces['bradbvry--main'].DID
+            console.log('DID: ', did)
             let moderators = await props.activeThread.listModerators();
+            console.log('Moderators: ', moderators)
             let includes = moderators.includes(did) || moderators.includes(address)
+            console.log('Is moderator: ', includes)
             setIsModerator(includes)
         }
         checkModerators()
@@ -41,10 +44,10 @@ export const CollectionButtons = props => {
         return (
             <View>
                 <CircularButton
-                userAdd
-                size={'25px'}
-                bottom={'26vh'} 
-                onClick={() => props.addMember()}
+                    userAdd
+                    size={'25px'}
+                    bottom={'26vh'} 
+                    onClick={() => props.addMember()}
                 />
                 <CircularButton
                     imageAdd

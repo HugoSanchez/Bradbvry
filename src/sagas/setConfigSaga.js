@@ -16,7 +16,6 @@ function* handleThreads(threads, space, account) {
     
     if (threads.length <= 1) {
 
-        yield console.log('we here...')
         // If it's a new user, it creates the first three threads with its config posts
         // and also it posts the welcome message.
         let {sortedItems, parsedThreads} = yield createFirstThreeCollections(space, account)
@@ -120,7 +119,7 @@ const parseThreadsAndPosts_Helper = async (threads, space) => {
             let posts = await thread.getPosts()
             for(let z = 0; z < posts.length; z++) {
                 if (posts[z].message.type === 'config') {
-                    console.log(posts[z])
+                    // console.log(posts[z])
                     thread.config = posts[z].message.content
                     parsedThreads.push(thread)
                 }
