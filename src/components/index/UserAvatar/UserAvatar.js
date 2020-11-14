@@ -14,7 +14,8 @@ export const UserAvatar = props => {
 
     return (
         <AvatarCont>
-            <Avatar>
+            <Avatar 
+                placeholderColor={props.placeholderColor}>
                 {
                     props.imageIPFSaddress ?
                     <Image src={props.imageIPFSaddress} alt=""/>

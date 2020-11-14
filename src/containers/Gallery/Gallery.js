@@ -50,8 +50,12 @@ export const Gallery = props => {
 									</div>
 									<div className='public-card-details'>
 										<Text>{col.message.content.description}</Text>
-											<UserAvatar imageIPFSaddress={false}/>
-										<div className='avatar'></div>
+										<div className='avatar'>
+											<UserAvatar 
+												placeholderColor={'rgb(235, 235, 235)'}
+												imageIPFSaddress={false}/>
+											<Text>John Smith</Text>
+										</div>
 									</div>
 								</div>
 							)
