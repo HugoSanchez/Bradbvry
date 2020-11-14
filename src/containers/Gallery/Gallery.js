@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {useHistory} from "react-router-dom";
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import logo from '../../resources/favicon.png';
 import {setInitialConfiguration_Action} from '../../actions';
 import {LoadingCard, Header, SpaceCard2, Title, Text, UserAvatar} from '../../components';
@@ -13,22 +13,11 @@ export const Gallery = props => {
 
 	const [collections, setCollections] = useState([])
 
-
 	useEffect(() => {
-		load3box()
+		handleCollectionLoad()
 	}, [])
 
-	const threadObj = {
-		type: 'config',
-		content: {
-			description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt',
-			image: 'https://images.unsplash.com/photo-1604176514868-fac005d0584c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80',
-			name: 'Test Collection',
-			address: 'threadAddress'
-		}
-	}
-
-	const load3box = async () => {
+	const handleCollectionLoad = async () => {
 		// /orbitdb/zdpuAtDMPJT8Q43ZRabKGME5Lk3SxidXdKzJUJWrBpwFv71kH/3box.thread.bradbvry--main.bv_gallery
 		//let data        = await magic.user.getMetadata()
 		//let email       = data.email
@@ -50,18 +39,17 @@ export const Gallery = props => {
 				{
 					collections.map(col => {
 						if (col.message.type) {
-							col.message.config = col.message.content
 							return (
 								<div className='public-card'>
-									<img className="card-image" src={col.message.config.image}/>
+									<img className="card-image" src={col.message.content.image}/>
 
 									<div className='public-card-image'>
 									</div>
 									<div className='public-card-title'>
-										<ColTitle>Collection</ColTitle>
+										<ColTitle>{col.message.content.name.replace(/-/g, ' ')}</ColTitle>
 									</div>
 									<div className='public-card-details'>
-										<Text>{col.message.config.description}</Text>
+										<Text>{col.message.content.description}</Text>
 											<UserAvatar imageIPFSaddress={false}/>
 										<div className='avatar'></div>
 									</div>

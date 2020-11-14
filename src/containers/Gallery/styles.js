@@ -8,6 +8,7 @@ export const ColTitle = styled(Title)`
     color: ${primaryGray45};
     font-weight: 600;
     font-size: 5vh;
+    text-transform: capitalize; 
     @media ${device.mobileL} {
         font-size: 5vh;
     }
