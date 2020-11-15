@@ -84,7 +84,6 @@ export const NewCollectionForm = props => {
             let gallery = await space.joinThreadByAddress(process.env.REACT_APP_COLLECTIONS_GALLERY)
             console.log('there')
             await gallery.post(config)
-            await gallery.deletePost('zdpuApfKFKMxcz65QCP14UJuHb6gKdzHYugrEyadTQcifSJcc')
             console.log('1')
         }
         // Track event and update global state.        
