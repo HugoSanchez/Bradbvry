@@ -13,7 +13,7 @@ const Header = React.memo((props) => {
     const location = useLocation();
     const [active, setActive] = useState(false); 
 
-    const user = useSelector(state => state.user.data);
+    const user = useSelector(state => state.user);
     const isLogged = useSelector(state => state.user.isLogged);
 
 

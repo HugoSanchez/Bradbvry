@@ -1,7 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import Box from '3box';
 
-import { UserAvatar } from '../UserAvatar';
+import { 
+    UserAvatar 
+} from '../UserAvatar';
 
 import {
     Container,
@@ -19,6 +21,7 @@ export const UserCard = props => {
     useEffect(() => {
         const fetchProfile = async () => {
             let profile = await Box.getProfile(props.user)
+            let config = await Box.getConfig(props.user)
             setUserProfile(profile)
         } 
         fetchProfile();

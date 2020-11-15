@@ -32,7 +32,13 @@ export const Gallery = props => {
 
 	const checkIfLogged = async () => {
 		let isLogged = await magic.user.isLoggedIn();
-		dispatch(setUserIsLogged_Action(isLogged))
+		if (!isLogged) {dispatch(setUserIsLogged_Action({bool: isLogged}))}
+		else {
+			let data = await magic.user.getMetadata()
+			let email = data.email
+			let address = data.publicAddress
+			dispatch(setUserIsLogged_Action({bool: isLogged, email, address}))
+		}
 	}
 
 	const handleCollectionLoad = async () => {

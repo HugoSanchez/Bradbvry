@@ -37,14 +37,17 @@ function* handleThreads(threads, space, account) {
 
 
 function* handleConfig() {
-    // If we are here, it's because the user is already logged in.
-    // So we first make sure this is set to true in reducer.
-    yield put(setUserIsLogged_Action(true))
     // Identify user, instantiate 3box elements, 
     // and set them in redux state. Next handle threads.
     let data        = yield magic.user.getMetadata()
     let email       = data.email
     let address     = data.publicAddress
+    // Set first user data.
+    yield put(setUserIsLogged_Action({
+        bool: true,
+        address,
+        email
+    }))
     // Instantiate 3Box space and threads.
     // Console.log each step for debugging (will delete someday).
     let box         = yield Box.openBox(address, magic.rpcProvider)

@@ -90,10 +90,10 @@ export const setInitialUserData_Action = (user) => {
     }
 }
 
-export const setUserIsLogged_Action = (bool) => {
+export const setUserIsLogged_Action = (object) => {
     return {
         type: SET_USER_IS_LOGGED,
-        payload: bool
+        payload: object
     }
 }
 
