@@ -50,7 +50,7 @@ export const Collection = props => {
 	const [message, setMessage] = useState(null)
 	const [isModerator, setIsModerator] = useState(false)
 
-    const address = useSelector(state => state.user.data.address)
+    const address = useSelector(state => state.user.address)
 	const threadsArray = useSelector(state => state.threads.threadsArray)
 	const itemsArray = useSelector(state => state.threads.itemsArray)
 	const activeThread = useSelector(state => state.threads.activeThread)
@@ -153,7 +153,11 @@ export const Collection = props => {
 					<AddMemberForm onClose={(bool) => handleCloseMemberForm(bool)}/>
 			</Drawer>
 
-			<SnackBar className={openSnack} success={uploadSuccess} message={message}/>
+			<SnackBar 
+				className={openSnack} 
+				success={uploadSuccess} 
+				message={message}
+			/>
 
 			<FlexContainer>
 				{

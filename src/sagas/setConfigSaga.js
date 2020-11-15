@@ -54,12 +54,10 @@ function* handleConfig() {
     yield console.log('1 - box')
     let space       = yield box.openSpace('bradbvry--main')
 
-    yield space.unsubscribeThread("/orbitdb/zdpuAwtA81NBMobZ5zTAVhQWXjbxmLs3d7nAgz3Tz…WUpGqv/3box.thread.bradbvry--main.test-collection")
-    yield space.unsubscribeThread("/orbitdb/zdpuAq7kew9rkVMxTJi8EEutUUgxm2qV56JQxL1zW…F5iGC/3box.thread.bradbvry--main.photo-collection")
-    yield space.unsubscribeThread("/orbitdb/zdpuAwMkLhSBkhrgMRUX4rtbdeCPFGc34bkjDQNwnpdPf2jzV/3box.thread.bradbvry--main.another-test")
+    // yield space.unsubscribeThread('/orbitdb/zdpuAm53JATNbiyhvhUie9VoMiy4c2JQGgDHsYyRNNPpqaUbv/3box.thread.bradbvry--main.photo-collection')
+    // yield space.unsubscribeThread("/orbitdb/zdpuAm53JATNbiyhvhUie9VoMiy4c2JQGgDHsYyRN…qaUbv/3box.thread.bradbvry--main.photo-collection")
+    // yield space.unsubscribeThread("/orbitdb/zdpuArwbRYpf5w4gjTRQzkspwdwegd3KnUWE6JygHepeioAQv/3box.thread.bradbvry--main.photo-collection")
 
-    yield space.unsubscribeThread("/orbitdb/zdpuAxebhMqAX1wef3YwQcG3TCmreoLwymwKDhbSS…Jne7E/3box.thread.bradbvry--main.third-collection")
-    yield space.unsubscribeThread("/orbitdb/zdpuAuiewcqjoQtb6MyQyh746wdpR5RTTJv8xGZhfKuMNH6sb/3box.thread.bradbvry--main.public-test")
     
 
     
@@ -133,8 +131,11 @@ const parseThreadsAndPosts_Helper = async (threads, space) => {
     
     for (let i = 0; i < reversedThreads.length; i++) {
         try {
+
             let thread = await space.joinThreadByAddress(reversedThreads[i].address)
+            console.log(reversedThreads[i].address)
             let posts = await thread.getPosts()
+            console.log(posts)
             for(let z = 0; z < posts.length; z++) {
                 if (posts[z].message.type === 'config') {
                     console.log(posts[z])
@@ -147,14 +148,13 @@ const parseThreadsAndPosts_Helper = async (threads, space) => {
                     posts[z].threadowner = thread._firstModerator
                     itemsArray.push(posts[z])
                 }
-            }
+        }
         } 
         catch (error) {
             console.log('error', error)
         }
-        
     }
-
+    console.log('for loop done')
     let sortedItems = await sortItemsArray(itemsArray)
     return {sortedItems, parsedThreads}
 }
