@@ -75,7 +75,12 @@ export const ImageCard = props => {
                 </DeleteBox>
                 <TextBox>
                     <ImageTitle>{title}</ImageTitle>
-                    <Description>{description}</Description>
+                    {
+                        window.innerWidth < 500 ?
+                        null
+                        :
+                        <Description>{description}</Description>
+                    }
                 </TextBox>
                 <Date>{day + ' ' + month + ' ' + year}</Date>
             <Image src={base64Image}/>

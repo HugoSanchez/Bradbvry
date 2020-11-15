@@ -19,8 +19,8 @@ export const threadObj =  {
     image                 : null,       // Image to display
     type                  : null,       // [open || members only || private]
     name                  : null,       // Title to display,
+    address               : null,       // Thread's address.
     description           : null,       // Description to display.
-    isOwner               : null,       // Bool, whether or not user owns it or is just a read-member.
     subscriptionList      : null,       // Subscription thread DID.
     subscriptionType      : null,       // [stake || free || invite-only || montly]
     options               : null,       // Any additional info.
@@ -33,7 +33,7 @@ export const threadObj =  {
 const size = {
     mobileS: '320px',
     mobileM: '375px',
-    mobileL: '425px',
+    mobileL: '570px',
     tablet: '768px',
     laptop: '1024px',
     laptopL: '1440px',

@@ -3,7 +3,8 @@ import {useSelector}  from "react-redux";
 import {Mixpanel} from '../utils';
 import {Header} from '../components/common/Header';
 import EditProfile from '3box-profile-edit-react';
-import {PointSpreadLoading}     from 'react-loadingg';
+import {WaveLoading} from 'react-loadingg';
+import {primaryGray55} from '../constants/colors';
 
 
 
@@ -14,7 +15,7 @@ const Settings = props => {
     // Get user data from redux state.
     const data = useSelector(state => state.user.data);
     // Track event in Mixpanel.
-    Mixpanel.track('Settings visit');
+    Mixpanel.track('SETTINGS');
     
     if (data.box) {
         return (
@@ -36,7 +37,10 @@ const Settings = props => {
         <div>
             <Header />
             <div className="Main">
-                <PointSpreadLoading color={"rgb(190, 235, 194)"}/>
+                <WaveLoading 
+                    speed={2}
+                    size='small' 
+                    color={primaryGray55}/>
             </div>
         </div>
     )

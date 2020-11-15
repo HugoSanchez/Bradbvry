@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import {device} from '../../../constants';
 import {Title, Text} from '../../common';
 
 export const ImageCardContainer = styled.div`
@@ -25,6 +26,11 @@ export const ImageTitle = styled(Title)`
     color: white;
     z-indez: 1;
     flex: 1;
+
+    @media ${device.mobileL} {
+        margin-bottom: 50px;
+        font-size: 16px;
+    }
 `
 
 export const TextBox = styled.div`
@@ -68,6 +74,10 @@ export const DeleteBox = styled.div`
     top: 10%;
     right: 5%;
     z-index: 3;
+
+    @media ${device.mobileL} {
+        padding-right: 40px;
+    }
 `;
 
 export const Image = styled.img`

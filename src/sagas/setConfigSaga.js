@@ -6,7 +6,8 @@ import Box from '3box';
 import {
     setUserItems_Action,
     setThreadArray_Action,
-    setInitialUserData_Action
+    setInitialUserData_Action,
+    setUserIsLogged_Action
 } from '../actions';
 
 const { Magic } = require('magic-sdk');
@@ -40,11 +41,27 @@ function* handleConfig() {
     let data        = yield magic.user.getMetadata()
     let email       = data.email
     let address     = data.publicAddress
+    // Set first user data.
+    yield put(setUserIsLogged_Action({
+        bool: true,
+        address,
+        email
+    }))
     // Instantiate 3Box space and threads.
     // Console.log each step for debugging (will delete someday).
     let box         = yield Box.openBox(address, magic.rpcProvider)
     yield console.log('1 - box')
     let space       = yield box.openSpace('bradbvry--main')
+
+    yield space.unsubscribeThread("/orbitdb/zdpuAwtA81NBMobZ5zTAVhQWXjbxmLs3d7nAgz3Tz…WUpGqv/3box.thread.bradbvry--main.test-collection")
+    yield space.unsubscribeThread("/orbitdb/zdpuAq7kew9rkVMxTJi8EEutUUgxm2qV56JQxL1zW…F5iGC/3box.thread.bradbvry--main.photo-collection")
+    yield space.unsubscribeThread("/orbitdb/zdpuAwMkLhSBkhrgMRUX4rtbdeCPFGc34bkjDQNwnpdPf2jzV/3box.thread.bradbvry--main.another-test")
+
+    yield space.unsubscribeThread("/orbitdb/zdpuAxebhMqAX1wef3YwQcG3TCmreoLwymwKDhbSS…Jne7E/3box.thread.bradbvry--main.third-collection")
+    yield space.unsubscribeThread("/orbitdb/zdpuAuiewcqjoQtb6MyQyh746wdpR5RTTJv8xGZhfKuMNH6sb/3box.thread.bradbvry--main.public-test")
+    
+
+    
     yield console.log('2- space')
     let profile     = yield Box.getProfile(address)
     yield console.log('3- profile')

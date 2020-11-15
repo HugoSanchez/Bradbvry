@@ -3,6 +3,8 @@
 /* Raleway */
 @import url('https://fonts.googleapis.com/css?family=Raleway:200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap');
 
+@import url('https://fonts.googleapis.com/css2?family=Xanh+Mono&display=swap');
+
 .App {
   margin: 0px;
   padding: 0px;
@@ -47,8 +49,8 @@
 /* EDITOR COMPONENT */
 
 .Editor {
-  margin-left: 8rem;
-  margin-right: 8rem;
+  margin-left: 10%;
+  margin-right: 10%;
   padding: 8%;
   padding-top: 0%;
 }
@@ -63,6 +65,22 @@
   background-color: white; 
   position: fixed;
   box-shadow: 0 0 10px rgba(0,0,0,0.1); 
+}
+
+@media (max-width: 570px) {
+  .Editor {
+    margin: 0%;
+    margin-top: 30%;
+  }
+  #editor-circular-button {
+    top: 5vh;
+    left: 2vw;
+    width: 40px; 
+    height: 40px; 
+    border-radius: 20px;
+    box-shadow: 0 0 0px rgba(0,0,0,0.1); 
+
+  }
 }
 
 #editor-circular-button-plus {
@@ -95,6 +113,12 @@
   color: rgb(55, 55, 55);
 }
 
+@media (max-width: 570px) {
+  .header-one {
+    font-size: 45px;
+  }
+}
+
 .header-two {
   font-family: 'Raleway';
   font-weight: 300;
@@ -116,6 +140,15 @@
   font-family: 'Montserrat';
   font-weight: 300;
   color: rgb(65, 65, 65);
+
+}
+
+@media (max-width: 570px) {
+  .editor--p{
+    font-size: 14px;
+    text-align: justify;
+    text-justify: inter-word;
+  }
 }
 
 /* Masonry Layout  */
@@ -134,6 +167,8 @@
   justify-content: center;
   align-items: center;
 }
+
+
 
 /* SNACK BAR */
 
@@ -260,9 +295,9 @@
 #profile-description {
   font-family: 'Montserrat';
   font-weight: 300;
-  line-height: 1.4;
-  text-align: justify;
-  inset-inline: 1.5;
+  line-height: 1.6;
+  text-align: left;
+  inset-inline: 1.8;
   padding-left: 10%;
   padding-right: 10%;
   color: rgb(65, 65, 65);
@@ -319,6 +354,7 @@
   height: 5rem; 
   background-color: white; 
   position: fixed;
+  top: 0;
   text-align: center;
 }
 
@@ -339,6 +375,18 @@
   position: fixed;
   top: 1.5rem;
   left: 2.5rem;
+}
+
+@media (max-width: 570px) {
+  #Header { 
+    height: 8vh; 
+  }
+  #Header-Image {
+    height: 1.2rem;
+    width: 7rem;
+    top: 1rem;
+    left: 0.8rem;
+  }
 }
 
 /* !! maybe not in use anymore */

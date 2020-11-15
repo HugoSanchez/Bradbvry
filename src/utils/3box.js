@@ -12,10 +12,20 @@ const actions = {
         })
 
         await space.subscribeThread(thread.address)
-
         return thread;
     },
 
+    createPublicThread: async (space, account, name) => {
+        const thread = await space.joinThread(name, {
+            firstModerator: account,
+            members: true
+        });
+
+        await space.subscribeThread(thread.address)
+        return thread;
+    },
+
+    // This will be removed
     getFirstPrivateThreadObject: () => {
         let pirvateThreadObject = Object.assign({}, threadObj)
         pirvateThreadObject.name = 'random-notes';
@@ -24,7 +34,6 @@ const actions = {
         pirvateThreadObject.description = 'This is a private and personal collection for you to keep loose ideas, notes, or pictures'
     
         return pirvateThreadObject;
-    
     },
 
     getSecondPrivateThreadObject: () => {

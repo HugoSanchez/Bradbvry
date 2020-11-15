@@ -4,6 +4,8 @@ export * from './CircularButton';
 export * from './RightContainer';
 export * from './FlexContainer';
 export * from './LeftContainer';
+export * from './SectionSubTitle';
+export * from './SectionTitle';
 export * from './DrawerCont';
 export * from './NameInput';
 export * from './Underline';

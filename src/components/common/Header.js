@@ -12,8 +12,10 @@ const Header = React.memo((props) => {
 
     const location = useLocation();
     const [active, setActive] = useState(false); 
-    const space = useSelector(state => state.user.data.space);
-    const user = useSelector(state => state.user.data);
+
+    const user = useSelector(state => state.user);
+    const isLogged = useSelector(state => state.user.isLogged);
+
 
     useEffect(() => {
         let isMounted = true; 
@@ -24,7 +26,7 @@ const Header = React.memo((props) => {
     }, [])
 
     const renderLinks = () => {
-        if (space) {
+        if (isLogged) {
             return (
                 <Fragment>
                     <Link to={'/app/' + user.address} id="header-profile-link-container">
@@ -35,7 +37,15 @@ const Header = React.memo((props) => {
                     </Link>
                 </Fragment>
             );
-        }
+        } else {
+            return (
+                <Fragment>
+                    <Link to={'/signin'} id="header-profile-link-container">
+                        <HeaderText bold={location.pathname === '/app/' + user.address}>Log in</HeaderText>
+                    </Link>
+                </Fragment>
+            )
+        } 
     }
 
     return (

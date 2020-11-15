@@ -48,6 +48,7 @@ const SpaceCardContainer = styled.div`
     height: 260px;
     margin-top: 0px;
     margin-right: 60px;
+    margin-bottom: 60px;
     display: flex;
     flex-direction: column;
 	border-radius: 10px;

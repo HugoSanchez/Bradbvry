@@ -22,7 +22,7 @@ const Card = styled(Row)`
     }
 
     @media ${device.mobileL} {
-        height: ${props => props.height || '22vh'};
+        height: ${props => props.height || '15vh'};
     }
 `;
 

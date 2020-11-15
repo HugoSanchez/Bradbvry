@@ -1,4 +1,7 @@
 import React, {useState} from 'react';
+import {threadObj} from '../../../constants';
+import {ThreeBox} from '../../../utils/3box';
+import {setThreadArray_Action} from '../../../actions';
 
 import {
     useSelector,
@@ -25,10 +28,6 @@ import {
     getBase64, 
     Mixpanel
 } from '../../../utils';
-
-import {threadObj} from '../../../constants';
-import {ThreeBox} from '../../../utils/3box';
-import {setThreadArray_Action} from '../../../actions';
 
 
 export const NewCollectionForm = props => {
@@ -59,25 +58,57 @@ export const NewCollectionForm = props => {
         else if (name.length < 1) {setError({...error, name: errorCodes.name})}
         else if (desc.length < 1) {setError({...error, desc: errorCodes.desc})}
         else {
-            // First parse thread config object.
-            name = name.replace(/\s+/g, '-').toLowerCase();
-            let threadConfig = Object.assign({}, threadObj)
-            threadConfig.name = name
-            threadConfig.description = desc
-            threadConfig.image = image.file
-            // Create thread, post config object and subscribe.
-            let thread = await ThreeBox.createConfidentialThread(space, account, name, collectionType)
-            let config = {type: 'config', content: threadConfig}
-            await space.subscribeThread(thread._address)
-            await thread.post(config)
-            Mixpanel.track('NEW_COLLECTION');
-            // Add thread to current threadsArray (reducer).
-            thread.config = threadConfig
-            let array = [...threadsArray]
-            array.push(thread)
-            dispatch(setThreadArray_Action(array.reverse()))
-            props.onClose()
+            handleCreateCollection()
         }
+    }
+
+    const handleCreateCollection = async () => {
+        // Parse thread name and config object
+        let {name, threadConfig} = parseCollectionConfigObject()
+        // Either create confidential or create public thread
+        let thread
+        if (collectionType === 'private' || collectionType === 'members') {
+            // Handle confidential thread
+            thread = await ThreeBox.createConfidentialThread(space, account, name, collectionType)
+            let config = {type: 'config', content: threadConfig}
+            await thread.post(config)
+        }
+        else {
+            // Handle public thread
+        
+            thread = await ThreeBox.createPublicThread(space, account, name)
+            threadConfig.address = thread._address
+            let config = {type: 'config', content: threadConfig}
+            await thread.post(config)
+            console.log('here')
+            let gallery = await space.joinThreadByAddress(process.env.REACT_APP_COLLECTIONS_GALLERY)
+            console.log('there')
+            await gallery.post(config)
+            await gallery.deletePost('zdpuApfKFKMxcz65QCP14UJuHb6gKdzHYugrEyadTQcifSJcc')
+            console.log('1')
+        }
+        // Track event and update global state.        
+        Mixpanel.track('NEW_COLLECTION');
+        parseThreadAndUpdateState(thread, threadConfig)
+    }
+
+    const parseCollectionConfigObject = () => {
+        // First parse thread config object.
+        name = name.replace(/\s+/g, '-').toLowerCase();
+        let threadConfig = Object.assign({}, threadObj)
+        threadConfig.name = name
+        threadConfig.description = desc
+        threadConfig.image = image.file
+        return {name, threadConfig}
+    }
+
+    const parseThreadAndUpdateState = (thread, threadConfig) => {
+        // Add thread to current threadsArray (reducer).
+        thread.config = threadConfig
+        let array = [...threadsArray]
+        array.unshift(thread)
+        dispatch(setThreadArray_Action(array))
+        props.onClose()
     }
 
     const errorCodes = {
@@ -118,7 +149,7 @@ export const NewCollectionForm = props => {
                     onChange={(e) => onImageUpload(e)}
                 />  
 
-               { 
+                { 
                     name && 
                     desc && 
                     image && 
