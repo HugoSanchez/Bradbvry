@@ -38,7 +38,7 @@ export const PublicCard = styled.div`
 `
 
 export const ImageBox = styled.div`
-    flex: 5;
+    flex: 4;
     position: relative;
 `;
 
@@ -52,7 +52,9 @@ export const Image = styled.img`
 `;
 
 export const CardTitleBox = styled.div`
-    flex: 0.5;
+    flex: 1;
+    display: flex;
+    align-items: center;
     padding-left: 5%;
     padding-top: 3%;
     opacity: 1;

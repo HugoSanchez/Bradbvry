@@ -6,7 +6,8 @@ import Box from '3box';
 import {
     setUserItems_Action,
     setThreadArray_Action,
-    setInitialUserData_Action
+    setInitialUserData_Action,
+    setUserIsLogged_Action
 } from '../actions';
 
 const { Magic } = require('magic-sdk');
@@ -36,6 +37,9 @@ function* handleThreads(threads, space, account) {
 
 
 function* handleConfig() {
+    // If we are here, it's because the user is already logged in.
+    // So we first make sure this is set to true in reducer.
+    yield put(setUserIsLogged_Action(true))
     // Identify user, instantiate 3box elements, 
     // and set them in redux state. Next handle threads.
     let data        = yield magic.user.getMetadata()
@@ -46,6 +50,16 @@ function* handleConfig() {
     let box         = yield Box.openBox(address, magic.rpcProvider)
     yield console.log('1 - box')
     let space       = yield box.openSpace('bradbvry--main')
+
+    yield space.unsubscribeThread("/orbitdb/zdpuAwtA81NBMobZ5zTAVhQWXjbxmLs3d7nAgz3Tz…WUpGqv/3box.thread.bradbvry--main.test-collection")
+    yield space.unsubscribeThread("/orbitdb/zdpuAq7kew9rkVMxTJi8EEutUUgxm2qV56JQxL1zW…F5iGC/3box.thread.bradbvry--main.photo-collection")
+    yield space.unsubscribeThread("/orbitdb/zdpuAwMkLhSBkhrgMRUX4rtbdeCPFGc34bkjDQNwnpdPf2jzV/3box.thread.bradbvry--main.another-test")
+
+    yield space.unsubscribeThread("/orbitdb/zdpuAxebhMqAX1wef3YwQcG3TCmreoLwymwKDhbSS…Jne7E/3box.thread.bradbvry--main.third-collection")
+    yield space.unsubscribeThread("/orbitdb/zdpuAuiewcqjoQtb6MyQyh746wdpR5RTTJv8xGZhfKuMNH6sb/3box.thread.bradbvry--main.public-test")
+    
+
+    
     yield console.log('2- space')
     let profile     = yield Box.getProfile(address)
     yield console.log('3- profile')

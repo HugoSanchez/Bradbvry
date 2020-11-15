@@ -2,7 +2,9 @@ import React, {useState} from 'react';
 import {useHistory} from "react-router-dom";
 import {useDispatch} from 'react-redux';
 import logo from '../../resources/favicon.png';
-import {setInitialConfiguration_Action} from '../../actions';
+import {
+	setInitialConfiguration_Action
+} from '../../actions';
 import {LoadingCard} from '../../components'
 
 import {
@@ -32,9 +34,8 @@ export const SignIn = props => {
         if (email) {
 			await magic.auth.loginWithMagicLink({ email });
 			await magic.user.isLoggedIn();
-
 			dispatch(setInitialConfiguration_Action())
-
+			
 			if (!!props.location.state) {
 				history.push(props.location.state.redirect)
 			} else {

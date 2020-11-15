@@ -13,20 +13,17 @@ import {
 
 
 export const UserCard = props => {
-    console.log('render: ', props.user)
 
     const [userProfile, setUserProfile] = useState(null)
 
     useEffect(() => {
-        fetchProfile()
+        const fetchProfile = async () => {
+            let profile = await Box.getProfile(props.user)
+            setUserProfile(profile)
+        } 
+        fetchProfile();
     }, [])
-
-    const fetchProfile = async () => {
-        let profile = await Box.getProfile(props.user)
-        setUserProfile(profile)
-        console.log(profile)
-    }
-
+    
     if (userProfile === null) {
         return null
     }
@@ -36,7 +33,8 @@ export const UserCard = props => {
             <AvatarCont>
                 <UserAvatar
                     placeholderColor={props.placeholderColor}
-                    imageIPFSaddress={"https://ipfs.io/ipfs/" + userProfile.image[0].contentUrl["/"]}
+                    imageIPFSaddress={"https://ipfs.io/ipfs/" 
+                    + userProfile.image[0].contentUrl["/"]}
                 />
             </AvatarCont>
             <UserName>

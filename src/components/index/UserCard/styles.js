@@ -13,6 +13,7 @@ export const AvatarCont = styled.div`
     display: flex;
     align-items: center;
     align-content: flex-start;
+    margin-right: 2%;
 `;
 
 export const UserName = styled.div`

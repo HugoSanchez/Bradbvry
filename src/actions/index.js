@@ -4,6 +4,7 @@ import {
     SET_USER_PROFILE,
     SET_ACTIVE_THREAD,
     SET_INITIAL_CONFIG,
+    SET_USER_IS_LOGGED,
     SET_USER_INITIAL_DATA,
     SET_THREAD_ARRAY,
     DELETE_USER_ENTRY,
@@ -86,6 +87,13 @@ export const setInitialUserData_Action = (user) => {
     return {
         type: SET_USER_INITIAL_DATA,
         payload: user
+    }
+}
+
+export const setUserIsLogged_Action = (bool) => {
+    return {
+        type: SET_USER_IS_LOGGED,
+        payload: bool
     }
 }
 

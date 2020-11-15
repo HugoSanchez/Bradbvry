@@ -1,28 +1,48 @@
 import React, {useState, useEffect} from 'react';
 import {useHistory} from "react-router-dom";
 import {useDispatch, useSelector} from 'react-redux';
-import {setInitialConfiguration_Action} from '../../actions';
-import {LoadingCard, Header, Title, Text, SectionTitle, SectionSubTitle, UserCard, GalleryCard} from '../../components';
 import Box from '3box';
 
 import {
+	LoadingCard, 
+	Header, 
+	SectionTitle, 
+	SectionSubTitle, 
+	GalleryCard
+} from '../../components';
+
+import {
 	ColContainer,
-	ColTitle
 } from './styles';
 
+import { setUserIsLogged_Action } from '../../actions';
+
+const { Magic } = require('magic-sdk');
+const magic = new Magic(process.env.REACT_APP_MAGIC_API_KEY);
 
 export const Gallery = props => {
 
+	const dispatch = useDispatch()
 	const [collectionsArray, setCollections] = useState([])
 
 	useEffect(() => {
+		checkIfLogged()
 		handleCollectionLoad()
 	}, [])
+
+	const checkIfLogged = async () => {
+		let isLogged = await magic.user.isLoggedIn();
+		dispatch(setUserIsLogged_Action(isLogged))
+	}
 
 	const handleCollectionLoad = async () => {
 		let galleryAddress = process.env.REACT_APP_COLLECTIONS_GALLERY
 		let collections = await Box.getThreadByAddress(galleryAddress)
 		setCollections(collections)
+	}
+
+	if (collectionsArray.length === 0) {
+		return <LoadingCard />
 	}
 
     return (
@@ -36,7 +56,9 @@ export const Gallery = props => {
 					collectionsArray.map(col => {
 						if (col.message.type) {
 							return (
-								<GalleryCard collection={col}/>
+								<GalleryCard 
+									key={col.postId}
+									collection={col}/>
 							)
 						}
 					})
