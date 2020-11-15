@@ -34,6 +34,7 @@ export const Gallery = props => {
 		let isLogged = await magic.user.isLoggedIn();
 		if (!isLogged) {dispatch(setUserIsLogged_Action({bool: isLogged}))}
 		else {
+			// await magic.user.logout()
 			let data = await magic.user.getMetadata()
 			let email = data.email
 			let address = data.publicAddress
