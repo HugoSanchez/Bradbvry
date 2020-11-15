@@ -44,6 +44,7 @@ export const Gallery = props => {
 	const handleCollectionLoad = async () => {
 		let galleryAddress = process.env.REACT_APP_COLLECTIONS_GALLERY
 		let collections = await Box.getThreadByAddress(galleryAddress)
+		console.log(collections)
 		setCollections(collections)
 	}
 

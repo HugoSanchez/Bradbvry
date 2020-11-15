@@ -75,7 +75,6 @@ export const NewCollectionForm = props => {
         }
         else {
             // Handle public thread
-        
             thread = await ThreeBox.createPublicThread(space, account, name)
             threadConfig.address = thread._address
             let config = {type: 'config', content: threadConfig}
