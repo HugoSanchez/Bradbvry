@@ -6,9 +6,10 @@ import { UserAvatar } from '../UserAvatar';
 import {
     Container,
     AvatarCont, 
-    NameText
+    UserName,
+    NameText,
+    AdditionalInfo,
 } from './styles';
-
 
 
 export const UserCard = props => {
@@ -38,12 +39,12 @@ export const UserCard = props => {
                     imageIPFSaddress={"https://ipfs.io/ipfs/" + userProfile.image[0].contentUrl["/"]}
                 />
             </AvatarCont>
-            <div className="username">
+            <UserName>
                 <NameText>{userProfile.name || 'Unkown User'}</NameText>
-            </div>
-            <div className="additional-info">
+            </UserName>
+            <AdditionalInfo>
 
-            </div>
+            </AdditionalInfo>
         </Container>
     )
 }

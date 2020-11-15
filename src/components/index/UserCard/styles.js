@@ -15,6 +15,16 @@ export const AvatarCont = styled.div`
     align-content: flex-start;
 `;
 
+export const UserName = styled.div`
+    flex: 4;
+    display: flex;
+    align-items: center;
+`;
+
+export const AdditionalInfo = styled.div`
+    flex: 3;
+`;
+
 export const NameText = styled(Text)`
     font-weight: 400;
     font-style: italic;
