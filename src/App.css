@@ -195,14 +195,6 @@
     grid-gap: 1rem;
     grid-template-columns: repeat(1, 1fr); 
   }
-  .collection-header {
-    font-size: 4vh;
-    margin-top: 180px;
-  }
-  .collection-header-2 {
-    font-size: 2vh;
-    margin-bottom: 200px;
-  }
   .public-card {
     max-height: 470px;
   }
@@ -254,45 +246,40 @@
 
 .public-card-details {
   flex: 2;
+  display: flex;
+  flex-direction: column;
   padding-left: 5%;
   padding-right: 5%;
   opacity: 1;
   background-color: rgba(255, 255, 255, 1);
   z-index: 1;
-  border: 1px solid red;
-
 } 
 
-.avatar{
-  position: absolute;
-  bottom: 1%;
-  border: 1px solid red;
+.avatar {
+  flex: 1;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
+  margin-bottom: 2%;
 }
 
 
-.collection-header {
-  padding: 10%;
-  padding-top: 15%;
-  padding-bottom: 1%;
-  font-size: 7vh;
-	font-family: 'Montserrat';
-  font-weight: 500;
-  font-style: italic;
+.description {
+  flex: 2;
 }
 
-.collection-header-2 {
-  margin-bottom: 200px;
-  padding-right: 10%;
-  padding-left: 10%;
-  font-size: 3.5vh;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 200;
-  font-style: oblique;
+.username {
+  flex: 4;
+  display: flex;
+  align-items: center;
 }
+
+.additional-info {
+  flex: 3;
+}
+
+
 
 /* SNACK BAR */
 

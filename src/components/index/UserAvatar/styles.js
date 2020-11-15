@@ -3,14 +3,12 @@ import styled from 'styled-components';
 export const AvatarCont = styled.div`
     flex: 1;
     display: flex;
-    justify-content: center; 
-    align-items: center;
 `;
 
 export const Avatar = styled.div`
-    height: 40px;
-    width: 40px;
-    border-radius: 20px;
+    height: 36px;
+    width: 36px;
+    border-radius: 18px;
     background-color: ${props => props.placeholderColor ? props.placeholderColor : 'rgba(220, 220, 220, 0.1)'};
     display: flex;
     align-items: center;
@@ -19,7 +17,7 @@ export const Avatar = styled.div`
 
 export const Image = styled.img`
     position: relative;
-    height: 40px;
-    width: 40px;
-    border-radius: 20px;
+    height: 36px;
+    width: 36px;
+    border-radius: 18px;
 `;

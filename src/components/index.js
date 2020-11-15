@@ -15,5 +15,6 @@ export * from './SpacesCarousel';
 export * from './index/SnackBar';
 
 export * from './SpaceCard2';
+export * from './index/UserCard';
 
 export * from './common';

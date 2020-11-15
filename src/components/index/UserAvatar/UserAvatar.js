@@ -11,7 +11,6 @@ import {
 
 
 export const UserAvatar = props => {
-
     return (
         <AvatarCont>
             <Avatar 
