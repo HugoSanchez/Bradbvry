@@ -22,18 +22,31 @@ function* handleThreads(threads, space, account) {
 
 
 function* handleConfig() {
-    yield console.log('we are here')
-    let identity = yield Textile.getIdentity(magic)
-    yield console.log('done: ', identity)
-    let hubKey = process.env.REACT_APP_TEXTILE_HUB_KEY
-    let client = yield Client.withKeyInfo({key: hubKey})
-    console.log(client)
+    // Get user address and email from magic.
+    let data = yield magic.user.getMetadata()
+    let email = data.email
+    let address = data.publicAddress
 
-    let userToken = yield client.getToken(identity)
-    console.log('userto: ', userToken)
-      
-    let threads = yield client.listThreads()
+    // Get user public profile.
+    let profile = yield Box.getProfile(address)
+
+    // Get user identity (textile), instantiate client, 
+    // Authenticate user, and fetch its threads.
+    let hubKey = process.env.REACT_APP_TEXTILE_HUB_KEY
+    let identity    = yield Textile.getIdentity(magic)
+    let client      = yield Client.withKeyInfo({key: hubKey})
+    let userToken   = yield client.getToken(identity)  
+    let threads     = yield client.listThreads()
     console.log('threads: ', threads)
+
+    // Dispatch initial user data to reducer
+    yield put(setInitialUserData_Action({
+        email,
+        address, 
+        client,
+        identity,
+        profile
+    }))
 }
 
 export default function * watchInitialConfig() {
