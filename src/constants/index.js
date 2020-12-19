@@ -11,6 +11,31 @@ export const addMemberUrl = (data, thread, threadName) => `${process.env.REACT_A
 ////// THREAD OBJECT
 ////////////////////////////////////
 
+export const entriesObject = {
+    _id: '', 
+    name: '',                           // Entry name
+    description: '',                    // Entry description
+    type: 'file',                       // Entry type
+    entry: '',                          // Actual entry
+    other: '',                          // Other info
+    timestamp: 0                        // Entry creation date
+}
+
+export const configObject = {
+    _id: '', 
+    owner: '',                           // Thread's owner DID.
+    name: '',                            // Collection Name 
+    description: '',                     // Collection Description
+    type: '',                            // Collection type: [open || members-only || private]
+    tokenAddress: '',                    // Token address if any
+    symmetricKey: '',                    // Symetric AES key if any
+    subscriptionType : '',               // [stake || free || invite-only || montly]
+    preview: '',                         // Boolean - wether or not there's preview entries
+    previewEntries: '',                  // Array of public entries to preview
+    options: '',                         // Any additional info.
+}
+
+
 export const globalThreadModeratorAddress = "0xCc74308838BbAcEEC226611A0C2b3fD5f4a7D8a2";
 
 

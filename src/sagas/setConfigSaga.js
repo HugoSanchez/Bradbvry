@@ -16,8 +16,13 @@ import {
 const { Magic } = require('magic-sdk');
 const magic = new Magic(process.env.REACT_APP_MAGIC_API_KEY);
 
-function* handleThreads(threads, space, account) {  
-    
+function* handleThreads(threads, client) {  
+    yield console.log('threads: ', threads)
+
+    let config = {name: 'hello', description: 'world'}
+    // yield Textile.createNewThreadDB(client, config)
+
+    // yield Textile.createNewEntry(client, 'something', config)
 }
 
 
@@ -47,6 +52,8 @@ function* handleConfig() {
         identity,
         profile
     }))
+
+    yield handleThreads(threads, client)
 }
 
 export default function * watchInitialConfig() {

@@ -1,5 +1,6 @@
 import { PrivateKey } from '@textile/hub';
 import { utils, BigNumber } from 'ethers';
+import {entriesObject, configObject} from '../constants';
 import { Eth } from './Ethers';
 
 
@@ -9,6 +10,31 @@ let actions = {
         console.log(identityString)
         if (!identityString) {return generateIdentity(magic)}
         else {return PrivateKey.fromString(identityString)}
+    },
+
+    createNewThreadDB: async (client, config) => {
+        // Parse config and entries objects (DB collection schemas)
+        let collectionConfig = Object.assign(configObject, config)
+        let entriesSchema = Object.assign({}, entriesObject)
+        // Instantiate new threadDB with name.
+        let threadID = await client.newDB(undefined, collectionConfig.name)
+        // Instantate and create the config and entries collections in DB.
+        await client.newCollectionFromObject(threadID, configObject, {name: 'config'})
+        await client.newCollectionFromObject(threadID, entriesSchema, {name: 'entries'})
+        // Store the config object in the config db collection
+        let storedConfigObj = await client.create(threadID, 'config', [collectionConfig])
+        // return threadID object
+        return threadID
+    },
+
+    createNewEntry: async (client, threadID, entry) => {
+        // Parse entry object to match schema
+        let newEntry = Object.assign(entriesObject, entry)
+        let newDate = Date.now()
+        newEntry.timestamp = newDate
+        // Store new entry in thread.
+        let storedEntry = await client.create(threadID, 'entries', [newEntry])
+        return storedEntry
     }
 }
 
@@ -29,10 +55,10 @@ const generateSeedFromEthKey = async (signer) => {
     // Sign and hash message using Ethereum's private key.
     // Then parse signedMessage to create seed array.
     const message = 'Signing this message proves you are in possesion of' +
-    ' the private key to acces and control your account.'
+    ' the private key to access and control your account.'
     const signed = await signer.signMessage(message)
-    const hash = await utils.keccak256(signed)
-    const parsed = await parseSignedMessage(hash)
+    const hashed = await utils.keccak256(signed)
+    const parsed = await parseSignedMessage(hashed)
     return parsed
 }
 
