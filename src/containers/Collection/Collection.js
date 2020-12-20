@@ -73,27 +73,11 @@ export const Collection = props => {
 		// If activeThread is not set, user is reloading and should be set.
 		const checkActiveThread = async () => {
 			if (!activeThread) {
-				let paramsThreadAddress = `/orbitdb/${threadAddress}/${threadName}`
-				let thread = threadsArray.find(thread => thread._address === paramsThreadAddress)
+				let thread = threadsArray.find(thread => thread.name === threadName)
 				dispatch(setActiveThread_Action(thread))
 			}
 		}
 		checkActiveThread()
-	})
-
-	useEffect(() => {
-		// Check whether a user has "write"-acces to the collection
-		// And sets permissions accordingly (publish and delete). 
-		const checkAndSetModerator = async (thread) => {
-			if (activeThread) {
-				let config = await Box.getConfig(address) 
-				let did = config.spaces['bradbvry--main'].DID
-				let moderators = await activeThread.listModerators();
-				let includes = moderators.includes(did) || moderators.includes(address)
-				setIsModerator(includes)
-			}
-		}
-		checkAndSetModerator()
 	})
 
 	

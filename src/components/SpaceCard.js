@@ -26,7 +26,7 @@ export const SpaceCard = props => {
 
     const handleOnClick = () => {
         dispatch(setActiveThread_Action(thread))
-        history.push(`/app/${address + thread._address.slice(8)}`)
+        history.push(`/app/${address + '/' + thread.name}`)
     }
 
     return (
