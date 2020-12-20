@@ -10,6 +10,7 @@ import {
     DELETE_USER_ENTRY,
     HANDLE_SAVE_ITEM,
     HANDLE_SAVE_IMAGE,
+    HANDLE_CREATE_COLLECTION,
 } from './types';
 
 
@@ -63,6 +64,13 @@ export const handleSaveImage_Action = object => {
     return { 
         type: HANDLE_SAVE_IMAGE, 
         payload: object 
+    }
+}
+
+export const handleCreateCollection_Action = object => {
+    return {
+        type: HANDLE_CREATE_COLLECTION,
+        payload: object
     }
 }
 

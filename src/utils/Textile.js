@@ -1,6 +1,7 @@
 import { PrivateKey } from '@textile/hub';
 import { utils, BigNumber } from 'ethers';
 import { Eth } from './Ethers';
+import {parseCollectionName} from './utils';
 
 import {
     entriesObject, 
@@ -19,15 +20,24 @@ let actions = {
 
     createNewThreadDB: async (client, config) => {
         // Parse config and entries objects (DB collection schemas)
+        let newDate = Date.now()
+        config.timestamp = newDate
+        config.name = parseCollectionName(config.name)
         let collectionConfig = Object.assign(configObject, config)
         let entriesSchema = Object.assign({}, entriesObject)
+        console.log('Collection Config: ', collectionConfig)
         // Instantiate new threadDB with name.
         let threadID = await client.newDB(undefined, collectionConfig.name)
+        console.log('Created new thread with ID: ', threadID)
+
         // Instantate and create the config and entries collections in DB.
         await client.newCollectionFromObject(threadID, configObject, {name: 'config'})
+        console.log('Created config collection')
         await client.newCollectionFromObject(threadID, entriesSchema, {name: 'entries'})
+        console.log('Created entries collection')
         // Store the config object in the config db collection
         let storedConfigObj = await client.create(threadID, 'config', [collectionConfig])
+        console.log('Inserted config object into collection: ', storedConfigObj)
         // return threadID object
         return threadID
     },
@@ -43,34 +53,34 @@ let actions = {
     },
 
     getFirstPublicThreadObject: () => {
-        let pirvateThreadObject = {}
-        pirvateThreadObject.name = 'random-notes';
-        pirvateThreadObject.image = images[0]
-        pirvateThreadObject.type = 'public';
-        pirvateThreadObject.description = 'This is a Public and personal collection for you to keep loose ideas, notes, or pictures'
+        let publicThreadObject = {}
+        publicThreadObject.name = 'random-notes';
+        publicThreadObject.image = images[0]
+        publicThreadObject.type = 'public';
+        publicThreadObject.description = 'This is a Public and personal collection for you to keep loose ideas, notes, or pictures'
     
-        return pirvateThreadObject;
+        return publicThreadObject;
     },
 
     getSecondPublicThreadObject: () => {
-        let pirvateThreadObject = {}
-        pirvateThreadObject.name = 'diary-entries';
-        pirvateThreadObject.image = images[1]
-        pirvateThreadObject.type = 'public';
-        pirvateThreadObject.description = 'This is a place to keep a personal diary, fill it with pictures, text, and a little bit of love'
+        let publicThreadObject = {}
+        publicThreadObject.name = 'diary-entries';
+        publicThreadObject.image = images[1]
+        publicThreadObject.type = 'public';
+        publicThreadObject.description = 'This is a place to keep a personal diary, fill it with pictures, text, and a little bit of love'
     
-        return pirvateThreadObject;
+        return publicThreadObject;
     
     },
 
     getThirdPublicThreadObject: () => {
-        let pirvateThreadObject = {}
-        pirvateThreadObject.name = 'photo-collection';
-        pirvateThreadObject.image = images[2]
-        pirvateThreadObject.type = 'public';
-        pirvateThreadObject.description = 'A collection for the kind of pictures you would like to keep forever'
+        let publicThreadObject = {}
+        publicThreadObject.name = 'photo-collection';
+        publicThreadObject.image = images[2]
+        publicThreadObject.type = 'public';
+        publicThreadObject.description = 'A collection for the kind of pictures you would like to keep forever'
     
-        return pirvateThreadObject;
+        return publicThreadObject;
     
     },
 }

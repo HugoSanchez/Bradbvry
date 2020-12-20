@@ -41,9 +41,6 @@ export const ProfileCard = props => {
     return (
         <Container>
             <ProfileCardDiv>
-                <CoverPhotoContainer>
-                    
-                </CoverPhotoContainer>
 
                 <ImageBox>
                     <ProfileImage   

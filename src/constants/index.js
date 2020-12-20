@@ -32,6 +32,7 @@ export const configObject = {
     subscriptionType : '',               // [stake || free || invite-only || montly]
     preview: '',                         // Boolean - wether or not there's preview entries
     previewEntries: '',                  // Array of public entries to preview
+    timestamp: 0,                        // Creation day timestamp
     options: '',                         // Any additional info.
 }
 

@@ -14,13 +14,10 @@ export const ProfileCardDiv = styled.div`
     top: 20%;
     height: 70vh;
     width: 20vw;
+    padding-top: 8%;
     border-radius: 1vh;
     overflow: hidden;
-    box-shadow: 0 0 80px rgba(0,0,0,0.1);
     transition: 0.2s;
-    &:hover{
-        box-shadow: 0 0 25px rgba(0,0,0,0.1); 
-    }
 
     @media ${device.tablet} {
         position: relative;
@@ -35,7 +32,7 @@ export const ProfileCardDiv = styled.div`
 export const CoverPhotoContainer = styled.div`
     height: 35%;
     width: inherit;
-    background-color: rgb(231, 245, 241);
+    background-color: white;
     
     @media ${device.tablet} {
         flex: 0;
