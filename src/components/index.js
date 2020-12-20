@@ -9,6 +9,7 @@ export * from './index/UploadImageForm';
 export * from './index/AddMemberForm';
 export * from './index/LoadingCard';
 export * from './index/GalleryCard';
+export * from './index/ProfileCard';
 export * from './index/ProfileRow';
 export * from './index/ImageCard';
 export * from './index/UserAvatar';

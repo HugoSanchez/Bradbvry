@@ -5,5 +5,4 @@ export const LeftContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  border: solid 1px blue;
-`
+`;

@@ -15,11 +15,14 @@ import {
 
 import {
     Header, 
-    LoadingCard
+    LoadingCard,
+    FlexContainer,
+    LeftContainer,
+    RightContainer
 } from '../components';
 
 import ItemsAndSpaces from '../components/ItemsAndSpaces';
-import ProfileCard from '../components/ProfileCard';
+import {ProfileCard} from '../components';
 import {Mixpanel} from '../utils';
 import {setInitialConfiguration_Action} from '../actions';
 
@@ -32,7 +35,6 @@ export const Home = (props) => {
     const history = useHistory()
     const [loading, setLoading] = useState(true)
     const client = useSelector(state => state.user.client)
-    const profile = useSelector(state => state.user.profile)
     const items = useSelector(state => state.threads.itemsArray)
 
 
@@ -65,14 +67,17 @@ export const Home = (props) => {
                     ?
                     <LoadingCard />
                     :
-                    <div className='container'>
-                        <div className='left'>
-                            <ProfileCard profile={profile} />
-                        </div>
-                        <div className='right'>
+                    <FlexContainer>
+
+                        <LeftContainer>
+                            <ProfileCard />
+                        </LeftContainer>
+
+                        <RightContainer>
                             <ItemsAndSpaces items={items} />
-                        </div>
-                    </div>
+                        </RightContainer>
+                        
+                    </FlexContainer>
                 }
             </Fragment>
     );
