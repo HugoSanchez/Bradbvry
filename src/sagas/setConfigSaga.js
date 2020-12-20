@@ -17,6 +17,8 @@ const { Magic } = require('magic-sdk');
 const magic = new Magic(process.env.REACT_APP_MAGIC_API_KEY);
 
 function* handleThreads(threads, client) {  
+
+    
     yield console.log('threads: ', threads)
 
     let config = {name: 'hello', description: 'world'}

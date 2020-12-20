@@ -45,7 +45,7 @@ export const SignIn = props => {
 
 			dispatch(setInitialConfiguration_Action())
 
-			/** 
+			
 			
 			if (!!props.location.state) {
 				history.push(props.location.state.redirect)
@@ -54,7 +54,6 @@ export const SignIn = props => {
 				let route = `/app/${data.publicAddress}`
 				history.push(route)
 			}
-			*/
         }
 	}
 	

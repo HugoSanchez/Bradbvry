@@ -5,15 +5,16 @@ import configureStore from './store';
 import LandingPage from './containers/LandingPage';
 import Settings from './containers/Settings';
 import Editor from './containers/Editor';
+import './App.css';
+
 import {
+    Home,
     SignIn,
     Gallery,
     AddMember,
     Collection,
     JoinCollection
 } from './containers';
-import Home from './containers/Home';
-import './App.css';
 
 const store = configureStore();
 

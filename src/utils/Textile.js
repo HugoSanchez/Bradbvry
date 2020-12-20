@@ -1,7 +1,12 @@
 import { PrivateKey } from '@textile/hub';
 import { utils, BigNumber } from 'ethers';
-import {entriesObject, configObject} from '../constants';
 import { Eth } from './Ethers';
+
+import {
+    entriesObject, 
+    configObject, 
+    images
+} from '../constants';
 
 
 let actions = {
@@ -35,7 +40,39 @@ let actions = {
         // Store new entry in thread.
         let storedEntry = await client.create(threadID, 'entries', [newEntry])
         return storedEntry
-    }
+    },
+
+    getFirstPublicThreadObject: () => {
+        let pirvateThreadObject = {}
+        pirvateThreadObject.name = 'random-notes';
+        pirvateThreadObject.image = images[0]
+        pirvateThreadObject.type = 'public';
+        pirvateThreadObject.description = 'This is a Public and personal collection for you to keep loose ideas, notes, or pictures'
+    
+        return pirvateThreadObject;
+    },
+
+    getSecondPublicThreadObject: () => {
+        let pirvateThreadObject = {}
+        pirvateThreadObject.name = 'diary-entries';
+        pirvateThreadObject.image = images[1]
+        pirvateThreadObject.type = 'public';
+        pirvateThreadObject.description = 'This is a place to keep a personal diary, fill it with pictures, text, and a little bit of love'
+    
+        return pirvateThreadObject;
+    
+    },
+
+    getThirdPublicThreadObject: () => {
+        let pirvateThreadObject = {}
+        pirvateThreadObject.name = 'photo-collection';
+        pirvateThreadObject.image = images[2]
+        pirvateThreadObject.type = 'public';
+        pirvateThreadObject.description = 'A collection for the kind of pictures you would like to keep forever'
+    
+        return pirvateThreadObject;
+    
+    },
 }
 
 

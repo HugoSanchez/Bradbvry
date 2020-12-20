@@ -1,88 +1,82 @@
-import React, {Component}                 from 'react';
-import {connect}                          from 'react-redux';
-import ItemsAndSpaces                     from '../components/ItemsAndSpaces';
-import ProfileCard                        from '../components/ProfileCard';
-import {Mixpanel}                         from '../utils';
+import React, {
+    Fragment, 
+    useEffect, 
+    useState
+} from 'react';
+
+import {
+    useDispatch, 
+    useSelector
+}  from 'react-redux';
+
+import { 
+    useHistory 
+} from 'react-router-dom';
 
 import {
     Header, 
     LoadingCard
 } from '../components';
 
+import ItemsAndSpaces from '../components/ItemsAndSpaces';
+import ProfileCard from '../components/ProfileCard';
+import {Mixpanel} from '../utils';
 import {setInitialConfiguration_Action} from '../actions';
 
 const { Magic } = require('magic-sdk');
 const magic = new Magic(process.env.REACT_APP_MAGIC_API_KEY);
 
-class Home extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            loading: true, 
-            renderMetamask: false,
+export const Home = (props) => {
+
+    const dispatch = useDispatch()
+    const history = useHistory()
+    const [loading, setLoading] = useState(true)
+    const client = useSelector(state => state.user.client)
+    const profile = useSelector(state => state.user.profile)
+    const items = useSelector(state => state.threads.itemsArray)
+
+
+    useEffect(() => {
+        const checkLogged = async () => {
+            Mixpanel.track('HOME');
+            let isLogged = await magic.user.isLoggedIn();
+            if (!isLogged) { history.push(`/signin`)} 
+            else {handleConfig()}
         }
-    }
+        checkLogged()
+    }, [])
 
-    async componentDidMount(){
-        Mixpanel.track('HOME');
-        let isLogged = await magic.user.isLoggedIn();
-        if (!isLogged) { this.props.history.push(`/signin`)} 
-        else {this.handleConfig()}
-    }
-
-    async shouldComponentUpdate(nextProps, nextState) {
-        if (nextProps.items.length > 0 && this.state.loading === true) {
-            this.setState({loading: false})
+    useEffect(() => {
+        if (client && loading === true) {
+            setLoading(false)
         }
+    })
+
+    const handleConfig = async () => {
+        if (!client) {dispatch(setInitialConfiguration_Action())}
+        else if (client) {setLoading(false)}
     }
 
-    async handleConfig(){
-        if (!this.props.space) {this.props.setInitialConfiguration_Action()}
-        else if (this.props.space && this.props.items.length > 0) {this.setState({loading: false})}
-    }
-
-    render() {
-        const {items, profile} = this.props
-        const {loading} = this.state
-
-        return (
-            <div>
-                <Header />
-
-                    {loading && <LoadingCard />}
-                    
-                    {   
-                        !loading && profile && 
-                        items.length > 0 && 
-                        <div className='container'>
-                            <div className='left'>
-                                <ProfileCard profile={profile} />
-                            </div>
-                            <div className='right'>
-                                <ItemsAndSpaces items={items} />
-                            </div>
+    return (
+        <Fragment>
+            <Header />
+                {   
+                    loading 
+                    ?
+                    <LoadingCard />
+                    :
+                    <div className='container'>
+                        <div className='left'>
+                            <ProfileCard profile={profile} />
                         </div>
-                    }
-            </div>
-        );
-    }
+                        <div className='right'>
+                            <ItemsAndSpaces items={items} />
+                        </div>
+                    </div>
+                }
+            </Fragment>
+    );
 }
 
-function mapStateToProps(state) {
-    return {
-        box:        state.user.data.box,
-        space:      state.user.data.space,
-        items:      state.threads.itemsArray,
-        profile:    state.user.data.profile,
-    }
-}
 
-function mapDispatchToProps(dispatch) {
-    return { 
-        setInitialConfiguration_Action: () => {
-            dispatch(setInitialConfiguration_Action())},
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
 
