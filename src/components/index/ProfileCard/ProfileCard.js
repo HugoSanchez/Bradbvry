@@ -13,6 +13,7 @@ import {
     DescriptionBox,
     NameTitle,
     Description,
+    NameAndDescription
 } from './styles'
 
 /**
@@ -40,7 +41,9 @@ export const ProfileCard = props => {
     return (
         <Container>
             <ProfileCardDiv>
-                <CoverPhotoContainer />
+                <CoverPhotoContainer>
+                    
+                </CoverPhotoContainer>
 
                 <ImageBox>
                     <ProfileImage   
@@ -49,21 +52,23 @@ export const ProfileCard = props => {
                     />
                 </ImageBox>
 
-                <NameBox>
-                    <NameTitle>
-                        {
-                            profile.name
-                        }
-                    </NameTitle>
-                </NameBox>
+                <NameAndDescription>
+                    <NameBox>
+                        <NameTitle>
+                            {
+                                profile.name
+                            }
+                        </NameTitle>
+                    </NameBox>
 
-                <DescriptionBox>
-                    <Description>
-                        {
-                            profile.description
-                        }
-                    </Description>
-                </DescriptionBox>
+                    <DescriptionBox>
+                        <Description>
+                            {
+                                profile.description
+                            }
+                        </Description>
+                    </DescriptionBox>
+                </NameAndDescription>
 
                     {
                         plength ?
@@ -77,7 +82,7 @@ export const ProfileCard = props => {
                         :
                         null
                     }
-                    
+
             </ProfileCardDiv>
         </Container>
     );
