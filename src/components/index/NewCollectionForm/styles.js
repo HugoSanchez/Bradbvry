@@ -10,6 +10,7 @@ import {
 
 import styled from 'styled-components';
 
+
 export const ModalTitle = styled(Title)`
     width: 100%;
     text-align: center;
@@ -37,4 +38,10 @@ export const Label = styled.label`
 
 export const Gn = styled.span`
     color: ${primaryGreen}
+`;
+
+export const CloseTab = styled(Title)`
+    position: fixed;
+    top: 2%;
+    right: 6%;
 `;

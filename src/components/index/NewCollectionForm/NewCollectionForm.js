@@ -11,6 +11,7 @@ import {
     Label,
     ModalTitle,
     FormBodyBox,
+    CloseTab,
 } from './styles';
 
 import {
@@ -108,8 +109,14 @@ export const NewCollectionForm = props => {
         desc: 'A description is required for your collection'
     }
 
+    console.log('Width: ', window.innerWidth) 
+
     return (
-        <DrawerCont>          
+        <DrawerCont width={window.innerWidth}>     
+            <CloseTab
+                onClick={() => props.onClose()}>
+                x
+            </CloseTab>     
             
             <ModalTitle>
                 Create A New Collection

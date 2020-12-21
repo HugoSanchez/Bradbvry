@@ -9,6 +9,7 @@ export const CollectionCardContainer = styled.div`
     top: 20%;
     width: 20vw;
     height: 60vh;
+    margin-right: 5%;
     display: flex;
     flex-direction: column;
 	border-radius: 10px;
@@ -51,7 +52,7 @@ export const CollectionTitle = styled(Title)`
 `
 
 export const Description = styled(Text)`
-    font-size: 2.2vh;
+    font-size: 2.5vh;
     font-weight: 400;
     line-height: 1.6;
     margin-top: 5%;
@@ -106,11 +107,11 @@ export const CollectionImage = styled.img`
     top: 0;
     left: 0;
     border-radius: 10px;
-    opacity: 1;
+    opacity: 0.2;
     
     &:hover{
-        opacity: 0.2; 
-		transition: 0.7s;
+        opacity: 1; 
+		transition: 0.5s;
     }
 
     @media ${device.tablet} {
@@ -118,5 +119,6 @@ export const CollectionImage = styled.img`
         object-fit: none;
         position: relative;
         border-radius: 0px;
+        opacity: 1;
     }
 `;
