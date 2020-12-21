@@ -5,6 +5,9 @@ import {Mixpanel} from '../../utils';
 import Box from '3box';
 
 import {
+	FlexContainer,
+	LeftContainer,
+	RightContainer,
 	CollectionButtons,
 	CollectionCardBig,
 	UploadImageForm,
@@ -22,9 +25,9 @@ import {
 } from '../../actions';
 
 import {
-	FlexContainer,
-	LeftContainer,
-	RightContainer
+	// FlexContainer,
+	// LeftContainer,
+	// RightContainer
 } from './styles';
 
 const { Magic } = require('magic-sdk');
@@ -144,15 +147,11 @@ export const Collection = props => {
 			/>
 
 			<FlexContainer>
-				{
-					window.innerWidth < 500 ?
-					null
-					:
-					<LeftContainer>
-						<CollectionCardBig thread={activeThread} />
-					</LeftContainer>
-				}
-				
+
+				<LeftContainer>
+					<CollectionCardBig thread={activeThread} />
+				</LeftContainer>
+
 				<RightContainer>
 					<ItemsList 
 						items={threadItems} 

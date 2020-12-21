@@ -12,6 +12,8 @@ function* handleCreateCollection(action) {
 
     let threadID = yield Textile.createNewThreadDB(client, action.payload)
     console.log('All whent well?: ', threadID)
+
+    // We need to update the threadsArray and set.
     
     Mixpanel.track('NEW_COLLECTION')
 }

@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 import {View, Title, Text} from '../../common';
+import {device} from '../../../constants';
+
 
 
 export const CollectionCardContainer = styled.div`
@@ -19,11 +21,33 @@ export const CollectionCardContainer = styled.div`
         box-shadow: 0 0 10px rgba(0,0,0,0.2); 
         transform: translateY(5px);
     }
+
+    @media ${device.tablet} {
+        
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        height: 20vh;
+        width: 100%;
+        margin-bottom: 45%;
+        box-shadow: 0 0 0px rgba(0,0,0,0);
+        border-radius: 0px;
+        background: white;
+
+        &:hover{
+            box-shadow: 0 0 0px rgba(0,0,0,0); 
+            transform: translateY(0px);
+        }
+    }
 `;
 
 export const CollectionTitle = styled(Title)`
     text-transform: capitalize; 
     font-size: 6vh;
+
+    @media ${device.tablet} {
+        color: rgb(85, 85, 85);
+    }
 `
 
 export const Description = styled(Text)`
@@ -35,12 +59,25 @@ export const Description = styled(Text)`
         color: red;
         text-decoration: underline;
     }
+
+    @media ${device.tablet} {
+        margin-top: 0%;
+        color: rgb(85, 85, 85);
+    }
+
 `
 
 export const TextBox = styled(View)`
     width: 100%;
     padding: 8%;
     margin-top: 5%;
+
+    @media ${device.tablet} {
+        flex: 1;
+        margin: 0px;
+        padding: 0px;
+        margin-top: 5%;
+    }
 `;
 
 export const DetailsBox = styled.div`
@@ -74,5 +111,12 @@ export const CollectionImage = styled.img`
     &:hover{
         opacity: 0.2; 
 		transition: 0.7s;
+    }
+
+    @media ${device.tablet} {
+        flex: 2;
+        object-fit: none;
+        position: relative;
+        border-radius: 0px;
     }
 `;
