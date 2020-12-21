@@ -67,10 +67,11 @@ export const handleSaveImage_Action = object => {
     }
 }
 
-export const handleCreateCollection_Action = object => {
+export const handleCreateCollection_Action = (object, callback) => {
     return {
         type: HANDLE_CREATE_COLLECTION,
-        payload: object
+        payload: object,
+        callback: (bool) => callback(bool),
     }
 }
 

@@ -6,7 +6,6 @@ import {parseCollectionName} from './utils';
 import {
     entriesObject, 
     configObject, 
-    images
 } from '../constants';
 
 
@@ -23,21 +22,21 @@ let actions = {
         let newDate = Date.now()
         config.timestamp = newDate
         config.name = parseCollectionName(config.name)
+
+        // Copy schemas.
         let collectionConfig = Object.assign(configObject, config)
         let entriesSchema = Object.assign({}, entriesObject)
-        console.log('Collection Config: ', collectionConfig)
+
         // Instantiate new threadDB with name.
         let threadID = await client.newDB(undefined, collectionConfig.name)
-        console.log('Created new thread with ID: ', threadID)
 
         // Instantate and create the config and entries collections in DB.
         await client.newCollectionFromObject(threadID, configObject, {name: 'config'})
-        console.log('Created config collection')
         await client.newCollectionFromObject(threadID, entriesSchema, {name: 'entries'})
-        console.log('Created entries collection')
+
         // Store the config object in the config db collection
         let storedConfigObj = await client.create(threadID, 'config', [collectionConfig])
-        console.log('Inserted config object into collection: ', storedConfigObj)
+
         // return threadID object
         return threadID
     },
@@ -50,38 +49,6 @@ let actions = {
         // Store new entry in thread.
         let storedEntry = await client.create(threadID, 'entries', [newEntry])
         return storedEntry
-    },
-
-    getFirstPublicThreadObject: () => {
-        let publicThreadObject = {}
-        publicThreadObject.name = 'random-notes';
-        publicThreadObject.image = images[0]
-        publicThreadObject.type = 'public';
-        publicThreadObject.description = 'This is a Public and personal collection for you to keep loose ideas, notes, or pictures'
-    
-        return publicThreadObject;
-    },
-
-    getSecondPublicThreadObject: () => {
-        let publicThreadObject = {}
-        publicThreadObject.name = 'diary-entries';
-        publicThreadObject.image = images[1]
-        publicThreadObject.type = 'public';
-        publicThreadObject.description = 'This is a place to keep a personal diary, fill it with pictures, text, and a little bit of love'
-    
-        return publicThreadObject;
-    
-    },
-
-    getThirdPublicThreadObject: () => {
-        let publicThreadObject = {}
-        publicThreadObject.name = 'photo-collection';
-        publicThreadObject.image = images[2]
-        publicThreadObject.type = 'public';
-        publicThreadObject.description = 'A collection for the kind of pictures you would like to keep forever'
-    
-        return publicThreadObject;
-    
     },
 }
 

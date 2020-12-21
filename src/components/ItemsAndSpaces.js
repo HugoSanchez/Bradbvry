@@ -27,16 +27,26 @@ const ItemsAndSpaces = React.memo((props) => {
     let items = useSelector(state => state.threads.itemsArray);
 
     let [renderForm, setRenderForm] = useState(false);
-    let [openSnack, setOpenSnack] = useState('')
+    let [openSnack, setOpenSnack] = useState('');
+    let [snackSuccess, setSnackSuccess] = useState(null)
+    let [snackMessage, setSnackMessage] = useState('')
 
     const handleDrawerClose = () => {
-        handleShowSnackbar()
         setRenderForm(false)
     }
 
-    const handleShowSnackbar = () => {
-	    setOpenSnack('show')
-        setTimeout(() => setOpenSnack(''), 4000)
+    const handleShowSnackbar = (bool) => {
+        if (!bool) {
+            setSnackMessage('Oops, something went wrong.')
+            setSnackSuccess(false)
+            setOpenSnack('show')
+            setTimeout(() => setOpenSnack(''), 4000)
+        } else {
+            setSnackMessage('Success!')
+            setSnackSuccess(true)
+            setOpenSnack('show')
+            setTimeout(() => setOpenSnack(''), 4000)
+        }
 	}
 
        
@@ -44,15 +54,18 @@ const ItemsAndSpaces = React.memo((props) => {
         <Container> 
             <SnackBar 
                 className={openSnack} 
-                success={true} 
-                message={'Success!'}/>
+                success={snackSuccess} 
+                message={snackMessage}/>
             <SpacesCarousel /> 
             <ItemsList items={items}/>
             <Drawer 
                 anchor={'right'} 
                 open={renderForm} 
                 onClose={() => setRenderForm(false)} >
-                <NewCollectionForm onClose={() => handleDrawerClose()}/>
+                <NewCollectionForm 
+                    onClose={() => handleDrawerClose()}
+                    handleSnack={(bool) => handleShowSnackbar(bool)}
+                />
             </Drawer>
             <CircularButton 
                 onClick={() => setRenderForm(true)}

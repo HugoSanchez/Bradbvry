@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import {handleCreateCollection_Action} from '../../../actions';
 
 import {
-    useSelector,
     useDispatch
 } from "react-redux";
 
@@ -25,12 +24,12 @@ import {
 
 import {
     getBase64, 
-    Mixpanel
 } from '../../../utils';
 
 
 export const NewCollectionForm = props => {
-
+    
+    let dispatch = useDispatch()
     let errorObj = {name: null, desc: null}
     
     let [name, setName] = useState('')
@@ -40,15 +39,13 @@ export const NewCollectionForm = props => {
     let [loading, setLoading] = useState(false)
     let [collectionType, setCollectionType] = useState('private')
 
-    const dispatch = useDispatch()
-    const client = useSelector(state => state.user.client);
-    const account = useSelector(state => state.user.address);
-    const threadsArray = useSelector(state => state.threads.threadsArray);
 
     const onImageUpload = async e => {
-        let fileName = e.target.files[0].name
-        let stringFile = await getBase64(e.target.files[0])
-        setImage({name: fileName, file: stringFile})
+        if (e.target.files.length > 0) {
+            let fileName = e.target.files[0].name
+            let stringFile = await getBase64(e.target.files[0])
+            setImage({name: fileName, file: stringFile})
+        }
     }
 
     const handleFormSubmit = async () => {
@@ -62,37 +59,12 @@ export const NewCollectionForm = props => {
     }
 
     const handleCreateCollection = async () => {
-        // Parse thread name and config object
+        let callback = (bool) => {
+            props.handleSnack(bool)
+            props.onClose()
+        }
         let threadConfig = parseCollectionConfigObject()
-
-        dispatch(handleCreateCollection_Action(threadConfig))
-
-        /**
-            // Either create confidential or create public thread
-            let thread
-            if (collectionType === 'private' || collectionType === 'members') {
-                // Handle confidential thread
-                thread = await ThreeBox.createConfidentialThread(client, account, name, collectionType)
-                let config = {type: 'config', content: threadConfig}
-                await thread.post(config)
-            }
-            else {
-                // Handle public thread
-                thread = await ThreeBox.createPublicThread(client, account, name)
-                threadConfig.address = thread._address
-                let config = {type: 'config', content: threadConfig}
-                await thread.post(config)
-                console.log('here')
-                let gallery = await client.joinThreadByAddress(process.env.REACT_APP_COLLECTIONS_GALLERY)
-                console.log('there')
-                await gallery.post(config)
-                console.log('1')
-            }
-            // Track event and update global state.        
-            Mixpanel.track('NEW_COLLECTION');
-            parseThreadAndUpdateState(thread, threadConfig)
-         */
-        
+        dispatch(handleCreateCollection_Action(threadConfig, callback))        
     }
 
     const parseCollectionConfigObject = () => {
@@ -109,12 +81,9 @@ export const NewCollectionForm = props => {
         desc: 'A description is required for your collection'
     }
 
-    console.log('Width: ', window.innerWidth) 
-
     return (
         <DrawerCont width={window.innerWidth}>     
-            <CloseTab
-                onClick={() => props.onClose()}>
+            <CloseTab onClick={() => {props.onClose()}}>
                 x
             </CloseTab>     
             
