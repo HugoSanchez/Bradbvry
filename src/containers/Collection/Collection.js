@@ -3,6 +3,8 @@ import {useDispatch, useSelector} from 'react-redux';
 import Drawer from '@material-ui/core/Drawer';
 import Dropzone from 'react-dropzone';
 import {Mixpanel} from '../../utils';
+import {ThreadID} from '@textile/hub';
+
 import Box from '3box';
 
 import {
@@ -22,6 +24,7 @@ import {
 import {
 	setActiveItem_Action,
 	setActiveThread_Action, 
+	handleSaveImage_Action,
 	setInitialConfiguration_Action
 } from '../../actions';
 
@@ -51,12 +54,13 @@ export const Collection = props => {
 	const [uploadSuccess, setUploadSuccess] = useState(false)
 	const [message, setMessage] = useState(null)
 	const [isModerator, setIsModerator] = useState(false)
+	const [threadItems, setThreadItems] = useState([]) 
 
-    const address = useSelector(state => state.user.address)
+	const client = useSelector(state => state.user.client)
+	const address = useSelector(state => state.user.address)
 	const threadsArray = useSelector(state => state.threads.threadsArray)
 	const itemsArray = useSelector(state => state.threads.itemsArray)
 	const activeThread = useSelector(state => state.threads.activeThread)
-	const threadItems = itemsArray.filter(item => item.threadName === threadName)
 
 	useEffect(() => {
 		// Check if user is logged in. 
@@ -68,19 +72,38 @@ export const Collection = props => {
 			else { handleConfig() }
 		}
 		isLoggedIn()
-	}, [props.history])
+	}, [])
 
 	useEffect(() => {
 		// Check selectedThread is correct.
 		// If activeThread is not set, user is reloading and should be set.
 		const checkActiveThread = async () => {
-			if (!activeThread) {
+			if (!activeThread && threadsArray.length > 0) {
 				let thread = threadsArray.find(thread => thread.name === threadName)
 				dispatch(setActiveThread_Action(thread))
 			}
 		}
 		checkActiveThread()
 	})
+
+	useEffect(() => {
+		// If selected thread exists, 
+		// Fetch entries and set up listener
+		const fetchThreadData = async () => {
+			if (activeThread) {
+				
+				let threadId = ThreadID.fromString(activeThread.id)
+				let items = await client.find(threadId, 'entries', {})
+				setThreadItems(items)
+				await client.listen(threadId, [], (e) => {
+					console.log('Event: ', e)
+					let items = Array.from(threadItems)
+					items.unshift(e.instance)
+				})
+			}
+		}
+		fetchThreadData()
+	}, [threadItems])
 
 	
 	// If state is empty, set initial configuration.
@@ -113,11 +136,12 @@ export const Collection = props => {
 		setRenderForm(false)
 	}
 	
-	const onDrop = () => {
+	const onDrop = (files) => {
 		console.log('Droped!')
+		dispatch(handleSaveImage_Action({files}))
 	}
 
-	if (threadItems.length < 1 && !activeThread){
+	if (threadItems.length < 90 && !activeThread){
 		return (
 			<Fragment>
 				<Header />
@@ -125,6 +149,8 @@ export const Collection = props => {
 			</Fragment>
 		)
 	}
+
+	console.log('Collection comp', threadItems)
 
   	return (
 		<Fragment>
@@ -158,7 +184,7 @@ export const Collection = props => {
 					{({getRootProps, getInputProps}) => (
 						<DropZoneCont {...getRootProps()}>
 							<input {...getInputProps()} />
-							
+
 							<FlexContainer>
 								<LeftContainer>
 									<CollectionCardBig thread={activeThread} />
@@ -166,7 +192,7 @@ export const Collection = props => {
 
 								<RightContainer>
 									<ItemsList 
-										items={threadItems} 
+										items={[]} 
 										shadow={true} 
 										isModerator={isModerator}/>
 								</RightContainer>

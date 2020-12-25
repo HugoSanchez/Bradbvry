@@ -46,6 +46,7 @@ let actions = {
         let newEntry = Object.assign(entriesObject, entry)
         let newDate = Date.now()
         newEntry.timestamp = newDate
+
         // Store new entry in thread.
         let storedEntry = await client.create(threadID, 'entries', [newEntry])
         return storedEntry

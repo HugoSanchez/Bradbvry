@@ -4,7 +4,7 @@ import {firstDefaultEntry} from '../constants';
 import {ThreeBox, Textile} from '../utils';
 import Box from '3box';
 
-import {Client, ThreadID, Buckets, Users, Identity, UserAuth, PrivateKey, createUserAuth} from '@textile/hub';
+import {Client, ThreadID} from '@textile/hub';
 
 import {
     setUserItems_Action,
@@ -80,7 +80,8 @@ const parseThreadsAndPosts_Helper = async (threads, client) => {
             // Get config object and thread entries.
             let threadId = ThreadID.fromString(threads[i].id)
             let config = await client.find(threadId, 'config', {})
-            let entries = await client.find(threadId, 'entries', {})
+            let entries = []
+            // await client.find(threadId, 'entries', {})
             // Parse thread object.
             threads[i].config = config[0]
             parsedThreads.push(threads[i])
@@ -90,7 +91,6 @@ const parseThreadsAndPosts_Helper = async (threads, client) => {
                 entries[z].threadName = threads[i].name
                 entries[z].threadAddress = threads[i].id
                 itemsArray.push(entries[z])
-
             }
         } 
         catch (error) {
