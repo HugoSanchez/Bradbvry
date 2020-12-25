@@ -1,6 +1,7 @@
 import React, {useEffect, useState, Fragment} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import Drawer from '@material-ui/core/Drawer';
+import Dropzone from 'react-dropzone';
 import {Mixpanel} from '../../utils';
 import Box from '3box';
 
@@ -25,9 +26,7 @@ import {
 } from '../../actions';
 
 import {
-	// FlexContainer,
-	// LeftContainer,
-	// RightContainer
+	DropZoneCont
 } from './styles';
 
 const { Magic } = require('magic-sdk');
@@ -113,6 +112,10 @@ export const Collection = props => {
 	const onImageUpload = () => {
 		setRenderForm(false)
 	}
+	
+	const onDrop = () => {
+		console.log('Droped!')
+	}
 
 	if (threadItems.length < 1 && !activeThread){
 		return (
@@ -146,25 +149,39 @@ export const Collection = props => {
 				message={message}
 			/>
 
-			<FlexContainer>
+				<Dropzone 
+					onDrop={onDrop}
+					accept={'image/jpeg, image/png, image/gif'}
+					maxSize={20000000}
+					multiple={true}>
 
-				<LeftContainer>
-					<CollectionCardBig thread={activeThread} />
-				</LeftContainer>
+					{({getRootProps, getInputProps}) => (
+						<DropZoneCont {...getRootProps()}>
+							<input {...getInputProps()} />
+							
+							<FlexContainer>
+								<LeftContainer>
+									<CollectionCardBig thread={activeThread} />
+								</LeftContainer>
 
-				<RightContainer>
-					<ItemsList 
-						items={threadItems} 
-						shadow={true} 
-						isModerator={isModerator}/>
-				</RightContainer>
-			</FlexContainer>
+								<RightContainer>
+									<ItemsList 
+										items={threadItems} 
+										shadow={true} 
+										isModerator={isModerator}/>
+								</RightContainer>
+							</FlexContainer>
+
+						</DropZoneCont>
+					)}
+				</Dropzone>
 
 			<CollectionButtons 
 				addMember={() => setRenderMemberForm(true)}
 				addImage={() => setRenderForm(true)}
 				openEditor={() => handleNewEditor}
 				activeThread={activeThread}/>
+
 		</Fragment>
   	)
 }
