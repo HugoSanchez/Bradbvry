@@ -5,11 +5,11 @@ import {Title, Text} from '../../common';
 export const ImageCardContainer = styled.div`
     position: relative;
     width: 95%;
-    border-radius: 12px;
+    border-radius: 2px;
     margin-bottom: 5%;
     display: flex;
     flex-direction: column;
-    background: black;
+    background: white;
     transition: 0.4s ease-out;
     opacity: 0.8;
     box-shadow: ${props => props.shadow ? '0 0 80px rgba(0,0,0,0.1)' : null};
@@ -18,16 +18,11 @@ export const ImageCardContainer = styled.div`
         box-shadow: 0 0 10px rgba(0,0,0,0.2); 
         transform: translateY(5px);
     }
-
-    @media ${device.tablet} {
-        border-radius: 6px;
-    }
 `;
 
 export const ImageTitle = styled(Title)`
     text-transform: capitalize; 
     font-size: 3vh;
-    color: white;
     z-indez: 1;
     flex: 1;
 
@@ -50,7 +45,6 @@ export const TextBox = styled.div`
 export const Description = styled(Text)`
     font-size: 1.8vh;
     font-weight: 400;
-    color: white;
     line-height: 1.6;
     margin-top: 5%;
     z-indez: 1;
@@ -66,7 +60,6 @@ export const Date = styled(Text)`
     font-size: 1.2vh;
     font-weight: 300;
     font-style: italic;
-    color: white;
     line-height: 1.6;
     z-indez: 1;
 `;
@@ -87,15 +80,11 @@ export const DeleteBox = styled.div`
 export const Image = styled.img`
     width: 100%;
     object-fit: cover;
-    border-radius: 12px;
+    border-radius: 2px;
     opacity: 1;
     z-index: 2;
     &:hover{
         opacity: 0.2; 
 		transition: 0.7s;
-    }
-
-    @media ${device.tablet} {
-        border-radius: 6px;
     }
 `;

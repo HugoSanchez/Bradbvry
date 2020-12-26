@@ -92,7 +92,7 @@ export const Collection = props => {
 		// Fetch entries and set up listener
 		let threadId = ThreadID.fromString(thread.id)
 		let items = await client.find(threadId, 'entries', {})
-		dispatch(setThreadItems_Action(items))
+		dispatch(setThreadItems_Action(items.reverse()))
 
 		await client.listen(threadId, [], (e) => {
 			if (e.action === 'CREATE') {
