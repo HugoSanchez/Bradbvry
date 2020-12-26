@@ -189,7 +189,7 @@ export const Collection = props => {
 
 								<RightContainer>
 									<ItemsList 
-										items={[]} 
+										items={threadItems} 
 										shadow={true} 
 										isModerator={isModerator}/>
 								</RightContainer>

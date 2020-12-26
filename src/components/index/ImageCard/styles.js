@@ -5,7 +5,7 @@ import {Title, Text} from '../../common';
 export const ImageCardContainer = styled.div`
     position: relative;
     width: 95%;
-    border-radius: 13px;
+    border-radius: 12px;
     margin-bottom: 5%;
     display: flex;
     flex-direction: column;
@@ -17,6 +17,10 @@ export const ImageCardContainer = styled.div`
     &:hover{
         box-shadow: 0 0 10px rgba(0,0,0,0.2); 
         transform: translateY(5px);
+    }
+
+    @media ${device.tablet} {
+        border-radius: 6px;
     }
 `;
 
@@ -89,5 +93,9 @@ export const Image = styled.img`
     &:hover{
         opacity: 0.2; 
 		transition: 0.7s;
+    }
+
+    @media ${device.tablet} {
+        border-radius: 6px;
     }
 `;

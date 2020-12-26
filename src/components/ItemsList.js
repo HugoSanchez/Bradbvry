@@ -24,7 +24,7 @@ const MasonryIterator = props => {
                         <ImageCard 
                             alt={i} 
                             key={i} 
-                            image={p} 
+                            entry={p} 
                             shadow={props.shadow}
                             isModerator={props.isModerator}/>
                     )
@@ -64,13 +64,13 @@ export const ItemsList = props => {
                     </Row>
                 :
                 groupedItems.map((group, index) => {
-                    if (group.groupType === 'entry') {
+                    if (group.groupType === 'post') {
                         return <ListItemsIterator 
                             key={index}
                             items={group.items} 
                             shadow={props.shadow}
                             isModerator={props.isModerator}/>
-                    } else if (group.groupType === 'image') {
+                    } else if (group.groupType === 'file') {
                         return <MasonryIterator 
                             key={index}
                             items={group.items}
@@ -99,15 +99,15 @@ const groupItemsByType = entries => {
 
     for (let i = 0; i < entries.length; i++) {
         if (!currentTypeOfEntry) {
-            currentTypeOfEntry = entries[i].message.type
-            groupedItems[breakCount] = {groupType: entries[i].message.type, items: []}
+            currentTypeOfEntry = entries[i].type
+            groupedItems[breakCount] = {groupType: entries[i].type, items: []}
             groupedItems[breakCount].items.push(entries[i])
-        } else if (entries[i].message.type === currentTypeOfEntry) {
+        } else if (entries[i].type === currentTypeOfEntry) {
             groupedItems[breakCount].items.push(entries[i])
         } else {
             breakCount++
-            currentTypeOfEntry = entries[i].message.type
-            groupedItems[breakCount] = {groupType: entries[i].message.type, items: []}
+            currentTypeOfEntry = entries[i].type
+            groupedItems[breakCount] = {groupType: entries[i].type, items: []}
             groupedItems[breakCount].items.push(entries[i])
         }
     }

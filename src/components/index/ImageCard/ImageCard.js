@@ -30,9 +30,9 @@ export const ImageCard = props => {
     let {
         title,
         description
-    } = props.image.message.content;
+    } = props.entry;
 
-    let base64Image = props.image.message.content.image.file
+    let base64Image = props.entry.entry
 
     // Instantiate state
     const [isActive, setActive] = useState(false); 
@@ -46,7 +46,7 @@ export const ImageCard = props => {
                     'JUL', 'AUG', 'SEP', 
                     'OCT', 'NOV', 'DEC']
     
-    let timestamp       = props.image.timestamp                 
+    let timestamp       = props.entry.timestamp                 
     let date            = new window.Date(timestamp * 1000)
     let day             = date.getDay()
     let month           = months[date.getMonth()]
@@ -57,14 +57,15 @@ export const ImageCard = props => {
 
     const deleteImage = async (e) => {
         e.stopPropagation();
-        let thread = threads.find(thread => thread._name === props.image.threadName)
-        await thread.deletePost(props.image.postId)
-        dispatch(deleteEntry_Action(props.image))
+        // let thread = threads.find(thread => thread._name === props.image.threadName)
+        // await thread.deletePost(props.image.postId)
+        // dispatch(deleteEntry_Action(props.image))
     }
 
     return (
         <ImageCardContainer 
             shadow={props.shadow}
+            onClick={e => e.stopPropagation()}
             onMouseEnter={() => handleMouseOver()}
             onMouseLeave={() => handleMouseOver()}>
                 <DeleteBox>
