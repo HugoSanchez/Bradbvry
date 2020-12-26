@@ -24,6 +24,7 @@ import {
 import {
 	setActiveItem_Action,
 	setActiveThread_Action, 
+	setThreadItems_Action,
 	handleSaveImage_Action,
 	setInitialConfiguration_Action
 } from '../../actions';
@@ -54,12 +55,11 @@ export const Collection = props => {
 	const [uploadSuccess, setUploadSuccess] = useState(false)
 	const [message, setMessage] = useState(null)
 	const [isModerator, setIsModerator] = useState(false)
-	const [threadItems, setThreadItems] = useState([]) 
 
 	const client = useSelector(state => state.user.client)
 	const address = useSelector(state => state.user.address)
 	const threadsArray = useSelector(state => state.threads.threadsArray)
-	const itemsArray = useSelector(state => state.threads.itemsArray)
+	const threadItems = useSelector(state => state.threads.threadItems)
 	const activeThread = useSelector(state => state.threads.activeThread)
 
 	useEffect(() => {
@@ -92,18 +92,15 @@ export const Collection = props => {
 		// Fetch entries and set up listener
 		let threadId = ThreadID.fromString(thread.id)
 		let items = await client.find(threadId, 'entries', {})
-		setThreadItems(items)
+		dispatch(setThreadItems_Action(items))
 
-		// I'm stuck here. !!!!!
 		await client.listen(threadId, [], (e) => {
-			console.log('E: ', e)
-			console.log('Thread items: ', threadItems)
-			let itemsUpdated = Array.from(threadItems)
-			console.log('items: ', items)
-
-			itemsUpdated.unshift(e.instance)
-			// setThreadItems(items)
-			return
+			if (e.action === 'CREATE') {
+				let item = []
+				item.push(e.instance)
+				dispatch(setThreadItems_Action(item))
+				return
+			}			
 		})
 	}
 	
@@ -139,11 +136,8 @@ export const Collection = props => {
 	}
 	
 	const onDrop = (files) => {
-		console.log('Droped!')
 		dispatch(handleSaveImage_Action({files}))
 	}
-
-	console.log('Collection comp', threadItems)
 
 	if (threadItems.length === 0 && !activeThread){
 		return (

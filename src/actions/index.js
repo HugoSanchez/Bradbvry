@@ -7,6 +7,7 @@ import {
     SET_USER_IS_LOGGED,
     SET_USER_INITIAL_DATA,
     SET_THREAD_ARRAY,
+    SET_THREAD_ITEMS,
     DELETE_USER_ENTRY,
     HANDLE_SAVE_ITEM,
     HANDLE_SAVE_IMAGE,
@@ -50,6 +51,13 @@ export const setUserItems_Action = address => {
     return { 
         type: SET_USER_ITEMS, 
         payload: address 
+    }
+}
+
+export const setThreadItems_Action = array => {
+    return { 
+        type: SET_THREAD_ITEMS, 
+        payload: array 
     }
 }
 
