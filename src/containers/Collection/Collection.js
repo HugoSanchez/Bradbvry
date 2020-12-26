@@ -5,8 +5,6 @@ import Dropzone from 'react-dropzone';
 import {Mixpanel} from '../../utils';
 import {ThreadID} from '@textile/hub';
 
-import Box from '3box';
-
 import {
 	FlexContainer,
 	LeftContainer,
@@ -95,9 +93,9 @@ export const Collection = props => {
 		dispatch(setThreadItems_Action(items.reverse()))
 
 		await client.listen(threadId, [], (e) => {
+			if (e === undefined) {return}
 			if (e.action === 'CREATE') {
-				let item = []
-				item.push(e.instance)
+				let item = [e.instance]
 				dispatch(setThreadItems_Action(item))
 				return
 			}			

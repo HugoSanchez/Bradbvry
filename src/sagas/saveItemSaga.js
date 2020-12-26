@@ -1,51 +1,67 @@
 import {HANDLE_SAVE_ITEM} from '../actions/types';
 import {take, put, select} from 'redux-saga/effects';
-import {setUserItems_Action} from '../actions';
-import {Mixpanel} from '../utils';
+import {setThreadItems_Action} from '../actions';
+import {Mixpanel, Textile} from '../utils';
+import {ThreadID} from '@textile/hub';
 
-const getThreadsState = state => state.threads
+
+const getThreadsState = state => state
 
 function* handleSaveItem(action) {
+
     // Every time the user presses the round "back button" in the Editor
     // this function gets called which handles 3 posible scenarios:
     // 1) A new post, 2) an update to existing one, 3) nothing.
 
     const state = yield select(getThreadsState)
-    const newItem = {type: 'entry', content: action.payload}
-    const isContent = newItem.content.blocks.find(block => block.text.length > 0)
+    const newItem = {type: 'post', entry: JSON.stringify(action.payload)}
+    const isContent = action.payload.blocks.find(block => block.text.length > 0)
+
+    const {
+        client
+    } = state.user;
 
     const {
         activeItem,
         activeThread,
+        threadItems,
         itemsArray,
-    } = state;
+    } = state.threads;
+
+    // First check if there is activeThread, and throw error if not
+    // Then get the threadId instance for the current thread.
+    if (!activeThread) {throw new Error('No selected thread')}
+    const threadId = ThreadID.fromString(activeThread.id)
 
     // If activeItem exists, it means that the user edited an existing post
     // We check weather any changes were actually made and update if so.
     if (activeItem) {
-        let stringContent = JSON.stringify(newItem.content.blocks)
-        let stringItem = JSON.stringify(activeItem.message.content.blocks)
+        let stringItem = activeItem.entry
+        let stringContent = JSON.stringify(action.payload)
 
         if (stringContent !== stringItem) { 
-            yield activeThread.deletePost(activeItem.postId)
-            let newPost = yield postAndParse(activeThread, newItem)
-            let index = itemsArray.indexOf(activeItem)
-            let array = itemsArray.filter(item => item !== activeItem)
-            array.splice(index, 0, newPost)
-            yield console.log('new item')
-            yield put(setUserItems_Action(array))
-            Mixpanel.track('NEW_ITEM', {'type': 'post'})
+            let updatedPost = Object.assign({}, activeItem)
+            updatedPost.entry = stringContent
+
+            let index = threadItems.indexOf(activeItem)
+            let array = threadItems.filter(item => item !== activeItem)
+            array.splice(index, 0, updatedPost)
+
+            yield client.save(threadId, 'entries', [])
+            // yield put(setUserItems_Action(array))
+            // Mixpanel.track('NEW_ITEM', {'type': 'post'})
         }
     }
+
     // If there was no activeItem, content is new. We check if content is not empty
     // if so, post new entry and update itemsArray.
     else if (isContent) {
-        let newPost = yield postAndParse(activeThread, newItem)
-        let newArray = [...itemsArray]
-        newArray.push(newPost)
-        yield put(setUserItems_Action(newArray))
-        yield console.log('new item')
-        Mixpanel.track('NEW_ITEM', {'type': 'post'})
+        console.log('HIT!! ', newItem)
+        let saved = yield Textile.createNewEntry(client, threadId, newItem)
+        let entry = yield client.find(threadId, 'entries', {_id: saved[0]})
+        console.log('Entry: ', entry)
+        yield put(setThreadItems_Action(entry))
+        Mixpanel.track('NEW_ITEM', {type: 'post'})
     }
 }
 

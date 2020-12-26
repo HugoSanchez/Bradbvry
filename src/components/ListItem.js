@@ -61,15 +61,16 @@ const ListItem = React.memo((props) => {
 
     // Parse the item key (which is a timestamp from the day it was created),
     // to get the day and month to display.
-    let timestamp = item.message.content.timestamp ? item.message.content.timestamp : item.timestamp
+    let timestamp = item.timestamp ? item.timestamp : item.timestamp
     let date      = new Date(parseInt(timestamp))
     let day       = date.getDate()
     let month     = months[date.getMonth()]
 
     // Get the title and parse the body to display.
     // Find first block that is unstyled and not empty.
-    let title = item.message.content.blocks[0].text.slice(0, 45) || "Unkown Title";
-    let body = item.message.content.blocks.find(block => block.type === 'unstyled' && block.text.length > 1) 
+    let entry = JSON.parse(item.entry)
+    let title = entry.blocks[0].text.slice(0, 45) || "Unkown Title";
+    let body = entry.blocks.find(block => block.type === 'unstyled' && block.text.length > 1) 
     let maxSlice = window.innerWidth < 400 ? 20 : 220;
     let bodyToDisplay = body ? body.text.slice(0, maxSlice) : LoremIpsum.slice(0, maxSlice);
 
@@ -84,18 +85,17 @@ const ListItem = React.memo((props) => {
 
     // On clicking the item card, this function sets the active thread in redux state
     // as well as the active item and navigates the user to the Editor.
-    const onItemClick = async () => {
-       let thread = threads.find(thread => thread._name === item.threadName)
-       dispatch(setActiveThread_Action(thread))
-       dispatch(setActiveItem_Action(item))
-       history.push('/editor', {onlyRead: !props.isModerator})
+    const onItemClick = async (e) => {
+        e.stopPropagation()
+        dispatch(setActiveItem_Action(item))
+        history.push('/editor', {onlyRead: !props.isModerator})
     }
 
     return (
 
             <Card 
                 shadow={props.shadow}
-                onClick={() => {onItemClick()}}
+                onClick={(e) => {onItemClick(e)}}
                 onMouseOver={() => setActive(true)}
                 onMouseLeave={() => {handleMouseOver()}}>
 

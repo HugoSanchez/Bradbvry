@@ -4,11 +4,11 @@ import {Provider} from 'react-redux';
 import configureStore from './store';
 import LandingPage from './containers/LandingPage';
 import Settings from './containers/Settings';
-import Editor from './containers/Editor';
 import './App.css';
 
 import {
     Home,
+    Editor,
     SignIn,
     Gallery,
     AddMember,
