@@ -81,34 +81,36 @@ export const Collection = props => {
 			if (!activeThread && threadsArray.length > 0) {
 				let thread = threadsArray.find(thread => thread.name === threadName)
 				dispatch(setActiveThread_Action(thread))
+				await fetchThreadData(thread)
 			}
 		}
 		checkActiveThread()
 	})
-
-	useEffect(() => {
+	
+	const fetchThreadData = async (thread) => {
 		// If selected thread exists, 
 		// Fetch entries and set up listener
-		const fetchThreadData = async () => {
-			if (activeThread) {
-				
-				let threadId = ThreadID.fromString(activeThread.id)
-				let items = await client.find(threadId, 'entries', {})
-				setThreadItems(items)
-				await client.listen(threadId, [], (e) => {
-					console.log('Event: ', e)
-					let items = Array.from(threadItems)
-					items.unshift(e.instance)
-				})
-			}
-		}
-		fetchThreadData()
-	}, [threadItems])
+		let threadId = ThreadID.fromString(thread.id)
+		let items = await client.find(threadId, 'entries', {})
+		setThreadItems(items)
 
+		// I'm stuck here. !!!!!
+		await client.listen(threadId, [], (e) => {
+			console.log('E: ', e)
+			console.log('Thread items: ', threadItems)
+			let itemsUpdated = Array.from(threadItems)
+			console.log('items: ', items)
+
+			itemsUpdated.unshift(e.instance)
+			// setThreadItems(items)
+			return
+		})
+	}
 	
-	// If state is empty, set initial configuration.
-	// Else, make sure selectedThread is properly set.
+	
 	const handleConfig = async () => {
+		// If state is empty, set initial configuration.
+		// Else, make sure selectedThread is properly set.
 		if (threadsArray.length < 1) {
 		dispatch(setInitialConfiguration_Action())}
 	}
@@ -141,7 +143,9 @@ export const Collection = props => {
 		dispatch(handleSaveImage_Action({files}))
 	}
 
-	if (threadItems.length < 90 && !activeThread){
+	console.log('Collection comp', threadItems)
+
+	if (threadItems.length === 0 && !activeThread){
 		return (
 			<Fragment>
 				<Header />
@@ -150,7 +154,6 @@ export const Collection = props => {
 		)
 	}
 
-	console.log('Collection comp', threadItems)
 
   	return (
 		<Fragment>
