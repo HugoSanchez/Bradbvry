@@ -21,10 +21,6 @@ const size = window.innerWidth < 400 ? 18 : 22
 
 const DeleteBin = props => {
 
-    if (!props.isModerator) {
-        return null
-    }
-
     return (
         <IconContainer>
             {

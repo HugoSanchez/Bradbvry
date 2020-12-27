@@ -74,6 +74,7 @@ export const ItemsList = props => {
                         return <MasonryIterator 
                             key={index}
                             items={group.items}
+                            shadow={props.shadow}
                             isModerator={props.isModerator}/>
                     }
                 })
@@ -113,6 +114,3 @@ const groupItemsByType = entries => {
     }
     return groupedItems;
 }
-
-
-

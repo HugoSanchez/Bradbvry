@@ -21,7 +21,10 @@ import {
 
 import {
     deleteEntry_Action
-} from '../../../actions'
+} from '../../../actions';
+
+import {ThreadID} from '@textile/hub';
+
 
 
 
@@ -53,13 +56,14 @@ export const ImageCard = props => {
     let year            = date.getFullYear()
 
     let dispatch        = useDispatch()
-    let threads         = useSelector(state => state.threads.threadsArray);
+    let client          = useSelector(state => state.user.client);
+    let activeThread    = useSelector(state => state.threads.activeThread);
 
     const deleteImage = async (e) => {
         e.stopPropagation();
-        // let thread = threads.find(thread => thread._name === props.image.threadName)
-        // await thread.deletePost(props.image.postId)
-        // dispatch(deleteEntry_Action(props.image))
+        let threadID = ThreadID.fromString(activeThread.id)
+        await client.delete(threadID, 'entries', [props.entry._id])
+        dispatch(deleteEntry_Action(props.entry))
     }
 
     return (
@@ -71,8 +75,8 @@ export const ImageCard = props => {
                 <DeleteBox>
                     <DeleteBin 
                         isActive={isActive}
-                        onClick={(e) => deleteImage(e)}
-                        isModerator={props.isModerator}/>
+                        zIndex={isActive ? '4' : '2'}
+                        onClick={(e) => deleteImage(e)}/>
                 </DeleteBox>
                 <TextBox>
                     <ImageTitle>{title}</ImageTitle>

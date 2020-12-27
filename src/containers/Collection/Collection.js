@@ -47,6 +47,7 @@ export const Collection = props => {
 
 	// Try to fix this:
 	// This makes the component re-render everytime the modal is opened and closed.
+	const [loading, setLoading] = useState(true)
 	const [renderForm, setRenderForm] = useState(false) 
 	const [renderMemberForm, setRenderMemberForm] = useState(false) 
 	const [openSnack, setOpenSnack] = useState('')
@@ -91,6 +92,7 @@ export const Collection = props => {
 		let threadId = ThreadID.fromString(thread.id)
 		let items = await client.find(threadId, 'entries', {})
 		dispatch(setThreadItems_Action(items.reverse()))
+		setLoading(false)
 
 		await client.listen(threadId, [], (e) => {
 			if (e === undefined) {return}
@@ -108,6 +110,7 @@ export const Collection = props => {
 		// Else, make sure selectedThread is properly set.
 		if (threadsArray.length < 1) {
 		dispatch(setInitialConfiguration_Action())}
+		else { await fetchThreadData(activeThread)}
 	}
 	
 	const handleShowSnackbar = bool => {
@@ -137,7 +140,9 @@ export const Collection = props => {
 		dispatch(handleSaveImage_Action({files}))
 	}
 
-	if (threadItems.length === 0 && !activeThread){
+	console.log('render!')
+
+	if (loading){
 		return (
 			<Fragment>
 				<Header />
