@@ -11,7 +11,6 @@ import {
 } from './styles';
 
 import {
-    useSelector, 
     useDispatch
 } from 'react-redux';
 
@@ -20,11 +19,8 @@ import {
 } from '../../common';
 
 import {
-    deleteEntry_Action
+    handleDeleteItem_Action
 } from '../../../actions';
-
-import {ThreadID} from '@textile/hub';
-
 
 
 
@@ -56,14 +52,10 @@ export const ImageCard = props => {
     let year            = date.getFullYear()
 
     let dispatch        = useDispatch()
-    let client          = useSelector(state => state.user.client);
-    let activeThread    = useSelector(state => state.threads.activeThread);
 
     const deleteImage = async (e) => {
         e.stopPropagation();
-        let threadID = ThreadID.fromString(activeThread.id)
-        await client.delete(threadID, 'entries', [props.entry._id])
-        dispatch(deleteEntry_Action(props.entry))
+        dispatch(handleDeleteItem_Action(props.entry))
     }
 
     return (

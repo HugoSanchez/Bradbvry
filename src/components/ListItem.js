@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 
 import {
-    deleteEntry_Action, 
+    handleDeleteItem_Action, 
     setActiveItem_Action,
     setActiveThread_Action
 } from '../actions';
@@ -78,9 +78,7 @@ const ListItem = React.memo((props) => {
     // Dispatches action to delete item from global store.
     const deleteEntry = async (e) => {
         e.stopPropagation();
-        let thread = threads.find(thread => thread._name === item.threadName)
-        await thread.deletePost(item.postId)
-        dispatch(deleteEntry_Action(item))
+        dispatch(handleDeleteItem_Action(item))
     }
 
     // On clicking the item card, this function sets the active thread in redux state
