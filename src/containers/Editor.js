@@ -26,6 +26,7 @@ export const Editor = props => {
     const dispatch = useDispatch()
     const [entry, setEntry] = useState(null)
     const [content, setContent] = useState(null)
+    const [loading, setLoading] = useState(true)
     const item = useSelector(state => state.threads.activeItem)
     const activeThread = useSelector(state => state.threads.activeThread)
 
@@ -41,20 +42,19 @@ export const Editor = props => {
 		isLoggedIn()
 	}, [])
 
-    console.log(content)
-
     const handleConfig = () => {
-        // If item exists, parse it and set state.
-        if (item) {parseItemAndSet(item)}
         // If activeThread is null, the initial config must be set.
         if (!activeThread) {dispatch(setInitialConfiguration_Action())}
+
+        // If item exists, parse it and set state.
+        if (item) {parseItemAndSet(item)}
+        else {setLoading(false)}
     }
 
     const parseItemAndSet = (item) => {
-        console.log('Item: ', item)
         let parsed = JSON.parse(item.entry)
-        console.log('P: ', parsed)
         setEntry(parsed)
+        setLoading(false)
     }
 
     const handleSaveItem = async () => {
@@ -63,7 +63,6 @@ export const Editor = props => {
     }
 
     const handleAutomaticSave = async content => {
-        console.log(content)
         setContent(content)
     }
 
@@ -126,7 +125,7 @@ export const Editor = props => {
         }
     }   
 
-    if (true){
+    if (loading){
 		return (
 			<Fragment>
 				<LoadingCard />

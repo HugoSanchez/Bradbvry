@@ -6,7 +6,7 @@ import {
     SET_ACTIVE_THREAD,
     SET_THREAD_ITEMS,
     DELETE_USER_ENTRY,
-    
+    ADD_ITEM_TO_THREAD_ITEMS,
 } from '../actions/types';
   
 const initialState = {
@@ -35,9 +35,18 @@ const threadsReducer = (state = initialState, action) => {
 		return {...state, itemsArray: action.payload}
 
 		case SET_THREAD_ITEMS: 
-		let currentItems = Array.from(state.threadItems)
-		let updatedItems = [...action.payload, ...currentItems]
-		return {...state, threadItems: updatedItems}
+		return {...state, threadItems: action.payload}
+
+		case ADD_ITEM_TO_THREAD_ITEMS: 
+		let includes = state.threadItems.includes(action.payload)
+		if (!includes) {
+			let updatedItems = Array.from(state.threadItems)
+			updatedItems.unshift(action.payload)
+			return {...state, threadItems: updatedItems}
+		} else {
+			return
+		}
+		
 		
 		case DELETE_USER_ENTRY: 
 		return {...state, threadItems: action.payload}

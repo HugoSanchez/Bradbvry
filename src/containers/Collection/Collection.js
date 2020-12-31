@@ -23,6 +23,7 @@ import {
 	setActiveItem_Action,
 	setActiveThread_Action, 
 	setThreadItems_Action,
+	addItemToThreadItems_Action,
 	handleSaveImage_Action,
 	setInitialConfiguration_Action
 } from '../../actions';
@@ -97,8 +98,8 @@ export const Collection = props => {
 		await client.listen(threadId, [], (e) => {
 			if (e === undefined) {return}
 			if (e.action === 'CREATE') {
-				let item = [e.instance]
-				dispatch(setThreadItems_Action(item))
+				let item = e.instance
+				dispatch(addItemToThreadItems_Action(item))
 				return
 			}			
 		})
@@ -110,7 +111,7 @@ export const Collection = props => {
 		// Else, make sure selectedThread is properly set.
 		if (threadsArray.length < 1) {
 		dispatch(setInitialConfiguration_Action())}
-		else { await fetchThreadData(activeThread)}
+		else {setLoading(false)}
 	}
 	
 	const handleShowSnackbar = bool => {
@@ -139,8 +140,6 @@ export const Collection = props => {
 	const onDrop = (files) => {
 		dispatch(handleSaveImage_Action({files}))
 	}
-
-	console.log('render!')
 
 	if (loading){
 		return (

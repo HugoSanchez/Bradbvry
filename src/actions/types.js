@@ -22,3 +22,4 @@ export const HANDLE_SAVE_ITEM               = 'HANDLE_SAVE_ITEM';
 export const HANDLE_SAVE_IMAGE              = 'HANDLE_SAVE_IMAGE';
 export const HANDLE_DELETE_ITEM             = 'HANDLE_DELETE_ITEM';
 export const HANDLE_CREATE_COLLECTION       = 'HANDLE_CREATE_COLLECTION';
+export const ADD_ITEM_TO_THREAD_ITEMS       = 'ADD_ITEM_TO_THREAD_ITEMS';

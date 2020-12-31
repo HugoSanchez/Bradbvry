@@ -9,6 +9,7 @@ import {
     SET_THREAD_ARRAY,
     SET_THREAD_ITEMS,
     DELETE_USER_ENTRY,
+    ADD_ITEM_TO_THREAD_ITEMS,
     HANDLE_SAVE_ITEM,
     HANDLE_SAVE_IMAGE,
     HANDLE_DELETE_ITEM,
@@ -59,6 +60,15 @@ export const setThreadItems_Action = array => {
     return { 
         type: SET_THREAD_ITEMS, 
         payload: array 
+    }
+}
+
+
+
+export const addItemToThreadItems_Action = item => {
+    return { 
+        type: ADD_ITEM_TO_THREAD_ITEMS, 
+        payload: item 
     }
 }
 

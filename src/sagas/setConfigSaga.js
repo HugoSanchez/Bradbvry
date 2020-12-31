@@ -18,13 +18,8 @@ const magic = new Magic(process.env.REACT_APP_MAGIC_API_KEY);
 
 function* handleThreads(threads, client) {  
 
-    yield console.log('threads-2: ', threads)
-
     let {itemsArray, parsedThreads} = yield parseThreadsAndPosts_Helper(threads, client)
     yield put(setThreadArray_Action(parsedThreads))
-    console.log(parsedThreads)
-    console.log(itemsArray)
-
 }
 
 

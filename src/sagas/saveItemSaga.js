@@ -25,7 +25,6 @@ function* handleSaveItem(action) {
         activeItem,
         activeThread,
         threadItems,
-        itemsArray,
     } = state.threads;
 
     // First check if there is activeThread, and throw error if not
@@ -47,20 +46,21 @@ function* handleSaveItem(action) {
             let array = threadItems.filter(item => item !== activeItem)
             array.splice(index, 0, updatedPost)
 
-            yield client.save(threadId, 'entries', [])
-            // yield put(setUserItems_Action(array))
-            // Mixpanel.track('NEW_ITEM', {'type': 'post'})
+            yield client.save(threadId, 'entries', [updatedPost])
+            yield put(setThreadItems_Action(array))
         }
     }
 
     // If there was no activeItem, content is new. We check if content is not empty
     // if so, post new entry and update itemsArray.
     else if (isContent) {
-        console.log('HIT!! ', newItem)
         let saved = yield Textile.createNewEntry(client, threadId, newItem)
         let entry = yield client.find(threadId, 'entries', {_id: saved[0]})
-        console.log('Entry: ', entry)
-        yield put(setThreadItems_Action(entry))
+
+        let updatedItems = Array.from(threadItems)
+		updatedItems.unshift(entry)
+
+        // yield put(setThreadItems_Action(updatedItems))
         Mixpanel.track('NEW_ITEM', {type: 'post'})
     }
 }
