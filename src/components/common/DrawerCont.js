@@ -16,6 +16,6 @@ export const DrawerCont = styled.div`
     }
 
     @media ${device.tablet} {
-        width: ${props => props.width}px;
+        width: ${window.innerWidth}px;
     }
 `;

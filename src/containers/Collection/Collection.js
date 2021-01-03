@@ -111,7 +111,7 @@ export const Collection = props => {
 		// Else, make sure selectedThread is properly set.
 		if (threadsArray.length < 1) {
 		dispatch(setInitialConfiguration_Action())}
-		else {setLoading(false)}
+		else {fetchThreadData(activeThread)}
 	}
 	
 	const handleShowSnackbar = bool => {

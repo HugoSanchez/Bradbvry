@@ -1,11 +1,12 @@
-import { PrivateKey } from '@textile/hub';
+import { PrivateKey, ThreadID } from '@textile/hub';
 import { utils, BigNumber } from 'ethers';
 import { Eth } from './Ethers';
 import {parseCollectionName} from './utils';
 
 import {
     entriesObject, 
-    configObject, 
+    configObject,
+    threadObj, 
 } from '../constants';
 
 
@@ -51,6 +52,26 @@ let actions = {
         let storedEntry = await client.create(threadID, 'entries', [newEntry])
         return storedEntry
     },
+
+    getThreadID: (threadObject) => {
+        // Returns the correct Thread ID class
+        console.log('here: ', threadObject)
+        return ThreadID.fromString(threadObject.id)
+    },
+
+    sendMessage: async (mailClient, message, identity, recipientIdentity) => {
+        let encoded = new TextEncoder().encode(message)
+        return await mailClient.sendMessage(identity, recipientIdentity, encoded)
+    },
+
+    decodeMessages: async (identity, messages) => {
+        for (let message of messages) {
+            let bytes = await identity.decrypt(message.body)
+            let decodedBody = new TextDecoder().decode(bytes)
+            message.body = decodedBody
+        }
+    },
+
 }
 
 

@@ -4,7 +4,7 @@ import {firstDefaultEntry} from '../constants';
 import {ThreeBox, Textile} from '../utils';
 import Box from '3box';
 
-import {Client, ThreadID} from '@textile/hub';
+import {Client, ThreadID, Users} from '@textile/hub';
 
 import {
     setUserItems_Action,
@@ -12,6 +12,7 @@ import {
     setInitialUserData_Action,
     setUserIsLogged_Action
 } from '../actions';
+import { identify } from 'mixpanel-browser';
 
 const { Magic } = require('magic-sdk');
 const magic = new Magic(process.env.REACT_APP_MAGIC_API_KEY);
@@ -39,6 +40,24 @@ function* handleConfig() {
     let client      = yield Client.withKeyInfo({key: hubKey})
     let userToken   = yield client.getToken(identity)  
     let threads     = yield client.listThreads()
+
+    // Set up user mailbox.
+    let mailboxClient   = yield Users.withKeyInfo({key: hubKey})
+    let mailToken       = yield mailboxClient.getToken(identity)
+    let mailboxID       = yield mailboxClient.setupMailbox()
+    let inbox           = yield mailboxClient.listInboxMessages()
+    mailboxClient.watchInbox(mailboxID, (event) => {console.log('OP: ', event)})
+
+
+    // let message = 'This is a new message to you u u'
+    // yield Textile.sendMessage(mailboxClient, message, identity, identity.public)
+    yield Textile.decodeMessages(identity, inbox)
+
+    yield console.log('ID: ', mailboxID)
+    yield console.log('Meesages: ', inbox)
+
+
+
 
     // Dispatch initial user data to reducer
     yield put(setInitialUserData_Action({

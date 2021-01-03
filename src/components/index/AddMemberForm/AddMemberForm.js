@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {FormButton} from '../../common';
 import {useSelector} from 'react-redux';
 import axios from 'axios';
-import Box from '3box';
+import {Textile} from '../../../utils';
 
 import {
     Gn,
@@ -23,6 +23,7 @@ import {
     shareBaseUrl,
     joinCollectionUrl
 } from '../../../constants';
+import { ThreadID } from '@textile/hub';
 
 const RenderProfiles = props => {
 
@@ -45,37 +46,27 @@ export const AddMemberForm = props => {
     let [profiles, setProfiles] = useState([])
     let [moderators, setModerator] = useState([])
 
-    const sender = useSelector(state => state.user.data.email)
-    const senderAddress = useSelector(state => state.user.data.address)
+    const sender = useSelector(state => state.user.email)
+    const client = useSelector(state => state.user.client)
+    const senderAddress = useSelector(state => state.user.address)
     const activeThread = useSelector(state => state.threads.activeThread)
 
 
     useEffect(() => {
-        const getMembers = async () => {
-            let members = await activeThread.listMembers()
-            console.log('Members: ', members)
-            getProfilesAndSet(members)
+        const getThreadDetails = async () => {
+            let threadID = Textile.getThreadID(activeThread)
+            console.log(threadID)
+            let info = await client.getDBInfo(threadID)
+            console.log('Info: ', info)
+
+
+            // 1 - User will send invite to join with: thread name, owner address, identity.public.
+            // 2 - Recipient will either create identity or retrieve identity and send message to USER.
+            // 3 - Take that message and if sender email is correct, send another message with thread key.
+            
         }
-        getMembers()
-        getModerators()
+        getThreadDetails()
     }, [])
-
-    const getModerators = async () => {
-        let moderators = await activeThread.listModerators()
-        setModerator(moderators)
-    }
-
-    const getProfilesAndSet = async members => {
-        let profiles = []
-
-        for (let i = 0; i < members.length; i++) {
-            let profile = await Box.getProfile(members[i])
-            profile.did = members[i]
-            profiles.push(profile)
-        }
-
-        setProfiles(profiles)
-    }
 
     const handleFormSubmit = async () => {
         setEmail('')
@@ -95,11 +86,6 @@ export const AddMemberForm = props => {
         let res = await axios.post(shareBaseUrl, data)
         if (res.data.success) {props.onClose(true)}
         else {props.onClose(false)}
-    }
-
-    const handleAddModerator = async member => {
-        await activeThread.addModerator(member)
-        getModerators()
     }
 
     return (
@@ -132,11 +118,7 @@ export const AddMemberForm = props => {
                 </Label>
                 {
                     profiles.length > 0 ?
-                    <RenderProfiles 
-                        members={profiles} 
-                        moderators={moderators}
-                        handleAddModerator={member => handleAddModerator(member)}
-                        />
+                    null
                     :
                     null
                 }  

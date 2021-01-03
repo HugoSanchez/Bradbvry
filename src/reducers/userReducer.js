@@ -10,6 +10,8 @@ const initialState = {
 	profile: null, 	// Public 3box profile
 	client: null,	// Textile threadsDB client
 	identity: null, // Textile identity
+	inbox: [], 		// Textile user mailbox (received messages)
+	sentBox: [],	// Textile user mailbox (sent messages)
 }
 
 const userProfileReducer = (state = initialState, action) => {
