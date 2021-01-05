@@ -1,8 +1,9 @@
 
 
-// Turn a given file into a Base64 
-// string representation.
+
 export const getBase64 = (file) => {
+    // Turn a given file into a Base64 
+    // string representation.
     return new Promise((resolve,reject) => {
        const reader = new FileReader();
        reader.onload = () => resolve(reader.result);
@@ -12,5 +13,15 @@ export const getBase64 = (file) => {
 }
 
 export const parseCollectionName = string => {
-    return string.replace(/\s+/g, '-').toLowerCase();
+    return string
+            .replace(/ /g,'-')
+            .replace(/(?:^|\s|["'([{])+\S/g, 
+                match => match.toLowerCase())
+}
+
+export const parseToDisplayCollectionName = string => {
+    return string
+            .replace(/-/g,' ')
+            .replace(/(?:^|\s|["'([{])+\S/g, 
+                match => match.toUpperCase())
 }

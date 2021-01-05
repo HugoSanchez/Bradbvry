@@ -4,8 +4,8 @@
 
 export const shareBaseUrl = `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}/api/share/send-invite-email`;
 export const acceptBaseUrl = `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}/api/share/add-invited-member`;
-export const joinCollectionUrl = (address, threadAddress) => `${process.env.REACT_APP_BRADBVRY_URL}/app/accept-invite/${address}/${threadAddress}`
-export const addMemberUrl = (data, thread, threadName) => `${process.env.REACT_APP_BRADBVRY_URL}/app/add-member/${data.publicAddress}/${thread}/${threadName}/${data.email}`
+export const joinCollectionUrl = (address, threadId, threadName) => `${process.env.REACT_APP_BRADBVRY_URL}/app/accept-invite/${address}/${threadId}/${threadName}`
+export const addMemberUrl = (data, threadName) => `${process.env.REACT_APP_BRADBVRY_URL}/app/add-member/${data.publicAddress}/${threadName}/${data.email}`
 
 ////////////////////////////////////
 ////// THREAD OBJECT
@@ -23,6 +23,7 @@ export const entriesObject = {
 
 export const configObject = {
     _id: '', 
+    threadId: '',                        // The thread's ID string.
     owner: '',                           // Thread's owner DID.
     name: '',                            // Collection Name 
     description: '',                     // Collection Description

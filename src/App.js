@@ -30,7 +30,7 @@ class App extends Component {
                         <Route path='/landing' component={LandingPage} /> 
                         <Route path='/gallery' component={Gallery} />          
                         <Route path='/app/add-member/:memberAddress/:threadName/:email' component={AddMember}/>
-                        <Route path='/app/accept-invite/:user/:threadName' component={JoinCollection}/>
+                        <Route path='/app/accept-invite/:user/:threadId/:threadName' component={JoinCollection}/>
                         <Route path='/app/:user/:threadName' component={Collection} />
                         <Route path='/app/:user' component={Home} />
                         <Route path='/editor' component={Editor} /> 

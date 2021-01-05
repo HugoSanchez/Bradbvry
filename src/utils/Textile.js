@@ -55,7 +55,6 @@ let actions = {
 
     getThreadID: (threadObject) => {
         // Returns the correct Thread ID class
-        console.log('here: ', threadObject)
         return ThreadID.fromString(threadObject.id)
     },
 

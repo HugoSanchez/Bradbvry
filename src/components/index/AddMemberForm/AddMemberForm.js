@@ -55,15 +55,6 @@ export const AddMemberForm = props => {
     useEffect(() => {
         const getThreadDetails = async () => {
             let threadID = Textile.getThreadID(activeThread)
-            console.log(threadID)
-            let info = await client.getDBInfo(threadID)
-            console.log('Info: ', info)
-
-
-            // 1 - User will send invite to join with: thread name, owner address, identity.public.
-            // 2 - Recipient will either create identity or retrieve identity and send message to USER.
-            // 3 - Take that message and if sender email is correct, send another message with thread key.
-            
         }
         getThreadDetails()
     }, [])
@@ -71,16 +62,18 @@ export const AddMemberForm = props => {
     const handleFormSubmit = async () => {
         setEmail('')
         setLoading(true)
-        let recepientEmail = email
-        let joinUrl = joinCollectionUrl(senderAddress, activeThread._address.slice(9))
-        let collectionName = activeThread.config.name.replace(/-/g,' ').replace(/(?:^|\s|["'([{])+\S/g, match => match.toUpperCase())
+        let recipientEmail = email
+        let collectionName = activeThread.name
+        let collectionAddress = activeThread.id
+        let joinUrl = joinCollectionUrl(senderAddress, activeThread.id, collectionName)
         
         let data = {
             sender, 
+            joinUrl,
             senderAddress, 
             collectionName, 
-            recepientEmail, 
-            joinUrl
+            recipientEmail, 
+            collectionAddress,
         }
         
         let res = await axios.post(shareBaseUrl, data)
