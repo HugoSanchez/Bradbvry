@@ -1,12 +1,7 @@
 import {SET_INITIAL_CONFIG} from '../actions/types';
-import {takeLeading, put} from 'redux-saga/effects';
-import {ThreeBox, Textile} from '../utils';
-import {ethers} from 'ethers';
+import {take, put} from 'redux-saga/effects';
+import {Textile} from '../utils';
 import Box from '3box';
-
-import {
-    configObject
-} from '../constants';
 
 import {
     Client, 
@@ -25,22 +20,12 @@ import { identify } from 'mixpanel-browser';
 const { Magic } = require('magic-sdk');
 const magic = new Magic(process.env.REACT_APP_MAGIC_API_KEY);
 
-function* handleThreads(threads, client, identity) { 
-    // Get identity public
-    let identityString = identity.public.toString()
-    let identityHash = ethers.utils.keccak256(ethers.utils.toUtf8Bytes(identityString))
-    let masterThreadName = 'master-' + identityHash.toString()
+function* handleThreads(threads, client, identity, action) { 
+    // Get master thread name string.
+    let masterThreadName = Textile.getMasterThreadString(identity)
     
     if (threads.length === 0) {
-        // Create pending schema.
-        let pendingObject = {_id: '', threadId: '', threadName: '', owner: ''}
-
-        // Instantiate new threadDB with name.
-        let threadID = yield client.newDB(undefined, masterThreadName)
-
-        // Instantate and create the config and entries collections in DB.
-        yield client.newCollectionFromObject(threadID, pendingObject, {name: 'pending-to-join'})
-        yield client.newCollectionFromObject(threadID, configObject, {name: 'collections-list'})
+        let masterThreadID = yield Textile.createMasterThreadDB(client, masterThreadName)
     }
 
     let masterThread = threads.find(thread => thread.name === masterThreadName)
@@ -51,25 +36,28 @@ function* handleThreads(threads, client, identity) {
 
     let {itemsArray, parsedThreads} = yield parseThreadsAndPosts_Helper(threads, client)
     yield put(setThreadArray_Action(parsedThreads))
+
+    yield console.log(typeof action.callback)
+    if (action.callback !== undefined) { yield action.callback(parsedThreads)}
 }
 
 
-function* handleConfig() {
+function* handleConfig(action) {
     // Get user address and email from magic.
     let data = yield magic.user.getMetadata()
     let email = data.email
     let address = data.publicAddress
 
     // Get user public profile.
-    let profile = yield Box.getProfile(address)
+    let profile         = yield Box.getProfile(address)
 
     // Get user identity (textile), instantiate client, 
     // Authenticate user, and fetch its threads.
-    let hubKey = process.env.REACT_APP_TEXTILE_HUB_KEY
-    let identity    = yield Textile.getIdentity(magic)
-    let client      = yield Client.withKeyInfo({key: hubKey})
-    let userToken   = yield client.getToken(identity)  
-    let threads     = yield client.listThreads()
+    let hubKey          = process.env.REACT_APP_TEXTILE_HUB_KEY
+    let identity        = yield Textile.getIdentity(magic)
+    let client          = yield Client.withKeyInfo({key: hubKey})
+    let userToken       = yield client.getToken(identity)  
+    let threads         = yield client.listThreads()
 
     // Set up user mailbox.
     let mailboxClient   = yield Users.withKeyInfo({key: hubKey})
@@ -98,11 +86,14 @@ function* handleConfig() {
         profile
     }))
 
-    yield handleThreads(threads, client, identity)
+    yield handleThreads(threads, client, identity, action)
 }
 
 export default function * watchInitialConfig() {
-    yield takeLeading(SET_INITIAL_CONFIG, handleConfig)
+    while(true) {
+        let action = yield take(SET_INITIAL_CONFIG)
+        yield handleConfig(action)    
+    }
 }
 
 

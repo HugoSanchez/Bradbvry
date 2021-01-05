@@ -36,9 +36,18 @@ export const JoinCollection = props => {
 	} = props.match.params
 
 	const history = useHistory();
-	const [loading, setLoading] = useState(false)
-
+	const [isLogged, setisLogged] = useState(false)
+	const [loading, setLoading] = useState(true)
 	const collectionName = parseToDisplayCollectionName(threadName)
+
+	useEffect(() => {
+		const checkIfLogged = async () => {
+			let isLogged = await magic.user.isLoggedIn();
+			setisLogged(isLogged)
+			setLoading(false)
+		}
+		checkIfLogged()
+	})
 							
 	
 	const handleLogin = async e => {

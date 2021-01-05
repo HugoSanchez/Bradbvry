@@ -105,9 +105,10 @@ export const handleCreateCollection_Action = (object, callback) => {
 ////// USER REDUCER ACTIONS
 ///////////////////////////////////////////////
 
-export const setInitialConfiguration_Action = () => {
+export const setInitialConfiguration_Action = (callbackFunction) => {
     return {
         type: SET_INITIAL_CONFIG,
+        callback: callbackFunction
     }
 }
 

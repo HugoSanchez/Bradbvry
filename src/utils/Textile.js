@@ -18,6 +18,26 @@ let actions = {
         else {return PrivateKey.fromString(identityString)}
     },
 
+    getMasterThreadString: (identity) => {
+        // Hash identity.public and parse. Return result.
+        let identityString = identity.public.toString()
+        let identityHash = utils.keccak256(utils.toUtf8Bytes(identityString))
+        let masterThreadName = 'master-' + identityHash.toString()
+        return masterThreadName
+    },
+
+    createMasterThreadDB: async (client, masterThreadName) => {
+        // Create pending schema.
+        let pendingObject = {_id: '', threadId: '', threadName: '', owner: ''}
+        // Instantiate new threadDB with name.
+        let threadID = await client.newDB(undefined, masterThreadName)
+        // Instantate and create the config and entries collections in DB.
+        await client.newCollectionFromObject(threadID, pendingObject, {name: 'pending-to-join'})
+        await client.newCollectionFromObject(threadID, configObject, {name: 'collections-list'})
+        // Return threadID
+        return threadID
+    },
+
     createNewThreadDB: async (client, config) => {
         // Parse config and entries objects (DB collection schemas)
         let newDate = Date.now()
