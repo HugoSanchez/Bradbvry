@@ -8,6 +8,7 @@ import {
     SET_USER_INITIAL_DATA,
     SET_THREAD_ARRAY,
     SET_THREAD_ITEMS,
+    SET_MASTER_THREAD_ID,
     DELETE_USER_ENTRY,
     ADD_ITEM_TO_THREAD_ITEMS,
     HANDLE_SAVE_ITEM,
@@ -63,6 +64,12 @@ export const setThreadItems_Action = array => {
     }
 }
 
+export const setMasterThreadID_Action = id => {
+    return { 
+        type: SET_MASTER_THREAD_ID, 
+        payload: id 
+    }
+}
 
 
 export const addItemToThreadItems_Action = item => {

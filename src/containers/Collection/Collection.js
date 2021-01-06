@@ -110,8 +110,7 @@ export const Collection = props => {
 		// If state is empty, set initial configuration.
 		// Else, make sure selectedThread is properly set.
 		if (threadsArray.length < 1) {
-			dispatch(setInitialConfiguration_Action((s) => console.log('HIT!: ', s)))
-		}
+		dispatch(setInitialConfiguration_Action())}
 		else {fetchThreadData(activeThread)}
 	}
 	

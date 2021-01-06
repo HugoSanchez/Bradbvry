@@ -6,7 +6,7 @@ import {parseCollectionName} from './utils';
 import {
     entriesObject, 
     configObject,
-    threadObj, 
+    pendingObject, 
 } from '../constants';
 
 
@@ -27,8 +27,6 @@ let actions = {
     },
 
     createMasterThreadDB: async (client, masterThreadName) => {
-        // Create pending schema.
-        let pendingObject = {_id: '', threadId: '', threadName: '', owner: ''}
         // Instantiate new threadDB with name.
         let threadID = await client.newDB(undefined, masterThreadName)
         // Instantate and create the config and entries collections in DB.

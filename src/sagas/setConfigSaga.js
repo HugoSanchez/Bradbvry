@@ -13,6 +13,7 @@ import {
     setUserItems_Action,
     setThreadArray_Action,
     setInitialUserData_Action,
+    setMasterThreadID_Action,
     setUserIsLogged_Action
 } from '../actions';
 import { identify } from 'mixpanel-browser';
@@ -35,6 +36,8 @@ function* handleThreads(threads, client, identity, action) {
     console.log('ENTRIES: ', entries)
 
     let {itemsArray, parsedThreads} = yield parseThreadsAndPosts_Helper(threads, client)
+
+    yield put(setMasterThreadID_Action(threadID))
     yield put(setThreadArray_Action(parsedThreads))
 
     yield console.log(typeof action.callback)

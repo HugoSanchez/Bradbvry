@@ -18,6 +18,7 @@ export const SET_ACTIVE_ITEM                = 'SET_ACTIVE_ITEM';
 export const SET_ACTIVE_THREAD              = 'SET_ACTIVE_THREAD';
 export const SET_THREAD_ARRAY               = 'SET_THREAD_ARRAY';
 export const SET_THREAD_ITEMS               = 'SET_THREAD_ITEMS';
+export const SET_MASTER_THREAD_ID           = 'SET_MASTER_THREAD_ID';
 export const HANDLE_SAVE_ITEM               = 'HANDLE_SAVE_ITEM';
 export const HANDLE_SAVE_IMAGE              = 'HANDLE_SAVE_IMAGE';
 export const HANDLE_DELETE_ITEM             = 'HANDLE_DELETE_ITEM';
