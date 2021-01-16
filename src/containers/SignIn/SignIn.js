@@ -24,6 +24,7 @@ export const SignIn = props => {
 
 	useEffect(() => {
 		const func = async () => {
+			localStorage.removeItem('textile-identity')
 			await magic.user.logout();
 		}
 		func()

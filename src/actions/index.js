@@ -1,4 +1,5 @@
 import {
+    SET_USER_MAILBOX,
     SET_USER_ITEMS,
     SET_ACTIVE_ITEM,
     SET_USER_PROFILE,
@@ -15,6 +16,7 @@ import {
     HANDLE_SAVE_IMAGE,
     HANDLE_DELETE_ITEM,
     HANDLE_CREATE_COLLECTION,
+    HANDLE_ADD_COLLECTION,
 } from './types';
 
 
@@ -139,5 +141,21 @@ export const setUserIsLogged_Action = (object) => {
         payload: object
     }
 }
+
+export const setUserMailbox_Action = (object) => {
+    return {
+        type: SET_USER_MAILBOX,
+        payload: object
+    }
+}
+
+export const handleAddCollectionToMaster_Action_Action = (object, history) => {
+    return {
+        type: HANDLE_ADD_COLLECTION,
+        payload: object,
+        history: history
+    }
+}
+
 
 

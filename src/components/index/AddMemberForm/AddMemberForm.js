@@ -44,41 +44,46 @@ export const AddMemberForm = props => {
     let [email, setEmail] = useState('')
     let [loading, setLoading] = useState(false)
     let [profiles, setProfiles] = useState([])
-    let [moderators, setModerator] = useState([])
+
 
     const sender = useSelector(state => state.user.email)
     const client = useSelector(state => state.user.client)
+    const identity = useSelector(state => state.user.identity)
     const senderAddress = useSelector(state => state.user.address)
     const activeThread = useSelector(state => state.threads.activeThread)
-
-
-    useEffect(() => {
-        const getThreadDetails = async () => {
-            let threadID = Textile.getThreadID(activeThread)
-        }
-        getThreadDetails()
-    }, [])
 
     const handleFormSubmit = async () => {
         setEmail('')
         setLoading(true)
-        let recipientEmail = email
-        let collectionName = activeThread.name
-        let collectionAddress = activeThread.id
-        let joinUrl = joinCollectionUrl(senderAddress, activeThread.id, collectionName)
-        
-        let data = {
-            sender, 
-            joinUrl,
-            senderAddress, 
-            collectionName, 
-            recipientEmail, 
-            collectionAddress,
-        }
+        let data = await parseRequestData()
         
         let res = await axios.post(shareBaseUrl, data)
         if (res.data.success) {props.onClose(true)}
         else {props.onClose(false)}
+    }
+
+    const parseRequestData = async () => {
+        let recipientEmail = email
+        let collectionName = activeThread.name
+        let collectionAddress = activeThread.id
+        let identityStr = identity.public.str
+        let collectionID = Textile.getThreadID(activeThread)
+        let collectionInfoRaw = await client.getDBInfo(collectionID)
+        let collectionInfo = JSON.stringify(collectionInfoRaw)
+
+        let joinUrl = joinCollectionUrl(senderAddress, activeThread.id, collectionName)
+        
+        return {
+            sender, 
+            joinUrl,
+            identityStr,
+            senderAddress, 
+            collectionName, 
+            recipientEmail, 
+            collectionAddress,
+            collectionInfo
+        }
+
     }
 
     return (

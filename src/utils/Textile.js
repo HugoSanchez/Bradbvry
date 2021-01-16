@@ -13,7 +13,6 @@ import {
 let actions = {
     getIdentity: async (magic) => {
         let identityString = localStorage.getItem('textile-identity')
-        console.log(identityString)
         if (!identityString) {return generateIdentity(magic)}
         else {return PrivateKey.fromString(identityString)}
     },

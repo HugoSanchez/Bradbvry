@@ -6,7 +6,8 @@ export const SET_INITIAL_CONFIG             = 'SET_INITIAL_CONFIG';
 export const SET_USER_INITIAL_DATA          = 'SET_USER_INITIAL_DATA';
 export const SET_USER_PROFILE               = 'SET_USER_PROFILE;';
 export const SET_USER_IS_LOGGED             = 'SET_USER_IS_LOGGED';
-
+export const SET_USER_MAILBOX               = 'SET_USER_MAILBOX';
+export const HANDLE_ADD_COLLECTION          = 'HANDLE_ADD_COLLECTIONM';
 
 ///////////////////////////////////////////////
 ////// THREADS REDUCER
