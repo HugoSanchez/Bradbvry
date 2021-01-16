@@ -41,7 +41,7 @@ function* handleAddCollectionToMaster_Action(action) {
         try {
             yield put(setThreadItems_Action(entries))
             yield put(setThreadArray_Action(newCollectionsArrray))
-            yield client.create(masterThreadID, 'collections-list', config)
+            yield client.create(masterThreadID, 'collections-list', [newCollection])
         }
         catch (e) {console.log(e)}
     }

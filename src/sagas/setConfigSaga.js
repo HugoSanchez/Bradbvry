@@ -32,16 +32,13 @@ function* handleThreads(threads, client, identity, action) {
 
     let masterThread = threads.find(thread => thread.name === masterThreadName)
     let threadID = ThreadID.fromString(masterThread.id)
-    let entries = yield client.find(threadID, 'collections-list', {})
-
-    console.log('ENTRIES: ', entries)
-
-    let {itemsArray, parsedThreads} = yield parseThreadsAndPosts_Helper(threads, client)
+    let collections = yield client.find(threadID, 'collections-list', {})
+    
+    // let {itemsArray, parsedThreads} = yield parseThreadsAndPosts_Helper(threads, client)
 
     yield put(setMasterThreadID_Action(threadID))
-    yield put(setThreadArray_Action(parsedThreads))
+    yield put(setThreadArray_Action(collections))
 
-    yield console.log(typeof action.callback)
     if (action.callback !== undefined) { yield action.callback() }
 }
 

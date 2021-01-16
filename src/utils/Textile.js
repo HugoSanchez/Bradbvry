@@ -41,6 +41,8 @@ let actions = {
         config.timestamp = newDate
         config.name = parseCollectionName(config.name)
 
+        console.log('Name: ', config.name)
+
         // Copy schemas.
         let collectionConfig = Object.assign(configObject, config)
         let entriesSchema = Object.assign({}, entriesObject)
@@ -55,8 +57,13 @@ let actions = {
         // Store the config object in the config db collection
         let storedConfigObj = await client.create(threadID, 'config', [collectionConfig])
 
+        let collectionObject = {}
+        collectionObject.id = threadID.toString()
+        collectionObject.name = config.name
+        collectionObject.config = collectionConfig
+
         // return threadID object
-        return threadID
+        return {threadID, collectionObject}
     },
 
     createNewEntry: async (client, threadID, entry) => {

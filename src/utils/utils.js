@@ -13,7 +13,9 @@ export const getBase64 = (file) => {
 }
 
 export const parseCollectionName = string => {
+
     return string
+            .trim()
             .replace(/ /g,'-')
             .replace(/(?:^|\s|["'([{])+\S/g, 
                 match => match.toLowerCase())

@@ -10,25 +10,22 @@ function* handleCreateCollection(action) {
     const state = yield select(getThreadsState)
     const client = state.user.client
     const threadsArray = state.threads.threadsArray
+    const masterThreadID = state.threads.masterThreadID
+
 
     try {
         // Create new ThreadDB and lists all DB's
-        let threadID = yield Textile.createNewThreadDB(client, action.payload)
-        let threads = yield client.listThreads()
+        let {threadID, collectionObject} = yield Textile.createNewThreadDB(client, action.payload)
+        yield console.log(collectionObject)
+        yield client.create(masterThreadID, 'collections-list', [collectionObject])
 
-        // Find the new one and query the config object.
-        let threadInstance = threads.find(thread => thread.id === threadID.toString())
-        let config = yield client.find(threadID, 'config', {})
-        threadInstance.config = config[0]
+        // Get new collections list and set in state.
+        let collections = yield client.find(masterThreadID, 'collections-list', {})
+        yield put(setThreadArray_Action(collections))
 
-        // Copy threadsArray and update copy with new threadDB.
-        let newThreadsArray = Array.from(threadsArray)
-        newThreadsArray.unshift(threadInstance)
-
-        // Dispatch new thread array to reducer and use callback
-        yield put(setThreadArray_Action(newThreadsArray))
+        // Fire callback and track event
         yield action.callback(true)
-        Mixpanel.track('NEW_COLLECTION')
+        Mixpanel.track('NEW_COLLECTION_CREATED')
     }
 
     catch (e) {
