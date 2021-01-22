@@ -2,7 +2,6 @@ import React  from 'react';
 
 import {
     CollectionCardContainer,
-    CollectionImage,
     CollectionTitle,
     Description,
     TextBox
@@ -24,7 +23,6 @@ export const CollectionCardBig = props => {
 
     return (
         <CollectionCardContainer>
-            <CollectionImage src={image}/>
             <TextBox>
                 <CollectionTitle color={"white"}>{spacename}</CollectionTitle>
                 <Description color={"white"}>{description}</Description>

@@ -12,7 +12,7 @@ export const ImageCardContainer = styled.div`
     background: white;
     transition: 0.4s ease-out;
     opacity: 0.8;
-    box-shadow: ${props => props.shadow ? '0 0 80px rgba(0,0,0,0.1)' : null};
+    box-shadow: ${props => props.shadow ? '0 0 80px rgba(0,0,0,0.2)' : null};
 
     &:hover{
         box-shadow: 0 0 10px rgba(0,0,0,0.2); 

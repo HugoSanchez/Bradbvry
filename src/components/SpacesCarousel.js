@@ -1,4 +1,6 @@
 import React, { Fragment } from "react";
+import styled from 'styled-components';
+
 import {
     useSelector
 } from "react-redux";
@@ -14,13 +16,18 @@ import {
     Text,
 } from './common';
 
+const Container = styled.div`
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+`;
 
 export const SpacesCarousel = props => {
 
     let threads = useSelector(state => state.threads.threadsArray);
 
     return (
-        <Fragment>
+        <Container>
             <Text>Your collections</Text>
             <Underline />
             <Carousel>
@@ -33,6 +40,6 @@ export const SpacesCarousel = props => {
                     })
                 }
             </Carousel>  
-        </Fragment>
+        </Container>
     );
 }

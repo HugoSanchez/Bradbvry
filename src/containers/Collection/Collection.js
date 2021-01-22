@@ -173,34 +173,32 @@ export const Collection = props => {
 				success={uploadSuccess} 
 				message={message}
 			/>
+				<FlexContainer>
+					<LeftContainer>
+						<CollectionCardBig thread={activeThread} />
+					</LeftContainer>
 
-				<Dropzone 
-					onDrop={onDrop}
-					accept={'image/jpeg, image/png, image/gif'}
-					maxSize={20000000}
-					multiple={true}>
+					<RightContainer>
+						<Dropzone 
+							onDrop={onDrop}
+							accept={'image/jpeg, image/png, image/gif'}
+							maxSize={20000000}
+							multiple={true}>
 
-					{({getRootProps, getInputProps}) => (
-						<DropZoneCont {...getRootProps()}>
-							<input {...getInputProps()} />
+							{({getRootProps, getInputProps}) => (
+								<DropZoneCont {...getRootProps()}>
+									<input {...getInputProps()} />
 
-							<FlexContainer>
-								<LeftContainer>
-									<CollectionCardBig thread={activeThread} />
-								</LeftContainer>
-
-								<RightContainer>
-									<ItemsList 
-										items={threadItems} 
-										shadow={true} 
-										isModerator={isModerator}/>
-								</RightContainer>
-							</FlexContainer>
-
-						</DropZoneCont>
-					)}
-				</Dropzone>
-
+											<ItemsList 
+												items={threadItems} 
+												shadow={true} 
+												isModerator={isModerator}/>
+										
+								</DropZoneCont>
+							)}
+						</Dropzone>
+					</RightContainer>
+				</FlexContainer>
 			<CollectionButtons 
 				addMember={() => setRenderMemberForm(true)}
 				addImage={() => setRenderForm(true)}
