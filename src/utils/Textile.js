@@ -35,13 +35,11 @@ let actions = {
         return threadID
     },
 
-    createNewThreadDB: async (client, config) => {
+    createNewThreadDB: async (client, config, writeValidator) => {
         // Parse config and entries objects (DB collection schemas)
         let newDate = Date.now()
         config.timestamp = newDate
         config.name = parseCollectionName(config.name)
-
-        console.log('Name: ', config.name)
 
         // Copy schemas.
         let collectionConfig = Object.assign(configObject, config)
@@ -52,7 +50,7 @@ let actions = {
 
         // Instantate and create the config and entries collections in DB.
         await client.newCollectionFromObject(threadID, configObject, {name: 'config'})
-        await client.newCollectionFromObject(threadID, entriesSchema, {name: 'entries'})
+        await client.newCollectionFromObject(threadID, entriesSchema, {name: 'entries',  writeValidator: writeValidator})
 
         // Store the config object in the config db collection
         let storedConfigObj = await client.create(threadID, 'config', [collectionConfig])

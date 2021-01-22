@@ -49,7 +49,7 @@ const threadsReducer = (state = initialState, action) => {
 			updatedItems.unshift(action.payload)
 			return {...state, threadItems: updatedItems}
 		} else {
-			return
+			return {...state, threadItems: []}
 		}
 		
 		case DELETE_USER_ENTRY: 

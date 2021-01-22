@@ -24,8 +24,10 @@ function* handleAddCollectionToMaster_Action(action) {
     let threadID = ThreadID.fromString(action.payload)
 
     // Get Config and Entries
-    let entries = yield client.find(threadID, 'entries', {})
     let config = yield client.find(threadID, 'config', {})
+    console.log('Config!: ', config)
+    let entries = yield client.find(threadID, 'entries', {})
+    console.log('Entries!!: ', entries)
 
     // Parse and set in state
     let alreadyExists = threads.find(thread => thread.name === config[0].name)

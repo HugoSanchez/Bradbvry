@@ -78,6 +78,8 @@ function* handleConfig(action) {
     let userToken       = yield client.getToken(identity)  
     let threads         = yield client.listThreads()
 
+    let identityString  = identity.public.toString()
+
     console.log('threads: ', threads)
 
     // Dispatch initial user data to reducer
@@ -88,6 +90,7 @@ function* handleConfig(action) {
         identity,
         profile,
         signer,
+        identityString
     }))
     yield console.timeEnd('set')
     yield handleThreads(threads, client, identity, action)
