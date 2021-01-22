@@ -5,11 +5,8 @@ import styled from 'styled-components';
 export const ProfileCont = styled.div`
     height: 50px;
     width: 100%;
-    border-radius: 4px;
-    margin-top: 3%;
     display: flex;
     flex-direction: row;
-    background: rgb(30,30, 30);
 `;
 
 export const AvatarCont = styled.div`
@@ -23,7 +20,7 @@ export const Avatar = styled.div`
     height: 40px;
     width: 40px;
     border-radius: 20px;
-    background-color: rgba(220, 220, 220, 0.1);
+    background-color: rgba(180, 180, 180, 0.4);
     display: flex;
     align-items: center;
     justify-content: center;

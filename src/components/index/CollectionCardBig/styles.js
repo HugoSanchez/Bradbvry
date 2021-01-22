@@ -10,8 +10,6 @@ export const CollectionCardContainer = styled.div`
     width: 20vw;
     height: 60vh;
     margin-right: 5%;
-    display: flex;
-    flex-direction: column;
 
     @media ${device.tablet} {
         
@@ -58,8 +56,8 @@ export const Description = styled(Text)`
 
 export const TextBox = styled(View)`
     width: 100%;
-    padding: 8%;
     margin-top: 50%;
+    margin-bottom: 8%;
 
     @media ${device.tablet} {
         flex: 1;
@@ -69,20 +67,3 @@ export const TextBox = styled(View)`
     }
 `;
 
-export const DetailsBox = styled.div`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    align-self: flex-end;
-    width: 100%;
-    height: 100px;
-    padding-left: 8%;
-`;
-
-export const ProfilePic = styled.div`
-    width: 50px;
-    height: 50px;
-    border-radius: 25px;
-    background: rgb(155, 155, 155);
-    margin: 10px;
-`;

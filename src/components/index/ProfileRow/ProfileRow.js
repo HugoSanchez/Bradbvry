@@ -20,7 +20,7 @@ import {
 export const ProfileRow = props => {
 
     // Deconstruct state.
-    let {member, moderators} = props;
+    let {member} = props;
 
     // Get profile pic from IPFS.
     // IPFS is awesome.
@@ -31,7 +31,6 @@ export const ProfileRow = props => {
     } 
     else {imageIPFSaddress = false}
 
-    let isModerator = moderators.includes(member.did)
 
     return (
         <ProfileCont>
@@ -51,39 +50,7 @@ export const ProfileRow = props => {
                 <ProfileName>{member.name || 'Unkown '}</ProfileName>
             </NameCont>
             <TypeCont>
-                {
-                    isModerator ?
-                    <div>
-                        <Editor>Editor</Editor>
-                        <IconWrapper>
-                            <IconContext.Provider
-                                value={{size: '15px', color: 'gray'}}>
-                                <RiInformationLine  data-tip data-for='editor-tip'/> 
-                            </IconContext.Provider> 
-                        </IconWrapper>
-                        <ReactTooltip 
-                            id='editor-tip' 
-                            className='tooltip'>
-                            <Text>This user can add and delete posts</Text>
-                        </ReactTooltip>
-
-                    </div>
-                    :
-                    <div>
-                        <GText onClick={() => props.handleAddModerator(member.did)}>Allow Edit</GText>
-                        <IconWrapper>
-                            <IconContext.Provider
-                                value={{size: '15px', color: 'gray'}}>
-                                <RiInformationLine  data-tip data-for='allow-editor-tip'/> 
-                            </IconContext.Provider> 
-                        </IconWrapper>
-                        <ReactTooltip 
-                            id='allow-editor-tip' 
-                            className='tooltip'>
-                            <Text>Allow user to post to this Collection</Text>
-                        </ReactTooltip>
-                    </div>
-                }
+                
             </TypeCont>
         </ProfileCont>
     )
