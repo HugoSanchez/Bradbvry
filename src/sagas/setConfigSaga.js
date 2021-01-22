@@ -27,18 +27,25 @@ function* handleThreads(threads, client, identity, action) {
     let masterThreadName = Textile.getMasterThreadString(identity)
     
     if (threads.length === 0) {
+        // If user is new, create masterThread and set state
+        // Collections will be an empty array.
         let masterThreadID = yield Textile.createMasterThreadDB(client, masterThreadName)
-    }
-
-    let masterThread = threads.find(thread => thread.name === masterThreadName)
-    let threadID = ThreadID.fromString(masterThread.id)
-    let collections = yield client.find(threadID, 'collections-list', {})
+        let collections = yield client.find(masterThreadID, 'collections-list', {})
+        yield put(setMasterThreadID_Action(masterThreadID))
+        yield put(setThreadArray_Action(collections))
+    } 
     
-    // let {itemsArray, parsedThreads} = yield parseThreadsAndPosts_Helper(threads, client)
-
-    yield put(setMasterThreadID_Action(threadID))
-    yield put(setThreadArray_Action(collections))
-
+    else {
+        // Else, get masterThreadID and set collections.
+        // This will be improved by sacing the master thread id somewhere.
+        let masterThread = threads.find(thread => thread.name === masterThreadName)
+        let threadID = ThreadID.fromString(masterThread.id)
+        let collections = yield client.find(threadID, 'collections-list', {})
+        // let {itemsArray, parsedThreads} = yield parseThreadsAndPosts_Helper(threads, client)
+        yield put(setMasterThreadID_Action(threadID))
+        yield put(setThreadArray_Action(collections))
+    } 
+    
     if (action.callback !== undefined) { yield action.callback() }
 }
 
@@ -77,10 +84,7 @@ function* handleConfig(action) {
     let client          = yield Client.withKeyInfo({key: hubKey})
     let userToken       = yield client.getToken(identity)  
     let threads         = yield client.listThreads()
-
     let identityString  = identity.public.toString()
-
-    console.log('threads: ', threads)
 
     // Dispatch initial user data to reducer
     yield put(setInitialUserData_Action({

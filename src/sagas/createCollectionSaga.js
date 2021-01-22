@@ -2,7 +2,6 @@ import {HANDLE_CREATE_COLLECTION} from '../actions/types';
 import {take, put, select} from 'redux-saga/effects';
 import {setThreadArray_Action} from '../actions';
 import {Mixpanel, Textile} from '../utils';
-import {getFunctionBody} from '@textile/threads-client'
 
 
 const getThreadsState = state => state
@@ -15,27 +14,9 @@ function* handleCreateCollection(action) {
     const threadsArray = state.threads.threadsArray
     const masterThreadID = state.threads.masterThreadID
 
-    // In order to have a write permission set, we first need to 
-    // create this function
-    const replaceThisValidator = (writer) => {
-        if (writer === 'replaceThis') {
-          return true
-        } else {
-            return false
-        }
-    }
-
-    // Turn it into a string, and replace the 'replaceThis' with the identity
-    const writeValidatorString = getFunctionBody(
-        replaceThisValidator
-    ).replace('replaceThis', identityString)
-
-    // Then turn back the string into a function again.
-    let writeValidator = new Function(writeValidatorString)
-
     try {
         // Create new ThreadDB and lists all DB's
-        let {threadID, collectionObject} = yield Textile.createNewThreadDB(client, action.payload, writeValidator)
+        let {threadID, collectionObject} = yield Textile.createNewThreadDB(client, action.payload, identityString)
         yield client.create(masterThreadID, 'collections-list', [collectionObject])
 
         // Get new collections list and set in state.

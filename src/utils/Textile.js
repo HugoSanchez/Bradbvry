@@ -2,12 +2,15 @@ import { PrivateKey, ThreadID } from '@textile/hub';
 import { utils, BigNumber } from 'ethers';
 import { Eth } from './Ethers';
 import {parseCollectionName} from './utils';
+import {getFunctionBody} from '@textile/threads-client';
 
 import {
     entriesObject, 
     configObject,
     pendingObject, 
 } from '../constants';
+import { id } from 'ethers/lib/utils';
+import { ADD_ITEM_TO_THREAD_ITEMS } from '../actions/types';
 
 
 let actions = {
@@ -25,6 +28,35 @@ let actions = {
         return masterThreadName
     },
 
+    getWriteValidator: (identityString) => {
+        // Return the write validator function that makes it such
+        // that only the owner can read or right into a collection.
+        let writeValidatorString = getFunctionBody(
+            replaceThisValidator
+        ).replace('replaceThis', identityString)
+        // Little hack to make it work.
+        return new Function(writeValidatorString)
+    },
+
+    getReadFilter: (identityString, collectionType) => {
+        // Read filter has two options depending on wether or 
+        // not the collection is private.
+        if (collectionType === 'private') {
+            console.log('here!')
+            let readValidatorString = getFunctionBody(
+                readFilterRaw
+            ).replace('replaceThis', identityString)
+
+            return new Function(readValidatorString)
+        } 
+        else {
+            console.log('there!')
+            // If collection is not private, alwais return instance 
+            let readFilter = (reader, instance) => {return instance};
+            return readFilter
+        }
+    },
+
     createMasterThreadDB: async (client, masterThreadName) => {
         // Instantiate new threadDB with name.
         let threadID = await client.newDB(undefined, masterThreadName)
@@ -35,7 +67,7 @@ let actions = {
         return threadID
     },
 
-    createNewThreadDB: async (client, config, writeValidator) => {
+    createNewThreadDB: async (client, config, identityString) => {
         // Parse config and entries objects (DB collection schemas)
         let newDate = Date.now()
         config.timestamp = newDate
@@ -47,10 +79,12 @@ let actions = {
 
         // Instantiate new threadDB with name.
         let threadID = await client.newDB(undefined, collectionConfig.name)
+        let writeValidator = actions.getWriteValidator(identityString)
+        let readFilter = actions.getReadFilter(identityString, config.type)
 
         // Instantate and create the config and entries collections in DB.
-        await client.newCollectionFromObject(threadID, configObject, {name: 'config'})
-        await client.newCollectionFromObject(threadID, entriesSchema, {name: 'entries',  writeValidator: writeValidator})
+        await client.newCollectionFromObject(threadID, configObject, {name: 'config', writeValidator, readFilter})
+        await client.newCollectionFromObject(threadID, entriesSchema, {name: 'entries',  writeValidator, readFilter})
 
         // Store the config object in the config db collection
         let storedConfigObj = await client.create(threadID, 'config', [collectionConfig])
@@ -112,7 +146,7 @@ const generateSeedFromEthKey = async (signer) => {
     // Sign and hash message using Ethereum's private key.
     // Then parse signedMessage to create seed array.
     const message = 'Signing this message proves you are in possesion of' +
-    ' the private key to access and control your account.'
+    ' the private key to access and control your account. Thank you for joining Bradbvry :)'
     const signed = await signer.signMessage(message)
     const hashed = await utils.keccak256(signed)
     const parsed = await parseSignedMessage(hashed)
@@ -128,6 +162,23 @@ const parseSignedMessage = async (hash) => {
         return BigNumber.from('0x' + hexNoPrefix).toNumber()
     })
     return numArray
+}
+
+
+const replaceThisValidator = (writer) => {
+    // In order to have a write permission set, 
+    // we first need to reate this function
+    if (writer === 'replaceThis') {
+        return true
+    } 
+    return false
+}
+
+const readFilterRaw = (reader, instance) => {
+    if (reader === 'replaceThis') {
+        return instance
+    } 
+    return false
 }
 
 export let Textile = actions
