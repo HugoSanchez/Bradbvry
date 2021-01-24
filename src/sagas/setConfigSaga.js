@@ -74,6 +74,7 @@ function* handleConfig(action) {
     let data = yield magic.user.getMetadata()
     let email = data.email
     let address = data.publicAddress
+    let provider = magic.rpcProvider
 
     // Get user public profile and signer.
     let profile         = yield Box.getProfile(address)
@@ -94,6 +95,7 @@ function* handleConfig(action) {
         identity,
         profile,
         signer,
+        provider,
         identityString
     }))
     yield console.timeEnd('set')

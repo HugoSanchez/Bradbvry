@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useSelector} from "react-redux";
 import {dummyProfile} from '../../../constants';
 import {Button} from '../../common';
@@ -6,7 +6,6 @@ import {Button} from '../../common';
 import {
     Container,
     ProfileCardDiv,
-    CoverPhotoContainer,
     ProfileImage,
     ImageBox,
     NameBox,

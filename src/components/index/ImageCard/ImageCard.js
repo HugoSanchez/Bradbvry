@@ -45,7 +45,7 @@ export const ImageCard = props => {
                     'JUL', 'AUG', 'SEP', 
                     'OCT', 'NOV', 'DEC']
     
-    let timestamp       = props.entry.timestamp                 
+    let timestamp       = props.entry.timestamp              
     let date            = new window.Date(timestamp * 1000)
     let day             = date.getDay()
     let month           = months[date.getMonth()]

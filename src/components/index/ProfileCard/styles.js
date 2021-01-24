@@ -18,7 +18,7 @@ export const ProfileCardDiv = styled.div`
     border-radius: 1vh;
     overflow: hidden;
     transition: 0.2s;
-
+    
     @media ${device.tablet} {
         position: relative;
         display: flex;
@@ -47,10 +47,10 @@ export const ProfileImage = styled.img`
     top: 35%;
     margin-top: -20%;
     margin-right: 50%;
-    height: 14vh;
-    width: 14vh;
-    border-radius: 7vh;
-    background-color: rgba(220, 220, 220, 0.8);
+    height: 12vh;
+    width: 12vh;
+    border-radius: 6vh;
+    background-color: white;
 
     @media ${device.tablet} {
         top: 25%;
@@ -65,7 +65,7 @@ export const ProfileImage = styled.img`
 export const NameTitle = styled.h1`
     font-family: 'Raleway';
     text-align: left;
-    padding-left: 10%;
+    padding-left: 8%;
     margin-top: 5%;
     margin-bottom: 5%;
     font-size: 3.5vh;
@@ -83,7 +83,7 @@ export const Description = styled.p`
     line-height: 1.6;
     text-align: left;
     inset-inline: 1.8;
-    padding-left: 10%;
+    padding-left: 8%;
     padding-right: 10%;
     color: rgb(65, 65, 65);
 

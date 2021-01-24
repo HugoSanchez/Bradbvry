@@ -11,6 +11,7 @@ import {
     Editor,
     SignIn,
     Gallery,
+    Discover,
     AddMember,
     Collection,
     JoinCollection
@@ -34,7 +35,7 @@ class App extends Component {
                         <Route path='/app/:user/:threadName' component={Collection} />
                         <Route path='/app/:user' component={Home} />
                         <Route path='/editor' component={Editor} /> 
-                        <Route path='/settings' component={Settings} />
+                        <Route path='/discover' component={Discover} />
                         <Route exact path="/" render={() => (<Redirect to="/landing" />)} /> 
                     </Switch>
                 </Provider>
