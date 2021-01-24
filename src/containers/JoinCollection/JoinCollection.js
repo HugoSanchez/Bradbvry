@@ -90,6 +90,7 @@ export const JoinCollection = props => {
 
 	const addCollection = async (secret) => {
 		if (masterThreadID) {
+			console.log('Mast')
 			// let details = await getCollectionDetails(secret)	
 			dispatch(handleAddCollectionToMaster_Action_Action(threadId, props.history))
 		}

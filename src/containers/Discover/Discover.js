@@ -6,6 +6,7 @@ import {LoadingCard, ImageCard} from '../../components';
 import {NFTSubGraph} from '../../constants'
 import {theGraphQuery} from '../../constants/queries';
 import axios from 'axios';
+import Masonry from 'react-masonry-css';
 
 export const Discover = props => {
 
@@ -38,11 +39,19 @@ export const Discover = props => {
             <div>
                 <Header />
                 <div className="Main">
-					{
-						tokens.map(token => {
-							return <NFTWrapper key={token.id} token={token}/>
-						})
-					}
+					<Masonry
+						breakpointCols={window.innerWidth < 550 ? 2 : 3}
+						className="my-masonry-grid"
+						columnClassName="my-masonry-grid_column">
+							{
+								tokens.map(token => {
+									return (
+										<NFTWrapper 
+											key={token.id} 
+											token={token}/>)
+								})
+							}
+					</Masonry>	
                 </div>
             </div>
         );
@@ -63,13 +72,10 @@ const NFTWrapper = props => {
 
 	let [token, setToken] = useState(null)
 
-	
-
 	useEffect(() => {
 		axios.get(props.token.tokenURI)	
 			.then(res => {
 				setToken(res.data)
-				console.log('res:', res.data)
 			})
 	}, [])
 
@@ -86,11 +92,10 @@ const NFTWrapper = props => {
 		let entry = {}
 		let image = getImageUrl(token)
 
+		entry.entry = image
 		entry.title = token.name
 		entry.description = token.description
-		entry.entry = image
 
-		console.log(entry.entry)
 		return <ImageCard entry={entry} />
 	}
 	return <div></div>
