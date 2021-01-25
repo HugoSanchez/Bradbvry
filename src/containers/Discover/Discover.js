@@ -1,13 +1,19 @@
 import React, {useEffect, useState} from 'react';
 import {useSelector}  from "react-redux";
 import {Mixpanel} from '../../utils';
-import {Header} from '../../components/common/Header';
-import {LoadingCard, ImageCard} from '../../components';
 import {NFTSubGraph} from '../../constants'
 import {theGraphQuery} from '../../constants/queries';
 import axios from 'axios';
 import Masonry from 'react-masonry-css';
 import {Wrapper} from './styles';
+
+import {
+	Header, 
+	LoadingCard, 
+	ImageCard, 
+	SectionTitle, 
+	SectionSubTitle, 
+} from '../../components';
 
 export const Discover = props => {
 
@@ -39,6 +45,8 @@ export const Discover = props => {
         return (
             <div>
                 <Header />
+				<SectionTitle>Discover</SectionTitle> 
+				<SectionSubTitle>Here's some of the items we found that you already own. Feel free to group them in collections! </SectionSubTitle>
                 <div className="Main">
 					<Masonry
 						breakpointCols={window.innerWidth < 550 ? 2 : 3}
@@ -101,14 +109,13 @@ const NFTWrapper = props => {
 
 		return (
 			<div>
-				<Wrapper>
 				<ImageCard 
 					isNFT={true}
 					entry={entry} 
+					isSelectable={true}
 					onError={() => setIsError(true)}
 					onClick={() => console.log('Clicked!', token)}
 				/>
-				</Wrapper>
 			</div>
 
 		)

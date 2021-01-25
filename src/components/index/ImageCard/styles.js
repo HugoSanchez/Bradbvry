@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import {device} from '../../../constants';
 import {Title, Text} from '../../common';
+import {primaryGreen} from '../../../constants/colors';
 
 export const ImageCardContainer = styled.div`
     position: relative;
@@ -13,6 +14,8 @@ export const ImageCardContainer = styled.div`
     transition: 0.4s ease-out;
     opacity: 0.8;
     box-shadow: ${props => props.shadow ? '0 0 80px rgba(0,0,0,0.2)' : null};
+    
+    border: ${props => props.border ? '15px solid rgba(55,55,55,0.3)' : null};
 
     &:hover{
         box-shadow: 0 0 10px rgba(0,0,0,0.2); 

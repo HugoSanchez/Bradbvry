@@ -35,11 +35,18 @@ export const ImageCard = props => {
 
     // Instantiate state
     const [isActive, setActive] = useState(false); 
+    const [border, setBorder] = useState(false)
     // Create setter function
     const handleMouseOver = () => {
         setActive(!isActive)
     }
-    
+    const handleOnClick = (e) => {
+        e.stopPropagation()
+        if (props.isSelectable) {setBorder(!border)}
+        if (props.onClick) {props.onClick()}
+    }
+
+
     let months =    ['JAN', 'FEB', 'MAR', 
                     'APR', 'MAY', 'JUN', 
                     'JUL', 'AUG', 'SEP', 
@@ -58,11 +65,11 @@ export const ImageCard = props => {
         dispatch(handleDeleteItem_Action(props.entry))
     }
 
-
     return (
         <ImageCardContainer 
+            border={border}
             shadow={props.shadow}
-            onClick={e => props.onClick()}
+            onClick={handleOnClick}
             onMouseEnter={() => handleMouseOver()}
             onMouseLeave={() => handleMouseOver()}>
                 <DeleteBox>
