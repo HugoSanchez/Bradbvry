@@ -43,7 +43,7 @@ export const TextBox = styled.div`
 
 
 export const Description = styled(Text)`
-    font-size: 1.8vh;
+    font-size: 2.2vh;
     font-weight: 400;
     line-height: 1.6;
     margin-top: 5%;
@@ -57,7 +57,7 @@ export const Date = styled(Text)`
     bottom: 7%;
     left: 10%;
     width: 80%;
-    font-size: 1.2vh;
+    font-size: 2.2vh;
     font-weight: 300;
     font-style: italic;
     line-height: 1.6;

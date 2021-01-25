@@ -11,6 +11,7 @@ export const theGraphQuery = (address) => `
             name
             supportsEIP721Metadata
         }
+        mintTime
         tokenID
         tokenURI
         owner {

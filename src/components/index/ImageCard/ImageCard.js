@@ -58,17 +58,24 @@ export const ImageCard = props => {
         dispatch(handleDeleteItem_Action(props.entry))
     }
 
+
     return (
         <ImageCardContainer 
             shadow={props.shadow}
-            onClick={e => e.stopPropagation()}
+            onClick={e => props.onClick()}
             onMouseEnter={() => handleMouseOver()}
             onMouseLeave={() => handleMouseOver()}>
                 <DeleteBox>
-                    <DeleteBin 
+                    {
+                        props.isNFT ?
+                        null
+                        :
+                        <DeleteBin 
                         isActive={isActive}
                         zIndex={isActive ? '4' : '2'}
                         onClick={(e) => deleteImage(e)}/>
+                    }
+                    
                 </DeleteBox>
                 <TextBox>
                     <ImageTitle>{title}</ImageTitle>
@@ -80,7 +87,9 @@ export const ImageCard = props => {
                     }
                 </TextBox>
                 <Date>{day + ' ' + month + ' ' + year}</Date>
-            <Image src={base64Image}/>
+            <Image 
+                src={base64Image}
+                onError={props.onError}/>
         </ImageCardContainer>
     );
 }

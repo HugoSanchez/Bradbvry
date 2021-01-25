@@ -7,6 +7,7 @@ import {NFTSubGraph} from '../../constants'
 import {theGraphQuery} from '../../constants/queries';
 import axios from 'axios';
 import Masonry from 'react-masonry-css';
+import {Wrapper} from './styles';
 
 export const Discover = props => {
 
@@ -71,6 +72,7 @@ export const Discover = props => {
 const NFTWrapper = props => {
 
 	let [token, setToken] = useState(null)
+	let [isError, setIsError] = useState(false)
 
 	useEffect(() => {
 		axios.get(props.token.tokenURI)	
@@ -88,15 +90,29 @@ const NFTWrapper = props => {
 		return token.image
 	}
 
-	if (token) {
+	if (token && !isError) {
 		let entry = {}
 		let image = getImageUrl(token)
 
 		entry.entry = image
 		entry.title = token.name
+		entry.timestamp = props.token.mintTime
 		entry.description = token.description
 
-		return <ImageCard entry={entry} />
+		return (
+			<div>
+				<Wrapper>
+				<ImageCard 
+					isNFT={true}
+					entry={entry} 
+					onError={() => setIsError(true)}
+					onClick={() => console.log('Clicked!', token)}
+				/>
+				</Wrapper>
+			</div>
+
+		)
 	}
+
 	return <div></div>
 }
