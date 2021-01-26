@@ -534,6 +534,21 @@ nav {
 	flex-direction: column;
 }
 
+.main-screenshot {
+	flex: 1;
+	display: flex;
+  justify-content: center;
+  margin-top: 6%;
+	animation: drop 1.5s ease;
+}
+
+.main-screenshot img {
+	height: 48vh;
+	border-radius: 0.5vw;
+	animation: drop 1.5s ease;
+	box-shadow: 0 15px 25px rgba(0,0,0,0.2); 
+}
+
 .screenshot {
 	flex: 1;
 	display: flex;

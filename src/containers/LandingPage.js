@@ -3,8 +3,8 @@ import {Link} from 'react-router-dom';
 import {Mixpanel} from '../utils';
 import {Header} from '../components/common/Header';
 
-import main from '../resources/pablo-downloading.png';
-import screenshot from '../resources/screenshot.png';
+import main from '../resources/home.png';
+import screenshot from '../resources/collection.png';
 import privacy from '../resources/pablo-camera-access.png';
 import terms from '../resources/pablo-basketball-game.png';
 import beautiful from '../resources/pablo-augmented-reality.png'
@@ -20,24 +20,23 @@ const LandingPage = props => {
             <section className="presentation">
                 <div className="introduction">
                     <div className="intro-text">
-                        <h1>Create,</h1>
-                        <h1>Store {"&"} Share.</h1>
-                        <h1>Privately.</h1>
-                        <p>
-                            Bradbvry allows you to own and manage 
-                            <span className="bold"> intimate private spaces </span> 
-                            to store and share your creations.
-                            <span className=""> We're starting with a text editor that is truly yours.</span> 
 
+                        <h1>Create,</h1>
+                        <h1>Collect {"&"} Share</h1>
+                        <h1>On your terms.</h1>
+                        <p>
+                            Bradbvry allows you to
+							<span className="bold"> own intimate collections </span>
+                            to store and share your digital possessions and creations. 
                         </p>
                     </div>
                     <div className="cta">
                         <Link to="/signin">
-                            <button className="cta-add">Start Creating</button>
+                            <button className="cta-add">Get started</button>
                         </Link>
                     </div>
                 </div>
-                <div className="cover">
+                <div className="main-screenshot">
                     <img src={main} alt="matebook" />
                 </div>
             </section>
