@@ -16,6 +16,7 @@ import {
     HANDLE_SAVE_IMAGE,
     HANDLE_DELETE_ITEM,
     HANDLE_CREATE_COLLECTION,
+    HANDLE_DELETE_COLLECTION,
     HANDLE_ADD_COLLECTION,
 } from './types';
 
@@ -107,6 +108,13 @@ export const handleCreateCollection_Action = (object, callback) => {
         type: HANDLE_CREATE_COLLECTION,
         payload: object,
         callback: (bool) => callback(bool),
+    }
+}
+
+export const handleDeleteCollection_Action = (history) => {
+    return {
+        type: HANDLE_DELETE_COLLECTION,
+        history: history,
     }
 }
 

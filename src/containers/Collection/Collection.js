@@ -14,6 +14,7 @@ import {
 	UploadImageForm,
 	AddMemberForm,
 	LoadingCard,
+	MoreButton,
 	ItemsList, 
 	SnackBar,
 	Header
@@ -29,7 +30,8 @@ import {
 } from '../../actions';
 
 import {
-	DropZoneCont
+	DropZoneCont,
+	MoreOptionsPositioner
 } from './styles';
 
 const { Magic } = require('magic-sdk');
@@ -173,6 +175,12 @@ export const Collection = props => {
 				success={uploadSuccess} 
 				message={message}
 			/>
+
+			<MoreOptionsPositioner>
+				<MoreButton history={props.history}/>
+			</MoreOptionsPositioner>
+
+
 				<FlexContainer>
 					<LeftContainer>
 						<CollectionCardBig thread={activeThread} />

@@ -5,6 +5,7 @@ import saveImageSaga from './saveImageSaga';
 import deleteItemSaga from './deleteItemSaga';
 import addNewCollection from './addNewCollection';
 import createCollectionSaga from './createCollectionSaga';
+import deleteCollectionSaga from './deleteCollectionSaga';
 
 export default function * rootSaga() {
     yield all([
@@ -14,6 +15,7 @@ export default function * rootSaga() {
         deleteItemSaga(),
         addNewCollection(),
         createCollectionSaga(),
+        deleteCollectionSaga()
     ])
 }
 

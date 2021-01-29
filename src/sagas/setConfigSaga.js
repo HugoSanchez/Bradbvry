@@ -87,6 +87,8 @@ function* handleConfig(action) {
     let threads         = yield client.listThreads()
     let identityString  = identity.public.toString()
 
+    yield console.log(threads)
+
     // Dispatch initial user data to reducer
     yield put(setInitialUserData_Action({
         email,
