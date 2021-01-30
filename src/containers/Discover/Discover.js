@@ -83,15 +83,20 @@ export const Discover = props => {
 
 const NFTWrapper = props => {
 
+	let [plainText, setplainText] = useState(false)
 	let [metadata, setMetadata] = useState(null)
 	let [isError, setIsError] = useState(false)
 
 	useEffect(() => {
-		axios.get(props.token.metadataURI)	
-			.then(res => {
-				console.log('Metadata: ', res.data)
-				setMetadata(res.data)
-			})
+		const handleMeta = async () => {
+			let res = await  axios.get(props.token.metadataURI)
+			if (res.data.mimeType === "text/plain") {
+				let text = await axios.get(props.token.contentURI)
+				setplainText(text.data)
+			}
+			setMetadata(res.data)
+		}
+		handleMeta()
 	}, [])
 
 	if (metadata && !isError) {
@@ -110,6 +115,7 @@ const NFTWrapper = props => {
 		return (
 			<div>
 				<ImageCard 
+					text={plainText}
 					entry={entry} />
 			</div>
 		)

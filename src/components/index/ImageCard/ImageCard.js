@@ -1,6 +1,7 @@
 import React, {useState}  from 'react';
 
 import {
+    TimesText,
     Date,
     Image,
     TextBox,
@@ -16,7 +17,7 @@ import {
 } from 'react-redux';
 
 import {
-    Text,
+    Title,
     DeleteBin
 } from '../../common';
 
@@ -100,7 +101,7 @@ export const ImageCard = props => {
                 {
                     props.entry.type === "text/plain" ?
                     <TextEntry>
-                        
+                        <Title>{props.text}</Title>
                     </TextEntry>
                     
                     : null

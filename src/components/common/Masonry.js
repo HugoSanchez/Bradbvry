@@ -17,7 +17,9 @@ export const Masonry = props => {
 	for (let i = 0; i < props.children.length; i++) {
         const columnIndex = i % props.columns;
         columnWrapper[`column${columnIndex}`].push(
-            <div style={{ marginBottom: `${props.gap}px`}}>
+            <div 
+                key={i}
+                style={{ marginBottom: `${props.gap}px`}}>
                 {props.children[i]}
             </div>
         );
@@ -27,6 +29,7 @@ export const Masonry = props => {
 	for (let i = 0; i < props.columns; i++) {
         result.push(
             <div
+                key={i}
                 style={{
                     marginLeft: `${i > 0 ? props.gap : 0}px`,
                     flex: 1,

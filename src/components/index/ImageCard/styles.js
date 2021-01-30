@@ -99,5 +99,16 @@ export const TextEntry = styled.div`
     justify-content: center;
     min-height: 350px;
     min-width: 100%;
+    max-width: 300px;
+    background-color: white;
+    z-index: 2;
     box-shadow: 0 0 80px rgba(0,0,0,0.1);
+    overflow: hidden;
+    padding: 10%;
+`;
+
+export const TimesText = styled.p`
+    font-family: Times New Roman;
+    font-size: 22px;
+    line-height: 1.35;
 `;
