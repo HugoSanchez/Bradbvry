@@ -1,22 +1,67 @@
-export const theGraphQuery = (address) => `
-    {
-        tokens(
-            where: {
-                owner: 
-                "0x651350a0ddab993dd69eb18fe63914a90bdca006",
-            }) {
-        id
-        contract {
+export const zoraSubGraphByAddress = (address) => `
+{
+    user(id: "0xeee5eb24e7a0ea53b75a1b9ad72e7d20562f4283"){
+        collection {
             id
-            name
-            supportsEIP721Metadata
-        }
-        mintTime
-        tokenID
-        tokenURI
-        owner {
-            id
+            metadataURI
+            contentURI
+            contentHash
+            metadataHash
+            owner {
+                id
             }
+            ownerBidShare
+            creator {
+                id
+            }
+            creatorBidShare
+            prevOwner {
+                id
+            }
+            prevOwnerBidShare
+            approved {
+                id
+            }
+            currentBids {
+                id
+            }
+            currentAsk {
+                id
+            }
+            createdAtTimestamp
+            createdAtBlockNumber
         }
-    }  
+        
+        creations {
+            id
+            metadataURI
+            contentURI
+            contentHash
+            metadataHash
+            owner {
+                id
+            }
+            ownerBidShare
+            creator {
+                id
+            }
+            creatorBidShare
+            prevOwner {
+                id
+            }
+            prevOwnerBidShare
+            approved {
+                id
+            }
+            currentBids {
+                id
+            }
+            currentAsk {
+                id
+            }
+            createdAtTimestamp
+            createdAtBlockNumber
+        }
+    }
+}
 `

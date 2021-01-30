@@ -12,7 +12,7 @@ export const ImageCardContainer = styled.div`
     flex-direction: column;
     background: white;
     transition: 0.4s ease-out;
-    opacity: 0.8;
+    opacity: 1;
     box-shadow: ${props => props.shadow ? '0 0 80px rgba(0,0,0,0.2)' : null};
     
     border: ${props => props.border ? '15px solid rgba(55,55,55,0.3)' : null};
@@ -85,9 +85,18 @@ export const Image = styled.img`
     object-fit: cover;
     border-radius: 2px;
     opacity: 1;
-    z-index: 2;
+    z-index: 1;
     &:hover{
-        opacity: 0.2; 
+        opacity: 0.1; 
 		transition: 0.7s;
     }
+`;
+
+export const TextEntry = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 450px;
+
+    box-shadow: 0 0 80px rgba(0,0,0,0.1);
 `;

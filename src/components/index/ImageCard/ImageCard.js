@@ -4,6 +4,7 @@ import {
     Date,
     Image,
     TextBox,
+    TextEntry,
     DeleteBox,
     ImageTitle,
     Description,
@@ -15,6 +16,7 @@ import {
 } from 'react-redux';
 
 import {
+    Text,
     DeleteBin
 } from '../../common';
 
@@ -31,7 +33,7 @@ export const ImageCard = props => {
         description
     } = props.entry;
 
-    let base64Image = props.entry.entry
+    let content = props.entry.entry
 
     // Instantiate state
     const [isActive, setActive] = useState(false); 
@@ -94,9 +96,29 @@ export const ImageCard = props => {
                     }
                 </TextBox>
                 <Date>{day + ' ' + month + ' ' + year}</Date>
-            <Image 
-                src={base64Image}
-                onError={props.onError}/>
+
+                {
+                    props.entry.type === "text/plain" ?
+                    <TextEntry>
+                        
+                    </TextEntry>
+                    
+                    : null
+                }
+                {
+                    props.entry.type === "video/mp4" ?
+                        null
+                    :   null
+                }
+                {
+                    props.entry.type === "image/jpeg" ||
+                    props.entry.type === "image/png"  ||
+                    props.entry.type === "image/gif"   ?
+                        <Image 
+                            src={content}
+                            onError={props.onError}/>
+                    : null
+                }
         </ImageCardContainer>
     );
 }

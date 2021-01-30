@@ -23,8 +23,8 @@ function* handleDeleteCollection(action) {
         yield console.log('1')
 
         // DeleteDB
-        let threadID = yield Textile.getThreadID(activeThread)
-        yield client.deleteDB(threadID)
+        // let threadID = yield Textile.getThreadID(activeThread)
+        // yield client.deleteDB(threadID)
         yield console.log('2')
         
         // Update redux state

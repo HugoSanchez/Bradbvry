@@ -73,7 +73,7 @@ export const Home = (props) => {
                             <ProfileCard />
                         </LeftContainer>
 
-                        <RightContainer>
+                        <RightContainer overflow={true}>
                             <ItemsAndSpaces items={items} />
                         </RightContainer>
                         

@@ -1,11 +1,16 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, Fragment} from 'react';
 import {useSelector}  from "react-redux";
 import {Mixpanel} from '../../utils';
-import {NFTSubGraph} from '../../constants'
-import {theGraphQuery} from '../../constants/queries';
+import {ZoraSubGraph} from '../../constants'
+import {zoraSubGraphByAddress} from '../../constants/queries';
 import axios from 'axios';
 import Masonry from 'react-masonry-css';
-import {Wrapper} from './styles';
+
+import {
+	Wrapper,
+	SimpleMasonry,
+	MasonryItems,
+} from './styles';
 
 import {
 	Header, 
@@ -18,7 +23,8 @@ import {
 export const Discover = props => {
 
 	// Instantiate state.
-	let [tokens, setTokens] = useState([])
+	let [ownedItems, setownedItems] = useState([])
+	let [creations, setcreations] = useState([])
 	let [loading, setLoading] = useState(true)
 
     // Get user data from redux state.
@@ -32,37 +38,34 @@ export const Discover = props => {
 	
 	useEffect(() => {
 		const queryNFTs = async () => {
-			let query = theGraphQuery()
-			let {data} = await axios.post(NFTSubGraph, {query})
-			setTokens(data.data.tokens)
+			let query = zoraSubGraphByAddress()
+			let {data} = await axios.post(ZoraSubGraph, {query})
+			console.log('response: ', data.data)
+			setcreations(data.data.user.creations)
+			setownedItems(data.data.user.collection)
 			setLoading(false)
-			console.log('response: ', data.data.tokens)
 		}
 		queryNFTs()
     }, [])
     
     if (!loading) {
         return (
-            <div>
+            <Fragment>
                 <Header />
-				<SectionTitle>Discover</SectionTitle> 
-				<SectionSubTitle>Here's some of the items we found that you already own. Feel free to group them in collections! </SectionSubTitle>
-                <div className="Main">
-					<Masonry
-						breakpointCols={window.innerWidth < 550 ? 2 : 3}
-						className="my-masonry-grid"
-						columnClassName="my-masonry-grid_column">
-							{
-								tokens.map(token => {
-									return (
+				<SimpleMasonry>
+						{
+							creations.map(token => {
+								return (
+									<MasonryItems>
 										<NFTWrapper 
-											key={token.id} 
-											token={token}/>)
-								})
-							}
-					</Masonry>	
-                </div>
-            </div>
+										key={token.id} 
+										token={token}/>
+									</MasonryItems>
+								)									
+							})
+						}
+				</SimpleMasonry>	
+            </Fragment>
         );
     }
 
@@ -79,33 +82,29 @@ export const Discover = props => {
 
 const NFTWrapper = props => {
 
-	let [token, setToken] = useState(null)
+	let [metadata, setMetadata] = useState(null)
 	let [isError, setIsError] = useState(false)
 
 	useEffect(() => {
-		axios.get(props.token.tokenURI)	
+		axios.get(props.token.metadataURI)	
 			.then(res => {
-				setToken(res.data)
+				console.log('Metadata: ', res.data)
+				setMetadata(res.data)
 			})
 	}, [])
 
-	const getImageUrl = (token) => {
-		
-		if (props.token.contract.name === 'Rarible') {
-			return 'https://ipfs.io/' + token.image.substring(7)
-		}
+	if (metadata && !isError) {
 
-		return token.image
-	}
-
-	if (token && !isError) {
 		let entry = {}
-		let image = getImageUrl(token)
+		entry.title = metadata.name		
+		entry.type = metadata.mimeType
+		entry.entry = props.token.contentURI
+		entry.timestamp = props.token.createdAtTimestamp
+		entry.description = metadata.description
 
-		entry.entry = image
-		entry.title = token.name
-		entry.timestamp = props.token.mintTime
-		entry.description = token.description
+		if (metadata.mimeType === "video/mp4") {
+			return null
+		}
 
 		return (
 			<div>
@@ -114,10 +113,9 @@ const NFTWrapper = props => {
 					entry={entry} 
 					isSelectable={true}
 					onError={() => setIsError(true)}
-					onClick={() => console.log('Clicked!', token)}
+					onClick={() => console.log('Clicked!', entry)}
 				/>
 			</div>
-
 		)
 	}
 
