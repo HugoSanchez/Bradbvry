@@ -4,20 +4,17 @@ import {Mixpanel} from '../../utils';
 import {ZoraSubGraph} from '../../constants'
 import {zoraSubGraphByAddress} from '../../constants/queries';
 import axios from 'axios';
-import Masonry from 'react-masonry-css';
 
 import {
-	Wrapper,
-	SimpleMasonry,
-	MasonryItems,
+	Contain,
+	MasonryCont,
 } from './styles';
 
 import {
 	Header, 
+	Masonry,
 	LoadingCard, 
 	ImageCard, 
-	SectionTitle, 
-	SectionSubTitle, 
 } from '../../components';
 
 export const Discover = props => {
@@ -52,19 +49,21 @@ export const Discover = props => {
         return (
             <Fragment>
                 <Header />
-				<SimpleMasonry>
-						{
-							creations.map(token => {
-								return (
-									<MasonryItems>
+				<Contain>
+					<MasonryCont>
+						<Masonry gap={0} columns={3}>
+							{
+								creations.map(token => {
+									return (
 										<NFTWrapper 
-										key={token.id} 
-										token={token}/>
-									</MasonryItems>
-								)									
-							})
-						}
-				</SimpleMasonry>	
+											key={token.id} 
+											token={token}/>
+									)									
+								})
+							}
+						</Masonry>
+					</MasonryCont>	
+				</Contain>
             </Fragment>
         );
     }
@@ -78,6 +77,8 @@ export const Discover = props => {
         </div>
     )
 }
+
+
 
 
 const NFTWrapper = props => {
@@ -109,12 +110,7 @@ const NFTWrapper = props => {
 		return (
 			<div>
 				<ImageCard 
-					isNFT={true}
-					entry={entry} 
-					isSelectable={true}
-					onError={() => setIsError(true)}
-					onClick={() => console.log('Clicked!', entry)}
-				/>
+					entry={entry} />
 			</div>
 		)
 	}

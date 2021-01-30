@@ -13,6 +13,7 @@ export * from './FileInput';
 export * from './Container';
 export * from './DeleteBin';
 export * from './Carousel';
+export * from './Masonry';
 export * from './Button';
 export * from './Header';
 export * from './Column';

@@ -6,6 +6,7 @@ import {primaryGreen} from '../../../constants/colors';
 export const ImageCardContainer = styled.div`
     position: relative;
     width: 95%;
+    min-height: 350px;
     border-radius: 2px;
     margin-bottom: 5%;
     display: flex;
@@ -96,7 +97,7 @@ export const TextEntry = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 450px;
-
+    min-height: 350px;
+    min-width: 100%;
     box-shadow: 0 0 80px rgba(0,0,0,0.1);
 `;
