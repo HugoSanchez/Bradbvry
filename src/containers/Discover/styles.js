@@ -8,5 +8,5 @@ export const Contain = styled.div`
 
 export const MasonryCont = styled.div`
     margin-top: 15%;
-    width: 80%;
+    width: 70%;
 `;

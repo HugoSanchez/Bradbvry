@@ -5,10 +5,9 @@ import {primaryGreen} from '../../../constants/colors';
 
 export const ImageCardContainer = styled.div`
     position: relative;
-    width: 95%;
+    width: 100%;
     min-height: 350px;
     border-radius: 2px;
-    margin-bottom: 5%;
     display: flex;
     flex-direction: column;
     background: white;
@@ -19,6 +18,7 @@ export const ImageCardContainer = styled.div`
     border: ${props => props.border ? '15px solid rgba(55,55,55,0.3)' : null};
 
     &:hover{
+        z-index: 2;
         box-shadow: 0 0 10px rgba(0,0,0,0.2); 
         transform: translateY(5px);
     }
@@ -72,7 +72,7 @@ export const DeleteBox = styled.div`
     height: 15%;
     width: 15%;
     position: absolute;
-    top: 10%;
+    top: 8%;
     right: 5%;
     z-index: 3;
 
@@ -105,10 +105,7 @@ export const TextEntry = styled.div`
     box-shadow: 0 0 80px rgba(0,0,0,0.1);
     overflow: hidden;
     padding: 10%;
-`;
-
-export const TimesText = styled.p`
-    font-family: Times New Roman;
-    font-size: 22px;
-    line-height: 1.35;
+    &:hover{
+        z-index: -1;
+    }
 `;

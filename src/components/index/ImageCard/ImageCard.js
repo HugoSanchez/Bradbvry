@@ -1,7 +1,7 @@
 import React, {useState}  from 'react';
+import NFTLogo from '../../../resources/NFTLogo.png'
 
 import {
-    TimesText,
     Date,
     Image,
     TextBox,
@@ -17,7 +17,7 @@ import {
 } from 'react-redux';
 
 import {
-    Title,
+    Text,
     DeleteBin
 } from '../../common';
 
@@ -75,18 +75,21 @@ export const ImageCard = props => {
             onClick={handleOnClick}
             onMouseEnter={() => handleMouseOver()}
             onMouseLeave={() => handleMouseOver()}>
+
                 <DeleteBox>
                     {
                         props.isNFT ?
-                        null
+                        <Image 
+                            src={NFTLogo}/>
                         :
                         <DeleteBin 
-                        isActive={isActive}
-                        zIndex={isActive ? '4' : '2'}
-                        onClick={(e) => deleteImage(e)}/>
+                            isActive={isActive}
+                            zIndex={isActive ? '4' : '2'}
+                            onClick={(e) => deleteImage(e)}/>
                     }
                     
                 </DeleteBox>
+                
                 <TextBox>
                     <ImageTitle>{title}</ImageTitle>
                     {
@@ -101,7 +104,7 @@ export const ImageCard = props => {
                 {
                     props.entry.type === "text/plain" ?
                     <TextEntry>
-                        <Title>{props.text}</Title>
+                        <Text>{props.text}</Text>
                     </TextEntry>
                     
                     : null

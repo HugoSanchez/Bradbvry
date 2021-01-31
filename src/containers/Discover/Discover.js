@@ -15,6 +15,7 @@ import {
 	Masonry,
 	LoadingCard, 
 	ImageCard, 
+	PlainTextCard,
 } from '../../components';
 
 export const Discover = props => {
@@ -51,7 +52,7 @@ export const Discover = props => {
                 <Header />
 				<Contain>
 					<MasonryCont>
-						<Masonry gap={0} columns={3}>
+						<Masonry gap={15} columns={3}>
 							{
 								creations.map(token => {
 									return (
@@ -83,6 +84,8 @@ export const Discover = props => {
 
 const NFTWrapper = props => {
 
+	// This should be a separate component
+
 	let [plainText, setplainText] = useState(false)
 	let [metadata, setMetadata] = useState(null)
 	let [isError, setIsError] = useState(false)
@@ -91,6 +94,7 @@ const NFTWrapper = props => {
 		const handleMeta = async () => {
 			let res = await  axios.get(props.token.metadataURI)
 			if (res.data.mimeType === "text/plain") {
+				// This logic should move to PlainTextCard
 				let text = await axios.get(props.token.contentURI)
 				setplainText(text.data)
 			}
@@ -102,6 +106,7 @@ const NFTWrapper = props => {
 	if (metadata && !isError) {
 
 		let entry = {}
+		entry.token = props.token
 		entry.title = metadata.name		
 		entry.type = metadata.mimeType
 		entry.entry = props.token.contentURI
@@ -112,9 +117,19 @@ const NFTWrapper = props => {
 			return null
 		}
 
+		if (metadata.mimeType === "text/plain") {
+			return (
+				<PlainTextCard 
+					isNFT={true}
+					entry={entry}
+					text={plainText}/>
+			)
+		}
+
 		return (
 			<div>
 				<ImageCard 
+					isNFT={true}
 					text={plainText}
 					entry={entry} />
 			</div>
