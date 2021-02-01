@@ -93,19 +93,3 @@ export const Image = styled.img`
     }
 `;
 
-export const TextEntry = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 350px;
-    min-width: 100%;
-    max-width: 300px;
-    background-color: white;
-    z-index: 2;
-    box-shadow: 0 0 80px rgba(0,0,0,0.1);
-    overflow: hidden;
-    padding: 10%;
-    &:hover{
-        z-index: -1;
-    }
-`;

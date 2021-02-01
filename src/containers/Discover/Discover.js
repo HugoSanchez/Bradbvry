@@ -14,7 +14,7 @@ import {
 	Header, 
 	Masonry,
 	LoadingCard, 
-	ImageCard, 
+	ImageCard2, 
 	PlainTextCard,
 } from '../../components';
 
@@ -128,10 +128,11 @@ const NFTWrapper = props => {
 
 		return (
 			<div>
-				<ImageCard 
+				<ImageCard2 
 					isNFT={true}
-					text={plainText}
-					entry={entry} />
+					entry={entry}
+					isImage={true}
+					text={plainText}/>
 			</div>
 		)
 	}

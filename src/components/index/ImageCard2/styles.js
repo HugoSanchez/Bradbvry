@@ -3,6 +3,7 @@ import {device} from '../../../constants';
 import {Title, Text} from '../../common';
 import {primaryGreen} from '../../../constants/colors';
 
+
 export const CardContainer = styled.div`
     position: relative;
     display: flex;

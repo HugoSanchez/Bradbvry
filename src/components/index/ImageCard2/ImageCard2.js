@@ -1,4 +1,4 @@
-import React, {useState}  from 'react';
+import React, {useState, Fragment}  from 'react';
 import NFTLogo from '../../../resources/NFTLogo.png';
 import {IconContext} from 'react-icons';
 
@@ -36,18 +36,16 @@ import {
 
 import {
     Text,
-    Title,
     DeleteBin
 } from '../../common';
 
 import {
     handleDeleteItem_Action
 } from '../../../actions';
-import { Fragment } from 'react';
 
 
 
-export const PlainTextCard = props => {
+export const ImageCard2 = props => {
 
     let {
         title,
@@ -56,26 +54,24 @@ export const PlainTextCard = props => {
 
     let content = props.entry.entry
 
-    console.log(props.entry)
     // Instantiate state
     const [isActive, setActive] = useState(false); 
     const [border, setBorder] = useState(false)
     // Create setter function
     const handleMouseOver = () => {
         setActive(!isActive)
-        console.log('Is active: ', !isActive)
     }
-
     const handleOnClick = (e) => {
         e.stopPropagation()
         if (props.isSelectable) {setBorder(!border)}
         if (props.onClick) {props.onClick()}
     }
 
+
     let months =    ['JAN', 'FEB', 'MAR', 
-                     'APR', 'MAY', 'JUN', 
-                     'JUL', 'AUG', 'SEP', 
-                     'OCT', 'NOV', 'DEC']
+                    'APR', 'MAY', 'JUN', 
+                    'JUL', 'AUG', 'SEP', 
+                    'OCT', 'NOV', 'DEC']
     
     let timestamp       = props.entry.timestamp              
     let date            = new window.Date(timestamp * 1000)
@@ -98,72 +94,69 @@ export const PlainTextCard = props => {
             onMouseEnter={() => handleMouseOver()}
             onMouseLeave={() => handleMouseOver()}>
 
+            <CardHeader>
+
+            <CreatorBox>
                 {
-                    props.isImage ? 
-                    <EntryImage src={props.entry.entry} />
+                    isActive ? 
+                    <Fragment>
+                        <CreatorTag>Created by</CreatorTag>
+                        <Placeholder>
+                            <CreatorPlaceholder>
+                                <IconContext.Provider value={{size: '25px', color: 'gray'}}>
+                                    <RiUserSmileLine /> 
+                                </IconContext.Provider> 
+                            </CreatorPlaceholder>
+
+                            <Creator>{props.entry.token.creator.id.slice(0, 7)}</Creator>
+                        </Placeholder>
+                    </Fragment>
                     :
                     null
                 }
                 
-            <CardHeader>
+            </CreatorBox>
 
-                <CreatorBox>
-                    {
-                        isActive ? 
-                        <Fragment>
-                            <CreatorTag>Created by</CreatorTag>
-                            <Placeholder>
-                                <CreatorPlaceholder>
-                                    <IconContext.Provider value={{size: '25px', color: 'gray'}}>
-                                        <RiUserSmileLine /> 
-                                    </IconContext.Provider> 
-                                </CreatorPlaceholder>
-
-                                <Creator>{props.entry.token.creator.id.slice(0, 7)}</Creator>
-                            </Placeholder>
-                        </Fragment>
-                        :
-                        null
-                    }
-                    
-                </CreatorBox>
-
-                <NFTBox>
-                    <Image src={NFTLogo}/>
-                </NFTBox>
+            <NFTBox>
+                <Image src={NFTLogo}/>
+            </NFTBox>
             </CardHeader>
 
             <CardBody>
-                {
-                    isActive ?
-                    <div>
-                        <DetailsBox>
-                            <NftTitle>{props.entry.title}</NftTitle>
-                            <Description>{props.entry.description}</Description>
-                        </DetailsBox>
-                    </div>
-                    :
-                    <Text>{props.text}</Text>
-                }
+            {
+                isActive ?
+                <div>
+                    <DetailsBox>
+                        <NftTitle>{props.entry.title}</NftTitle>
+                        <Description>{props.entry.description}</Description>
+                    </DetailsBox>
+                </div>
+                :
+                <Text>{props.text}</Text>
+            }
             </CardBody>
 
             <CardFooter>
 
-                <OwnerBox>
+            <OwnerBox>
 
-                </OwnerBox>
+            </OwnerBox>
 
-                <NFTBox>
-                    {
-                        isActive ?
-                        <Date>{day + ' ' + month + ' ' + year}</Date>
-                        :
-                        null
-                    }
-                </NFTBox>
-                                    
+            <NFTBox>
+                {
+                    isActive ?
+                    <Date>{day + ' ' + month + ' ' + year}</Date>
+                    :
+                    null
+                }
+            </NFTBox>
+                                
             </CardFooter>
 
+                <Image 
+                    src={content}
+                    onError={props.onError}/>
+                    
         </CardContainer>
     );
 }

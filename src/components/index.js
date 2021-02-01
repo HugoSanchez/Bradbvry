@@ -11,6 +11,7 @@ export * from './index/ProfileCard';
 export * from './index/ProfileRow';
 export * from './index/MoreButton';
 export * from './index/UserAvatar';
+export * from './index/ImageCard2';
 export * from './index/ImageCard';
 export * from './SpacesCarousel';
 export * from './index/SnackBar';
