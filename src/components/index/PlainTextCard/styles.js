@@ -140,6 +140,7 @@ export const Date = styled(Text)`
     font-weight: 300;
     font-style: italic;
     line-height: 1.6;
+    margin-bottom: 14%;
 `;
 
 export const Image = styled.img`

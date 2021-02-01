@@ -101,28 +101,10 @@ export const ImageCard = props => {
                 </TextBox>
                 <Date>{day + ' ' + month + ' ' + year}</Date>
 
-                {
-                    props.entry.type === "text/plain" ?
-                    <TextEntry>
-                        <Text>{props.text}</Text>
-                    </TextEntry>
+                <Image 
+                    src={content}
+                    onError={props.onError}/>
                     
-                    : null
-                }
-                {
-                    props.entry.type === "video/mp4" ?
-                        null
-                    :   null
-                }
-                {
-                    props.entry.type === "image/jpeg" ||
-                    props.entry.type === "image/png"  ||
-                    props.entry.type === "image/gif"   ?
-                        <Image 
-                            src={content}
-                            onError={props.onError}/>
-                    : null
-                }
         </ImageCardContainer>
     );
 }
