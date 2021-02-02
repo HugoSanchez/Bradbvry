@@ -11,6 +11,8 @@ import {
     Date,
     Image,
     NFTBox,
+    DateBox,
+    TextCont,
     NftTitle,
     Creator,
     CardBody,
@@ -22,6 +24,7 @@ import {
     DetailsBox,
     CardHeader,
     CreatorBox,
+    NFTLogoImage,
     CreatorTag,
     Placeholder,
     CardSubFooter,
@@ -94,68 +97,36 @@ export const ImageCard2 = props => {
             onMouseEnter={() => handleMouseOver()}
             onMouseLeave={() => handleMouseOver()}>
 
-            <CardHeader>
-
-            <CreatorBox>
-                {
-                    isActive ? 
-                    <Fragment>
-                        <CreatorTag>Created by</CreatorTag>
-                        <Placeholder>
-                            <CreatorPlaceholder>
-                                <IconContext.Provider value={{size: '25px', color: 'gray'}}>
-                                    <RiUserSmileLine /> 
-                                </IconContext.Provider> 
-                            </CreatorPlaceholder>
-
-                            <Creator>{props.entry.token.creator.id.slice(0, 7)}</Creator>
-                        </Placeholder>
-                    </Fragment>
-                    :
-                    null
-                }
-                
-            </CreatorBox>
-
-            <NFTBox>
-                <Image src={NFTLogo}/>
-            </NFTBox>
-            </CardHeader>
-
-            <CardBody>
-            {
-                isActive ?
-                <div>
-                    <DetailsBox>
-                        <NftTitle>{props.entry.title}</NftTitle>
-                        <Description>{props.entry.description}</Description>
-                    </DetailsBox>
-                </div>
-                :
-                <Text>{props.text}</Text>
-            }
-            </CardBody>
-
-            <CardFooter>
-
-            <OwnerBox>
-
-            </OwnerBox>
-
-            <NFTBox>
-                {
-                    isActive ?
-                    <Date>{day + ' ' + month + ' ' + year}</Date>
-                    :
-                    null
-                }
-            </NFTBox>
-                                
-            </CardFooter>
-
                 <Image 
                     src={content}
                     onError={props.onError}/>
+                
+
+                <NFTLogoImage src={NFTLogo}/>
+
+                <CreatorBox>
+                    <CreatorTag>Created by</CreatorTag>
+                    <Placeholder>
+                        <CreatorPlaceholder>
+                            <IconContext.Provider value={{size: '25px', color: 'gray'}}>
+                                <RiUserSmileLine /> 
+                            </IconContext.Provider> 
+                        </CreatorPlaceholder>
+
+                        <Creator>{props.entry.token.creator.id.slice(0, 7)}</Creator>
+                    </Placeholder>
+                </CreatorBox>
+
+                <CardBody>
+                    <TextCont>
+                        <NftTitle>{props.entry.title}</NftTitle>
+                        <Description>{props.entry.description}</Description>
+                    </TextCont>
+                </CardBody>
+                
+                <DateBox>
+                    <Date>{day + ' ' + month + ' ' + year}</Date>
+                </DateBox>
                     
         </CardContainer>
     );
