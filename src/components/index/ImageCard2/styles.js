@@ -12,6 +12,7 @@ export const CardContainer = styled.div`
     justify-content: center;
     position: relative;
     transition: 0.4s ease-out;
+    background-color: white;
     box-shadow: ${props => props.shadow ? '0 0 80px rgba(0,0,0,0.1)' : null};
 
     &:hover{

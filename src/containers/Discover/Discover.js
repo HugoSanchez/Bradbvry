@@ -8,6 +8,7 @@ import axios from 'axios';
 import {
 	Contain,
 	MasonryCont,
+	VideoTest,
 } from './styles';
 
 import {
@@ -16,6 +17,7 @@ import {
 	LoadingCard, 
 	ImageCard2, 
 	PlainTextCard,
+	AudioCard,
 } from '../../components';
 
 export const Discover = props => {
@@ -114,7 +116,9 @@ const NFTWrapper = props => {
 		entry.description = metadata.description
 
 		if (metadata.mimeType === "video/mp4") {
-			return null
+			return <VideoTest src={props.token.contentURI} controls>
+
+			</VideoTest>
 		}
 
 		if (metadata.mimeType === "text/plain") {
@@ -122,7 +126,20 @@ const NFTWrapper = props => {
 				<PlainTextCard 
 					isNFT={true}
 					entry={entry}
-					text={plainText}/>
+					text={plainText}
+				/>
+			)
+		}
+
+		if (metadata.mimeType === "audio/mpeg") {
+			return (
+				<AudioCard
+					isNFT={true}
+					entry={entry}
+					isImage={true}
+					text={plainText}
+				/>
+
 			)
 		}
 
@@ -132,7 +149,8 @@ const NFTWrapper = props => {
 					isNFT={true}
 					entry={entry}
 					isImage={true}
-					text={plainText}/>
+					text={plainText}
+				/>
 			</div>
 		)
 	}

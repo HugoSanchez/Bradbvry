@@ -34,13 +34,15 @@ export const CardHeader = styled.div`
 export const CardBody = styled.div`
     flex: 16;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     width: 100%;
-    padding: 10%;
+    padding: 20%;
     min-height: 250px;
     word-wrap: break-word;
-
+    margin-top: 50px;
+    margin-bottom: 50px;
 `;
 
 export const CardFooter = styled.div`
@@ -48,11 +50,6 @@ export const CardFooter = styled.div`
     display: flex;
     flex-direction: row;
     width: 100%;
-`;
-
-export const CardSubFooter = styled.div`
-    flex: 2;
-    display: flex;
 `;
 
 export const CreatorBox = styled.div`
@@ -71,11 +68,6 @@ export const OwnerBox = styled.div`
     align-items: flex-end;
     justify-content: center;
     padding-right: 6%;
-`;
-
-export const EmptyBox = styled.div`
-    display: flex;
-    flex-direction: column;
 `;
 
 export const DetailsBox = styled.div`
@@ -121,6 +113,8 @@ export const CreatorPlaceholder = styled.div`
 `;
 
 export const NftTitle = styled(Title)`
+    margin-top: 6%;
+    margin-left: 5%;
     text-transform: capitalize; 
     font-size: 2.2vh;
 
@@ -131,6 +125,7 @@ export const NftTitle = styled(Title)`
 `;
 
 export const Description = styled(Text)`
+    margin-left: 5%;
     font-size: 1.7vh;
     font-weight: 300;
     line-height: 1.6;
@@ -151,18 +146,8 @@ export const Image = styled.img`
     border-radius: 2px;
 `;
 
-export const EntryImage = styled.img`
-    position: absolute;
-    top: 0%;
-    left: 0%;
-    width: 100%;
-    object-fit: cover;
-    border-radius: 2px;
-    opacity: 1;
-    z-index: 5;
-    &:hover{
-        z-index: 1;
-        opacity: 0.1; 
-        transition: 0.7s;
+export const Audio = styled.audio`
+    &:focus {
+        outline: none;
     }
 `;

@@ -10,3 +10,7 @@ export const MasonryCont = styled.div`
     margin-top: 15%;
     width: 70%;
 `;
+
+export const VideoTest = styled.video`
+    width: 100%;
+`
