@@ -6,16 +6,21 @@ import React from 'react';
 
 export const Masonry = props => {
 	const columnWrapper = {};
-	const result = [];
+    const result = [];
+    const innerWidth = window.innerWidth
+    const columns  = innerWidth < 800 ? 2 : 3
+    const columnWidth = innerWidth * 0.7 / 3
+
+    console.log('cW', columnWidth)
 	
 	// create columns
-	for (let i = 0; i < props.columns; i++) {
+	for (let i = 0; i < columns; i++) {
 	    columnWrapper[`column${i}`] = [];
 	}
 	
 	// divide children into columns
 	for (let i = 0; i < props.children.length; i++) {
-        const columnIndex = i % props.columns;
+        const columnIndex = i % columns;
         columnWrapper[`column${columnIndex}`].push(
             <div 
                 key={i}
@@ -26,13 +31,13 @@ export const Masonry = props => {
 	}
 	
 	// wrap children in each column with a div
-	for (let i = 0; i < props.columns; i++) {
+	for (let i = 0; i < columns; i++) {
         result.push(
             <div
                 key={i}
                 style={{
                     marginLeft: `${i > 0 ? props.gap : 0}px`,
-                    flex: 1,
+                    flex: 1, width: `${columnWidth}px`
                 }}>
                 {columnWrapper[`column${i}`]}
             </div>

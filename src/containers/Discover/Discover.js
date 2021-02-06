@@ -12,6 +12,8 @@ import {
 } from './styles';
 
 import {
+	Text, 
+	Underline,
 	Header, 
 	Masonry,
 	LoadingCard, 
@@ -54,6 +56,8 @@ export const Discover = props => {
                 <Header />
 				<Contain>
 					<MasonryCont>
+					<Text>Creations</Text>
+            		<Underline />
 						<Masonry gap={15} columns={3}>
 							{
 								creations.map(token => {
@@ -65,6 +69,19 @@ export const Discover = props => {
 								})
 							}
 						</Masonry>
+						<Text>Collected</Text>
+						<Underline />
+							<Masonry gap={15} columns={3}>
+								{
+									ownedItems.map(token => {
+										return (
+											<NFTWrapper 
+												key={token.id} 
+												token={token}/>
+										)									
+									})
+								}
+							</Masonry>
 					</MasonryCont>	
 				</Contain>
             </Fragment>
@@ -121,7 +138,8 @@ const NFTWrapper = props => {
 			</VideoTest>
 		}
 
-		if (metadata.mimeType === "text/plain") {
+		if (metadata.mimeType === "text/plain" || 
+			metadata.mimeType === "text/markdown") {
 			return (
 				<PlainTextCard 
 					isNFT={true}
