@@ -59,6 +59,12 @@ export const Home = (props) => {
         else if (client) {setLoading(false)}
     }
 
+    let arr = ['replaceThis', 'replaceThat']
+    let str = JSON.stringify(arr)
+    console.log('S: ', str)
+
+    console.log('H:', JSON.parse(str).includes('replaceThi'))
+
     return (
         <Fragment>
             <Header />
@@ -73,7 +79,7 @@ export const Home = (props) => {
                             <ProfileCard />
                         </LeftContainer>
 
-                        <RightContainer overflow={true}>
+                        <RightContainer overflow={"true"}>
                             <ItemsAndSpaces items={items} />
                         </RightContainer>
                         

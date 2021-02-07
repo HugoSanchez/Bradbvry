@@ -31,10 +31,13 @@ let actions = {
     getWriteValidator: (identityString) => {
         // Return the write validator function that makes it such
         // that only the owner can read or right into a collection.
+        let validatorsArray = JSON.stringify([identityString])
         let writeValidatorString = getFunctionBody(
             replaceThisValidator
-        ).replace('replaceThis', identityString)
+        ).replace('replaceThis', validatorsArray)
         // Little hack to make it work.
+
+        console.log(writeValidatorString)
         return new Function(writeValidatorString)
     },
 
@@ -167,11 +170,22 @@ const parseSignedMessage = async (hash) => {
 
 const replaceThisValidator = (writer) => {
     // In order to have a write permission set, 
-    // we first need to reate this function
+    // we first need to create this function
+    var arr = JSON.parse('replaceThis')
+    for (var i = 0; i < arr.length; i++) {
+        if (arr[i] === writer) return true
+        else return false
+    }
+   
+    // return JSON.parse('replaceThis').includes(writer) 
+    
+    /** 
     if (writer === 'replaceThis') {
         return true
     } 
     return false
+    */
+    
 }
 
 const readFilterRaw = (reader, instance) => {
