@@ -37,8 +37,9 @@ import {
 import {
     Text,
     Title,
+    PinToCollection,
     DeleteBin
-} from '../../common';
+} from '../../index';
 
 import {
     handleDeleteItem_Action
@@ -156,7 +157,10 @@ export const PlainTextCard = props => {
                 <NFTBox>
                     {
                         isActive ?
-                        <Date>{day + ' ' + month + ' ' + year}</Date>
+                        <div>
+                            <PinToCollection />
+                            <Date>{day + ' ' + month + ' ' + year}</Date>
+                        </div>
                         :
                         null
                     }

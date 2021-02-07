@@ -2,20 +2,21 @@ import React, {useState} from 'react';
 import {IconContext} from 'react-icons';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import {Text} from '../../common';
+import {Text, Title} from '../../common';
 
 import {
     handleDeleteCollection_Action
 } from '../../../actions'
 
 import {
+    useSelector,
     useDispatch
 } from "react-redux";
 
 import {
-    RiMore2Line, 
+    RiMoreLine, 
     RiDeleteBin6Line, 
-    RiEditLine
+    RiAddLine
 } from 'react-icons/ri';
 
 import {
@@ -24,11 +25,13 @@ import {
 } from './styles';
 
 
-export const MoreButton = props => {
+export const PinToCollection = props => {
 
     const [anchorEl, setAnchorEl] = useState(null);
     const [open, setOpen] = useState(false);
     const dispatch = useDispatch()
+
+    const threadsArray = useSelector(state => state.threads.threadsArray)
 
     const handleClick = (event) => {
         setOpen(!open)
@@ -50,7 +53,7 @@ export const MoreButton = props => {
 
         <div onClick={handleClick}>
             <IconContext.Provider value={{size: '25px', color: 'gray'}}>
-                <RiMore2Line /> 
+                <RiMoreLine /> 
             </IconContext.Provider> 
 
             <Menu
@@ -60,27 +63,23 @@ export const MoreButton = props => {
                 onClose={handleClose}
                 >
 
-                <MenuItem onClick={handleClose}>
-                    <ItemRow>
-                        <IconContext.Provider value={{size: '16px', color: 'gray'}}>
-                            <RiEditLine /> 
-                        </IconContext.Provider> 
-                        <TextBox>
-                            <Text>Edit Collection</Text>
-                        </TextBox>
-                    </ItemRow>
-                </MenuItem>
-
-                <MenuItem onClick={handleDelete}>
-                    <ItemRow>
-                        <IconContext.Provider value={{size: '16px', color: 'gray'}}>
-                            <RiDeleteBin6Line /> 
-                        </IconContext.Provider> 
-                        <TextBox>
-                            <Text>Delete Collection</Text>
-                        </TextBox>
-                    </ItemRow>
-                </MenuItem>                
+                    {
+                        threadsArray.map(thread => {
+                            return(
+                                <MenuItem onClick={handleClose}>
+                                    <ItemRow>
+                                        <IconContext.Provider value={{size: '16px', color: 'gray'}}>
+                                            <RiAddLine /> 
+                                        </IconContext.Provider> 
+                                        <TextBox>
+                                            <Text>Add to {thread.name}</Text>
+                                        </TextBox>
+                                    </ItemRow>
+                                </MenuItem>
+                            )
+                        })
+                    }
+                          
             </Menu>
         </div>
     )

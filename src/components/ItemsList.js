@@ -1,6 +1,5 @@
 import React from "react";
 import { ListItem } from './index';
-import Masonry from 'react-masonry-css'
 
 import {
     Container,
@@ -10,14 +9,14 @@ import {
     Text,
 } from './common';
 
-import {ImageCard} from '../components'
+import {
+    Masonry,
+    ImageCard
+} from '../components'
 
 const MasonryIterator = props => {
     return (
-        <Masonry
-            breakpointCols={window.innerWidth < 550 ? 2 : 3}
-            className="my-masonry-grid"
-            columnClassName="my-masonry-grid_column">
+        <Masonry gap={15}>
             {
                 props.items.map((p, i) => {
                     return (

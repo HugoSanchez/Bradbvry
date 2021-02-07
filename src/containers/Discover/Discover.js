@@ -58,7 +58,9 @@ export const Discover = props => {
 					<MasonryCont>
 					<Text>Creations</Text>
             		<Underline />
-						<Masonry gap={15} columns={3}>
+						<Masonry 
+							gap={15} 
+							controlWidth={true}>
 							{
 								creations.map(token => {
 									return (

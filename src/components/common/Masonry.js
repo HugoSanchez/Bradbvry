@@ -37,7 +37,7 @@ export const Masonry = props => {
                 key={i}
                 style={{
                     marginLeft: `${i > 0 ? props.gap : 0}px`,
-                    flex: 1, width: `${columnWidth}px`
+                    flex: 1, width: props.controlWidth ? `${columnWidth}px` : null
                 }}>
                 {columnWrapper[`column${i}`]}
             </div>
