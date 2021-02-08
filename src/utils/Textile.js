@@ -36,8 +36,6 @@ let actions = {
             replaceThisValidator
         ).replace('replaceThis', validatorsArray)
         // Little hack to make it work.
-
-        console.log(writeValidatorString)
         return new Function(writeValidatorString)
     },
 
@@ -45,7 +43,6 @@ let actions = {
         // Read filter has two options depending on wether or 
         // not the collection is private.
         if (collectionType === 'private') {
-            console.log('here!')
             let readValidatorString = getFunctionBody(
                 readFilterRaw
             ).replace('replaceThis', identityString)
@@ -53,7 +50,6 @@ let actions = {
             return new Function(readValidatorString)
         } 
         else {
-            console.log('there!')
             // If collection is not private, alwais return instance 
             let readFilter = (reader, instance) => {return instance};
             return readFilter
@@ -108,7 +104,9 @@ let actions = {
         newEntry.timestamp = newDate
 
         // Store new entry in thread.
+        console.log('1.1')
         let storedEntry = await client.create(threadID, 'entries', [newEntry])
+        console.log('2.2')
         return storedEntry
     },
 
@@ -175,17 +173,7 @@ const replaceThisValidator = (writer) => {
     for (var i = 0; i < arr.length; i++) {
         if (arr[i] === writer) return true
         else return false
-    }
-   
-    // return JSON.parse('replaceThis').includes(writer) 
-    
-    /** 
-    if (writer === 'replaceThis') {
-        return true
-    } 
-    return false
-    */
-    
+    }    
 }
 
 const readFilterRaw = (reader, instance) => {

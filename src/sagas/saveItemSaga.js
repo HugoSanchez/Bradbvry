@@ -36,7 +36,7 @@ function* handleSaveItem(action) {
     // We check weather any changes were actually made and update if so.
     if (activeItem) {
         let stringItem = activeItem.entry
-        let stringContent = JSON.stringify(action.payload)
+        let stringContent = action.payload
 
         if (stringContent !== stringItem) { 
             let updatedPost = Object.assign({}, activeItem)
@@ -54,7 +54,9 @@ function* handleSaveItem(action) {
     // If there was no activeItem, content is new. We check if content is not empty
     // if so, post new entry and update itemsArray.
     else if (isContent) {
+        console.log('1')
         let saved = yield Textile.createNewEntry(client, threadId, newItem)
+        console.log('2')
         let entry = yield client.find(threadId, 'entries', {_id: saved[0]})
 
         let updatedItems = Array.from(threadItems)

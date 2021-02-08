@@ -29,7 +29,7 @@ export const entriesObject = {
     _id: '', 
     name: '',                           // Entry name
     description: '',                    // Entry description
-    type: 'file',                       // Entry type
+    type: 'file',                       // Entry type file/post
     entry: '',                          // Actual entry
     other: '',                          // Other info
     timestamp: 0                        // Entry creation date
@@ -38,7 +38,9 @@ export const entriesObject = {
 export const configObject = {
     _id: '', 
     threadId: '',                        // The thread's ID string.
-    owner: '',                           // Thread's owner DID.
+    owners: [                            // owners array (identity string)
+        ''  
+        ],                               // Thread's owner DID.
     name: '',                            // Collection Name 
     description: '',                     // Collection Description
     type: '',                            // Collection type: [open || members-only || private]
@@ -49,6 +51,15 @@ export const configObject = {
     previewEntries: '',                  // Array of public entries to preview
     timestamp: 0,                        // Creation day timestamp
     options: '',                         // Any additional info.
+    memebers: [''],
+    keyOwners: [
+        {
+            memberId: '',
+            memberAddress: '',
+            memberPubkey: '',
+            collectionKey: ''
+        }
+    ]
 }
 
 
