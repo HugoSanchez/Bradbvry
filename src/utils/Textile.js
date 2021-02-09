@@ -66,9 +66,12 @@ let actions = {
         return threadID
     },
 
-    createNewThreadDB: async (client, config, identityString) => {
+    createNewThreadDB: async (client, config, address, identityString) => {
+        // Parse collection's owner data
+        let owner = {ethAddress: address, identity: identityString}
         // Parse config and entries objects (DB collection schemas)
         let newDate = Date.now()
+        config.owner = owner
         config.timestamp = newDate
         config.name = parseCollectionName(config.name)
 
@@ -97,6 +100,13 @@ let actions = {
         return {threadID, collectionObject}
     },
 
+    createGlobalThread: async (client) => {
+        // Instantiate new threadDB with name.
+        let threadID = await client.newDB(undefined, 'bradbvry-global-thread')
+        await client.newCollectionFromObject(threadID, configObject, {name: 'public-collections', customValidatorForGlobalThread})
+        return threadID
+    },
+
     createNewEntry: async (client, threadID, entry) => {
         // Parse entry object to match schema
         let newEntry = Object.assign(entriesObject, entry)
@@ -108,6 +118,25 @@ let actions = {
         let storedEntry = await client.create(threadID, 'entries', [newEntry])
         console.log('2.2')
         return storedEntry
+    },
+
+    getCollectionsFromGlobalThread: async (client) => { 
+        // This functions returns all collections from the global thread
+        // which is a public registry of collections.       
+        let globalThreadID = actions.getThreadIDFromString(process.env.REACT_APP_BRADBVRY_GLOBAL_THREAD_ID)
+        let collections = await client.find(globalThreadID, 'public-collections', {})
+        return collections
+    },
+
+    getCollectionsFromGlobalThreadFilteredByAddress: async (client, address) => {
+        // Return collections filtered by the owner's eth address.
+        let collections = await actions.getCollectionsFromGlobalThread(client)
+        return collections.filter(collection => collection.owner.address === address)
+    },
+
+    getThreadIDFromString: (stringID) => {
+        // Returns the correct Thread ID class
+        return ThreadID.fromString(stringID)
     },
 
     getThreadID: (threadObject) => {
@@ -182,6 +211,21 @@ const readFilterRaw = (reader, instance) => {
     } 
     return false
 }
+
+const customValidatorForGlobalThread = (writer, event, instance) => {
+    var type = event.patch.type
+      switch (type) {
+        case "delete":
+            if (writer === 'bbaareieb2z4ou6nsar5d7nwj43au3tcqoljd6czxxridgns6puttajtrn4') return true
+            else if (instance.owner.identity === writer) return true
+            else return false
+        default:
+            if (instance.owner.identity === writer) return true
+            else return false
+      }
+}
+
+
 
 export let Textile = actions
 

@@ -26,6 +26,7 @@ import {ProfileCard} from '../components';
 import {Mixpanel} from '../utils';
 import {setInitialConfiguration_Action} from '../actions';
 
+const crypto = require('crypto')
 const { Magic } = require('magic-sdk');
 const magic = new Magic(process.env.REACT_APP_MAGIC_API_KEY);
 
@@ -58,12 +59,6 @@ export const Home = (props) => {
         if (!client) {dispatch(setInitialConfiguration_Action())}
         else if (client) {setLoading(false)}
     }
-
-    let arr = ['replaceThis', 'replaceThat']
-    let str = JSON.stringify(arr)
-    console.log('S: ', str)
-
-    console.log('H:', JSON.parse(str).includes('replaceThi'))
 
     return (
         <Fragment>

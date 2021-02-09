@@ -37,10 +37,7 @@ export const entriesObject = {
 
 export const configObject = {
     _id: '', 
-    threadId: '',                        // The thread's ID string.
-    owners: [                            // owners array (identity string)
-        ''  
-        ],                               // Thread's owner DID.
+    threadId: '',                        // The thread's ID string.                                   
     name: '',                            // Collection Name 
     description: '',                     // Collection Description
     type: '',                            // Collection type: [open || members-only || private]
@@ -51,7 +48,12 @@ export const configObject = {
     previewEntries: '',                  // Array of public entries to preview
     timestamp: 0,                        // Creation day timestamp
     options: '',                         // Any additional info.
-    memebers: [''],
+    memebers: [''],                      // Memvers array.  
+    owner: {                             // Owner data.
+        did: '',
+        identity: '',
+        ethAddress: '',
+    }, 
     keyOwners: [
         {
             memberId: '',

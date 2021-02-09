@@ -37,7 +37,6 @@ import {
 import {
     Text,
     Title,
-    PinToCollection,
     DeleteBin
 } from '../../index';
 
@@ -158,7 +157,6 @@ export const PlainTextCard = props => {
                     {
                         isActive ?
                         <div>
-                            <PinToCollection />
                             <Date>{day + ' ' + month + ' ' + year}</Date>
                         </div>
                         :
