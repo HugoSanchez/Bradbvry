@@ -9,13 +9,12 @@ import {
     configObject,
     pendingObject, 
 } from '../constants';
-import { id } from 'ethers/lib/utils';
-import { ADD_ITEM_TO_THREAD_ITEMS } from '../actions/types';
 
 
 let actions = {
     getIdentity: async (magic) => {
         let identityString = localStorage.getItem('textile-identity')
+        console.log('iD: ', identityString)
         if (!identityString) {return generateIdentity(magic)}
         else {return PrivateKey.fromString(identityString)}
     },
@@ -55,71 +54,6 @@ let actions = {
             return readFilter
         }
     },
-
-    createMasterThreadDB: async (client, masterThreadName) => {
-        // Instantiate new threadDB with name.
-        let threadID = await client.newDB(undefined, masterThreadName)
-        // Instantate and create the config and entries collections in DB.
-        await client.newCollectionFromObject(threadID, pendingObject, {name: 'pending-to-join'})
-        await client.newCollectionFromObject(threadID, configObject, {name: 'collections-list'})
-        // Return threadID
-        return threadID
-    },
-
-    createNewThreadDB: async (client, config, address, identityString) => {
-        // Parse collection's owner data
-        let owner = {ethAddress: address, identity: identityString}
-        // Parse config and entries objects (DB collection schemas)
-        let newDate = Date.now()
-        config.owner = owner
-        config.timestamp = newDate
-        config.name = parseCollectionName(config.name)
-
-        // Copy schemas.
-        let collectionConfig = Object.assign(configObject, config)
-        let entriesSchema = Object.assign({}, entriesObject)
-
-        // Instantiate new threadDB with name.
-        let threadID = await client.newDB(undefined, collectionConfig.name)
-        let writeValidator = actions.getWriteValidator(identityString)
-        let readFilter = actions.getReadFilter(identityString, config.type)
-
-        // Instantate and create the config and entries collections in DB.
-        await client.newCollectionFromObject(threadID, configObject, {name: 'config', writeValidator, readFilter})
-        await client.newCollectionFromObject(threadID, entriesSchema, {name: 'entries',  writeValidator, readFilter})
-
-        // Store the config object in the config db collection
-        let storedConfigObj = await client.create(threadID, 'config', [collectionConfig])
-
-        let collectionObject = {}
-        collectionObject.id = threadID.toString()
-        collectionObject.name = config.name
-        collectionObject.config = collectionConfig
-
-        // return threadID object
-        return {threadID, collectionObject}
-    },
-
-    createGlobalThread: async (client) => {
-        // Instantiate new threadDB with name.
-        let threadID = await client.newDB(undefined, 'bradbvry-global-thread')
-        await client.newCollectionFromObject(threadID, configObject, {name: 'public-collections', customValidatorForGlobalThread})
-        return threadID
-    },
-
-    createNewEntry: async (client, threadID, entry) => {
-        // Parse entry object to match schema
-        let newEntry = Object.assign(entriesObject, entry)
-        let newDate = Date.now()
-        newEntry.timestamp = newDate
-
-        // Store new entry in thread.
-        console.log('1.1')
-        let storedEntry = await client.create(threadID, 'entries', [newEntry])
-        console.log('2.2')
-        return storedEntry
-    },
-
     getCollectionsFromGlobalThread: async (client) => { 
         // This functions returns all collections from the global thread
         // which is a public registry of collections.       
@@ -142,6 +76,74 @@ let actions = {
     getThreadID: (threadObject) => {
         // Returns the correct Thread ID class
         return ThreadID.fromString(threadObject.id)
+    },
+    createMasterThreadDB: async (client, masterThreadName) => {
+        // Instantiate new threadDB with name.
+        let threadID = await client.newDB(undefined, masterThreadName)
+        // Instantate and create the config and entries collections in DB.
+        await client.newCollectionFromObject(threadID, pendingObject, {name: 'pending-to-join'})
+        await client.newCollectionFromObject(threadID, configObject, {name: 'collections-list'})
+        // Return threadID
+        return threadID
+    },
+
+    createNewThreadDB: async (client, config, address, identityString) => {
+        // Parse collection's owner data
+        let owner = {ethAddress: address, identity: identityString, did: ''}
+        // Parse config and entries objects (DB collection schemas)
+        let newDate = Date.now()
+        config.owner = owner
+        config.timestamp = newDate
+        config.name = parseCollectionName(config.name)
+
+        // Copy schemas.
+        let collectionConfig = Object.assign(configObject, config)
+        let entriesSchema = Object.assign({}, entriesObject)
+
+        // Instantiate new threadDB with name.
+        let threadID = await client.newDB(undefined, collectionConfig.name)
+        collectionConfig.threadId = threadID.toString()
+
+        // Instantate and create the config and entries collections in DB.   
+        let writeValidator = actions.getWriteValidator(identityString)
+        let readFilter = actions.getReadFilter(identityString, config.type)
+        await client.newCollectionFromObject(threadID, configObject, {name: 'config', writeValidator, readFilter})
+        await client.newCollectionFromObject(threadID, entriesSchema, {name: 'entries',  writeValidator, readFilter})
+       
+        // Add public collection to global registry and set config
+        await client.create(threadID, 'config', [collectionConfig])
+        await actions.addCollectionToGlobalThread(client, collectionConfig)
+
+        // Parse object and return.
+        let collectionObject = parseCollectionObject(threadID, config, collectionConfig)
+        return {threadID, collectionObject}
+    },
+
+    createGlobalThread: async (client) => {
+        // Instantiate new threadDB with name.
+        let threadID = await client.newDB(undefined, 'Global-Thread-BV')
+        await client.newCollectionFromObject(threadID, configObject, {
+            name: 'public-collections', customValidatorForGlobalThread})
+        return threadID
+    },
+
+    createNewEntry: async (client, threadID, entry) => {
+        // Parse entry object to match schema
+        let newEntry = Object.assign(entriesObject, entry)
+        let newDate = Date.now()
+        newEntry.timestamp = newDate
+
+        // Store new entry in thread.
+        console.log('1.1')
+        let storedEntry = await client.create(threadID, 'entries', [newEntry])
+        console.log('2.2')
+        return storedEntry
+    },
+
+    addCollectionToGlobalThread: async (client, collection) => {
+        // Add a public collection to the public registry.
+        let globalThreadID = actions.getThreadIDFromString(process.env.REACT_APP_BRADBVRY_GLOBAL_THREAD_ID)
+        await client.create(globalThreadID, 'public-collections', [collection])
     },
 
     sendMessage: async (mailClient, message, identity, recipientIdentity) => {
@@ -203,6 +205,15 @@ const replaceThisValidator = (writer) => {
         if (arr[i] === writer) return true
         else return false
     }    
+}
+
+const parseCollectionObject = (threadID, config, collectionConfig) => {
+    let collectionObject = {}
+    collectionObject.id = threadID.toString()
+    collectionObject.name = config.name
+    collectionObject.config = collectionConfig
+
+    return collectionObject
 }
 
 const readFilterRaw = (reader, instance) => {

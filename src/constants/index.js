@@ -44,11 +44,13 @@ export const configObject = {
     tokenAddress: '',                    // Token address if any
     symmetricKey: '',                    // Symetric AES key if any
     subscriptionType : '',               // [stake || free || invite-only || montly]
-    preview: '',                         // Boolean - wether or not there's preview entries
-    previewEntries: '',                  // Array of public entries to preview
     timestamp: 0,                        // Creation day timestamp
     options: '',                         // Any additional info.
-    memebers: [''],                      // Memvers array.  
+    memebers: [''],                      // Members array.  
+    preview: '',                         // Boolean - wether or not there's preview entries
+    previewEntries: [                    // Array of public entries to preview
+        entriesObject
+    ],                  
     owner: {                             // Owner data.
         did: '',
         identity: '',

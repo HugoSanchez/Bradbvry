@@ -10,13 +10,14 @@ function* handleCreateCollection(action) {
  
     const state = yield select(getThreadsState)
     const client = state.user.client
+    const address = state.user.address
     const identityString = state.user.identityString
     const threadsArray = state.threads.threadsArray
     const masterThreadID = state.threads.masterThreadID
 
     try {
         // Create new ThreadDB and lists all DB's
-        let {threadID, collectionObject} = yield Textile.createNewThreadDB(client, action.payload, identityString)
+        let {threadID, collectionObject} = yield Textile.createNewThreadDB(client, action.payload, address, identityString)
         yield client.create(masterThreadID, 'collections-list', [collectionObject])
 
         // Get new collections list and set in state.
