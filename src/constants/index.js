@@ -32,7 +32,10 @@ export const entriesObject = {
     type: 'file',                       // Entry type file/post
     entry: '',                          // Actual entry
     other: '',                          // Other info
-    timestamp: 0                        // Entry creation date
+    timestamp: 0,                       // Entry creation date
+    contentURI: '',
+    metadataURI: '',
+    createdBy: ''
 }
 
 export const configObject = {

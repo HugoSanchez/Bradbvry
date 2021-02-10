@@ -4,6 +4,7 @@ import Drawer from '@material-ui/core/Drawer';
 import Dropzone from 'react-dropzone';
 import {Mixpanel} from '../../utils';
 import {ThreadID} from '@textile/hub';
+import axios from 'axios';
 
 import {
 	FlexContainer,
@@ -94,6 +95,7 @@ export const Collection = props => {
 		// Fetch entries and set up listener
 		let threadId = ThreadID.fromString(thread.id)
 		let items = await client.find(threadId, 'entries', {})
+		console.log('Items: ', items)
 		dispatch(setThreadItems_Action(items.reverse()))
 		setLoading(false)
 
@@ -139,6 +141,10 @@ export const Collection = props => {
 	}
 	
 	const onDrop = (files) => {
+		const formData = new FormData();
+		formData.append('file', files[0]);
+		
+		console.log('formData: ', formData)
 		dispatch(handleSaveImage_Action({files}))
 	}
 
@@ -150,7 +156,6 @@ export const Collection = props => {
 			</Fragment>
 		)
 	}
-
 
   	return (
 		<Fragment>

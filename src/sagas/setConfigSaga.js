@@ -87,6 +87,10 @@ function* handleConfig(action) {
     let threads         = yield client.listThreads()
     let identityString  = identity.public.toString()
 
+
+    let collections = yield Textile.getCollectionsFromGlobalThread(client)
+    console.log('collections: ', collections)
+
     // Dispatch initial user data to reducer
     yield put(setInitialUserData_Action({
         email,

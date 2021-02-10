@@ -1,4 +1,4 @@
-import React, {useState}  from 'react';
+import React, {useEffect, useState}  from 'react';
 import NFTLogo from '../../../resources/NFTLogo.png'
 
 import {
@@ -36,10 +36,19 @@ export const ImageCard = props => {
 
     let content = props.entry.entry
 
-    // Instantiate state
     const [isActive, setActive] = useState(false); 
     const [border, setBorder] = useState(false)
-    // Create setter function
+    const [image, setImage] = useState(false)
+
+    useEffect(() => {
+        const getImage = async () => {
+            console.log(props.entry)
+        }
+        getImage()
+    })
+
+    console.log('render')
+
     const handleMouseOver = () => {
         setActive(!isActive)
     }
