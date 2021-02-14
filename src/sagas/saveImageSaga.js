@@ -1,7 +1,8 @@
 import {HANDLE_SAVE_IMAGE} from '../actions/types';
-import {take, put, select} from 'redux-saga/effects';
+import {take, select} from 'redux-saga/effects';
 import {ThreadID} from '@textile/hub';
-import {Mixpanel, Textile, getBase64} from '../utils';
+import {Mixpanel, Textile} from '../utils';
+import {uploadUrl} from '../constants';
 import axios from 'axios';
 
 const getThreadsState = state => state
@@ -21,12 +22,13 @@ function* handleSaveImage(action) {
     const threadId = ThreadID.fromString(activeThread.id)
 
     for (let i = 0; i < files.length; i++) {
-        console.log(files[i])
-        let file = yield getBase64(files[i])
-        let data = {entry: file, type: files[i].type, path: files[i].path}
 
-        let res = yield axios.post("http://localhost:1000/api/uploadToIpfs", data) 
-        let entry = {metadataURI: res.data.contentUrl, type: files[i].type, createdBy: address}
+        let formData = new FormData();
+        formData.append('file', files[i]);
+        formData.append('type', files[i].type);
+
+        let res = yield axios.post(uploadUrl, formData) 
+        let entry = {contentURI: res.data.contentURI, type: files[i].type, createdBy: address}
         let saved = yield Textile.createNewEntry(client, threadId, entry)
         Mixpanel.track('NEW_ITEM', {type: 'image'})
     }

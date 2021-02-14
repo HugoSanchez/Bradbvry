@@ -2,6 +2,7 @@
 ////// URLS
 ////////////////////////////////////
 
+export const uploadUrl = `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}/api/uploadToIpfs`
 export const shareBaseUrl = `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}/api/share/send-invite-email`;
 export const acceptBaseUrl = `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}/api/share/add-invited-member`;
 export const joinCollectionUrl = (address, threadId, threadName) => `${process.env.REACT_APP_BRADBVRY_URL}/app/accept-invite/${address}/${threadId}/${threadName}`

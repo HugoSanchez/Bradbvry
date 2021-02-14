@@ -106,6 +106,15 @@ export const Collection = props => {
 				dispatch(addItemToThreadItems_Action(item))
 			}			
 		})
+
+		fetch("https://bradbvry-team-bucket.storage.fleek.co/00002")
+			.then(response => {
+				return response.blob()
+			})
+			.then(blob => {
+				let z = URL.createObjectURL(blob)
+				console.log('Z: ', z)
+			})
 	}
 	
 	
