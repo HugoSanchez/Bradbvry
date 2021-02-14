@@ -3,6 +3,8 @@ import {take, put, select} from 'redux-saga/effects';
 import {setThreadItems_Action} from '../actions';
 import {Mixpanel, Textile} from '../utils';
 import {ThreadID} from '@textile/hub';
+import {uploadUrl} from '../constants';
+import axios from 'axios';
 
 
 const getThreadsState = state => state
@@ -13,12 +15,16 @@ function* handleSaveItem(action) {
     // this function gets called which handles 3 posible scenarios:
     // 1) A new post, 2) an update to existing one, 3) nothing.
 
+    let post = action.payload
+    let blocks = post.blocks
+    
     const state = yield select(getThreadsState)
-    const newItem = {type: 'post', entry: JSON.stringify(action.payload)}
-    const isContent = action.payload.blocks.find(block => block.text.length > 0)
+    const isContent = action.payload.blocks.find(
+        block => block.text.length > 0 || block.type == 'image')
 
     const {
-        client
+        client,
+        address
     } = state.user;
 
     const {
@@ -54,15 +60,35 @@ function* handleSaveItem(action) {
     // If there was no activeItem, content is new. We check if content is not empty
     // if so, post new entry and update itemsArray.
     else if (isContent) {
-        console.log('1')
-        let saved = yield Textile.createNewEntry(client, threadId, newItem)
-        console.log('2')
-        let entry = yield client.find(threadId, 'entries', {_id: saved[0]})
 
+        for (let i = 0; i < blocks.length; i++) {
+            if (blocks[i].type === 'image') { 
+                // This for loop takes any image in the entry
+                // uploades it to IPFS, and updates the entry.
+                let blob = yield fetch(blocks[i].data.url).then(r => r.blob())
+
+                let formData = new FormData();
+                formData.append('file', blob)
+                formData.append('type', 'image')
+
+                let res = yield axios.post(uploadUrl, formData) 
+                post.blocks[i].data.url = res.data.contentURI
+            }
+        }
+
+        // 1. Upload entry to IPFS
+        let data = {type: 'application/json', entry: post}
+        let res = yield axios.post(uploadUrl, data) 
+        
+        // 2. Save entry in threadDB
+        let entry = {contentURI: res.data.contentURI, type: 'post', createdBy: address}
+        let saved = yield Textile.createNewEntry(client, threadId, entry)
+
+        // 3. Update redux state with new entry
+        let savedEntry = yield client.find(threadId, 'entries', {_id: saved[0]})
         let updatedItems = Array.from(threadItems)
-		updatedItems.unshift(entry)
-
-        // yield put(setThreadItems_Action(updatedItems))
+		updatedItems.unshift(savedEntry)
+        yield put(setThreadItems_Action(updatedItems))
         Mixpanel.track('NEW_ITEM', {type: 'post'})
     }
 }
@@ -89,4 +115,11 @@ const postAndParse = async (activeThread, newItem) => {
     newPost.threadName = activeThread._name
     newPost.threadOwner = activeThread._firstModerator
     return newPost
+}
+
+function binaryStringToBuffer(string) {
+    const groups = string.match(/[01]{16}/g);
+    const numbers = groups.map(binary => parseInt(binary, 2))
+
+    return Buffer.from(new Uint16Array(numbers).buffer);
 }

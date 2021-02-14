@@ -1,7 +1,7 @@
 import {HANDLE_DELETE_COLLECTION} from '../actions/types';
 import {take, put, select} from 'redux-saga/effects';
 import {setThreadArray_Action} from '../actions';
-import {Mixpanel, Textile} from '../utils';
+import {Mixpanel} from '../utils';
 
 
 const getThreadsState = state => state
@@ -16,7 +16,11 @@ function* handleDeleteCollection(action) {
 
 
     try {
-        
+
+        /**
+         * To do: How do we unpin files from fleek?
+         */
+
         // Remove from master thread entries collection
         let collectionEntryID = activeThread._id
         yield client.delete(masterThreadID, 'collections-list', [collectionEntryID])
@@ -31,12 +35,11 @@ function* handleDeleteCollection(action) {
         let collections = yield client.find(masterThreadID, 'collections-list', {})
         yield put(setThreadArray_Action(collections))
         yield console.log('3', collections)
-        // Redirect and track.
         
+        // Redirect and track.
         yield action.history.push(`/app/${address}`)
         yield Mixpanel.track('COLLECTION_DELETED')
         yield console.log('4')
-
     }
 
     catch (e) {

@@ -103,18 +103,10 @@ export const Collection = props => {
 			if (e === undefined) {return}
 			if (e.action === 'CREATE') {
 				let item = e.instance
-				dispatch(addItemToThreadItems_Action(item))
+				console.log('item; ', item)
+				// dispatch(addItemToThreadItems_Action(item))
 			}			
 		})
-
-		fetch("https://bradbvry-team-bucket.storage.fleek.co/00002")
-			.then(response => {
-				return response.blob()
-			})
-			.then(blob => {
-				let z = URL.createObjectURL(blob)
-				console.log('Z: ', z)
-			})
 	}
 	
 	
