@@ -38,14 +38,6 @@ export const ImageCard = props => {
 
     const [isActive, setActive] = useState(false); 
     const [border, setBorder] = useState(false)
-    const [image, setImage] = useState(false)
-
-    useEffect(() => {
-        const getImage = async () => {
-            console.log(props.entry)
-        }
-        getImage()
-    })
 
     const handleMouseOver = () => {
         setActive(!isActive)

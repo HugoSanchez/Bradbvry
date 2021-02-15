@@ -41,20 +41,31 @@ function* handleSaveItem(action) {
     // If activeItem exists, it means that the user edited an existing post
     // We check weather any changes were actually made and update if so.
     if (activeItem) {
-        let stringItem = activeItem.entry
-        let stringContent = action.payload
+
+        let {data} = yield axios.get(activeItem.contentURI)
+
+        let stringItem = JSON.stringify(data)
+        let stringContent = JSON.stringify(post)        
 
         if (stringContent !== stringItem) { 
-            let updatedPost = Object.assign({}, activeItem)
-            updatedPost.entry = stringContent
+            // 1. Make a copy of activeItem and update images.
+            let updatedEntry = Object.assign({}, activeItem)            
+            let updatedPost = yield checkIfImageAndUploadToIPFS(post)
 
+            // 2. Upload entry to IPFS and update copy.
+            let res = yield uploadEntryToIPFS(updatedPost)
+            updatedEntry.contentURI = res.data.contentURI
+
+            // 3. Update threadDB
+            yield client.save(threadId, 'entries', [updatedEntry])
+
+            // 4. Update redux state.
             let index = threadItems.indexOf(activeItem)
             let array = threadItems.filter(item => item !== activeItem)
-            array.splice(index, 0, updatedPost)
-
-            yield client.save(threadId, 'entries', [updatedPost])
+            array.splice(index, 0, updatedEntry)
             yield put(setThreadItems_Action(array))
         }
+
     }
 
     // If there was no activeItem, content is new. We check if content is not empty
@@ -89,8 +100,12 @@ function* handleSaveItem(action) {
         let updatedItems = Array.from(threadItems)
 		updatedItems.unshift(savedEntry)
         yield put(setThreadItems_Action(updatedItems))
+
+        // 4. Track and callback
         Mixpanel.track('NEW_ITEM', {type: 'post'})
     }
+
+        yield action.callback()
 }
 
 
@@ -105,21 +120,36 @@ export default function* watchSaveItem() {
 /////// HELPER FUNCTIONS
 ////////////////////////////////////////////////
 
-const postAndParse = async (activeThread, newItem) => {
-    // First post new entry, then get entry from thread, 
-    // and parse it with thread info. Return pasred post.
-    let newPostId = await activeThread.post(newItem)
-    let posts = await activeThread.getPosts()
-    let newPost = posts.find(post => post.postId === newPostId)
-    newPost.threadAddress = activeThread.address
-    newPost.threadName = activeThread._name
-    newPost.threadOwner = activeThread._firstModerator
-    return newPost
+const checkIfImageAndUploadToIPFS = async (post) => {
+    // This for loop takes any image in the entry
+    // uploades it to IPFS, and updates the entry.
+    let blocks = post.blocks
+
+    for (let i = 0; i < blocks.length; i++) {
+        // 1. Check if contains new images
+        if (blocks[i].type === 'image' && 
+            !blocks[i].data.url.includes('fleek')) { 
+            
+            // 2. If so, get binary data.
+            let blob = await fetch(blocks[i].data.url).then(r => r.blob())
+            
+            // 3. Instantiate form data.
+            let formData = new FormData();
+            formData.append('file', blob)
+            formData.append('type', 'image')
+            
+            // 4. Send to backend and update entry
+            let res = await axios.post(uploadUrl, formData) 
+            post.blocks[i].data.url = res.data.contentURI
+        }
+    }
+
+    return post
 }
 
-function binaryStringToBuffer(string) {
-    const groups = string.match(/[01]{16}/g);
-    const numbers = groups.map(binary => parseInt(binary, 2))
-
-    return Buffer.from(new Uint16Array(numbers).buffer);
+const uploadEntryToIPFS = async (post) => {
+    // Upload JSON object to IPFS.
+    let data = {type: 'application/json', entry: post}
+    return await axios.post(uploadUrl, data) 
 }
+

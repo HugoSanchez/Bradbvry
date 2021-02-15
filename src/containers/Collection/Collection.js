@@ -4,7 +4,6 @@ import Drawer from '@material-ui/core/Drawer';
 import Dropzone from 'react-dropzone';
 import {Mixpanel} from '../../utils';
 import {ThreadID} from '@textile/hub';
-import axios from 'axios';
 
 import {
 	FlexContainer,
@@ -44,7 +43,8 @@ export const Collection = props => {
 
 	let {
 		threadAddress, 
-		threadName
+		threadName,
+		user
 	} = props.match.params
 
 	const dispatch = useDispatch()
@@ -57,7 +57,7 @@ export const Collection = props => {
 	const [openSnack, setOpenSnack] = useState('')
 	const [uploadSuccess, setUploadSuccess] = useState(false)
 	const [message, setMessage] = useState(null)
-	const [isModerator, setIsModerator] = useState(false)
+	const [isOwner, setIsOwner] = useState(false)
 
 	const client = useSelector(state => state.user.client)
 	const address = useSelector(state => state.user.address)
@@ -78,6 +78,16 @@ export const Collection = props => {
 	}, [])
 
 	useEffect(() => {
+		// Check if user owner and has write access.
+		if (activeThread) {
+			const isUserOwner = async () => {
+				setIsOwner(user === address)
+			}
+			isUserOwner()
+		}
+	}, [loading])
+
+	useEffect(() => {
 		// Check selectedThread is correct.
 		// If activeThread is not set, user is reloading and should be set.
 		const checkActiveThread = async () => {
@@ -89,13 +99,14 @@ export const Collection = props => {
 		}
 		checkActiveThread()
 	})
+
 	
 	const fetchThreadData = async (thread) => {
 		// If selected thread exists, 
 		// Fetch entries and set up listener
 		let threadId = ThreadID.fromString(thread.id)
 		let items = await client.find(threadId, 'entries', {})
-		console.log('Items: ', items)
+
 		dispatch(setThreadItems_Action(items.reverse()))
 		setLoading(false)
 
@@ -103,8 +114,7 @@ export const Collection = props => {
 			if (e === undefined) {return}
 			if (e.action === 'CREATE') {
 				let item = e.instance
-				console.log('item; ', item)
-				// dispatch(addItemToThreadItems_Action(item))
+				dispatch(addItemToThreadItems_Action(item))
 			}			
 		})
 	}
@@ -134,7 +144,7 @@ export const Collection = props => {
 
 	const handleNewEditor = async () => {
 		dispatch(setActiveItem_Action(null))
-		props.history.push('/editor', {onlyRead: !isModerator})
+		props.history.push('/editor', {onlyRead: !isOwner})
 	}
 
 	const onImageUpload = () => {
@@ -144,8 +154,6 @@ export const Collection = props => {
 	const onDrop = (files) => {
 		const formData = new FormData();
 		formData.append('file', files[0]);
-		
-		console.log('formData: ', formData)
 		dispatch(handleSaveImage_Action({files}))
 	}
 
@@ -198,16 +206,17 @@ export const Collection = props => {
 							maxSize={20000000}
 							multiple={true}>
 
-							{({getRootProps, getInputProps}) => (
-								<DropZoneCont {...getRootProps()}>
-									<input {...getInputProps()} />
+							{(
+								{getRootProps, getInputProps}) => (
+									<DropZoneCont {...getRootProps()}>
+										<input {...getInputProps()} />
 
-											<ItemsList 
-												items={threadItems} 
-												shadow={true} 
-												isModerator={isModerator}/>
-										
-								</DropZoneCont>
+												<ItemsList 
+													items={threadItems} 
+													shadow={true} 
+													isModerator={!isOwner}/>
+											
+									</DropZoneCont>
 							)}
 						</Dropzone>
 					</RightContainer>

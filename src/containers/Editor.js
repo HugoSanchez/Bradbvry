@@ -57,8 +57,13 @@ export const Editor = props => {
     }
 
     const handleSaveItem = async () => {
-        dispatch(handleSaveItem_Action(content))
-        props.history.goBack()
+        setLoading(true)
+        dispatch(handleSaveItem_Action(content, goBack))
+        // props.history.goBack()
+    }
+
+    const goBack = () => {
+        return props.history.goBack()
     }
 
     const handleAutomaticSave = async content => {

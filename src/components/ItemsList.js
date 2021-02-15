@@ -39,7 +39,9 @@ const ListItemsIterator = props => {
         return  <ListItemWrapper 
                     key={index}
                     item={item}
-                    shadow={props.shadow}/>
+                    shadow={props.shadow}
+                    isModerator={props.isModerator}
+                    />
     })
 }
 

@@ -10,8 +10,6 @@ export const Masonry = props => {
     const innerWidth = window.innerWidth
     const columns  = innerWidth < 800 ? 2 : 3
     const columnWidth = innerWidth * 0.7 / 3
-
-    console.log('cW', columnWidth)
 	
 	// create columns
 	for (let i = 0; i < columns; i++) {

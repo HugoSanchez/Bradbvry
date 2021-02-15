@@ -82,10 +82,11 @@ export const addItemToThreadItems_Action = item => {
     }
 }
 
-export const handleSaveItem_Action = item => {
+export const handleSaveItem_Action = (item, callback) => {
     return { 
         type: HANDLE_SAVE_ITEM, 
-        payload: item 
+        payload: item,
+        callback: callback
     }
 }
 

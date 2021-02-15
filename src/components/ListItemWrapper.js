@@ -11,7 +11,6 @@ export const ListItemWrapper = props => {
         // Get the actual content from IPFS
         const getEntry = async () => {
             let entry = await axios.get(item.contentURI)
-            console.log('E: ', entry.data)
             setEntry(entry.data)
         }
         getEntry()
