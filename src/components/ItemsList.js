@@ -1,5 +1,4 @@
 import React from "react";
-import { ListItem } from './index';
 
 import {
     Container,
@@ -11,8 +10,10 @@ import {
 
 import {
     Masonry,
-    ImageCard
-} from '../components'
+    ImageCard,
+    ListItemWrapper
+} from '../components';
+
 
 const MasonryIterator = props => {
     return (
@@ -35,12 +36,10 @@ const MasonryIterator = props => {
 
 const ListItemsIterator = props => {
     return props.items.map((item, index) => {
-        return  <ListItem 
-                    key={index} 
-                    item={item} 
-                    shadow={props.shadow} 
-                    isModerator={props.isModerator}/>
-
+        return  <ListItemWrapper 
+                    key={index}
+                    item={item}
+                    shadow={props.shadow}/>
     })
 }
 
@@ -69,7 +68,7 @@ export const ItemsList = props => {
                             items={group.items} 
                             shadow={props.shadow}
                             isModerator={props.isModerator}/>
-                    } else if (group.groupType === 'file') {
+                    } else if (group.groupType.includes('image')) {
                         return <MasonryIterator 
                             key={index}
                             items={group.items}

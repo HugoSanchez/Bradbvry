@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 
@@ -37,6 +37,7 @@ import {
  */
 
 const ListItem = React.memo((props) => {
+
     // Instantiate state
     const [isActive, setActive] = useState(false); 
     // Create setter function
@@ -49,7 +50,6 @@ const ListItem = React.memo((props) => {
     const history = useHistory();
     const dispatch = useDispatch()
     const threads = useSelector(state => state.threads.threadsArray);
-    
 
     // Deconstruct item from props.
     // Create array of months.
@@ -68,9 +68,9 @@ const ListItem = React.memo((props) => {
 
     // Get the title and parse the body to display.
     // Find first block that is unstyled and not empty.
-    let entry = JSON.parse(item.entry)
+    let entry = props.entry
     let title = entry.blocks[0].text.slice(0, 45) || "Unkown Title";
-    let body = entry.blocks.find(block => block.type === 'unstyled' && block.text.length > 1) 
+    let body = entry.blocks.find(block => block.type === 'unstyled' && block.text.length > 1);
     let maxSlice = window.innerWidth < 400 ? 20 : 220;
     let bodyToDisplay = body ? body.text.slice(0, maxSlice) : LoremIpsum.slice(0, maxSlice);
 
@@ -86,10 +86,13 @@ const ListItem = React.memo((props) => {
     const onItemClick = async (e) => {
         e.stopPropagation()
         dispatch(setActiveItem_Action(item))
-        history.push('/editor', {onlyRead: !props.isModerator})
+        history.push('/editor', {
+            entry: props.entry,
+            onlyRead: !props.isModerator})
     }
 
-    return (
+    if (entry) {
+        return (
 
             <Card 
                 shadow={props.shadow}
@@ -116,7 +119,12 @@ const ListItem = React.memo((props) => {
                 </ContentBox>
 
             </Card>
-    );
+        );
+    } else {
+        return <div></div>
+    }
+
+    
 });
 
 const DateBox = styled(View)`

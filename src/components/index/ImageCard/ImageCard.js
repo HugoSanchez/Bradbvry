@@ -47,8 +47,6 @@ export const ImageCard = props => {
         getImage()
     })
 
-    console.log('render')
-
     const handleMouseOver = () => {
         setActive(!isActive)
     }

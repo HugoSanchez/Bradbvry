@@ -52,8 +52,7 @@ export const Editor = props => {
     }
 
     const parseItemAndSet = (item) => {
-        let parsed = JSON.parse(item.entry)
-        setEntry(parsed)
+        setEntry(location.state.entry)
         setLoading(false)
     }
 
@@ -145,7 +144,7 @@ export const Editor = props => {
             <div className="Editor">
 
                 <DanteEditor 
-                    read_only={false}
+                    read_only={location.state.onlyRead}
                     config={defaultOptions}
                     default_wrappers={defaultWrappers}
                     content={entry}
