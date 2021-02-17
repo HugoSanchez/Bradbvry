@@ -34,7 +34,7 @@ export const CollectionCardBig = props => {
                 <Description color={"white"}>{description}</Description>
             </TextBox>
 
-            <ProfileRow member={{}}/>
+            <ProfileRow member={props.member}/>
         </CollectionCardContainer>
     );
 }

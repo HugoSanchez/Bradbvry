@@ -196,7 +196,9 @@ export const Collection = props => {
 
 				<FlexContainer>
 					<LeftContainer>
-						<CollectionCardBig thread={activeThread} />
+						<CollectionCardBig 
+							member={user}
+							thread={activeThread} />
 					</LeftContainer>
 
 					<RightContainer>

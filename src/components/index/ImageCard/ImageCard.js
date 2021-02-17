@@ -31,10 +31,9 @@ export const ImageCard = props => {
 
     let {
         title,
-        description
+        description,
+        contentURI
     } = props.entry;
-
-    let content = props.entry.entry
 
     const [isActive, setActive] = useState(false); 
     const [border, setBorder] = useState(false)
@@ -101,7 +100,7 @@ export const ImageCard = props => {
                 <Date>{day + ' ' + month + ' ' + year}</Date>
 
                 <Image 
-                    src={content}
+                    src={contentURI}
                     onError={props.onError}/>
                     
         </ImageCardContainer>
