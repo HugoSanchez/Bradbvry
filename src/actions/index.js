@@ -144,12 +144,12 @@ export const setInitialUserData_Action = (user) => {
     }
 }
 
-export const setUserIsLogged_Action = (object) => {
+export const setUserIsLogged_Action = (bool) => {
     return {
         type: SET_USER_IS_LOGGED,
-        payload: object
+        payload: {isLogged: bool}
     }
-}
+} 
 
 export const setUserMailbox_Action = (object) => {
     return {

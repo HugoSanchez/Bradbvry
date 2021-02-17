@@ -6,6 +6,12 @@ import {Mixpanel} from '../../utils';
 import {ThreadID} from '@textile/hub';
 
 import {
+	useMixpanel,
+	useIsOwner,
+	useIsLogged
+} from '../../hooks'
+
+import {
 	FlexContainer,
 	LeftContainer,
 	RightContainer,
@@ -34,20 +40,18 @@ import {
 	MoreOptionsPositioner
 } from './styles';
 
-const { Magic } = require('magic-sdk');
-const magic = new Magic(process.env.REACT_APP_MAGIC_API_KEY);
-
-export const Collection = props => {
-	
-	Mixpanel.track('COLLECTION');
+export const Collection = React.memo(props => {
 
 	let {
-		threadAddress, 
 		threadName,
 		user
 	} = props.match.params
 
+	useMixpanel('COLLECTION')
 	const dispatch = useDispatch()
+	const isLogged = useIsLogged()
+	const isOwner  = useIsOwner(user)
+	
 
 	// Try to fix this:
 	// This makes the component re-render everytime the modal is opened and closed.
@@ -57,39 +61,23 @@ export const Collection = props => {
 	const [openSnack, setOpenSnack] = useState('')
 	const [uploadSuccess, setUploadSuccess] = useState(false)
 	const [message, setMessage] = useState(null)
-	const [isOwner, setIsOwner] = useState(false)
 
 	const client = useSelector(state => state.user.client)
-	const address = useSelector(state => state.user.address)
 	const threadsArray = useSelector(state => state.threads.threadsArray)
 	const threadItems = useSelector(state => state.threads.threadItems)
 	const activeThread = useSelector(state => state.threads.activeThread)
 
-	useEffect(() => {
-		// Check if user is logged in. 
-		// If not, redirect to sign in url
-		// Else handle config.
-		const isLoggedIn = async () => {
-			let isLogged = await magic.user.isLoggedIn();
-			if (!isLogged) { props.history.push(`/signin`)} 
-			else { handleConfig() }
-		}
-		isLoggedIn()
-	}, [])
 
 	useEffect(() => {
-		// Check if user owner and has write access.
-		if (activeThread) {
-			const isUserOwner = async () => {
-				setIsOwner(user === address)
-			}
-			isUserOwner()
-		}
-	}, [loading])
+		if (isLogged) {handleConfig()}
+		else if (isLogged === false) {fetchThreadEntries()}
+		Mixpanel.track('COLLECTION');
+	}, [isLogged])
 
 	useEffect(() => {
 		// Check selectedThread is correct.
-		// If activeThread is not set, user is reloading and should be set.
+		// If activeThread is not set, 
+		// user is reloading and should be set.
 		const checkActiveThread = async () => {
 			if (!activeThread && threadsArray.length > 0) {
 				let thread = threadsArray.find(thread => thread.name === threadName)
@@ -99,6 +87,13 @@ export const Collection = props => {
 		}
 		checkActiveThread()
 	})
+
+	const handleConfig =  async () => {
+		// If state is empty, set initial configuration.
+		// Else, fetch thread data and set listeners.
+		if (isLogged && !client) {dispatch(setInitialConfiguration_Action())}
+		else if (isLogged && client && !threadItems) {fetchThreadData(activeThread)}
+	}
 
 	
 	const fetchThreadData = async (thread) => {
@@ -120,14 +115,15 @@ export const Collection = props => {
 	}
 	
 	
-	const handleConfig = async () => {
-		// If state is empty, set initial configuration.
-		// Else, make sure selectedThread is properly set.
-		if (threadsArray.length < 1) {
-		dispatch(setInitialConfiguration_Action())}
-		else {fetchThreadData(activeThread)}
+
+	const fetchThreadEntries = async () => {
+		// This functions only gets called if user is not logged.
+		// It fetches the collection entries from the backend.
+		console.log('yes!')
 	}
+
 	
+
 	const handleShowSnackbar = bool => {
 		if (bool) {setMessage('Success !')}
 		else {setMessage('Something went wrong, please try again.')}
@@ -231,5 +227,5 @@ export const Collection = props => {
 
 		</Fragment>
   	)
-}
+})
 

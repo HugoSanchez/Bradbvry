@@ -5,7 +5,7 @@ import {
 } from '../actions/types';
 
 const initialState = {
-	isLogged: false,
+	isLogged: null,
 	address: null,			// Ethereum address (Magic)
 	email: null,			// Email address (Magic)
 	profile: null, 			// Public 3box profile
@@ -34,9 +34,7 @@ const userProfileReducer = (state = initialState, action) => {
 		case SET_USER_IS_LOGGED: 
 			return {
 				...state, 
-				isLogged: action.payload.bool,
-				address: action.payload.address,
-				email: action.payload.email,
+				...action.payload
 			}
 
 		default: return state

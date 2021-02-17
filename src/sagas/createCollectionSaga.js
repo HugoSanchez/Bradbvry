@@ -12,7 +12,6 @@ function* handleCreateCollection(action) {
     const client = state.user.client
     const address = state.user.address
     const identityString = state.user.identityString
-    const threadsArray = state.threads.threadsArray
     const masterThreadID = state.threads.masterThreadID
 
     try {
