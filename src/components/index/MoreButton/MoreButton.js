@@ -37,12 +37,15 @@ export const MoreButton = props => {
 
     const handleDelete = () => {
         //setOpen(false);
-        console.log('here')
         dispatch(handleDeleteCollection_Action(props.history))
     };
 
 
     const handleClose = () => {
+        return null
+    }
+
+    if (!props.isOwner) {
         return null
     }
 

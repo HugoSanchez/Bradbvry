@@ -1,9 +1,10 @@
 import React, {useEffect, useState, Fragment} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
+import {getCollectionItemsUrl} from '../../constants';
 import Drawer from '@material-ui/core/Drawer';
 import Dropzone from 'react-dropzone';
-import {Mixpanel} from '../../utils';
 import {ThreadID} from '@textile/hub';
+import axios from 'axios';
 
 import {
 	useMixpanel,
@@ -71,7 +72,6 @@ export const Collection = React.memo(props => {
 	useEffect(() => {
 		if (isLogged) {handleConfig()}
 		else if (isLogged === false) {fetchThreadEntries()}
-		Mixpanel.track('COLLECTION');
 	}, [isLogged])
 
 	useEffect(() => {
@@ -119,7 +119,11 @@ export const Collection = React.memo(props => {
 	const fetchThreadEntries = async () => {
 		// This functions only gets called if user is not logged.
 		// It fetches the collection entries from the backend.
-		console.log('yes!')
+		let fetchUrl = getCollectionItemsUrl(user, threadName)
+		let {data} = await axios.get(fetchUrl)
+		dispatch(setActiveThread_Action(data.collection[0]))
+		dispatch(setThreadItems_Action(data.entries.reverse()))
+		setLoading(false)
 	}
 
 	
@@ -186,14 +190,18 @@ export const Collection = React.memo(props => {
 			/>
 
 			<MoreOptionsPositioner>
-				<MoreButton history={props.history}/>
+				<MoreButton 
+					isOwner={isOwner}
+					history={props.history}/>
 			</MoreOptionsPositioner>
 
 
 				<FlexContainer>
 					<LeftContainer>
-						<CollectionCardBig 
+						<CollectionCardBig
 							member={user}
+							isOwner={isOwner}
+							isLogged={isLogged} 
 							thread={activeThread} />
 					</LeftContainer>
 
@@ -219,11 +227,14 @@ export const Collection = React.memo(props => {
 						</Dropzone>
 					</RightContainer>
 				</FlexContainer>
+
 			<CollectionButtons 
+
 				addMember={() => setRenderMemberForm(true)}
 				addImage={() => setRenderForm(true)}
 				openEditor={() => handleNewEditor}
-				activeThread={activeThread}/>
+				activeThread={activeThread}
+				isOwner={isOwner}/>
 
 		</Fragment>
   	)

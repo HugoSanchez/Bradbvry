@@ -1,6 +1,4 @@
-import React, {useEffect, useState}  from 'react';
-import {useSelector} from 'react-redux';
-import Box from '3box';
+import React from 'react';
 
 import {
     CircularButton,
@@ -16,30 +14,10 @@ import {
  */
 
 
-export const CollectionButtons = props => {
+export const CollectionButtons = props => {    
 
-    const [isModerator, setIsModerator] = useState(true)
-    const address = useSelector(state => state.user.address)
+    if (props.isOwner) {
 
-
-    useEffect(() => {
-        // Collection Buttons should only be rendered if user is moderator.
-        // We check whether that is true and render accordingly.
-        const checkModerators = async () => {
-            /** 
-            let config = await Box.getConfig(address) 
-            let did = config.spaces['bradbvry--main'].DID
-            let moderators = await props.activeThread.listModerators();
-            let includes = moderators.includes(did) || moderators.includes(address)
-            setIsModerator(includes)
-            */
-        }
-        checkModerators()
-    },[])
-
-    
-
-    if (isModerator) {
         return (
             <View>
                 <CircularButton
@@ -62,6 +40,7 @@ export const CollectionButtons = props => {
             </View>
         )
     }
+
     return null
 }
 
