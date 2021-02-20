@@ -1,7 +1,6 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {dummyProfile} from '../../../constants';
 import {Button} from '../../common';
-import Box from '3box';
 
 import {
     Container,
@@ -23,20 +22,9 @@ import {
  */
 
 export const ProfileCard = props => {
-    
-    const [loading, setLoading] = useState(true)
-    const [profile, setProfile] = useState({})
 
-    useEffect(() => {
-        console.log(props.user)
-        const fetchAndSetProfile = async () => {
-            let profileRes = await Box.getProfile(props.user)
-            if (Object.keys(profileRes).length < 2) {setProfile(dummyProfile)}
-            else {setProfile(profileRes)}
-            setLoading(false)
-        }
-        fetchAndSetProfile()
-    }, [])
+    let profile = props.profile
+    if (Object.keys(profile).length < 2) {profile = dummyProfile}
     
     // Get profile pic from IPFS.
     // IPFS is awesome.
@@ -44,10 +32,6 @@ export const ProfileCard = props => {
     if (profile.image) {
         imageIPFSaddress  = "https://ipfs.io/ipfs/" 
         + profile.image[0].contentUrl["/"]
-    }
-
-    if (loading) {
-        return null
     }
 
     return (

@@ -40,8 +40,7 @@ export const SpacesCarousel = props => {
                     collections.map((thread, index) => {
                         return <SpaceCard 
                                     key={index} 
-                                    thread={thread} 
-                                    isOwner={props.isOwner}/>
+                                    thread={thread} />
                     })
                 }
             </Carousel>  

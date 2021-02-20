@@ -18,10 +18,10 @@ export const SpaceCard = props => {
     const history = useHistory();
     const dispatch = useDispatch()
 
-    let {thread, isOwner} = props
-    let image = isOwner ? thread.config.image : thread.image
-    let spacename = isOwner ? thread.config.name.replace(/-/g, ' ') : thread.name.replace(/-/g, ' ')
-    let description = isOwner ? thread.config.description.slice(0, 96) : thread.description.slice(0, 96)
+    let {thread} = props
+    let image = thread.image
+    let spacename = thread.name.replace(/-/g, ' ') 
+    let description = thread.description.slice(0, 96) 
 
     const handleOnClick = () => {
         dispatch(setActiveThread_Action(thread))

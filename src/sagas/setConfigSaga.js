@@ -31,6 +31,10 @@ function* handleThreads(threads, client, identity, action) {
         let collections = yield client.find(masterThreadID, 'collections-list', {})
         yield put(setMasterThreadID_Action(masterThreadID))
         yield put(setThreadArray_Action(collections))
+
+
+        if (action.callback !== undefined) {
+            yield action.callback() }
     } 
     
     else {
@@ -42,9 +46,12 @@ function* handleThreads(threads, client, identity, action) {
         // let {itemsArray, parsedThreads} = yield parseThreadsAndPosts_Helper(threads, client)
         yield put(setMasterThreadID_Action(threadID))
         yield put(setThreadArray_Action(collections))
+
+        if (action.callback !== undefined) {
+            yield action.callback() }
     } 
     
-    if (action.callback !== undefined) { yield action.callback() }
+    
 }
 
 function* handleMailboxSetUp(identity) {

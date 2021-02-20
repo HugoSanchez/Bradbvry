@@ -49,7 +49,7 @@ export const Collection = React.memo(props => {
 	} = props.match.params
 
 	useMixpanel('COLLECTION')
-	
+
 	const dispatch = useDispatch()
 	const isLogged = useIsLogged()
 	const isOwner  = useIsOwner(user)
@@ -71,7 +71,7 @@ export const Collection = React.memo(props => {
 
 
 	useEffect(() => {
-		if (isLogged) {handleConfig()}
+		if (isLogged) {handleComponentConfig()}
 		else if (isLogged === false) {fetchThreadEntries()}
 	}, [isLogged])
 
@@ -89,11 +89,12 @@ export const Collection = React.memo(props => {
 		checkActiveThread()
 	})
 
-	const handleConfig =  async () => {
+	const handleComponentConfig =  async () => {
 		// If state is empty, set initial configuration.
 		// Else, fetch thread data and set listeners.
 		if (isLogged && !client) {dispatch(setInitialConfiguration_Action())}
 		else if (isLogged && client && !threadItems) {fetchThreadData(activeThread)}
+		else if (isLogged && client && activeThread) {setLoading(false)}
 	}
 
 	

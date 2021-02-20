@@ -13,5 +13,5 @@ export const useIsOwner = (userAddress) => {
         checkUserisOwner()
     }, [address, userAddress]);
 
-    return false;
+    return isOwner;
 }

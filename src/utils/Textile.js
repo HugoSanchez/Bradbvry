@@ -115,7 +115,7 @@ let actions = {
         await actions.addCollectionToGlobalThread(client, collectionConfig)
 
         // Parse object and return.
-        let collectionObject = parseCollectionObject(threadID, config, collectionConfig)
+        let collectionObject = parseCollectionObject(threadID, collectionConfig)
         return {threadID, collectionObject}
     },
 
@@ -134,9 +134,7 @@ let actions = {
         newEntry.timestamp = newDate
 
         // Store new entry in thread.
-        console.log('1.1')
         let storedEntry = await client.create(threadID, 'entries', [newEntry])
-        console.log('2.2')
         return storedEntry
     },
 
@@ -177,8 +175,8 @@ const generateIdentity = async (magic) => {
 const generateSeedFromEthKey = async (signer) => {
     // Sign and hash message using Ethereum's private key.
     // Then parse signedMessage to create seed array.
-    const message = 'Signing this message proves you are in possesion of' +
-    ' the private key to access and control your account. Thank you for joining Bradbvry :)'
+    const message = 'Welcome to Bradbvry! Signing this message proves you are in possesion of' +
+    ' the private key to access and control your account. Thank you for joining :)'
     const signed = await signer.signMessage(message)
     const hashed = await utils.keccak256(signed)
     const parsed = await parseSignedMessage(hashed)
@@ -207,13 +205,10 @@ const replaceThisValidator = (writer) => {
     }    
 }
 
-const parseCollectionObject = (threadID, config, collectionConfig) => {
-    let collectionObject = {}
-    collectionObject.id = threadID.toString()
-    collectionObject.name = config.name
-    collectionObject.config = collectionConfig
-
-    return collectionObject
+const parseCollectionObject = (threadID, collectionConfig) => {
+    collectionConfig.id = threadID.toString()
+    console.log(collectionConfig)
+    return collectionConfig
 }
 
 const readFilterRaw = (reader, instance) => {

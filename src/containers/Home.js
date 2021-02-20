@@ -34,6 +34,8 @@ import {
 
 import {getUserPubliData} from '../constants';
 import axios from 'axios';
+import Box from '3box';
+
 
 export const Home = (props) => {
     
@@ -46,6 +48,7 @@ export const Home = (props) => {
     const isOwner  = useIsOwner(user)
     const loggedAndOwner = isLogged && isOwner
 
+    const [profile, setProfile] = useState({})
     const [loading, setLoading] = useState(true)
     const [collections, setCollections] = useState([])
 
@@ -59,15 +62,23 @@ export const Home = (props) => {
 		else if (isLogged === false) {fetchUserPublicData()}
     }, [isLogged])
 
+
     useEffect(() => {
-        if (client && loading === true) {
-            setLoading(false)
+        const fetchAndSetProfile = async () => {
+            let profileRes = await Box.getProfile(user)
+            setProfile(profileRes)
         }
-    })
+        fetchAndSetProfile()
+    }, [user])
+
 
     const handleConfig = async () => {
-        if (!client) {dispatch(setInitialConfiguration_Action())}
-        else if (client) {setLoading(false)}
+        if (!client) {
+            dispatch(
+                setInitialConfiguration_Action(
+                    () => setLoading(false)))
+        }
+        else {setLoading(false)}
     }
 
     const fetchUserPublicData = async () => {
@@ -90,7 +101,7 @@ export const Home = (props) => {
                     <FlexContainer>
 
                         <LeftContainer>
-                            <ProfileCard user={user}/>
+                            <ProfileCard profile={profile}/>
                         </LeftContainer>
 
                         <RightContainer overflow={"true"}>

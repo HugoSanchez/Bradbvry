@@ -28,9 +28,9 @@ export const CollectionCardBig = props => {
     let external = props.isLogged && props.isOwner
 
     let {thread} = props
-    let image = external ? thread.config.image : thread.image
-    let spacename = external ? thread.config.name.replace(/-/g, ' ') : thread.name.replace(/-/g, ' ')
-    let description = external ? thread.config.description.slice(0, 96) : thread.description.slice(0, 96)
+    let image = thread.image
+    let spacename = thread.name.replace(/-/g, ' ')
+    let description = thread.description.slice(0, 96)
 
     return (
         <CollectionCardContainer>
