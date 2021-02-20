@@ -19,6 +19,7 @@ export * from './SpacesCarousel';
 export * from './index/SnackBar';
 export * from './index/UserCard';
 export * from './ListItemWrapper';
+export * from './ItemsAndSpaces';
 export * from './ListItem';
 export * from './SpaceCard';
 export * from './EmptyHome';

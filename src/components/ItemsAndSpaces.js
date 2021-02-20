@@ -22,7 +22,7 @@ import {
  * @param {index}: item index. 
  */
 
-const ItemsAndSpaces = React.memo((props) => {
+export const ItemsAndSpaces = React.memo((props) => {
 
     let items = useSelector(state => state.threads.itemsArray);
 
@@ -56,7 +56,9 @@ const ItemsAndSpaces = React.memo((props) => {
                 className={openSnack} 
                 success={snackSuccess} 
                 message={snackMessage}/>
-            <SpacesCarousel /> 
+            <SpacesCarousel 
+                isOwner={props.isOwner}
+                collections={props.collections}/> 
             <ItemsList items={items}/>
             <Drawer 
                 anchor={'right'} 
@@ -85,5 +87,3 @@ const Container = styled(View)`
         padding-top: 30px;
     }
 `;
-
-export default ItemsAndSpaces;

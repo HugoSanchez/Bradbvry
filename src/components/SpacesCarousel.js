@@ -24,7 +24,9 @@ const Container = styled.div`
 
 export const SpacesCarousel = props => {
 
-    let threads = useSelector(state => state.threads.threadsArray);
+    let collections = props.collections
+
+    console.log(collections)
 
     return (
         <Container>
@@ -32,11 +34,14 @@ export const SpacesCarousel = props => {
             <Underline />
             <Carousel>
                 {   
-                    threads.length === 0 ?
+                    collections.length === 0 ?
                     <Title>You have no collections, create one!</Title>
                     :
-                    threads.map((thread, index) => {
-                        return <SpaceCard key={index} thread={thread} />
+                    collections.map((thread, index) => {
+                        return <SpaceCard 
+                                    key={index} 
+                                    thread={thread} 
+                                    isOwner={props.isOwner}/>
                     })
                 }
             </Carousel>  

@@ -1,7 +1,7 @@
 import React  from 'react';
 import styled from 'styled-components';
 import { useHistory } from "react-router-dom";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {View, Title, Text} from './common';
 import {setActiveThread_Action} from '../actions';
 
@@ -14,19 +14,18 @@ import {setActiveThread_Action} from '../actions';
 
 
 export const SpaceCard = props => {
-    let {thread} = props
-    let image = thread.config.image
-    let spacename = thread.config.name.replace(/-/g, ' ')
-    let description = thread.config.description.slice(0, 96)
-
-    let address = useSelector(state => state.user.address);
 
     const history = useHistory();
     const dispatch = useDispatch()
 
+    let {thread, isOwner} = props
+    let image = isOwner ? thread.config.image : thread.image
+    let spacename = isOwner ? thread.config.name.replace(/-/g, ' ') : thread.name.replace(/-/g, ' ')
+    let description = isOwner ? thread.config.description.slice(0, 96) : thread.description.slice(0, 96)
+
     const handleOnClick = () => {
         dispatch(setActiveThread_Action(thread))
-        history.push(`/app/${address + '/' + thread.name}`)
+        history.push(`/app/${thread.owner.ethAddress + '/' + thread.name}`)
     }
 
     return (

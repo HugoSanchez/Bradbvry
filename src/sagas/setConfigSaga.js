@@ -1,8 +1,6 @@
 import {SET_INITIAL_CONFIG} from '../actions/types';
 import {take, put} from 'redux-saga/effects';
 import {Textile, Eth} from '../utils';
-import Box from '3box';
-import {DBInfo} from '@textile/hub'
 
 import {
     Client, 
@@ -77,9 +75,8 @@ function* handleConfig(action) {
     let provider = magic.rpcProvider
 
     // Get user public profile and signer.
-    let profile         = yield Box.getProfile(address)
-    let signer          = yield Eth.getSigner(magic)
     // Get user identity (textile), instantiate client, 
+    let signer          = yield Eth.getSigner(magic)
     let hubKey          = process.env.REACT_APP_TEXTILE_HUB_KEY
     let identity        = yield Textile.getIdentity(magic)
     let client          = yield Client.withKeyInfo({key: hubKey})
@@ -87,17 +84,12 @@ function* handleConfig(action) {
     let threads         = yield client.listThreads()
     let identityString  = identity.public.toString()
 
-
-    let collections = yield Textile.getCollectionsFromGlobalThread(client)
-    console.log('collections: ', collections)
-
     // Dispatch initial user data to reducer
     yield put(setInitialUserData_Action({
         email,
         address, 
         client,
         identity,
-        profile,
         signer,
         provider,
         identityString

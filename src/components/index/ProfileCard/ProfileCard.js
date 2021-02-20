@@ -1,7 +1,7 @@
-import React, {useEffect} from 'react';
-import {useSelector} from "react-redux";
+import React, {useState, useEffect} from 'react';
 import {dummyProfile} from '../../../constants';
 import {Button} from '../../common';
+import Box from '3box';
 
 import {
     Container,
@@ -23,11 +23,20 @@ import {
  */
 
 export const ProfileCard = props => {
-    // Get profile from Redux and check if it's complete,
-    // If not, use dummy profile.
-    let profile = useSelector(state => state.user.profile);
-    let plength = Object.keys(profile).length < 2
-    if (plength) {profile = dummyProfile}
+    
+    const [loading, setLoading] = useState(true)
+    const [profile, setProfile] = useState({})
+
+    useEffect(() => {
+        console.log(props.user)
+        const fetchAndSetProfile = async () => {
+            let profileRes = await Box.getProfile(props.user)
+            if (Object.keys(profileRes).length < 2) {setProfile(dummyProfile)}
+            else {setProfile(profileRes)}
+            setLoading(false)
+        }
+        fetchAndSetProfile()
+    }, [])
     
     // Get profile pic from IPFS.
     // IPFS is awesome.
@@ -35,6 +44,10 @@ export const ProfileCard = props => {
     if (profile.image) {
         imageIPFSaddress  = "https://ipfs.io/ipfs/" 
         + profile.image[0].contentUrl["/"]
+    }
+
+    if (loading) {
+        return null
     }
 
     return (
@@ -67,7 +80,7 @@ export const ProfileCard = props => {
                 </NameAndDescription>
 
                     {
-                        plength ?
+                        false ?
                         <div>
                             <Button 
                                 path="/settings"

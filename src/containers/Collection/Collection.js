@@ -49,6 +49,7 @@ export const Collection = React.memo(props => {
 	} = props.match.params
 
 	useMixpanel('COLLECTION')
+	
 	const dispatch = useDispatch()
 	const isLogged = useIsLogged()
 	const isOwner  = useIsOwner(user)

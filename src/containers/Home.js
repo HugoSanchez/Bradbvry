@@ -9,10 +9,6 @@ import {
     useSelector
 }  from 'react-redux';
 
-import { 
-    useHistory 
-} from 'react-router-dom';
-
 import {
     Header, 
     LoadingCard,
@@ -21,33 +17,47 @@ import {
     RightContainer
 } from '../components';
 
-import ItemsAndSpaces from '../components/ItemsAndSpaces';
-import {ProfileCard} from '../components';
-import {Mixpanel} from '../utils';
-import {setInitialConfiguration_Action} from '../actions';
+import {
+    useIsOwner,
+    useIsLogged,
+    useMixpanel,
+} from '../hooks'
 
-const crypto = require('crypto')
-const { Magic } = require('magic-sdk');
-const magic = new Magic(process.env.REACT_APP_MAGIC_API_KEY);
+import {
+    ProfileCard, 
+    ItemsAndSpaces
+} from '../components';
+
+import {
+    setInitialConfiguration_Action
+} from '../actions';
+
+import {getUserPubliData} from '../constants';
+import axios from 'axios';
 
 export const Home = (props) => {
+    
+    useMixpanel('HOME')
+    
+    const {user} = props.match.params
 
-    const dispatch = useDispatch()
-    const history = useHistory()
+	const dispatch = useDispatch()
+	const isLogged = useIsLogged()
+    const isOwner  = useIsOwner(user)
+    const loggedAndOwner = isLogged && isOwner
+
     const [loading, setLoading] = useState(true)
+    const [collections, setCollections] = useState([])
+
     const client = useSelector(state => state.user.client)
     const items = useSelector(state => state.threads.itemsArray)
+    const threads = useSelector(state => state.threads.threadsArray)
 
 
     useEffect(() => {
-        const checkLogged = async () => {
-            Mixpanel.track('HOME');
-            let isLogged = await magic.user.isLoggedIn();
-            if (!isLogged) { history.push(`/signin`)} 
-            else {handleConfig()}
-        }
-        checkLogged()
-    }, [])
+		if (isLogged) {handleConfig()}
+		else if (isLogged === false) {fetchUserPublicData()}
+    }, [isLogged])
 
     useEffect(() => {
         if (client && loading === true) {
@@ -60,6 +70,15 @@ export const Home = (props) => {
         else if (client) {setLoading(false)}
     }
 
+    const fetchUserPublicData = async () => {
+        let fetchUrl = getUserPubliData(user)
+        let {data} = await axios(fetchUrl)
+        setCollections(data.collections)
+        setLoading(false)
+    }
+
+
+
     return (
         <Fragment>
             <Header />
@@ -71,11 +90,17 @@ export const Home = (props) => {
                     <FlexContainer>
 
                         <LeftContainer>
-                            <ProfileCard />
+                            <ProfileCard user={user}/>
                         </LeftContainer>
 
                         <RightContainer overflow={"true"}>
-                            <ItemsAndSpaces items={items} />
+                            <ItemsAndSpaces 
+                                items={items} 
+                                isOwner={isOwner}
+                                collections={
+                                    loggedAndOwner ? 
+                                    threads : 
+                                    collections}/>
                         </RightContainer>
                         
                     </FlexContainer>
