@@ -8,6 +8,7 @@ import {
 import {
     Gn,
     Label,
+    Warning,
     ModalTitle,
     FormBodyBox,
     CloseTab,
@@ -37,7 +38,7 @@ export const NewCollectionForm = props => {
     let [image, setImage] = useState(false)
     let [error, setError] = useState(errorObj)
     let [loading, setLoading] = useState(false)
-    let [collectionType, setCollectionType] = useState('private')
+    let [collectionType, setCollectionType] = useState('public')
 
 
     const onImageUpload = async e => {
@@ -106,6 +107,7 @@ export const NewCollectionForm = props => {
                     onChange={(e) => setDesc(e.target.value)}/>
 
                 <Label><Gn>3.</Gn> Select your Collection's type</Label>
+                <Warning>Please bear in mind that for the moment all collections are public!</Warning>
                 <CollectionTypeSel 
                     collectionType={collectionType}
                     setCollectionType={setCollectionType}

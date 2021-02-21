@@ -1,8 +1,9 @@
 import {HANDLE_SAVE_IMAGE} from '../actions/types';
-import {take, select} from 'redux-saga/effects';
+import {take, select, put, call} from 'redux-saga/effects';
 import {ThreadID} from '@textile/hub';
 import {Mixpanel, Textile} from '../utils';
 import {uploadUrl} from '../constants';
+import {handleAddItemToPreview_Action} from '../actions';
 import axios from 'axios';
 
 const getThreadsState = state => state
@@ -30,6 +31,8 @@ function* handleSaveImage(action) {
         let res = yield axios.post(uploadUrl, formData) 
         let entry = {contentURI: res.data.contentURI, type: files[i].type, createdBy: address}
         let saved = yield Textile.createNewEntry(client, threadId, entry)
+        let savedEntry = yield client.find(threadId, 'entries', {_id: saved[0]})
+        yield put(handleAddItemToPreview_Action(savedEntry, 'CREATE'))
         Mixpanel.track('NEW_ITEM', {type: 'image'})
     }
 }

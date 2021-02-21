@@ -27,3 +27,12 @@ export const parseToDisplayCollectionName = string => {
             .replace(/(?:^|\s|["'([{])+\S/g, 
                 match => match.toUpperCase())
 }
+
+export const replaceItemInArray = (array, itemToReplace, newItem) => {
+    // This functions is usually used to update some 
+    // array in redux state, ie: an item or thread has been updated.
+    let index = array.indexOf(itemToReplace)
+    let newArray = array.filter(item => item !== itemToReplace)
+    newArray.splice(index, 0, newItem)
+    return newArray
+}

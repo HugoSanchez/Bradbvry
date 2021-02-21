@@ -15,9 +15,10 @@ import {
     HANDLE_SAVE_ITEM,
     HANDLE_SAVE_IMAGE,
     HANDLE_DELETE_ITEM,
+    HANDLE_ADD_COLLECTION,
     HANDLE_CREATE_COLLECTION,
     HANDLE_DELETE_COLLECTION,
-    HANDLE_ADD_COLLECTION,
+    HANDLE_ADD_ITEM_TO_PREVIEW,
 } from './types';
 
 
@@ -111,6 +112,16 @@ export const handleCreateCollection_Action = (object, callback) => {
         callback: (bool) => callback(bool),
     }
 }
+
+export const handleAddItemToPreview_Action = (object, subType, callback) => {
+    return {
+        type: HANDLE_ADD_ITEM_TO_PREVIEW,
+        payload: object,
+        subType: subType,
+        callback: () => callback(),
+    }
+}
+
 
 export const handleDeleteCollection_Action = (history) => {
     return {

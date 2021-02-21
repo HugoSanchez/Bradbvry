@@ -56,7 +56,7 @@ function* handleSaveItem(action) {
             let res = yield uploadEntryToIPFS(updatedPost)
             updatedEntry.contentURI = res.data.contentURI
 
-            // 3. Update threadDB
+            // 3. Update threadDB.
             yield client.save(threadId, 'entries', [updatedEntry])
 
             // 4. Update redux state.

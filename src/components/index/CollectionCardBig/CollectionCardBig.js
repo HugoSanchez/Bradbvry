@@ -6,8 +6,6 @@ import {
     CollectionCardContainer,
     CollectionTitle,
     Description,
-    ProfilePic,
-    ProfileCard,
     TextBox
 } from './styles';
 

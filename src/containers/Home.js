@@ -76,7 +76,9 @@ export const Home = (props) => {
         if (!client) {
             dispatch(
                 setInitialConfiguration_Action(
-                    () => setLoading(false)))
+                    () => setLoading(false)
+                )
+            )
         }
         else {setLoading(false)}
     }

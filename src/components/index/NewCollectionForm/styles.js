@@ -1,5 +1,6 @@
 import {
-    Row, 
+    Row,
+    Text,
     Title,
 } from '../../common';
 
@@ -43,5 +44,11 @@ export const Gn = styled.span`
 export const CloseTab = styled(Title)`
     position: fixed;
     top: 2%;
-    right: 6%;
+    right: 2%;
 `;
+
+export const Warning = styled(Text)`
+    color: white;
+    padding: 2%;
+    padding-bottom: 4%;
+`
