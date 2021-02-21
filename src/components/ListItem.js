@@ -88,6 +88,7 @@ const ListItem = React.memo((props) => {
         e.stopPropagation()
         dispatch(setActiveItem_Action(item))
         history.push('/editor', {
+            item: props.item,
             entry: props.entry,
             onlyRead: props.isModerator})
     }

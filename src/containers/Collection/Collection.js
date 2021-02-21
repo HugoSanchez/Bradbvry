@@ -41,7 +41,7 @@ import {
 	MoreOptionsPositioner
 } from './styles';
 
-export const Collection = React.memo(props => {
+export const Collection = props => {
 
 	let {
 		threadName,
@@ -74,7 +74,7 @@ export const Collection = React.memo(props => {
 	useEffect(() => {
 		if (isLogged) {handleComponentConfig()}
 		else if (isLogged === false) {fetchThreadEntries()}
-	}, [isLogged, threadItems])
+	}, [isLogged])
 
 	useEffect(() => {
 		// Check selectedThread is correct.
@@ -94,7 +94,7 @@ export const Collection = React.memo(props => {
 		// If state is empty, set initial configuration.
 		// Else, fetch thread data and set listeners.
 		if (isLogged && !client) {dispatch(setInitialConfiguration_Action())}
-		else if (isLogged && client && !threadItems) {fetchThreadData(activeThread)}
+		else if (isLogged && client) {fetchThreadData(activeThread)}
 		else if (isLogged && client && activeThread) {setLoading(false)}
 	}
 
@@ -105,9 +105,12 @@ export const Collection = React.memo(props => {
 		let threadId = ThreadID.fromString(thread.id)
 		let items = await client.find(threadId, 'entries', {})
 
+		console.log('Items: ', items)
+
 		dispatch(setThreadItems_Action(items.reverse()))
 		setLoading(false)
 
+		/** 
 		await client.listen(threadId, [], (e) => {
 			if (e === undefined) {return}
 			if (e.action === 'CREATE') {
@@ -115,6 +118,7 @@ export const Collection = React.memo(props => {
 				dispatch(addItemToThreadItems_Action(item))
 			}			
 		})
+		*/
 	}
 	
 	
@@ -241,5 +245,5 @@ export const Collection = React.memo(props => {
 
 		</Fragment>
   	)
-})
+}
 

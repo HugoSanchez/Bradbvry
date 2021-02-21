@@ -62,6 +62,12 @@ export const Home = (props) => {
 		else if (isLogged === false) {fetchUserPublicData()}
     }, [isLogged])
 
+    useEffect(() => {
+        if (isLogged && threads && loading) {
+            setLoading(false)
+        }
+    })
+
 
     useEffect(() => {
         const fetchAndSetProfile = async () => {
@@ -90,7 +96,7 @@ export const Home = (props) => {
         setLoading(false)
     }
 
-
+    console.log('Rends')
 
     return (
         <Fragment>

@@ -98,10 +98,11 @@ export const handleSaveImage_Action = object => {
     }
 }
 
-export const handleDeleteItem_Action = item => {
+export const handleDeleteItem_Action = (item, callback) => {
     return { 
         type: HANDLE_DELETE_ITEM, 
-        payload: item 
+        payload: item,
+        callback: callback
     }
 }
 

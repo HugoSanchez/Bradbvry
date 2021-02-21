@@ -20,17 +20,6 @@ import {
 const { Magic } = require('magic-sdk');
 const magic = new Magic(process.env.REACT_APP_MAGIC_API_KEY);
 
-function* handleThreadEntries(threadsFromMaster, client) {
-    let entriesArray = []
-
-    for (let i = 0; i < threadsFromMaster.length; i++){
-        let threadID = ThreadID.fromString(threadsFromMaster[i].id)
-        let entries = yield client.find(threadID, 'entries', {})
-        console.log('Entries: ', entries)
-        entriesArray.concat(entries)
-        console.log('ARR: ', entriesArray)
-    }
-}
 
 function* handleThreads(threads, client, identity, action) { 
     // Get master thread name string.

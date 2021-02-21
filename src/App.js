@@ -17,6 +17,7 @@ import {
     JoinCollection
 } from './containers';
 
+
 const store = configureStore();
 
 class App extends Component {

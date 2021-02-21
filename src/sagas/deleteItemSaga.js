@@ -14,7 +14,6 @@ function* handleDeleteItem(action) {
     // It deletes de item and updates the state in the reducer.
     const state = yield select(getThreadsState)
     const client = state.user.client
-    const threadItems = state.threads.threadItems
     const activeThread = state.threads.activeThread
 
     yield console.log(action.payload)
@@ -25,11 +24,11 @@ function* handleDeleteItem(action) {
     yield client.delete(threadID, 'entries', [action.payload._id])
 
     // Update the state and track the action.
-    // let newItems = Array.from(threadItems)
-    // newItems = newItems.filter(item => item._id !== action.payload._id)
+    let entries = yield client.find(threadID, 'entries', {})
+    yield put(deleteEntry_Action(entries.reverse()))
+
     Mixpanel.track('ITEM_DELETED', {type: action.payload.type})
-    yield put(deleteEntry_Action(action.payload))
-    // console.log(newItems.includes(action.payload))
+    if (action.callback !== undefined) {yield action.callback()}
 
     // yield put(handleAddItemToPreview_Action(action.payload, 'DELETE'))
 }
