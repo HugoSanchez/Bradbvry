@@ -1,10 +1,14 @@
 import {HANDLE_SAVE_ITEM} from '../actions/types';
 import {take, put, select} from 'redux-saga/effects';
-import {setThreadItems_Action} from '../actions';
 import {Mixpanel, Textile} from '../utils';
 import {ThreadID} from '@textile/hub';
 import {uploadUrl} from '../constants';
 import axios from 'axios';
+
+import {
+    setThreadItems_Action, 
+    handleAddItemToPreview_Action
+} from '../actions';
 
 
 const getThreadsState = state => state
@@ -72,23 +76,11 @@ function* handleSaveItem(action) {
     // if so, post new entry and update itemsArray.
     else if (isContent) {
 
-        for (let i = 0; i < blocks.length; i++) {
-            if (blocks[i].type === 'image') { 
-                // This for loop takes any image in the entry
-                // uploades it to IPFS, and updates the entry.
-                let blob = yield fetch(blocks[i].data.url).then(r => r.blob())
-
-                let formData = new FormData();
-                formData.append('file', blob)
-                formData.append('type', 'image')
-
-                let res = yield axios.post(uploadUrl, formData) 
-                post.blocks[i].data.url = res.data.contentURI
-            }
-        }
+        // Check images and upload them 
+        let updatedPost = yield checkIfImageAndUploadToIPFS(post)
 
         // 1. Upload entry to IPFS
-        let data = {type: 'application/json', entry: post}
+        let data = {type: 'application/json', entry: updatedPost}
         let res = yield axios.post(uploadUrl, data) 
         
         // 2. Save entry in threadDB
@@ -96,12 +88,13 @@ function* handleSaveItem(action) {
         let saved = yield Textile.createNewEntry(client, threadId, entry)
 
         // 3. Update redux state with new entry
-        let savedEntry = yield client.find(threadId, 'entries', {_id: saved[0]})
+        let savedEntries = yield client.find(threadId, 'entries', {})
+        let savedEntry = savedEntries.filter(entry => entry._id === saved[0])
         let updatedItems = Array.from(threadItems)
 		updatedItems.unshift(savedEntry)
-        yield put(setThreadItems_Action(updatedItems))
 
-        // 4. Track and callback
+        // 4. Fire previewSaga and track
+        yield put(handleAddItemToPreview_Action(savedEntry, 'CREATE'))
         Mixpanel.track('NEW_ITEM', {type: 'post'})
     }
 

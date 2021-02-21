@@ -78,6 +78,7 @@ const ListItem = React.memo((props) => {
     // Dispatches action to delete item from global store.
     const deleteEntry = async (e) => {
         e.stopPropagation();
+        console.log('Item: ', item)
         dispatch(handleDeleteItem_Action(item))
     }
 

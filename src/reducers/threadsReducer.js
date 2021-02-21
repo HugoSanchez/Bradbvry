@@ -53,7 +53,8 @@ const threadsReducer = (state = initialState, action) => {
 		}
 		
 		case DELETE_USER_ENTRY: 
-		return {...state, threadItems: action.payload}
+		let newItems = state.threadItems.filter(item => item !== action.payload)
+		return {...state, threadItems: newItems}
 
 		default: return state
     }

@@ -69,11 +69,12 @@ export const Collection = React.memo(props => {
 	const threadItems = useSelector(state => state.threads.threadItems)
 	const activeThread = useSelector(state => state.threads.activeThread)
 
+	console.log('render_ :', threadItems)
 
 	useEffect(() => {
 		if (isLogged) {handleComponentConfig()}
 		else if (isLogged === false) {fetchThreadEntries()}
-	}, [isLogged])
+	}, [isLogged, threadItems])
 
 	useEffect(() => {
 		// Check selectedThread is correct.
@@ -220,8 +221,8 @@ export const Collection = React.memo(props => {
 										<input {...getInputProps()} />
 
 												<ItemsList 
-													items={threadItems} 
 													shadow={true} 
+													items={threadItems} 
 													isModerator={!isOwner}/>
 											
 									</DropZoneCont>

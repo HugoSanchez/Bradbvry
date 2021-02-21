@@ -48,6 +48,7 @@ function* addItemToPreview(action) {
     // 5. Update redux state.
     let newThreadsArray = replaceItemInArray(threadsArray, activeThread, newConfig)
     yield put(setThreadArray_Action(newThreadsArray))
+    console.log('HAT!')
 }
 
 
