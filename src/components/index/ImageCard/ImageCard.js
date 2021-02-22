@@ -1,4 +1,4 @@
-import React, {useEffect, useState}  from 'react';
+import React, {Fragment, useState}  from 'react';
 import NFTLogo from '../../../resources/NFTLogo.png'
 
 import {
@@ -36,7 +36,8 @@ export const ImageCard = props => {
     } = props.entry;
 
     const [isActive, setActive] = useState(false); 
-    const [border, setBorder] = useState(false)
+    const [border, setBorder] = useState(false);
+    const [loaded, setLoaded] = useState(false)
 
     const handleMouseOver = () => {
         setActive(!isActive)
@@ -54,7 +55,7 @@ export const ImageCard = props => {
                     'OCT', 'NOV', 'DEC']
     
     let timestamp       = props.entry.timestamp              
-    let date            = new window.Date(timestamp * 1000)
+    let date            = new window.Date(timestamp)
     let day             = date.getDay()
     let month           = months[date.getMonth()]
     let year            = date.getFullYear()
@@ -66,44 +67,55 @@ export const ImageCard = props => {
         dispatch(handleDeleteItem_Action(props.entry))
     }
 
-    return (
-        <ImageCardContainer 
-            border={border}
-            shadow={props.shadow}
-            onClick={handleOnClick}
-            onMouseEnter={() => handleMouseOver()}
-            onMouseLeave={() => handleMouseOver()}>
 
-                <DeleteBox>
+    
+        return (
+
+            <ImageCardContainer 
+                border={border}
+                shadow={props.shadow}
+                onClick={handleOnClick}
+                onMouseEnter={() => handleMouseOver()}
+                onMouseLeave={() => handleMouseOver()}>
+
+                    <DeleteBox>
+                        {
+                            props.isModerator ?
+                            <DeleteBin 
+                                isActive={isActive}
+                                zIndex={isActive ? '4' : '2'}
+                                onClick={(e) => deleteImage(e)}/>
+                            :
+                            null
+                        }
+                        
+                    </DeleteBox>
+
                     {
-                        props.isNFT ?
-                        <Image 
-                            src={NFTLogo}/>
+                        loaded ? 
+                        <Fragment>
+                            <TextBox>
+                            <ImageTitle>{title}</ImageTitle>
+                                {
+                                    window.innerWidth < 500 ?
+                                    null
+                                    :
+                                    <Description>{description}</Description>
+                                }
+                            </TextBox>
+                            <Date>{day + ' ' + month + ' ' + year}</Date>
+                        </Fragment>
                         :
-                        <DeleteBin 
-                            isActive={isActive}
-                            zIndex={isActive ? '4' : '2'}
-                            onClick={(e) => deleteImage(e)}/>
-                    }
-                    
-                </DeleteBox>
-                
-                <TextBox>
-                    <ImageTitle>{title}</ImageTitle>
-                    {
-                        window.innerWidth < 500 ?
                         null
-                        :
-                        <Description>{description}</Description>
-                    }
-                </TextBox>
-                <Date>{day + ' ' + month + ' ' + year}</Date>
+                    } 
 
-                <Image 
-                    src={contentURI}
-                    onError={props.onError}/>
-                    
-        </ImageCardContainer>
-    );
+                    <Image 
+                        src={contentURI}
+                        onLoad={() => setLoaded(true)}
+                        onError={props.onError}/>
+                        
+            </ImageCardContainer>
+        );
+
 }
 

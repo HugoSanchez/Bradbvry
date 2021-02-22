@@ -4,7 +4,6 @@ import {ThreadID} from '@textile/hub';
 import {Mixpanel} from '../utils';
 import {
     setThreadItems_Action,
-    deleteEntry_Action,
     handleAddItemToPreview_Action
 } from '../actions';
 

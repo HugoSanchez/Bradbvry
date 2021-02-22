@@ -6,8 +6,8 @@ import {
     SET_ACTIVE_THREAD,
 	SET_THREAD_ITEMS,
 	SET_MASTER_THREAD_ID,
-    DELETE_USER_ENTRY,
-    ADD_ITEM_TO_THREAD_ITEMS,
+	ADD_ITEM_TO_THREAD_ITEMS,
+	
 } from '../actions/types';
   
 const initialState = {
@@ -51,9 +51,6 @@ const threadsReducer = (state = initialState, action) => {
 		} else {
 			return {...state, threadItems: []}
 		}
-		
-		case DELETE_USER_ENTRY: 
-		return {...state, threadItems: action.payload}
 
 		default: return state
     }

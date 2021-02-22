@@ -90,13 +90,14 @@ const ListItem = React.memo((props) => {
         history.push('/editor', {
             item: props.item,
             entry: props.entry,
-            onlyRead: props.isModerator})
+            onlyRead: !props.isModerator})
     }
 
     if (entry) {
         return (
 
             <Card 
+                marginTop={'3%'}
                 shadow={props.shadow}
                 onClick={(e) => {onItemClick(e)}}
                 onMouseOver={() => setActive(true)}
@@ -110,10 +111,17 @@ const ListItem = React.memo((props) => {
                 <ContentBox>
                     <TitleBox>
                         <Title>{title}</Title>
-                        <DeleteBin 
-                            isActive={isActive}
-                            onClick={(e) => deleteEntry(e)}
-                            isModerator={props.isModerator}/>
+
+                        {
+                            props.isModerator ? 
+                            <DeleteBin 
+                                isActive={isActive}
+                                onClick={(e) => deleteEntry(e)}
+                                isModerator={props.isModerator}/>
+                            :
+                            null
+                        }
+                        
                     </TitleBox>
                     <View>
                         <Text> {bodyToDisplay}...</Text>

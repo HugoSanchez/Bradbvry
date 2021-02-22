@@ -103,12 +103,9 @@ export const Collection = props => {
 		let threadId = ThreadID.fromString(thread.id)
 		let items = await client.find(threadId, 'entries', {})
 
-		console.log('Items: ', items)
-
 		dispatch(setThreadItems_Action(items.reverse()))
 		setLoading(false)
 
-		/** 
 		await client.listen(threadId, [], (e) => {
 			if (e === undefined) {return}
 			if (e.action === 'CREATE') {
@@ -116,7 +113,6 @@ export const Collection = props => {
 				dispatch(addItemToThreadItems_Action(item))
 			}			
 		})
-		*/
 	}
 	
 	
@@ -225,7 +221,7 @@ export const Collection = props => {
 												<ItemsList 
 													shadow={true} 
 													items={threadItems} 
-													isModerator={!isOwner}/>
+													isModerator={isOwner}/>
 											
 									</DropZoneCont>
 							)}

@@ -10,7 +10,6 @@ import {
     SET_THREAD_ARRAY,
     SET_THREAD_ITEMS,
     SET_MASTER_THREAD_ID,
-    DELETE_USER_ENTRY,
     ADD_ITEM_TO_THREAD_ITEMS,
     HANDLE_SAVE_ITEM,
     HANDLE_SAVE_IMAGE,
@@ -47,12 +46,6 @@ export const setThreadArray_Action = array => {
     }
 }
 
-export const deleteEntry_Action = (entry) => {
-    return {
-        type: DELETE_USER_ENTRY,
-        payload: entry
-    }
-}
 
 export const setUserItems_Action = address => {
     return { 

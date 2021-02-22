@@ -20,23 +20,20 @@ export const CollectionButtons = props => {
 
         return (
             <View>
+
                 <CircularButton
                 userAdd
                 size={'25px'}
-                bottom={'26vh'} 
+                bottom={'18vh'} 
                 onClick={() => props.addMember()}
                 />
-                <CircularButton
-                    imageAdd
-                    size={'25px'}
-                    bottom={'18vh'} 
-                    onClick={() => props.addImage()}
-                />
+
                 <CircularButton
                     quillPen
                     size={'25px'}
                     onClick={props.openEditor()}
                 />
+
             </View>
         )
     }
@@ -44,3 +41,12 @@ export const CollectionButtons = props => {
     return null
 }
 
+
+/**
+ *              <CircularButton
+                    imageAdd
+                    size={'25px'}
+                    bottom={'26vh'} 
+                    onClick={() => props.addImage()}
+                />
+ */
