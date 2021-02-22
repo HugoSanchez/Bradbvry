@@ -69,8 +69,6 @@ export const Collection = props => {
 	const threadItems = useSelector(state => state.threads.threadItems)
 	const activeThread = useSelector(state => state.threads.activeThread)
 
-	console.log('render_ :', threadItems)
-
 	useEffect(() => {
 		if (isLogged) {handleComponentConfig()}
 		else if (isLogged === false) {fetchThreadEntries()}

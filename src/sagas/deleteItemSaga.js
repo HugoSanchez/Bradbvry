@@ -3,6 +3,7 @@ import {take, put, select} from 'redux-saga/effects';
 import {ThreadID} from '@textile/hub';
 import {Mixpanel} from '../utils';
 import {
+    setThreadItems_Action,
     deleteEntry_Action,
     handleAddItemToPreview_Action
 } from '../actions';
@@ -25,7 +26,7 @@ function* handleDeleteItem(action) {
 
     // Update the state and track the action.
     let entries = yield client.find(threadID, 'entries', {})
-    yield put(deleteEntry_Action(entries.reverse()))
+    yield put(setThreadItems_Action(entries.reverse()))
 
     Mixpanel.track('ITEM_DELETED', {type: action.payload.type})
     if (action.callback !== undefined) {yield action.callback()}

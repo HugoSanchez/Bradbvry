@@ -1,24 +1,17 @@
 import React, {useState, useEffect, Fragment} from 'react';
 import DanteEditor from "Dante2";
-import {CircularButton, LoadingCard, MoreButton, DeleteBin} from '../../components';
+import {CircularButton, LoadingCard} from '../../components';
 import '../../App.css';
 
 import {
-    deleteEntry_Action,
     handleSaveItem_Action,
-    handleDeleteItem_Action,
     setInitialConfiguration_Action,
-    setUserItems_Action,
 } from '../../actions';
 
 import {
     useDispatch, 
     useSelector
 } from 'react-redux';
-
-import {
-    MoreOptionsPositioner
-} from './styles';
 
 const { Magic } = require('magic-sdk');
 const magic = new Magic(process.env.REACT_APP_MAGIC_API_KEY);
@@ -63,14 +56,6 @@ export const Editor = props => {
     const handleSaveItem = async () => {
         setLoading(true)
         dispatch(handleSaveItem_Action(content, goBack))
-        // props.history.goBack()
-    }
-
-    const handleDeleteItem = async () => {
-        setLoading(true)
-        dispatch(
-            handleDeleteItem_Action(location.state.item, 
-                goBack))
     }
 
     const goBack = () => {
@@ -150,10 +135,6 @@ export const Editor = props => {
 
     return (
         <div className="Main">
-
-            <MoreOptionsPositioner onClick={handleDeleteItem}>
-                <DeleteBin isActive={true}/>
-			</MoreOptionsPositioner>
 
             <CircularButton 
                 onClick={handleSaveItem}

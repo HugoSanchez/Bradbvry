@@ -23,7 +23,7 @@ const MasonryIterator = props => {
                     return (
                         <ImageCard 
                             alt={i} 
-                            key={i} 
+                            key={p._id} 
                             entry={p} 
                             shadow={props.shadow}
                             isModerator={props.isModerator}/>
@@ -37,7 +37,7 @@ const MasonryIterator = props => {
 const ListItemsIterator = props => {
     return props.items.map((item, index) => {
         return  <ListItemWrapper 
-                    key={index}
+                    key={item._id}
                     item={item}
                     shadow={props.shadow}
                     isModerator={props.isModerator}
