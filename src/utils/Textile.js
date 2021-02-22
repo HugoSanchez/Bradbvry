@@ -103,6 +103,7 @@ let actions = {
         // Instantiate new threadDB with name.
         let threadID = await client.newDB(undefined, collectionConfig.name)
         collectionConfig.threadId = threadID.toString()
+        collectionConfig.previewEntries = []
 
         // Instantate and create the config and entries collections in DB.   
         let writeValidator = actions.getWriteValidator(identityString)

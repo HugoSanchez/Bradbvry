@@ -30,7 +30,7 @@ function* handleDeleteItem(action) {
     Mixpanel.track('ITEM_DELETED', {type: action.payload.type})
     if (action.callback !== undefined) {yield action.callback()}
 
-    // yield put(handleAddItemToPreview_Action(action.payload, 'DELETE'))
+    yield put(handleAddItemToPreview_Action(action.payload, 'DELETE'))
 }
 
 

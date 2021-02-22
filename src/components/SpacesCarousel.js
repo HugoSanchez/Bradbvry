@@ -26,8 +26,6 @@ export const SpacesCarousel = props => {
 
     let collections = props.collections
 
-    console.log(collections)
-
     return (
         <Container>
             <Text>Your collections</Text>

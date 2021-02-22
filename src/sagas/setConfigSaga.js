@@ -45,8 +45,12 @@ function* handleThreads(threads, client, identity, action) {
         let threadID = ThreadID.fromString(masterThread.id)
         let collections = yield client.find(threadID, 'collections-list', {})
         // let {itemsArray, parsedThreads} = yield parseThreadsAndPosts_Helper(threads, client)
+
+        let previewItems = concatPreviewItems(collections)
+
         yield put(setMasterThreadID_Action(threadID))
         yield put(setThreadArray_Action(collections))
+        yield put(setUserItems_Action(previewItems))
 
         if (action.callback !== undefined) {
             yield action.callback() }
@@ -118,42 +122,22 @@ export default function * watchInitialConfig() {
 ////////////////////////////////////////////////
 
 
-const parseThreadsAndPosts_Helper = async (threads, client) => {
-
-    console.log('Parsing user data...')
-
-    let itemsArray = [];
-    let parsedThreads = [];
-    
-    for (let i = 0; i < threads.length; i++) {
-        try {
-
-            // Get config object and thread entries.
-            let threadId = ThreadID.fromString(threads[i].id)
-            let config = await client.find(threadId, 'config', {})
-            let entries = []
-            // await client.find(threadId, 'entries', {})
-            // Parse thread object.
-            threads[i].config = config[0]
-            parsedThreads.push(threads[i])
-            
-            // Iterate over entries and parse.
-            for(let z = 0; z < entries.length; z++) {
-                entries[z].threadName = threads[i].name
-                entries[z].threadAddress = threads[i].id
-                itemsArray.push(entries[z])
-            }
-        } 
-        catch (error) {
-            console.log('error', error)
-        }
-    }
-    return {itemsArray, parsedThreads}
-}
-
 const sortItemsArray = (itemsArray) => {
     return itemsArray.sort((a, b) => {
        return parseInt(b.timestamp) - parseInt(a.timestamp)
     });
 }
-        
+
+
+const concatPreviewItems = (threadsArray) => {
+
+    let itemsArray = [];
+
+    for (let i = 0; i < threadsArray.length; i++) {
+        console.log(threadsArray[i].previewEntries)
+        itemsArray = itemsArray.concat(threadsArray[i].previewEntries)
+    }
+
+    return sortItemsArray(itemsArray)
+
+}

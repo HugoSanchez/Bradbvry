@@ -64,7 +64,6 @@ export const Home = (props) => {
 
 
     useEffect(() => {
-        console.log('HELLO')
         if (isLogged && threads && loading) {
            setLoading(false)
         }

@@ -29,12 +29,12 @@ function* addItemToPreview(action) {
     // either way, add new one to the front of the array.
     if (action.subType === 'CREATE') {
         if (newPreviewItemsArray.length > 10) {newPreviewItemsArray.pop()}
-        newPreviewItemsArray.unshift(action.payload[0])
+        newPreviewItemsArray.unshift(action.payload[action.payload.length - 1])
     }
 
     else if (action.subType === 'DELETE') {
         newPreviewItemsArray = newPreviewItemsArray.filter(
-            item => item !== action.payload)
+            item => item._id !== action.payload._id)
     }
     
     // 3. Update config object
@@ -48,7 +48,6 @@ function* addItemToPreview(action) {
     // 5. Update redux state.
     let newThreadsArray = replaceItemInArray(threadsArray, activeThread, newConfig)
     yield put(setThreadArray_Action(newThreadsArray))
-    console.log('HAT!')
 }
 
 
