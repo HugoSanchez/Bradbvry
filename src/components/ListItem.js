@@ -5,7 +5,8 @@ import { useHistory } from 'react-router-dom';
 import {
     handleDeleteItem_Action, 
     setActiveItem_Action,
-    setActiveThread_Action
+    setActiveThread_Action,
+    setThreadItems_Action
 } from '../actions';
 
 import {
@@ -38,18 +39,41 @@ import {
 
 const ListItem = React.memo((props) => {
 
-    // Instantiate state
-    const [isActive, setActive] = useState(false); 
-    // Create setter function
-    const handleMouseOver = () => {
-        setActive(!isActive)
-    }
-
     // Get threads from global redux store.
     // Instantiate dispatch function.
     const history = useHistory();
     const dispatch = useDispatch()
+    // Instantiate state
+    const [isActive, setActive] = useState(false); 
+    const [thread, setThread] = useState(null)
+    // Get threads
     const threads = useSelector(state => state.threads.threadsArray);
+    const activeThread = useSelector(state => state.threads.activeThread);
+
+
+    useEffect(() => {   
+        const setItemThread = async () => {
+            // If !activeThread it means user is in preview.
+            // else, user is in collection. This allows to 
+            // properly navigate the user to the editor.
+			if (!activeThread && threads.length > 0) {
+				let thread = threads.filter(thread => {
+                    return thread.previewEntries.includes(props.item)
+                })
+                console.log('HAGAG: ', thread[0])
+                setThread(thread[0])
+            }
+            else {setThread(activeThread)}
+        }
+        console.log('called')
+		setItemThread()
+    }, [threads])
+
+
+    // Create setter function
+    const handleMouseOver = () => {
+        setActive(!isActive)
+    }
 
     // Deconstruct item from props.
     // Create array of months.
@@ -87,7 +111,7 @@ const ListItem = React.memo((props) => {
     const onItemClick = async (e) => {
         e.stopPropagation()
         dispatch(setActiveItem_Action(item))
-        history.push('/editor', {
+        history.push(`/app/${props.item.createdBy}/${thread.name}/${props.item._id}`, {
             item: props.item,
             entry: props.entry,
             onlyRead: !props.isModerator})

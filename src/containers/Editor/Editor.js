@@ -4,6 +4,7 @@ import {CircularButton, LoadingCard} from '../../components';
 import '../../App.css';
 
 import {
+    setActiveThread_Action,
     handleSaveItem_Action,
     setInitialConfiguration_Action,
 } from '../../actions';
@@ -26,6 +27,7 @@ export const Editor = props => {
     const [loading, setLoading] = useState(true)
     const item = useSelector(state => state.threads.activeItem)
     const activeThread = useSelector(state => state.threads.activeThread)
+    const threadsArray = useSelector(state => state.threads.threadsArray)
 
 
     useEffect(() => {
@@ -37,7 +39,22 @@ export const Editor = props => {
             else {handleConfig()}
 		}
 		isLoggedIn()
-	}, [])
+    }, [])
+    
+    useEffect(() => {
+		// Check selectedThread is correct.
+		// If activeThread is not set, 
+		// user is reloading and should be set.
+		const checkActiveThread = async () => {
+			if (!activeThread && threadsArray.length > 0) {
+				let thread = threadsArray.filter(thread => {
+                    return thread.previewEntries.includes(location.state.item)
+                })
+				dispatch(setActiveThread_Action(thread[0]))
+			}
+		}
+		checkActiveThread()
+	}, [activeThread, threadsArray])
 
     const handleConfig = () => {
         // If activeThread is null, the initial config must be set.

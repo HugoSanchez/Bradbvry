@@ -49,7 +49,7 @@ const SpaceCardContainer = styled.div`
     flex-direction: column;
 	border-radius: 10px;
 	
-	background: black;
+	background: white;
 	position: relative;
 	align-items: flex-end;
     transition: 0.6s ease-out;
