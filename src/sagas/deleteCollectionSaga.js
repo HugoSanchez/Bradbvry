@@ -1,7 +1,10 @@
 import {HANDLE_DELETE_COLLECTION} from '../actions/types';
 import {take, put, select} from 'redux-saga/effects';
 import {setThreadArray_Action, setUserItems_Action} from '../actions';
-import {Mixpanel} from '../utils';
+import {Mixpanel, Textile} from '../utils';
+import {deleteCollection} from '../constants';
+import axios from 'axios'
+
 
 
 const getThreadsState = state => state
@@ -24,23 +27,16 @@ function* handleDeleteCollection(action) {
         // Remove from master thread entries collection
         let collectionEntryID = activeThread._id
         yield client.delete(masterThreadID, 'collections-list', [collectionEntryID])
-        yield console.log('1')
 
-        // DeleteDB
-        // let threadID = yield Textile.getThreadID(activeThread)
-        // yield client.deleteDB(threadID)
-        yield console.log('2')
-        
         // Update redux state
         let collections = yield client.find(masterThreadID, 'collections-list', {})
         yield put(setThreadArray_Action(collections))
         yield put(setUserItems_Action([]))
-        yield console.log('3', collections)
         
         // Redirect and track.
         yield action.history.push(`/app/${address}`)
+        yield axios.post(deleteCollection, {id: activeThread.id})
         yield Mixpanel.track('COLLECTION_DELETED')
-        yield console.log('4')
     }
 
     catch (e) {

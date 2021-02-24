@@ -92,6 +92,13 @@ function* handleConfig(action) {
     let threads         = yield client.listThreads()
     let identityString  = identity.public.toString()
 
+    let globalThreadID = yield Textile.getThreadIDFromString(process.env.REACT_APP_BRADBVRY_GLOBAL_THREAD_ID)
+ 
+
+    let coll = yield client.find(globalThreadID, 'public-collections', {})
+    console.log('COLL: ', coll)
+
+
     // Dispatch initial user data to reducer
     yield put(setInitialUserData_Action({
         email,

@@ -110,11 +110,11 @@ let actions = {
         let readFilter = actions.getReadFilter(identityString, config.type)
         await client.newCollectionFromObject(threadID, configObject, {name: 'config', writeValidator, readFilter})
         await client.newCollectionFromObject(threadID, entriesSchema, {name: 'entries',  writeValidator, readFilter})
+        await client.create(threadID, 'config', [collectionConfig])
 
         console.log('write validation')
         // Add public collection to global registry and set config
-        await client.create(threadID, 'config', [collectionConfig])
-        await actions.addCollectionToGlobalThread(client, collectionConfig)
+        // await actions.addCollectionToGlobalThread(client, collectionConfig)
 
         // Parse object and return.
         let collectionObject = parseCollectionObject(threadID, collectionConfig)
@@ -123,9 +123,10 @@ let actions = {
 
     createGlobalThread: async (client) => {
         // Instantiate new threadDB with name.
-        let threadID = await client.newDB(undefined, 'Global-Thread-BV')
+        let writeValidator = customValidatorForGlobalThread
+        let threadID = await client.newDB(undefined, 'Tst-Global-Thread-BV')
         await client.newCollectionFromObject(threadID, configObject, {
-            name: 'public-collections', customValidatorForGlobalThread})
+            name: 'public-collections', writeValidator})
         return threadID
     },
 
@@ -221,16 +222,7 @@ const readFilterRaw = (reader, instance) => {
 }
 
 const customValidatorForGlobalThread = (writer, event, instance) => {
-    var type = event.patch.type
-      switch (type) {
-        case "delete":
-            if (writer === 'bbaareieb2z4ou6nsar5d7nwj43au3tcqoljd6czxxridgns6puttajtrn4') return true
-            else if (instance.owner.identity === writer) return true
-            else return false
-        default:
-            if (instance.owner.identity === writer) return true
-            else return false
-      }
+    return true
 }
 
 
