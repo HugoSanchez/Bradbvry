@@ -14,6 +14,8 @@ const LandingPage = props => {
 
 	Mixpanel.track('LANDING_VISIT');
 
+	let width = window.innerWidth > 500
+
     return (
         <div>
             <Header />
@@ -27,7 +29,7 @@ const LandingPage = props => {
                         <p>
                             Bradbvry allows you to
 							<span className="bold"> own intimate collections </span>
-                            to store and share your digital creations. 
+                            to store and share your digital creations.
                         </p>
                     </div>
                     <div className="cta">
@@ -41,77 +43,45 @@ const LandingPage = props => {
                 </div>
             </section>
 
-            <section className="presentation section final">
-				<div className="intro-text section text description">
-					<p> <span className="bold">Bradbury is a web-based, personal text-editor that you really own, it's yours. </span>
-						In the future, you will also store and share memories, pictures, documents or any other
-						meaningful collection, on your terms. 
-					</p>
-				</div>
-				<div className="screenshot">
-					<img src={main} alt="matebook" />
-				</div>
+			
+				<section className="presentation section final">
+					<div className="intro-text section text description">
+						<p> This is where you<span className="bold"> store and share the things you want to keep forever. </span>
+							It's also a new way to connect and share online where users are in control. It feels<span className="bold"> intimate</span>, it's<span className="bold"> beatiful</span> and <span className="bold">decentralized. </span>
+							Try it out!
+						</p>
+					</div>
+					{
+						width ? 
+						<div className="screenshot">
+							<img src={main} alt="matebook" />
+						</div>
+						:
+						null
+	
+						}
+					
+				</section>
 				
-			</section>
+            
 
-			<section className="presentation section">
-				<div className="introduction section">
-					<div className="intro-text section">
-						<h1>It's private.</h1>
-						<p>
-							Your data is encrypted with keys that you control, and stored in IPFS. 
-							<span className="bold"> There is no way that we, or anyone else, can actually read any of your files</span> or entries.
-						</p>
-					</div>
-				</div>
-				<div className="cover section">
-					<img src={privacy} alt="matebook" />
-				</div>
-			</section>
+			
+				{
+					width ? 
+					<section className="presentation section final footer">
+						<div className="intro-text section text final footer">
+							<p>
+								This is Bradbvry's MVP, please use it with caution and at your own risk. 
 
-			<section className="presentation section">
-				<div className="introduction section">
-					<div className="intro-text section">
-						<h1>It's on your terms</h1>
-						<p>
-							<span className="bold">You get to choose who gets to see what. </span>  Keep your files private, share them with your loved ones or even make them public. 
-						</p>						
-					</div>
-				</div>
-				<div className="cover section">
-					<img src={terms} alt="matebook" />
-				</div>
-			</section>
+								Also, feel free to reach out with any feedback, bugs or petitions here: hugo@bradbvry.com. Thanks! :)
+							</p>
+						</div>
+					</section>
+					:
+					null
+				}
 
-			<section className="presentation section">
-				<div className="introduction section">
-					<div className="intro-text section">
-						<h1>And it's beautiful!</h1>
-						<p>
-							Most text editors and online tools are just too ugly. We're trying to build a place where you feel inspired to create.<span className="bold"> Simple. Elegant. Easy.</span>
-						</p>
-					</div>
-				</div>
-				<div className="cover section">
-					<img src={beautiful} alt="matebook" />
-				</div>
-			</section>
-
-			<section className="presentation section final">
-				<div className="intro-text section text final">
-					<p>
-						So far, Bradbvry is just an early experiment. We built it with the idea of exploring new digital interfaces for people to create, share and connect in new, much more deep and meaningful ways. 
-
-						Please, feel free to reach out with any feedback, bugs or petitions here: hugo@bradbvry.com. Thanks!
-					</p>
-
-					<p>
-						<span className="landing-footer-note">
-						*Ilustrations by Ouch.pics: https://icons8.com
-						</span>
-					</p>
-				</div>
-			</section>
+			
         </div>
     );
 }

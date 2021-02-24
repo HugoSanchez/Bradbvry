@@ -299,8 +299,8 @@
 }
 
 #Header-Image {
-  height: 1.8rem;
-  width: 10rem;
+  height: 1.4rem;
+  width: 8rem;
   position: fixed;
   top: 1.5rem;
   left: 2.5rem;
@@ -416,6 +416,19 @@ nav {
 	max-height: 100vh;
 }
 
+
+.intro-text.section.text.final{
+  width: 100%;
+  padding: 10%;
+  padding-top: 6%;
+	margin-top: 50px;
+}
+
+.intro-text.section.text.final p{
+  font-size: 14px;
+  font-weight: 300;
+}
+
 .introduction {
   flex: 1;
   padding-top: 15vh;
@@ -475,7 +488,17 @@ nav {
 	-webkit-text-fill-color: transparent;
 }
 
+.presentation.section.final.footer {
+  margin-top: 200px;
+  background-color: #fff;
+}
+
+.intro-text.section.text.final.footer {
+  background-color: #fff;
+}
+ 
 .intro-text.section.text.description {
+  padding: 10%;
 	margin-bottom: 10%;
 
 }
@@ -566,6 +589,8 @@ nav {
 	border-radius: 0.5vw;
 	animation: drop 1.5s ease;
 	box-shadow: 0 15px 25px rgba(0,0,0,0.2); 
+  
+
 }
 
 .screenshot img:hover {
@@ -609,6 +634,14 @@ nav {
     animation: drop 1.5s ease;
     box-shadow: 0 15px 25px rgba(0,0,0,0.2); 
   }
+
+  .screenshot img {
+    width: 90vw;
+    border-radius: 0.5vw;
+    animation: drop 1.5s ease;
+    box-shadow: 0 15px 25px rgba(0,0,0,0.2); 
+  }
+
 	.cta {
 		margin-top: 4vw;
 		padding: 10px 10px 10px 0px;
@@ -619,6 +652,20 @@ nav {
 	.cover img {
 		height: 60%;
 	}
+
+  .intro-text.section.text.description {
+    padding: 0%;
+    margin-bottom: 4%;
+  }
+  
+  .presentation.section.final.footer {
+    margin-top: 20px;
+    background-color: #fff;
+  }
+  
+  .intro-text.section.text.final.footer {
+    background-color: #fff;
+  }
 	.cover.section {
     padding-top: 5vh;
     max-height: 35vh;
