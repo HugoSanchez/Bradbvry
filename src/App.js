@@ -30,13 +30,14 @@ class App extends Component {
                     <Switch>
                         <Route path='/signin' component={SignIn} />
                         <Route path='/landing' component={LandingPage} /> 
-                        <Route path='/gallery' component={Gallery} />          
+                        <Route path='/gallery' component={Gallery} />  
+                        <Route path='/discover' component={Discover} />        
                         <Route path='/app/add-member/:memberAddress/:id/:threadName/:email' component={AddMember}/>
                         <Route path='/app/accept-invite/:user/:threadId/:threadName' component={JoinCollection}/>
                         <Route path='/app/:user/:threadName/:itemId' component={Editor} />
                         <Route path='/app/:user/:threadName' component={Collection} />
                         <Route path='/app/:user' component={Home} />
-                        <Route path='/discover' component={Discover} />
+                        <Route path='/profile' component={Settings} />
                         <Route exact path="/" render={() => (<Redirect to="/landing" />)} /> 
                     </Switch>
                 </Provider>

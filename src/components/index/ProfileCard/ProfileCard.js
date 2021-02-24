@@ -67,7 +67,7 @@ export const ProfileCard = props => {
                         false ?
                         <div>
                             <Button 
-                                path="/settings"
+                                path="/profile"
                                 id="profile-button"
                                 textId="profile-button-text"
                                 text="Edit Profile"/>
