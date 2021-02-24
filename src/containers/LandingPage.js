@@ -22,12 +22,12 @@ const LandingPage = props => {
                     <div className="intro-text">
 
                         <h1>Create,</h1>
-                        <h1>Collect {"&"} Share</h1>
+                        <h1>Store {"&"} Share,</h1>
                         <h1>On your terms.</h1>
                         <p>
                             Bradbvry allows you to
 							<span className="bold"> own intimate collections </span>
-                            to store and share your digital possessions and creations. 
+                            to store and share your digital creations. 
                         </p>
                     </div>
                     <div className="cta">
@@ -37,20 +37,21 @@ const LandingPage = props => {
                     </div>
                 </div>
                 <div className="main-screenshot">
-                    <img src={main} alt="matebook" />
+                    <img src={screenshot} alt="matebook" />
                 </div>
             </section>
 
             <section className="presentation section final">
-				<div className="screenshot">
-					<img src={screenshot} alt="matebook" />
-				</div>
 				<div className="intro-text section text description">
 					<p> <span className="bold">Bradbury is a web-based, personal text-editor that you really own, it's yours. </span>
 						In the future, you will also store and share memories, pictures, documents or any other
 						meaningful collection, on your terms. 
 					</p>
 				</div>
+				<div className="screenshot">
+					<img src={main} alt="matebook" />
+				</div>
+				
 			</section>
 
 			<section className="presentation section">

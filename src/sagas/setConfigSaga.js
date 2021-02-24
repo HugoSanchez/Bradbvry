@@ -49,8 +49,6 @@ function* handleThreads(threads, client, identity, action) {
         yield put(setMasterThreadID_Action(threadID))
         yield put(setThreadArray_Action(collections))
         yield put(setUserItems_Action(previewItems))
-
-        yield console.log('HELLO')
         
         if (action.callback !== undefined) {
             yield action.callback() }

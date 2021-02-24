@@ -110,7 +110,8 @@ let actions = {
         let readFilter = actions.getReadFilter(identityString, config.type)
         await client.newCollectionFromObject(threadID, configObject, {name: 'config', writeValidator, readFilter})
         await client.newCollectionFromObject(threadID, entriesSchema, {name: 'entries',  writeValidator, readFilter})
-       
+
+        console.log('write validation')
         // Add public collection to global registry and set config
         await client.create(threadID, 'config', [collectionConfig])
         await actions.addCollectionToGlobalThread(client, collectionConfig)

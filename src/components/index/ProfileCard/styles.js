@@ -11,7 +11,7 @@ export const Container = styled.div`
 
 export const ProfileCardDiv = styled.div`
     position: fixed;
-    top: 20%;
+    top: 25%;
     height: 70vh;
     width: 20vw;
     padding-top: 8%;
