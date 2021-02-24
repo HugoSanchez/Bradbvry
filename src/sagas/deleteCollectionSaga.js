@@ -1,6 +1,6 @@
 import {HANDLE_DELETE_COLLECTION} from '../actions/types';
 import {take, put, select} from 'redux-saga/effects';
-import {setThreadArray_Action} from '../actions';
+import {setThreadArray_Action, setUserItems_Action} from '../actions';
 import {Mixpanel} from '../utils';
 
 
@@ -34,6 +34,7 @@ function* handleDeleteCollection(action) {
         // Update redux state
         let collections = yield client.find(masterThreadID, 'collections-list', {})
         yield put(setThreadArray_Action(collections))
+        yield put(setUserItems_Action([]))
         yield console.log('3', collections)
         
         // Redirect and track.

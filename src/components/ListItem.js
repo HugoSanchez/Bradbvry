@@ -5,8 +5,6 @@ import { useHistory } from 'react-router-dom';
 import {
     handleDeleteItem_Action, 
     setActiveItem_Action,
-    setActiveThread_Action,
-    setThreadItems_Action
 } from '../actions';
 
 import {
@@ -60,12 +58,10 @@ const ListItem = React.memo((props) => {
 				let thread = threads.filter(thread => {
                     return thread.previewEntries.includes(props.item)
                 })
-                console.log('HAGAG: ', thread[0])
                 setThread(thread[0])
             }
             else {setThread(activeThread)}
         }
-        console.log('called')
 		setItemThread()
     }, [threads])
 

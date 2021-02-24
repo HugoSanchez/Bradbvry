@@ -86,7 +86,7 @@ export const Collection = props => {
 			}
 		}
 		checkActiveThread()
-	}, [activeThread])
+	}, [activeThread, threadsArray])
 
 	const handleComponentConfig =  async () => {
 		// If state is empty, set initial configuration.

@@ -19,6 +19,6 @@ export const useIsLogged = () => {
         checkUserIsLogged()
     }, []);
 
-    return isLogged;
+    return false;
 }
 

@@ -46,6 +46,9 @@ function* handleThreads(threads, client, identity, action) {
         let collections = yield client.find(threadID, 'collections-list', {})
         // let {itemsArray, parsedThreads} = yield parseThreadsAndPosts_Helper(threads, client)
 
+        yield client.delete(threadID, 'collections-list', ["01ey5mse5h6ger0mxr6qak1gt7"])
+        console.log('here')
+
         let previewItems = concatPreviewItems(collections)
 
         yield put(setMasterThreadID_Action(threadID))
