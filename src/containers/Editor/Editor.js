@@ -67,7 +67,6 @@ export const Editor = props => {
 		// If activeThread is not set, 
 		// user is reloading and should be set.
 		const checkActiveThread = async () => {
-            console.log('checkActiveThread', location.state.item)
 			if (!activeThread && threadsArray.length > 0) {
                 let thread = threadsArray.find(thread => thread.name === threadName)
                 dispatch(setActiveThread_Action(thread))
@@ -132,7 +131,7 @@ export const Editor = props => {
         setLoading(false)
     }
 
-    const handleSaveItem = async () => {
+    const handleSaveItem = async () => {        
         if (loggedOwner) {
             setLoading(true)
             dispatch(handleSaveItem_Action(content, goBack))

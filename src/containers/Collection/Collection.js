@@ -145,7 +145,8 @@ export const Collection = props => {
 
 	const handleNewEditor = async () => {
 		dispatch(setActiveItem_Action(null))
-		props.history.push('/editor', {onlyRead: !isOwner})
+		props.history.push(`/app/${user}/${threadName}/new`, 
+			{onlyRead: !isOwner})
 	}
 
 	const onImageUpload = () => {

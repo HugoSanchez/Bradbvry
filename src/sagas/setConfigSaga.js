@@ -44,11 +44,6 @@ function* handleThreads(threads, client, identity, action) {
         let masterThread = threads.find(thread => thread.name === masterThreadName)
         let threadID = ThreadID.fromString(masterThread.id)
         let collections = yield client.find(threadID, 'collections-list', {})
-        // let {itemsArray, parsedThreads} = yield parseThreadsAndPosts_Helper(threads, client)
-
-        yield client.delete(threadID, 'collections-list', ["01ey5mse5h6ger0mxr6qak1gt7"])
-        console.log('here')
-
         let previewItems = concatPreviewItems(collections)
 
         yield put(setMasterThreadID_Action(threadID))
@@ -137,7 +132,6 @@ const concatPreviewItems = (threadsArray) => {
     let itemsArray = [];
 
     for (let i = 0; i < threadsArray.length; i++) {
-        console.log(threadsArray[i].previewEntries)
         itemsArray = itemsArray.concat(threadsArray[i].previewEntries)
     }
 

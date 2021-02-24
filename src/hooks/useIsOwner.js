@@ -8,6 +8,8 @@ export const useIsOwner = (userAddress) => {
 
     useEffect(() => {
         async function checkUserisOwner() {
+            console.log('add: ', address)
+            console.log('user: ', userAddress)
             setIsOwner(address === userAddress)
         }
         checkUserisOwner()

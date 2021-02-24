@@ -68,6 +68,9 @@ function* handleSaveItem(action) {
             let array = threadItems.filter(item => item !== activeItem)
             array.splice(index, 0, updatedEntry)
             yield put(setThreadItems_Action(array))
+
+            // 
+            yield put(handleAddItemToPreview_Action(updatedEntry, 'UPDATE'))
         }
 
     }
@@ -75,7 +78,7 @@ function* handleSaveItem(action) {
     // If there was no activeItem, content is new. We check if content is not empty
     // if so, post new entry and update itemsArray.
     else if (isContent) {
-
+        
         // Check images and upload them 
         let updatedPost = yield checkIfImageAndUploadToIPFS(post)
 
