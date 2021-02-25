@@ -58,6 +58,8 @@ export const Home = (props) => {
 
 
     useEffect(() => {
+        let url = getUserPubliData(user)
+        console.log('URL: ', url)
 		if (isLogged) {handleConfig()}
 		else if (isLogged === false) {fetchUserPublicData()}
     }, [isLogged])

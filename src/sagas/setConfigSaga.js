@@ -143,5 +143,4 @@ const concatPreviewItems = (threadsArray) => {
     }
 
     return sortItemsArray(itemsArray)
-
 }
