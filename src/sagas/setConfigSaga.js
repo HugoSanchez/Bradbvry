@@ -21,13 +21,6 @@ const { Magic } = require('magic-sdk');
 const magic = new Magic(process.env.REACT_APP_MAGIC_API_KEY);
 
 
-<<<<<<< HEAD
-        // If it's a new user, it creates the first three threads with its config posts
-        // and also it posts the welcome message.
-        let {sortedItems, parsedThreads} = yield createFirstThreeCollections(space, account)
-        yield put(setThreadArray_Action(parsedThreads))
-        yield put(setUserItems_Action(sortedItems))
-=======
 function* handleThreads(threads, client, identity, action) { 
     // Get master thread name string.
     let masterThreadName = Textile.getMasterThreadString(identity)
@@ -39,7 +32,6 @@ function* handleThreads(threads, client, identity, action) {
         let collections = yield client.find(masterThreadID, 'collections-list', {})
         yield put(setMasterThreadID_Action(masterThreadID))
         yield put(setThreadArray_Action(collections))
->>>>>>> textile
 
 
         if (action.callback !== undefined) {
