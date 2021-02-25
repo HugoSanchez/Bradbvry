@@ -2,16 +2,16 @@
 ////// URLS
 ////////////////////////////////////
 
-export const uploadUrl = `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}/api/uploadToIpfs`;
-export const addCollection = `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}/api/add/collections`;
-export const deleteCollection = `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}/api/delete/collections`;
-export const shareBaseUrl = `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}/api/share/send-invite-email`;
-export const acceptBaseUrl = `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}/api/share/add-invited-member`;
+export const uploadUrl = `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}api/uploadToIpfs`;
+export const addCollection = `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}api/add/collections`;
+export const deleteCollection = `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}api/delete/collections`;
+export const shareBaseUrl = `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}api/share/send-invite-email`;
+export const acceptBaseUrl = `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}api/share/add-invited-member`;
 
 export const joinCollectionUrl = (address, threadId, threadName) => `${process.env.REACT_APP_BRADBVRY_URL}/app/accept-invite/${address}/${threadId}/${threadName}`
-export const getSpecificItemsUrl = (address, threadName, itemId) => `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}/api/collections/${address}/${threadName}/${itemId}`;
-export const getCollectionItemsUrl = (address, threadName) => `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}/api/collections/${address}/${threadName}`;
-export const getUserPubliData = (address) => `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}/api/collections/${address}`;
+export const getSpecificItemsUrl = (address, threadName, itemId) => `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}api/collections/${address}/${threadName}/${itemId}`;
+export const getCollectionItemsUrl = (address, threadName) => `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}api/collections/${address}/${threadName}`;
+export const getUserPubliData = (address) => `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}api/collections/${address}`;
 
 
 export const ZoraSubGraph =  "https://api.thegraph.com/subgraphs/name/ourzora/zora-v1"
