@@ -87,20 +87,10 @@ function* handleConfig(action) {
     let signer          = yield Eth.getSigner(magic)
     let hubKey          = process.env.REACT_APP_TEXTILE_HUB_KEY
     let identity        = yield Textile.getIdentity(magic)
-    console.log('1', hubKey)
     let client          = yield Client.withKeyInfo({key: hubKey})
-    console.log('2')
     let userToken       = yield client.getToken(identity) 
-    console.log('3') 
     let threads         = yield client.listThreads()
     let identityString  = identity.public.toString()
-
-    let globalThreadID = yield Textile.getThreadIDFromString(process.env.REACT_APP_BRADBVRY_GLOBAL_THREAD_ID)
- 
-
-    let coll = yield client.find(globalThreadID, 'public-collections', {})
-    console.log('COLL: ', coll)
-
 
     // Dispatch initial user data to reducer
     yield put(setInitialUserData_Action({
