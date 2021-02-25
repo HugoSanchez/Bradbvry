@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useHistory} from "react-router-dom";
 import {useDispatch} from 'react-redux';
 import logo from '../../resources/favicon.png';
@@ -22,9 +22,18 @@ const magic = new Magic(process.env.REACT_APP_MAGIC_API_KEY);
 
 export const SignIn = props => {
 
+	useEffect(() => {
+		const func = async () => {
+			localStorage.removeItem('textile-identity')
+			await magic.user.logout();
+		}
+		func()
+	}, [])
+
     const history = useHistory();
 	const dispatch = useDispatch()
 	const [loading, setLoading] = useState(false)
+	const [isInputFocused, setInputFocused] = useState(false)
 
     const handleLogin = async e => {
 		setLoading(true)
@@ -34,7 +43,10 @@ export const SignIn = props => {
         if (email) {
 			await magic.auth.loginWithMagicLink({ email });
 			await magic.user.isLoggedIn();
+
 			dispatch(setInitialConfiguration_Action())
+
+			
 			
 			if (!!props.location.state) {
 				history.push(props.location.state.redirect)
@@ -62,11 +74,19 @@ export const SignIn = props => {
 				autoComplete="off" 
 				onSubmit={handleLogin}>
 				<Input 
+					
 					type="email" 
 					name="email" 
 					required="required"
 					autoComplete="off" 
-					placeholder="thomas.pynchon@email.com" />
+					onBlur={() => setInputFocused(false)}
+					onFocus={() => setInputFocused(true)}
+					placeholder={
+						isInputFocused ? 
+						'' :
+						"thomas.pynchon@email.com" 
+					}/>
+
 				<br></br>
 				<Button type="submit">
 					<ButtonText>Sign In</ButtonText>

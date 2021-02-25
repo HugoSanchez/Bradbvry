@@ -1,9 +1,11 @@
-import React, {useState}  from 'react';
+import React, {Fragment, useState}  from 'react';
+import NFTLogo from '../../../resources/NFTLogo.png'
 
 import {
     Date,
     Image,
     TextBox,
+    TextEntry,
     DeleteBox,
     ImageTitle,
     Description,
@@ -11,17 +13,17 @@ import {
 } from './styles';
 
 import {
-    useSelector, 
     useDispatch
 } from 'react-redux';
 
 import {
+    Text,
     DeleteBin
 } from '../../common';
 
 import {
-    deleteEntry_Action
-} from '../../../actions'
+    handleDeleteItem_Action
+} from '../../../actions';
 
 
 
@@ -29,62 +31,91 @@ export const ImageCard = props => {
 
     let {
         title,
-        description
-    } = props.image.message.content;
+        description,
+        contentURI
+    } = props.entry;
 
-    let base64Image = props.image.message.content.image.file
-
-    // Instantiate state
     const [isActive, setActive] = useState(false); 
-    // Create setter function
+    const [border, setBorder] = useState(false);
+    const [loaded, setLoaded] = useState(false)
+
     const handleMouseOver = () => {
         setActive(!isActive)
     }
-    
+    const handleOnClick = (e) => {
+        e.stopPropagation()
+        if (props.isSelectable) {setBorder(!border)}
+        if (props.onClick) {props.onClick()}
+    }
+
+
     let months =    ['JAN', 'FEB', 'MAR', 
                     'APR', 'MAY', 'JUN', 
                     'JUL', 'AUG', 'SEP', 
                     'OCT', 'NOV', 'DEC']
     
-    let timestamp       = props.image.timestamp                 
-    let date            = new window.Date(timestamp * 1000)
+    let timestamp       = props.entry.timestamp              
+    let date            = new window.Date(timestamp)
     let day             = date.getDay()
     let month           = months[date.getMonth()]
     let year            = date.getFullYear()
 
     let dispatch        = useDispatch()
-    let threads         = useSelector(state => state.threads.threadsArray);
 
     const deleteImage = async (e) => {
         e.stopPropagation();
-        let thread = threads.find(thread => thread._name === props.image.threadName)
-        await thread.deletePost(props.image.postId)
-        dispatch(deleteEntry_Action(props.image))
+        dispatch(handleDeleteItem_Action(props.entry))
     }
 
-    return (
-        <ImageCardContainer 
-            shadow={props.shadow}
-            onMouseEnter={() => handleMouseOver()}
-            onMouseLeave={() => handleMouseOver()}>
-                <DeleteBox>
-                    <DeleteBin 
-                        isActive={isActive}
-                        onClick={(e) => deleteImage(e)}
-                        isModerator={props.isModerator}/>
-                </DeleteBox>
-                <TextBox>
-                    <ImageTitle>{title}</ImageTitle>
+
+    
+        return (
+
+            <ImageCardContainer 
+                border={border}
+                shadow={props.shadow}
+                onClick={handleOnClick}
+                onMouseEnter={() => handleMouseOver()}
+                onMouseLeave={() => handleMouseOver()}>
+
+                    <DeleteBox>
+                        {
+                            props.isModerator ?
+                            <DeleteBin 
+                                isActive={isActive}
+                                zIndex={isActive ? '4' : '2'}
+                                onClick={(e) => deleteImage(e)}/>
+                            :
+                            null
+                        }
+                        
+                    </DeleteBox>
+
                     {
-                        window.innerWidth < 500 ?
-                        null
+                        loaded ? 
+                        <Fragment>
+                            <TextBox>
+                            <ImageTitle>{title}</ImageTitle>
+                                {
+                                    window.innerWidth < 500 ?
+                                    null
+                                    :
+                                    <Description>{description}</Description>
+                                }
+                            </TextBox>
+                            <Date>{day + ' ' + month + ' ' + year}</Date>
+                        </Fragment>
                         :
-                        <Description>{description}</Description>
-                    }
-                </TextBox>
-                <Date>{day + ' ' + month + ' ' + year}</Date>
-            <Image src={base64Image}/>
-        </ImageCardContainer>
-    );
+                        null
+                    } 
+
+                    <Image 
+                        src={contentURI}
+                        onLoad={() => setLoaded(true)}
+                        onError={props.onError}/>
+                        
+            </ImageCardContainer>
+        );
+
 }
 

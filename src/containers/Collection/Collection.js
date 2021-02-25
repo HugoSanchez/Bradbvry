@@ -1,15 +1,27 @@
 import React, {useEffect, useState, Fragment} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
+import {getCollectionItemsUrl} from '../../constants';
 import Drawer from '@material-ui/core/Drawer';
-import {Mixpanel} from '../../utils';
-import Box from '3box';
+import Dropzone from 'react-dropzone';
+import {ThreadID} from '@textile/hub';
+import axios from 'axios';
 
 import {
+	useMixpanel,
+	useIsOwner,
+	useIsLogged
+} from '../../hooks'
+
+import {
+	FlexContainer,
+	LeftContainer,
+	RightContainer,
 	CollectionButtons,
 	CollectionCardBig,
 	UploadImageForm,
 	AddMemberForm,
 	LoadingCard,
+	MoreButton,
 	ItemsList, 
 	SnackBar,
 	Header
@@ -18,92 +30,105 @@ import {
 import {
 	setActiveItem_Action,
 	setActiveThread_Action, 
+	setThreadItems_Action,
+	addItemToThreadItems_Action,
+	handleSaveImage_Action,
 	setInitialConfiguration_Action
 } from '../../actions';
 
 import {
-	FlexContainer,
-	LeftContainer,
-	RightContainer
+	DropZoneCont,
+	MoreOptionsPositioner
 } from './styles';
 
-const { Magic } = require('magic-sdk');
-const magic = new Magic(process.env.REACT_APP_MAGIC_API_KEY);
-
 export const Collection = props => {
-	
-	Mixpanel.track('COLLECTION');
 
 	let {
-		threadAddress, 
-		threadName
+		threadName,
+		user
 	} = props.match.params
 
+	useMixpanel('COLLECTION')
+
 	const dispatch = useDispatch()
+	const isLogged = useIsLogged()
+	const isOwner  = useIsOwner(user)
+	
 
 	// Try to fix this:
 	// This makes the component re-render everytime the modal is opened and closed.
+	const [loading, setLoading] = useState(true)
 	const [renderForm, setRenderForm] = useState(false) 
 	const [renderMemberForm, setRenderMemberForm] = useState(false) 
 	const [openSnack, setOpenSnack] = useState('')
 	const [uploadSuccess, setUploadSuccess] = useState(false)
 	const [message, setMessage] = useState(null)
-	const [isModerator, setIsModerator] = useState(false)
 
-    const address = useSelector(state => state.user.address)
+	const client = useSelector(state => state.user.client)
 	const threadsArray = useSelector(state => state.threads.threadsArray)
-	const itemsArray = useSelector(state => state.threads.itemsArray)
+	const threadItems = useSelector(state => state.threads.threadItems)
 	const activeThread = useSelector(state => state.threads.activeThread)
-	const threadItems = itemsArray.filter(item => item.threadName === threadName)
 
 	useEffect(() => {
-		// Check if user is logged in. 
-		// If not, redirect to sign in url
-		// Else handle config.
-		const isLoggedIn = async () => {
-			let isLogged = await magic.user.isLoggedIn();
-			if (!isLogged) { props.history.push(`/signin`)} 
-			else { handleConfig() }
-		}
-		isLoggedIn()
-	}, [props.history])
+		if (isLogged) {handleComponentConfig()}
+		else if (isLogged === false) {fetchThreadEntries()}
+	}, [isLogged])
 
 	useEffect(() => {
 		// Check selectedThread is correct.
-		// If activeThread is not set, user is reloading and should be set.
+		// If activeThread is not set, 
+		// user is reloading and should be set.
 		const checkActiveThread = async () => {
-			if (!activeThread) {
-				let paramsThreadAddress = `/orbitdb/${threadAddress}/${threadName}`
-				let thread = threadsArray.find(thread => thread._address === paramsThreadAddress)
+			if (!activeThread && threadsArray.length > 0) {
+				let thread = threadsArray.find(thread => thread.name === threadName)
 				dispatch(setActiveThread_Action(thread))
+				await fetchThreadData(thread)
 			}
 		}
 		checkActiveThread()
-	})
+	}, [activeThread, threadsArray])
 
-	useEffect(() => {
-		// Check whether a user has "write"-acces to the collection
-		// And sets permissions accordingly (publish and delete). 
-		const checkAndSetModerator = async (thread) => {
-			if (activeThread) {
-				let config = await Box.getConfig(address) 
-				let did = config.spaces['bradbvry--main'].DID
-				let moderators = await activeThread.listModerators();
-				let includes = moderators.includes(did) || moderators.includes(address)
-				setIsModerator(includes)
-			}
-		}
-		checkAndSetModerator()
-	})
+	const handleComponentConfig =  async () => {
+		// If state is empty, set initial configuration.
+		// Else, fetch thread data and set listeners.
+		if (isLogged && !client) {dispatch(setInitialConfiguration_Action())}
+		else if (isLogged && client) {fetchThreadData(activeThread)}
+		else if (isLogged && client && activeThread) {setLoading(false)}
+	}
 
 	
-	// If state is empty, set initial configuration.
-	// Else, make sure selectedThread is properly set.
-	const handleConfig = async () => {
-		if (threadsArray.length < 1) {
-		dispatch(setInitialConfiguration_Action())}
+	const fetchThreadData = async (thread) => {
+		// If selected thread exists, 
+		// Fetch entries and set up listener
+		let threadId = ThreadID.fromString(thread.id)
+		let items = await client.find(threadId, 'entries', {})
+
+		dispatch(setThreadItems_Action(items.reverse()))
+		setLoading(false)
+
+		await client.listen(threadId, [], (e) => {
+			if (e === undefined) {return}
+			if (e.action === 'CREATE') {
+				let item = e.instance
+				dispatch(addItemToThreadItems_Action(item))
+			}			
+		})
 	}
 	
+	
+
+	const fetchThreadEntries = async () => {
+		// This functions only gets called if user is not logged.
+		// It fetches the collection entries from the backend.
+		let fetchUrl = getCollectionItemsUrl(user, threadName)
+		let {data} = await axios.get(fetchUrl)
+		dispatch(setActiveThread_Action(data.collection[0]))
+		dispatch(setThreadItems_Action(data.entries.reverse()))
+		setLoading(false)
+	}
+
+	
+
 	const handleShowSnackbar = bool => {
 		if (bool) {setMessage('Success !')}
 		else {setMessage('Something went wrong, please try again.')}
@@ -120,14 +145,21 @@ export const Collection = props => {
 
 	const handleNewEditor = async () => {
 		dispatch(setActiveItem_Action(null))
-		props.history.push('/editor', {onlyRead: !isModerator})
+		props.history.push(`/app/${user}/${threadName}/new`, 
+			{onlyRead: !isOwner})
 	}
 
 	const onImageUpload = () => {
 		setRenderForm(false)
 	}
+	
+	const onDrop = (files) => {
+		const formData = new FormData();
+		formData.append('file', files[0]);
+		dispatch(handleSaveImage_Action({files}))
+	}
 
-	if (threadItems.length < 1 && !activeThread){
+	if (loading){
 		return (
 			<Fragment>
 				<Header />
@@ -159,29 +191,53 @@ export const Collection = props => {
 				message={message}
 			/>
 
-			<FlexContainer>
-				{
-					window.innerWidth < 500 ?
-					null
-					:
+			<MoreOptionsPositioner>
+				<MoreButton 
+					isOwner={isOwner}
+					history={props.history}/>
+			</MoreOptionsPositioner>
+
+
+				<FlexContainer>
 					<LeftContainer>
-						<CollectionCardBig thread={activeThread} />
+						<CollectionCardBig
+							member={user}
+							isOwner={isOwner}
+							isLogged={isLogged} 
+							thread={activeThread} />
 					</LeftContainer>
-				}
-				
-				<RightContainer>
-					<ItemsList 
-						items={threadItems} 
-						shadow={true} 
-						isModerator={isModerator}/>
-				</RightContainer>
-			</FlexContainer>
+
+					<RightContainer>
+						<Dropzone 
+							onDrop={onDrop}
+							accept={'image/jpeg, image/png, image/gif'}
+							maxSize={20000000}
+							multiple={true}>
+
+							{(
+								{getRootProps, getInputProps}) => (
+									<DropZoneCont {...getRootProps()}>
+										<input {...getInputProps()} />
+
+												<ItemsList 
+													shadow={true} 
+													items={threadItems} 
+													isModerator={isOwner}/>
+											
+									</DropZoneCont>
+							)}
+						</Dropzone>
+					</RightContainer>
+				</FlexContainer>
 
 			<CollectionButtons 
+
 				addMember={() => setRenderMemberForm(true)}
 				addImage={() => setRenderForm(true)}
 				openEditor={() => handleNewEditor}
-				activeThread={activeThread}/>
+				activeThread={activeThread}
+				isOwner={isOwner}/>
+
 		</Fragment>
   	)
 }

@@ -9,7 +9,10 @@ import {
     primaryGray45
 } from '../../constants/colors';
 
+import { Mixpanel } from '../../utils';
+
 export const CollectionTypeSel = props => {
+
     let {
         collectionType,
         setCollectionType
@@ -27,20 +30,20 @@ export const CollectionTypeSel = props => {
             </Text>
         </SpaceType>
         <SpaceType
-            color={ collectionType === 'members' ? primaryGray45 : null }
-            onClick={() => setCollectionType('members')}>
+            color={ collectionType === 'members' ? null : null }
+            onClick={() => Mixpanel.track('members')}>
             <Text
                 color={lightGray150}
-                fontWeight={collectionType === 'members' ? '500' : null}>
+                fontWeight={collectionType === 'members' ? null : null}>
                     Members
             </Text>
         </SpaceType>
         <SpaceType
-            color={ collectionType === 'private' ? primaryGray45 : null }
-            onClick={() => setCollectionType('private')}>
+            color={ collectionType === 'private' ? null : null }
+            onClick={() => Mixpanel.track('private')}>
             <Text
                 color={lightGray150}
-                fontWeight={collectionType === 'private' ? '500' : null}>
+                fontWeight={collectionType === 'private' ? null : null}>
                     Private
             </Text>
         </SpaceType>
@@ -67,3 +70,4 @@ const SpaceType = styled(Row)`
         opacity: 0.7; 
     }
 `;
+

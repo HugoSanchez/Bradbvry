@@ -5,25 +5,21 @@ import styled from 'styled-components';
 export const ProfileCont = styled.div`
     height: 50px;
     width: 100%;
-    border-radius: 4px;
-    margin-top: 3%;
     display: flex;
     flex-direction: row;
-    background: rgb(30,30, 30);
 `;
 
 export const AvatarCont = styled.div`
-    flex: 1;
     display: flex;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
 `;
 
 export const Avatar = styled.div`
-    height: 40px;
-    width: 40px;
-    border-radius: 20px;
-    background-color: rgba(220, 220, 220, 0.1);
+    height: 50px;
+    width: 50px;
+    border-radius: 25px;
+    background-color: rgba(180, 180, 180, 0.4);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -31,21 +27,24 @@ export const Avatar = styled.div`
 
 export const Image = styled.img`
     position: relative;
-    height: 40px;
-    width: 40px;
-    border-radius: 20px;
+    height: 50px;
+    width: 50px;
+    border-radius: 25px;
 `;
 
 export const NameCont = styled.div`
-    flex: 2;
+    overflow: hidden;
+    padding-left: 3%;
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    justify-content: center;
 `;
 
 export const ProfileName = styled(Text)`
     font-size: 16px;
     font-weight: 600;
-    color: rgba(150, 150, 150, 1);
+    color: rgba(120, 120, 120, 1);
+    cursor: pointer;
 `;
 
 export const Editor = styled(Text)`
@@ -56,14 +55,11 @@ export const Editor = styled(Text)`
     color: rgba(150, 150, 150, 1);
 `;
 
-export const GText = styled(Text)`
-    color: ${primaryGreen};
-    font-weight: 500;
+export const Address = styled(Text)`
+    font-weight: 300;
+    font-style: italic;
+    font-size: 11px;
     cursor: pointer;
-    display: inline-block;
-    &:hover{
-        text-decoration: underline;
-    }
 `;
 
 export const TypeCont = styled.div`

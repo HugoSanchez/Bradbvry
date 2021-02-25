@@ -1,11 +1,10 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 
 import {
-    deleteEntry_Action, 
+    handleDeleteItem_Action, 
     setActiveItem_Action,
-    setActiveThread_Action
 } from '../actions';
 
 import {
@@ -37,19 +36,40 @@ import {
  */
 
 const ListItem = React.memo((props) => {
-    // Instantiate state
-    const [isActive, setActive] = useState(false); 
-    // Create setter function
-    const handleMouseOver = () => {
-        setActive(!isActive)
-    }
 
     // Get threads from global redux store.
     // Instantiate dispatch function.
     const history = useHistory();
     const dispatch = useDispatch()
+    // Instantiate state
+    const [isActive, setActive] = useState(false); 
+    const [thread, setThread] = useState(null)
+    // Get threads
     const threads = useSelector(state => state.threads.threadsArray);
-    
+    const activeThread = useSelector(state => state.threads.activeThread);
+
+
+    useEffect(() => {   
+        const setItemThread = async () => {
+            // If !activeThread it means user is in preview.
+            // else, user is in collection. This allows to 
+            // properly navigate the user to the editor.
+			if (!activeThread && threads.length > 0) {
+				let thread = threads.filter(thread => {
+                    return thread.previewEntries.includes(props.item)
+                })
+                setThread(thread[0])
+            }
+            else {setThread(activeThread)}
+        }
+		setItemThread()
+    }, [threads])
+
+
+    // Create setter function
+    const handleMouseOver = () => {
+        setActive(!isActive)
+    }
 
     // Deconstruct item from props.
     // Create array of months.
@@ -61,15 +81,16 @@ const ListItem = React.memo((props) => {
 
     // Parse the item key (which is a timestamp from the day it was created),
     // to get the day and month to display.
-    let timestamp = item.message.content.timestamp ? item.message.content.timestamp : item.timestamp
+    let timestamp = item.timestamp ? item.timestamp : item.timestamp
     let date      = new Date(parseInt(timestamp))
     let day       = date.getDate()
     let month     = months[date.getMonth()]
 
     // Get the title and parse the body to display.
     // Find first block that is unstyled and not empty.
-    let title = item.message.content.blocks[0].text.slice(0, 45) || "Unkown Title";
-    let body = item.message.content.blocks.find(block => block.type === 'unstyled' && block.text.length > 1) 
+    let entry = props.entry
+    let title = entry.blocks[0].text.slice(0, 45) || "Unkown Title";
+    let body = entry.blocks.find(block => block.type === 'unstyled' && block.text.length > 1);
     let maxSlice = window.innerWidth < 400 ? 20 : 220;
     let bodyToDisplay = body ? body.text.slice(0, maxSlice) : LoremIpsum.slice(0, maxSlice);
 
@@ -77,25 +98,28 @@ const ListItem = React.memo((props) => {
     // Dispatches action to delete item from global store.
     const deleteEntry = async (e) => {
         e.stopPropagation();
-        let thread = threads.find(thread => thread._name === item.threadName)
-        await thread.deletePost(item.postId)
-        dispatch(deleteEntry_Action(item))
+        console.log('Item: ', item)
+        dispatch(handleDeleteItem_Action(item))
     }
 
     // On clicking the item card, this function sets the active thread in redux state
     // as well as the active item and navigates the user to the Editor.
-    const onItemClick = async () => {
-       let thread = threads.find(thread => thread._name === item.threadName)
-       dispatch(setActiveThread_Action(thread))
-       dispatch(setActiveItem_Action(item))
-       history.push('/editor', {onlyRead: !props.isModerator})
+    const onItemClick = async (e) => {
+        e.stopPropagation()
+        dispatch(setActiveItem_Action(item))
+        history.push(`/app/${props.item.createdBy}/${thread.name}/${props.item._id}`, {
+            item: props.item,
+            entry: props.entry,
+            onlyRead: !props.isModerator})
     }
 
-    return (
+    if (entry) {
+        return (
 
             <Card 
+                marginTop={'3%'}
                 shadow={props.shadow}
-                onClick={() => {onItemClick()}}
+                onClick={(e) => {onItemClick(e)}}
                 onMouseOver={() => setActive(true)}
                 onMouseLeave={() => {handleMouseOver()}}>
 
@@ -107,10 +131,17 @@ const ListItem = React.memo((props) => {
                 <ContentBox>
                     <TitleBox>
                         <Title>{title}</Title>
-                        <DeleteBin 
-                            isActive={isActive}
-                            onClick={(e) => deleteEntry(e)}
-                            isModerator={props.isModerator}/>
+
+                        {
+                            props.isModerator ? 
+                            <DeleteBin 
+                                isActive={isActive}
+                                onClick={(e) => deleteEntry(e)}
+                                isModerator={props.isModerator}/>
+                            :
+                            null
+                        }
+                        
                     </TitleBox>
                     <View>
                         <Text> {bodyToDisplay}...</Text>
@@ -118,7 +149,12 @@ const ListItem = React.memo((props) => {
                 </ContentBox>
 
             </Card>
-    );
+        );
+    } else {
+        return <div></div>
+    }
+
+    
 });
 
 const DateBox = styled(View)`

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import {device} from '../../constants';
 
 const SectionSubTitle = styled.p`
-    margin-bottom: 200px;
+    margin-bottom: 100px;
     padding-right: 10%;
     padding-left: 10%;
     font-size: 3.5vh;

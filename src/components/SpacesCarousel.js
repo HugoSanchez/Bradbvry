@@ -1,4 +1,6 @@
 import React, { Fragment } from "react";
+import styled from 'styled-components';
+
 import {
     useSelector
 } from "react-redux";
@@ -10,23 +12,36 @@ import {
 import {
     Underline,
     Carousel,
+    Title,
     Text,
 } from './common';
 
+const Container = styled.div`
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+`;
 
 export const SpacesCarousel = props => {
-    let threads = useSelector(state => state.threads.threadsArray);
+
+    let collections = props.collections
+
     return (
-        <Fragment>
+        <Container>
             <Text>Your collections</Text>
             <Underline />
             <Carousel>
-                {
-                    threads.reverse().map((thread, index) => {
-                        return <SpaceCard key={index} thread={thread} />
+                {   
+                    collections.length === 0 ?
+                    <Title>You have no collections, create one!</Title>
+                    :
+                    collections.map((thread, index) => {
+                        return <SpaceCard 
+                                    key={index} 
+                                    thread={thread} />
                     })
                 }
             </Carousel>  
-        </Fragment>
+        </Container>
     );
 }

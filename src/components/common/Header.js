@@ -14,7 +14,7 @@ const Header = React.memo((props) => {
     const [active, setActive] = useState(false); 
 
     const user = useSelector(state => state.user);
-    const isLogged = useSelector(state => state.user.isLogged);
+    const client = useSelector(state => state.user.client);
 
 
     useEffect(() => {
@@ -26,14 +26,14 @@ const Header = React.memo((props) => {
     }, [])
 
     const renderLinks = () => {
-        if (isLogged) {
+        if (client) {
             return (
                 <Fragment>
                     <Link to={'/app/' + user.address} id="header-profile-link-container">
                         <HeaderText bold={location.pathname === '/app/' + user.address}>Home</HeaderText>
                     </Link>
-                    <Link to="/settings" id="header-profile-link-container">
-                        <HeaderText bold={location.pathname === "/settings"}>Settings</HeaderText>
+                    <Link to="/profile" id="header-profile-link-container">
+                        <HeaderText bold={location.pathname === "/profile"}>Profile</HeaderText>
                     </Link>
                 </Fragment>
             );

@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {IconContext} from 'react-icons';
 import {RiUserSmileLine, RiInformationLine} from 'react-icons/ri';
 import ReactTooltip from 'react-tooltip';
-import {Text} from '../../common';
+import { useHistory } from "react-router-dom";
+import Box from '3box';
+
 
 import {
     ProfileCont,
@@ -14,24 +16,39 @@ import {
     Avatar,
     Editor,
     Image,
-    GText 
+    Address 
 } from './styles';
 
 export const ProfileRow = props => {
 
     // Deconstruct state.
-    let {member, moderators} = props;
+    let {member} = props;
+    let history = useHistory()
+    let [profile, setProfile] = useState({})
+    let [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+        const fetchProfile = async () => {
+            let profileRes = await Box.getProfile(member)
+            setProfile(profileRes)
+            setLoading(false)
+        }
+        fetchProfile()
+    }, [])
+
 
     // Get profile pic from IPFS.
     // IPFS is awesome.
     let imageIPFSaddress 
-    if (member.image) {
+    if (profile.image) {
         imageIPFSaddress  = "https://ipfs.io/ipfs/" 
-        + member.image[0].contentUrl["/"]
+        + profile.image[0].contentUrl["/"]
     } 
     else {imageIPFSaddress = false}
 
-    let isModerator = moderators.includes(member.did)
+    if (loading) {
+        return <div></div>
+    }
 
     return (
         <ProfileCont>
@@ -47,44 +64,11 @@ export const ProfileRow = props => {
                     }
                 </Avatar>
             </AvatarCont>
-            <NameCont>
-                <ProfileName>{member.name || 'Unkown '}</ProfileName>
+            <NameCont onClick={() => history.push(`/app/${member}`)}>
+                <ProfileName>{profile.name || 'Unkown '}</ProfileName>
+                <Address>{member.slice(0, 8)}...</Address>
             </NameCont>
-            <TypeCont>
-                {
-                    isModerator ?
-                    <div>
-                        <Editor>Editor</Editor>
-                        <IconWrapper>
-                            <IconContext.Provider
-                                value={{size: '15px', color: 'gray'}}>
-                                <RiInformationLine  data-tip data-for='editor-tip'/> 
-                            </IconContext.Provider> 
-                        </IconWrapper>
-                        <ReactTooltip 
-                            id='editor-tip' 
-                            className='tooltip'>
-                            <Text>This user can add and delete posts</Text>
-                        </ReactTooltip>
 
-                    </div>
-                    :
-                    <div>
-                        <GText onClick={() => props.handleAddModerator(member.did)}>Allow Edit</GText>
-                        <IconWrapper>
-                            <IconContext.Provider
-                                value={{size: '15px', color: 'gray'}}>
-                                <RiInformationLine  data-tip data-for='allow-editor-tip'/> 
-                            </IconContext.Provider> 
-                        </IconWrapper>
-                        <ReactTooltip 
-                            id='allow-editor-tip' 
-                            className='tooltip'>
-                            <Text>Allow user to post to this Collection</Text>
-                        </ReactTooltip>
-                    </div>
-                }
-            </TypeCont>
         </ProfileCont>
     )
 }

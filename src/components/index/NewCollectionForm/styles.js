@@ -1,5 +1,6 @@
 import {
-    Row, 
+    Row,
+    Text,
     Title,
 } from '../../common';
 
@@ -9,6 +10,7 @@ import {
 } from '../../../constants/colors';
 
 import styled from 'styled-components';
+
 
 export const ModalTitle = styled(Title)`
     width: 100%;
@@ -38,3 +40,15 @@ export const Label = styled.label`
 export const Gn = styled.span`
     color: ${primaryGreen}
 `;
+
+export const CloseTab = styled(Title)`
+    position: fixed;
+    top: 2%;
+    right: 2%;
+`;
+
+export const Warning = styled(Text)`
+    color: white;
+    padding: 2%;
+    padding-bottom: 4%;
+`

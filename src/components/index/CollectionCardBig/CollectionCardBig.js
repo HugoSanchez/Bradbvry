@@ -1,12 +1,15 @@
 import React  from 'react';
 
+import {ProfileRow} from '../ProfileRow';
+
 import {
     CollectionCardContainer,
-    CollectionImage,
     CollectionTitle,
     Description,
     TextBox
 } from './styles';
+
+
 
 /**
  * @param {onPress} props: function to execute;
@@ -17,18 +20,24 @@ import {
 
 
 export const CollectionCardBig = props => {
+
+    // If user is not logged, or not owner, external == false.
+    // The thread object is different based in this condition.
+    let external = props.isLogged && props.isOwner
+
     let {thread} = props
-    let image = thread.config.image
-    let spacename = thread.config.name.replace(/-/g, ' ')
-    let description = thread.config.description.slice(0, 96)
+    let image = thread.image
+    let spacename = thread.name.replace(/-/g, ' ')
+    let description = thread.description.slice(0, 96)
 
     return (
         <CollectionCardContainer>
-            <CollectionImage src={image}/>
             <TextBox>
                 <CollectionTitle color={"white"}>{spacename}</CollectionTitle>
                 <Description color={"white"}>{description}</Description>
             </TextBox>
+
+            <ProfileRow member={props.member}/>
         </CollectionCardContainer>
     );
 }

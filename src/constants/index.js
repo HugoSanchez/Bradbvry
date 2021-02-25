@@ -2,14 +2,81 @@
 ////// URLS
 ////////////////////////////////////
 
+export const uploadUrl = `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}/api/uploadToIpfs`;
+export const addCollection = `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}/api/add/collections`;
+export const deleteCollection = `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}/api/delete/collections`;
 export const shareBaseUrl = `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}/api/share/send-invite-email`;
 export const acceptBaseUrl = `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}/api/share/add-invited-member`;
-export const joinCollectionUrl = (address, threadAddress) => `${process.env.REACT_APP_BRADBVRY_URL}/app/accept-invite/${address}/${threadAddress}`
-export const addMemberUrl = (data, thread, threadName) => `${process.env.REACT_APP_BRADBVRY_URL}/app/add-member/${data.publicAddress}/${thread}/${threadName}/${data.email}`
+
+export const joinCollectionUrl = (address, threadId, threadName) => `${process.env.REACT_APP_BRADBVRY_URL}/app/accept-invite/${address}/${threadId}/${threadName}`
+export const getSpecificItemsUrl = (address, threadName, itemId) => `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}/api/collections/${address}/${threadName}/${itemId}`;
+export const getCollectionItemsUrl = (address, threadName) => `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}/api/collections/${address}/${threadName}`;
+export const getUserPubliData = (address) => `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}/api/collections/${address}`;
+
+
+export const ZoraSubGraph =  "https://api.thegraph.com/subgraphs/name/ourzora/zora-v1"
 
 ////////////////////////////////////
 ////// THREAD OBJECT
 ////////////////////////////////////
+
+export const joinMessage = {
+    congigObj: '',
+    threadInfo: '',
+    signature: ''
+}
+
+export const pendingObject = {
+    _id: '', 
+    threadId: '', 
+    threadName: '', 
+    owner: ''
+}
+
+export const entriesObject = {
+    _id: '', 
+    name: '',                           // Entry name
+    description: '',                    // Entry description
+    type: 'file',                       // Entry type file/post
+    entry: '',                          // Actual entry
+    other: '',                          // Other info
+    timestamp: 0,                       // Entry creation date
+    contentURI: '',
+    metadataURI: '',
+    createdBy: ''
+}
+
+export const configObject = {
+    _id: '', 
+    threadId: '',                        // The thread's ID string.                                   
+    name: '',                            // Collection Name 
+    description: '',                     // Collection Description
+    type: '',                            // Collection type: [open || members-only || private]
+    tokenAddress: '',                    // Token address if any
+    symmetricKey: '',                    // Symetric AES key if any
+    subscriptionType : '',               // [stake || free || invite-only || montly]
+    timestamp: 0,                        // Creation day timestamp
+    options: '',                         // Any additional info.
+    memebers: [''],                      // Members array.  
+    preview: '',                         // Boolean - wether or not there's preview entries
+    previewEntries: [                    // Array of public entries to preview
+        entriesObject
+    ],                  
+    owner: {                             // Owner data.
+        did: '',
+        identity: '',
+        ethAddress: '',
+    }, 
+    keyOwners: [
+        {
+            memberId: '',
+            memberAddress: '',
+            memberPubkey: '',
+            collectionKey: ''
+        }
+    ]
+}
+
 
 export const globalThreadModeratorAddress = "0xCc74308838BbAcEEC226611A0C2b3fD5f4a7D8a2";
 

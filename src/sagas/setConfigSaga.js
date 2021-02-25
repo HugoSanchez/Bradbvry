@@ -1,92 +1,132 @@
 import {SET_INITIAL_CONFIG} from '../actions/types';
-import {takeLeading, put} from 'redux-saga/effects';
-import {firstDefaultEntry} from '../constants';
-import {ThreeBox} from '../utils';
-import Box from '3box';
+import {take, put} from 'redux-saga/effects';
+import {Textile, Eth} from '../utils';
+
+import {
+    Client, 
+    ThreadID, 
+    Users
+} from '@textile/hub';
+
 import {
     setUserItems_Action,
     setThreadArray_Action,
     setInitialUserData_Action,
+    setMasterThreadID_Action,
+    setUserMailbox_Action,
     setUserIsLogged_Action
 } from '../actions';
 
 const { Magic } = require('magic-sdk');
 const magic = new Magic(process.env.REACT_APP_MAGIC_API_KEY);
 
-function* handleThreads(threads, space, account) {  
-    
-    if (threads.length <= 1) {
 
+<<<<<<< HEAD
         // If it's a new user, it creates the first three threads with its config posts
         // and also it posts the welcome message.
         let {sortedItems, parsedThreads} = yield createFirstThreeCollections(space, account)
         yield put(setThreadArray_Action(parsedThreads))
         yield put(setUserItems_Action(sortedItems))
+=======
+function* handleThreads(threads, client, identity, action) { 
+    // Get master thread name string.
+    let masterThreadName = Textile.getMasterThreadString(identity)
+    
+    if (threads.length === 0) {
+        // If user is new, create masterThread and set state
+        // Collections will be an empty array.
+        let masterThreadID = yield Textile.createMasterThreadDB(client, masterThreadName)
+        let collections = yield client.find(masterThreadID, 'collections-list', {})
+        yield put(setMasterThreadID_Action(masterThreadID))
+        yield put(setThreadArray_Action(collections))
+>>>>>>> textile
 
-    } else {
 
-        // If not, for each thread, 
-        // it parses and sets the items.
-        let {sortedItems, parsedThreads} = yield parseThreadsAndPosts_Helper(threads, space)
-        yield put(setThreadArray_Action(parsedThreads))
-        yield put(setUserItems_Action(sortedItems))
+        if (action.callback !== undefined) {
+            yield action.callback() }
+    } 
+    
+    else {
+        // Else, get masterThreadID and set collections.
+        // This will be improved by sacing the master thread id somewhere.
+        let masterThread = threads.find(thread => thread.name === masterThreadName)
+        let threadID = ThreadID.fromString(masterThread.id)
+        let collections = yield client.find(threadID, 'collections-list', {})
+        let previewItems = concatPreviewItems(collections)
 
-    }
+        yield put(setMasterThreadID_Action(threadID))
+        yield put(setThreadArray_Action(collections))
+        yield put(setUserItems_Action(previewItems))
+        
+        if (action.callback !== undefined) {
+            yield action.callback() }
+    }    
+}
+
+function* handleMailboxSetUp(identity) {
+    // Set up user mailbox.
+    let hubKey          = process.env.REACT_APP_TEXTILE_HUB_KEY
+    let mailboxClient   = yield Users.withKeyInfo({key: hubKey})
+    let mailToken       = yield mailboxClient.getToken(identity)
+    let mailboxID       = yield mailboxClient.setupMailbox()
+    let inbox           = yield mailboxClient.listInboxMessages()
+    let sentBox         = yield mailboxClient.listSentboxMessages() 
+    mailboxClient.watchInbox(mailboxID, (event) => {console.log('OP: ', event)})
+
+    // let message = 'This is a new message to you u u'
+    // yield Textile.sendMessage(mailboxClient, message, identity, identity.public)
+    yield Textile.decodeMessages(identity, inbox)
+    yield Textile.decodeMessages(identity, sentBox)
+
+    yield put(setUserMailbox_Action({mailboxClient, inbox, sentBox}))
 }
 
 
-function* handleConfig() {
-    // Identify user, instantiate 3box elements, 
-    // and set them in redux state. Next handle threads.
-    let data        = yield magic.user.getMetadata()
-    let email       = data.email
-    let address     = data.publicAddress
-    // Set first user data.
-    yield put(setUserIsLogged_Action({
-        bool: true,
-        address,
-        email
+function* handleConfig(action) {
+    yield console.time('set')
+    // Get user address and email from magic.
+    let data = yield magic.user.getMetadata()
+    let email = data.email
+    let address = data.publicAddress
+    let provider = magic.rpcProvider
+
+    // Get user public profile and signer.
+    // Get user identity (textile), instantiate client, 
+    let signer          = yield Eth.getSigner(magic)
+    let hubKey          = process.env.REACT_APP_TEXTILE_HUB_KEY
+    let identity        = yield Textile.getIdentity(magic)
+    let client          = yield Client.withKeyInfo({key: hubKey})
+    let userToken       = yield client.getToken(identity)  
+    let threads         = yield client.listThreads()
+    let identityString  = identity.public.toString()
+
+    let globalThreadID = yield Textile.getThreadIDFromString(process.env.REACT_APP_BRADBVRY_GLOBAL_THREAD_ID)
+ 
+
+    let coll = yield client.find(globalThreadID, 'public-collections', {})
+    console.log('COLL: ', coll)
+
+
+    // Dispatch initial user data to reducer
+    yield put(setInitialUserData_Action({
+        email,
+        address, 
+        client,
+        identity,
+        signer,
+        provider,
+        identityString
     }))
-    // Instantiate 3Box space and threads.
-    // Console.log each step for debugging (will delete someday).
-    let box         = yield Box.openBox(address, magic.rpcProvider)
-    yield console.log('1 - box')
-    let space       = yield box.openSpace('bradbvry--main')
-
-    // yield space.unsubscribeThread('/orbitdb/zdpuAm53JATNbiyhvhUie9VoMiy4c2JQGgDHsYyRNNPpqaUbv/3box.thread.bradbvry--main.photo-collection')
-    // yield space.unsubscribeThread("/orbitdb/zdpuAm53JATNbiyhvhUie9VoMiy4c2JQGgDHsYyRN…qaUbv/3box.thread.bradbvry--main.photo-collection")
-    // yield space.unsubscribeThread("/orbitdb/zdpuArwbRYpf5w4gjTRQzkspwdwegd3KnUWE6JygHepeioAQv/3box.thread.bradbvry--main.photo-collection")
-
-    
-
-    
-    yield console.log('2- space')
-    let profile     = yield Box.getProfile(address)
-    yield console.log('3- profile')
-    let threads     = yield space.subscribedThreads()
-    yield console.log('4- threads: ', threads)
-
-    if (threads.length === 0) {
-        // We are instantiating 3box and spaces twice to make sure that 
-        // 3box is not returning an empty array by mistake (it happens when
-        // user clears cookies or user is new). Ugly fix, but works.
-        let box         = yield Box.openBox(address, magic.rpcProvider)
-        yield console.log('5- box 2')
-        let space       = yield box.openSpace('bradbvry--main')
-        yield console.log('6- space 2')
-        let threads     = yield space.subscribedThreads()
-        yield console.log('7- threads2: ', threads)
-    }
-    // threads.forEach(async thread => await space.unsubscribeThread(thread.address))
-    // let threads2     = yield space.subscribedThreads()
-    // yield console.log(threads2)
-    yield put(setInitialUserData_Action({box, space, profile, address, email}))
-    yield handleThreads(threads, space, address)
-
+    yield console.timeEnd('set')
+    yield handleThreads(threads, client, identity, action)
+    yield handleMailboxSetUp(identity)
 }
 
 export default function * watchInitialConfig() {
-    yield takeLeading(SET_INITIAL_CONFIG, handleConfig)
+    while(true) {
+        let action = yield take(SET_INITIAL_CONFIG)
+        yield handleConfig(action)    
+    }
 }
 
 
@@ -94,73 +134,22 @@ export default function * watchInitialConfig() {
 /////// HELPER FUNCTIONS
 ////////////////////////////////////////////////
 
-const createFirstThreeCollections = async (space, account) => {
-    let stringify = JSON.stringify(firstDefaultEntry)
-    let parse = JSON.parse(stringify)
-
-    let privateThreadConfigObject_one = ThreeBox.getFirstPrivateThreadObject()
-    let privateThread_one = await ThreeBox.createConfidentialThread(
-        space, account, 'random-notes', 'private')
-    await privateThread_one.post({type: 'config', content: privateThreadConfigObject_one})
-    await privateThread_one.post({type: 'entry', content: parse})
-
-    let privateThreadConfigObject_two = ThreeBox.getSecondPrivateThreadObject()
-    let privateThread_two = await ThreeBox.createConfidentialThread(
-        space, account, 'diary-entries', 'private')
-    await privateThread_two.post({type: 'config', content: privateThreadConfigObject_two})
-
-    let privateThreadConfigObject_three = ThreeBox.getThirdPrivateThreadObject()
-    let privateThread_three = await ThreeBox.createConfidentialThread(
-        space, account, 'photo-collection', 'private')
-    await privateThread_three.post({type: 'config', content: privateThreadConfigObject_three})
-
-    let threadsUpatedAgain = await space.subscribedThreads()
-    let {sortedItems, parsedThreads} = await parseThreadsAndPosts_Helper(threadsUpatedAgain, space)
-    
-    return {sortedItems, parsedThreads}
-}
-
-const parseThreadsAndPosts_Helper = async (threads, space) => {
-
-    console.log('Parsing user data...')
-
-    let itemsArray = [];
-    let parsedThreads = [];
-    let reversedThreads = threads.reverse()
-    
-    for (let i = 0; i < reversedThreads.length; i++) {
-        try {
-
-            let thread = await space.joinThreadByAddress(reversedThreads[i].address)
-            console.log(reversedThreads[i].address)
-            let posts = await thread.getPosts()
-            console.log(posts)
-            for(let z = 0; z < posts.length; z++) {
-                if (posts[z].message.type === 'config') {
-                    // console.log(posts[z])
-                    thread.config = posts[z].message.content
-                    parsedThreads.push(thread)
-                }
-                else { 
-                    posts[z].threadName = thread._name
-                    posts[z].threadAddress = thread.address
-                    posts[z].threadowner = thread._firstModerator
-                    itemsArray.push(posts[z])
-                }
-        }
-        } 
-        catch (error) {
-            console.log('error', error)
-        }
-    }
-    console.log('for loop done')
-    let sortedItems = await sortItemsArray(itemsArray)
-    return {sortedItems, parsedThreads}
-}
 
 const sortItemsArray = (itemsArray) => {
     return itemsArray.sort((a, b) => {
        return parseInt(b.timestamp) - parseInt(a.timestamp)
     });
 }
-        
+
+
+const concatPreviewItems = (threadsArray) => {
+
+    let itemsArray = [];
+
+    for (let i = 0; i < threadsArray.length; i++) {
+        itemsArray = itemsArray.concat(threadsArray[i].previewEntries)
+    }
+
+    return sortItemsArray(itemsArray)
+
+}

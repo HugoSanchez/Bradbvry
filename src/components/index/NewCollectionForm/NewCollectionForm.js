@@ -1,18 +1,17 @@
 import React, {useState} from 'react';
-import {threadObj} from '../../../constants';
-import {ThreeBox} from '../../../utils/3box';
-import {setThreadArray_Action} from '../../../actions';
+import {handleCreateCollection_Action} from '../../../actions';
 
 import {
-    useSelector,
     useDispatch
 } from "react-redux";
 
 import {
     Gn,
     Label,
+    Warning,
     ModalTitle,
     FormBodyBox,
+    CloseTab,
 } from './styles';
 
 import {
@@ -26,12 +25,12 @@ import {
 
 import {
     getBase64, 
-    Mixpanel
 } from '../../../utils';
 
 
 export const NewCollectionForm = props => {
-
+    
+    let dispatch = useDispatch()
     let errorObj = {name: null, desc: null}
     
     let [name, setName] = useState('')
@@ -39,17 +38,15 @@ export const NewCollectionForm = props => {
     let [image, setImage] = useState(false)
     let [error, setError] = useState(errorObj)
     let [loading, setLoading] = useState(false)
-    let [collectionType, setCollectionType] = useState('private')
+    let [collectionType, setCollectionType] = useState('public')
 
-    const dispatch = useDispatch()
-    const space = useSelector(state => state.user.data.space);
-    const account = useSelector(state => state.user.data.address);
-    const threadsArray = useSelector(state => state.threads.threadsArray);
 
     const onImageUpload = async e => {
-        let fileName = e.target.files[0].name
-        let stringFile = await getBase64(e.target.files[0])
-        setImage({name: fileName, file: stringFile})
+        if (e.target.files.length > 0) {
+            let fileName = e.target.files[0].name
+            let stringFile = await getBase64(e.target.files[0])
+            setImage({name: fileName, file: stringFile})
+        }
     }
 
     const handleFormSubmit = async () => {
@@ -63,59 +60,33 @@ export const NewCollectionForm = props => {
     }
 
     const handleCreateCollection = async () => {
-        // Parse thread name and config object
-        let {name, threadConfig} = parseCollectionConfigObject()
-        // Either create confidential or create public thread
-        let thread
-        if (collectionType === 'private' || collectionType === 'members') {
-            // Handle confidential thread
-            thread = await ThreeBox.createConfidentialThread(space, account, name, collectionType)
-            let config = {type: 'config', content: threadConfig}
-            await thread.post(config)
+        let callback = (bool) => {
+            props.handleSnack(bool)
+            props.onClose()
         }
-        else {
-            // Handle public thread
-            thread = await ThreeBox.createPublicThread(space, account, name)
-            threadConfig.address = thread._address
-            let config = {type: 'config', content: threadConfig}
-            await thread.post(config)
-            console.log('here')
-            let gallery = await space.joinThreadByAddress(process.env.REACT_APP_COLLECTIONS_GALLERY)
-            console.log('there')
-            await gallery.post(config)
-            console.log('1')
-        }
-        // Track event and update global state.        
-        Mixpanel.track('NEW_COLLECTION');
-        parseThreadAndUpdateState(thread, threadConfig)
+        let threadConfig = parseCollectionConfigObject()
+        dispatch(handleCreateCollection_Action(threadConfig, callback))        
     }
 
     const parseCollectionConfigObject = () => {
-        // First parse thread config object.
-        name = name.replace(/\s+/g, '-').toLowerCase();
-        let threadConfig = Object.assign({}, threadObj)
+        let threadConfig = {}
         threadConfig.name = name
+        threadConfig.type = collectionType
         threadConfig.description = desc
         threadConfig.image = image.file
-        return {name, threadConfig}
-    }
-
-    const parseThreadAndUpdateState = (thread, threadConfig) => {
-        // Add thread to current threadsArray (reducer).
-        thread.config = threadConfig
-        let array = [...threadsArray]
-        array.unshift(thread)
-        dispatch(setThreadArray_Action(array))
-        props.onClose()
+        return threadConfig
     }
 
     const errorCodes = {
-        name: 'A name is required for your space',
-        desc: 'A description is required for your space'
+        name: 'A name is required for your collection',
+        desc: 'A description is required for your collection'
     }
 
     return (
-        <DrawerCont>          
+        <DrawerCont width={window.innerWidth}>     
+            <CloseTab onClick={() => {props.onClose()}}>
+                x
+            </CloseTab>     
             
             <ModalTitle>
                 Create A New Collection
@@ -136,6 +107,7 @@ export const NewCollectionForm = props => {
                     onChange={(e) => setDesc(e.target.value)}/>
 
                 <Label><Gn>3.</Gn> Select your Collection's type</Label>
+                <Warning>Please bear in mind that for the moment all collections are public!</Warning>
                 <CollectionTypeSel 
                     collectionType={collectionType}
                     setCollectionType={setCollectionType}

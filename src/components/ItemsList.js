@@ -1,6 +1,4 @@
 import React from "react";
-import { ListItem } from './index';
-import Masonry from 'react-masonry-css'
 
 import {
     Container,
@@ -10,21 +8,23 @@ import {
     Text,
 } from './common';
 
-import {ImageCard} from '../components'
+import {
+    Masonry,
+    ImageCard,
+    ListItemWrapper
+} from '../components';
+
 
 const MasonryIterator = props => {
     return (
-        <Masonry
-            breakpointCols={window.innerWidth < 550 ? 2 : 3}
-            className="my-masonry-grid"
-            columnClassName="my-masonry-grid_column">
+        <Masonry gap={15}>
             {
                 props.items.map((p, i) => {
                     return (
                         <ImageCard 
                             alt={i} 
-                            key={i} 
-                            image={p} 
+                            key={p._id} 
+                            entry={p} 
                             shadow={props.shadow}
                             isModerator={props.isModerator}/>
                     )
@@ -36,12 +36,12 @@ const MasonryIterator = props => {
 
 const ListItemsIterator = props => {
     return props.items.map((item, index) => {
-        return  <ListItem 
-                    key={index} 
-                    item={item} 
-                    shadow={props.shadow} 
-                    isModerator={props.isModerator}/>
-
+        return  <ListItemWrapper 
+                    key={item._id}
+                    item={item}
+                    shadow={props.shadow}
+                    isModerator={props.isModerator}
+                    />
     })
 }
 
@@ -64,16 +64,17 @@ export const ItemsList = props => {
                     </Row>
                 :
                 groupedItems.map((group, index) => {
-                    if (group.groupType === 'entry') {
+                    if (group.groupType === 'post') {
                         return <ListItemsIterator 
                             key={index}
                             items={group.items} 
                             shadow={props.shadow}
                             isModerator={props.isModerator}/>
-                    } else if (group.groupType === 'image') {
+                    } else if (group.groupType.includes('image')) {
                         return <MasonryIterator 
                             key={index}
                             items={group.items}
+                            shadow={props.shadow}
                             isModerator={props.isModerator}/>
                     }
                 })
@@ -99,20 +100,17 @@ const groupItemsByType = entries => {
 
     for (let i = 0; i < entries.length; i++) {
         if (!currentTypeOfEntry) {
-            currentTypeOfEntry = entries[i].message.type
-            groupedItems[breakCount] = {groupType: entries[i].message.type, items: []}
+            currentTypeOfEntry = entries[i].type
+            groupedItems[breakCount] = {groupType: entries[i].type, items: []}
             groupedItems[breakCount].items.push(entries[i])
-        } else if (entries[i].message.type === currentTypeOfEntry) {
+        } else if (entries[i].type === currentTypeOfEntry) {
             groupedItems[breakCount].items.push(entries[i])
         } else {
             breakCount++
-            currentTypeOfEntry = entries[i].message.type
-            groupedItems[breakCount] = {groupType: entries[i].message.type, items: []}
+            currentTypeOfEntry = entries[i].type
+            groupedItems[breakCount] = {groupType: entries[i].type, items: []}
             groupedItems[breakCount].items.push(entries[i])
         }
     }
     return groupedItems;
 }
-
-
-

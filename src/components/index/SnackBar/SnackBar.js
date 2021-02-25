@@ -1,7 +1,6 @@
 import React from 'react';
-import {MessageBox} from './styles';
-import {Text} from '../../common';
-import styled from 'styled-components';
+import {MessageBox, SnackText} from './styles';
+
 
 export const SnackBar = props => {
   
@@ -15,8 +14,3 @@ export const SnackBar = props => {
   )
 }
 
-const SnackText = styled(Text)`
-	font-weight: 500;
-	margin-top: 3%;
-	margin-bottom: 3%;  
-`;

@@ -1,5 +1,6 @@
 import React, {useEffect, useState, Fragment} from 'react';
 import {useHistory} from "react-router-dom";
+import {parseToDisplayCollectionName} from '../../utils';
 import logo from '../../resources/favicon.png';
 
 import {
@@ -22,6 +23,7 @@ import {
 } from './styles';
 
 import {
+	handleAddCollectionToMaster_Action_Action,
 	setInitialConfiguration_Action
 } from '../../actions';
 
@@ -31,45 +33,41 @@ const magic = new Magic(process.env.REACT_APP_MAGIC_API_KEY);
 export const AddMember = props => {
 
     let {
-      email,
-      thread,
-      threadName,
-      memberAddress,
+		id,
+		email,
+		threadName,
+		memberAddress,
 	} = props.match.params
 	
-	const collectionName = threadName
-							.slice(27)
-							.replace(/-/g,' ')
-							.replace(/(?:^|\s|["'([{])+\S/g, 
-								match => match.toUpperCase())
-
 	const dispatch = useDispatch()
     const history = useHistory();
 	const [openSnack, setOpenSnack] = useState('')
-	const [loading, setLoading] = useState(false)
-	const space = useSelector(state => state.user.data.space)
+	const [loading, setLoading] = useState(true)
+
+	const client = useSelector(state => state.user.client)
+	const identity = useSelector(state => state.user.identity)
+	const collectionName = parseToDisplayCollectionName(threadName)
 
 
     useEffect(() => {
 		const checkLoginAndRedirect = async () => {
 			let isLogged = await magic.user.isLoggedIn();
 			if (!isLogged) {history.push(`/signin`, {redirect: props.match.url})} 
-			else if (!space) { dispatch(setInitialConfiguration_Action())}
+			else if (!client) { dispatch(setInitialConfiguration_Action(handleSetLoading))}
 		}
       	checkLoginAndRedirect()},
-    [history, dispatch, props.match.url, space])
+    [history, dispatch, props.match.url])
 
+	const handleSetLoading = () => {
+		return setLoading(false)
+	}
     
 
     const handleConfirmMember = async e => {
 		setLoading(true)
 		let data = await magic.user.getMetadata()
-		let threadAddress = `/orbitdb/${thread}/${threadName}`
-		try {
-			let threadInstance = await space.joinThreadByAddress(threadAddress, {members: true})
-			await threadInstance.addMember(memberAddress)	
-		}
-		catch (error) {console.log(error)}
+		let details = {id, email, threadName, memberAddress}
+		dispatch(handleAddCollectionToMaster_Action_Action(details))
 		showSnackBarAndRedirect(data.publicAddress)
     }
 
@@ -77,21 +75,25 @@ export const AddMember = props => {
 		setOpenSnack('show')
 		setTimeout(() => {
 			setOpenSnack('')
-			history.push(`/app/${address}`)
+			// history.push(`/app/${address}`)
 		}, 3500)
 	}
 	
-	if (!space || loading) {
-		return <LoadingCard />
+	if (loading) {
+		return (
+			<Fragment>
+				<SnackBar 
+					className={openSnack} 
+					success={true} 
+					message={'New member added successfully!'}/>
+				<LoadingCard />
+			</Fragment>
+		)
 	}
 
     return (
 		<Fragment>
-			<SnackBar 
-				className={openSnack} 
-				success={true} 
-				message={'New member added successfully!'}/>
-
+			
 			<SignInCard>
 				<Logo src={logo} alt=''/>
 				<Title>Confirm New Membership</Title>

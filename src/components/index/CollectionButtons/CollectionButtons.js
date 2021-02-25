@@ -1,6 +1,4 @@
-import React, {useEffect, useState}  from 'react';
-import {useSelector} from 'react-redux';
-import Box from '3box';
+import React from 'react';
 
 import {
     CircularButton,
@@ -16,53 +14,39 @@ import {
  */
 
 
-export const CollectionButtons = props => {
+export const CollectionButtons = props => {    
 
-    const [isModerator, setIsModerator] = useState(false)
-    const address = useSelector(state => state.user.data.address)
+    if (props.isOwner) {
 
-
-    useEffect(() => {
-        // Collection Buttons should only be rendered if user is moderator.
-        // We check whether that is true and render accordingly.
-        const checkModerators = async () => {
-            let config = await Box.getConfig(address) 
-            let did = config.spaces['bradbvry--main'].DID
-            console.log('DID: ', did)
-            let moderators = await props.activeThread.listModerators();
-            console.log('Moderators: ', moderators)
-            let includes = moderators.includes(did) || moderators.includes(address)
-            console.log('Is moderator: ', includes)
-            setIsModerator(includes)
-        }
-        checkModerators()
-    },[address, props.activeThread])
-
-    
-
-    if (isModerator) {
         return (
             <View>
+
                 <CircularButton
-                    userAdd
-                    size={'25px'}
-                    bottom={'26vh'} 
-                    onClick={() => props.addMember()}
+                userAdd
+                size={'25px'}
+                bottom={'18vh'} 
+                onClick={() => props.addMember()}
                 />
-                <CircularButton
-                    imageAdd
-                    size={'25px'}
-                    bottom={'18vh'} 
-                    onClick={() => props.addImage()}
-                />
+
                 <CircularButton
                     quillPen
                     size={'25px'}
                     onClick={props.openEditor()}
                 />
+
             </View>
         )
     }
+
     return null
 }
 
+
+/**
+ *              <CircularButton
+                    imageAdd
+                    size={'25px'}
+                    bottom={'26vh'} 
+                    onClick={() => props.addImage()}
+                />
+ */

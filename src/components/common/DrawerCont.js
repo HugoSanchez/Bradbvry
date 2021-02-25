@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import {device} from '../../constants';
 
 export const DrawerCont = styled.div`
     padding-top: 6%;
@@ -12,5 +13,9 @@ export const DrawerCont = styled.div`
     opacity: 0.9;
     ::-webkit-scrollbar {
         width: 0px;  
+    }
+
+    @media ${device.tablet} {
+        width: ${window.innerWidth}px;
     }
 `;

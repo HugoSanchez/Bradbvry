@@ -1,88 +1,130 @@
-import React, {Component}                 from 'react';
-import {connect}                          from 'react-redux';
-import ItemsAndSpaces                     from '../components/ItemsAndSpaces';
-import ProfileCard                        from '../components/ProfileCard';
-import {Mixpanel}                         from '../utils';
+import React, {
+    Fragment, 
+    useEffect, 
+    useState
+} from 'react';
+
+import {
+    useDispatch, 
+    useSelector
+}  from 'react-redux';
 
 import {
     Header, 
-    LoadingCard
+    LoadingCard,
+    FlexContainer,
+    LeftContainer,
+    RightContainer
 } from '../components';
 
-import {setInitialConfiguration_Action} from '../actions';
+import {
+    useIsOwner,
+    useIsLogged,
+    useMixpanel,
+} from '../hooks'
 
-const { Magic } = require('magic-sdk');
-const magic = new Magic(process.env.REACT_APP_MAGIC_API_KEY);
+import {
+    ProfileCard, 
+    ItemsAndSpaces
+} from '../components';
 
-class Home extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            loading: true, 
-            renderMetamask: false,
+import {
+    setInitialConfiguration_Action
+} from '../actions';
+
+import {getUserPubliData} from '../constants';
+import axios from 'axios';
+import Box from '3box';
+
+
+export const Home = (props) => {
+    
+    useMixpanel('HOME')
+    
+    const {user} = props.match.params
+
+	const dispatch = useDispatch()
+	const isLogged = useIsLogged()
+    const isOwner  = useIsOwner(user)
+    const loggedAndOwner = isLogged && isOwner
+
+    const [profile, setProfile] = useState({})
+    const [loading, setLoading] = useState(true)
+    const [collections, setCollections] = useState([])
+
+    const client = useSelector(state => state.user.client)
+    const items = useSelector(state => state.threads.itemsArray)
+    const threads = useSelector(state => state.threads.threadsArray)
+
+
+    useEffect(() => {
+		if (isLogged) {handleConfig()}
+		else if (isLogged === false) {fetchUserPublicData()}
+    }, [isLogged])
+
+
+    useEffect(() => {
+        if (isLogged && threads && loading) {
+           setLoading(false)
         }
-    }
+    }, [isLogged, threads, loading])
 
-    async componentDidMount(){
-        Mixpanel.track('HOME');
-        let isLogged = await magic.user.isLoggedIn();
-        if (!isLogged) { this.props.history.push(`/signin`)} 
-        else {this.handleConfig()}
-    }
-
-    async shouldComponentUpdate(nextProps, nextState) {
-        if (nextProps.items.length > 0 && this.state.loading === true) {
-            this.setState({loading: false})
+    useEffect(() => {
+        const fetchAndSetProfile = async () => {
+            let profileRes = await Box.getProfile(user)
+            setProfile(profileRes)
         }
+        fetchAndSetProfile()
+    }, [user])
+
+
+    const handleConfig = async () => {
+        if (!client) {
+            dispatch(
+                setInitialConfiguration_Action(
+                    () => setLoading(false)
+                )
+            )
+        }
+        else {setLoading(false)}
     }
 
-    async handleConfig(){
-        if (!this.props.space) {this.props.setInitialConfiguration_Action()}
-        else if (this.props.space && this.props.items.length > 0) {this.setState({loading: false})}
+    const fetchUserPublicData = async () => {
+        let fetchUrl = getUserPubliData(user)
+        let {data} = await axios(fetchUrl)
+        setCollections(data.collections)
+        setLoading(false)
     }
 
-    render() {
-        const {items, profile} = this.props
-        const {loading} = this.state
+    return (
+        <Fragment>
+            <Header />
+                {   
+                    loading 
+                    ?
+                    <LoadingCard />
+                    :
+                    <FlexContainer>
 
-        return (
-            <div>
-                <Header />
+                        <LeftContainer>
+                            <ProfileCard profile={profile}/>
+                        </LeftContainer>
 
-                    {loading && <LoadingCard />}
-                    
-                    {   
-                        !loading && profile && 
-                        items.length > 0 && 
-                        <div className='container'>
-                            <div className='left'>
-                                <ProfileCard profile={profile} />
-                            </div>
-                            <div className='right'>
-                                <ItemsAndSpaces items={items} />
-                            </div>
-                        </div>
-                    }
-            </div>
-        );
-    }
+                        <RightContainer overflow={"true"}>
+                            <ItemsAndSpaces 
+                                items={items} 
+                                isOwner={isOwner}
+                                collections={
+                                    loggedAndOwner ? 
+                                    threads : 
+                                    collections}/>
+                        </RightContainer>
+                        
+                    </FlexContainer>
+                }
+            </Fragment>
+    );
 }
 
-function mapStateToProps(state) {
-    return {
-        box:        state.user.data.box,
-        space:      state.user.data.space,
-        items:      state.threads.itemsArray,
-        profile:    state.user.data.profile,
-    }
-}
 
-function mapDispatchToProps(dispatch) {
-    return { 
-        setInitialConfiguration_Action: () => {
-            dispatch(setInitialConfiguration_Action())},
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
 

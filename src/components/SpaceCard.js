@@ -1,7 +1,7 @@
 import React  from 'react';
 import styled from 'styled-components';
 import { useHistory } from "react-router-dom";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {View, Title, Text} from './common';
 import {setActiveThread_Action} from '../actions';
 
@@ -15,21 +15,17 @@ import {setActiveThread_Action} from '../actions';
 
 export const SpaceCard = props => {
 
-    // Heavy changes comming here.
-
-    let {thread} = props
-    let image = thread.config.image
-    let spacename = thread.config.name.replace(/-/g, ' ')
-    let description = thread.config.description.slice(0, 96)
-
-    let address = useSelector(state => state.user.data.address);
-
     const history = useHistory();
     const dispatch = useDispatch()
 
+    let {thread} = props
+    let image = thread.image
+    let spacename = thread.name.replace(/-/g, ' ') 
+    let description = thread.description.slice(0, 96) 
+
     const handleOnClick = () => {
         dispatch(setActiveThread_Action(thread))
-        history.push(`/app/${address + thread._address.slice(8)}`)
+        history.push(`/app/${thread.owner.ethAddress + '/' + thread.name}`)
     }
 
     return (
@@ -53,15 +49,15 @@ const SpaceCardContainer = styled.div`
     flex-direction: column;
 	border-radius: 10px;
 	
-	background: black;
+	background: white;
 	position: relative;
 	align-items: flex-end;
-    transition: 0.4s ease-out;
+    transition: 0.6s ease-out;
     opacity: 0.8;
-    box-shadow: 0px 7px 10px rgba(black, 0.5);
+    box-shadow: 0px 7px 10px rgba(0,0,0,0.1);
 
     &:hover{
-        box-shadow: 0 0 10px rgba(0,0,0,0.2); 
+        box-shadow: 0px 0px 5px rgba(0,0,0,0.2); 
         transform: translateY(5px);
     }
 `;

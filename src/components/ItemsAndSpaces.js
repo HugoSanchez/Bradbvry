@@ -22,21 +22,31 @@ import {
  * @param {index}: item index. 
  */
 
-const ItemsAndSpaces = React.memo((props) => {
+export const ItemsAndSpaces = React.memo((props) => {
 
     let items = useSelector(state => state.threads.itemsArray);
 
     let [renderForm, setRenderForm] = useState(false);
-    let [openSnack, setOpenSnack] = useState('')
+    let [openSnack, setOpenSnack] = useState('');
+    let [snackSuccess, setSnackSuccess] = useState(null)
+    let [snackMessage, setSnackMessage] = useState('')
 
     const handleDrawerClose = () => {
-        handleShowSnackbar()
         setRenderForm(false)
     }
 
-    const handleShowSnackbar = () => {
-	    setOpenSnack('show')
-        setTimeout(() => setOpenSnack(''), 4000)
+    const handleShowSnackbar = (bool) => {
+        if (!bool) {
+            setSnackMessage('Oops, something went wrong.')
+            setSnackSuccess(false)
+            setOpenSnack('show')
+            setTimeout(() => setOpenSnack(''), 4000)
+        } else {
+            setSnackMessage('Success!')
+            setSnackSuccess(true)
+            setOpenSnack('show')
+            setTimeout(() => setOpenSnack(''), 4000)
+        }
 	}
 
        
@@ -44,15 +54,19 @@ const ItemsAndSpaces = React.memo((props) => {
         <Container> 
             <SnackBar 
                 className={openSnack} 
-                success={true} 
-                message={'Success!'}/>
-            <SpacesCarousel /> 
+                success={snackSuccess} 
+                message={snackMessage}/>
+            <SpacesCarousel 
+                collections={props.collections}/> 
             <ItemsList items={items}/>
             <Drawer 
                 anchor={'right'} 
                 open={renderForm} 
                 onClose={() => setRenderForm(false)} >
-                <NewCollectionForm onClose={() => handleDrawerClose()}/>
+                <NewCollectionForm 
+                    onClose={() => handleDrawerClose()}
+                    handleSnack={(bool) => handleShowSnackbar(bool)}
+                />
             </Drawer>
             <CircularButton 
                 onClick={() => setRenderForm(true)}
@@ -72,5 +86,3 @@ const Container = styled(View)`
         padding-top: 30px;
     }
 `;
-
-export default ItemsAndSpaces;
