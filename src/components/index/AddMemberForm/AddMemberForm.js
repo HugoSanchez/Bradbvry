@@ -23,7 +23,6 @@ import {
     shareBaseUrl,
     joinCollectionUrl
 } from '../../../constants';
-import { ThreadID } from '@textile/hub';
 
 const RenderProfiles = props => {
 
