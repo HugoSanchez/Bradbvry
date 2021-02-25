@@ -87,8 +87,11 @@ function* handleConfig(action) {
     let signer          = yield Eth.getSigner(magic)
     let hubKey          = process.env.REACT_APP_TEXTILE_HUB_KEY
     let identity        = yield Textile.getIdentity(magic)
+    console.log('1', hubKey)
     let client          = yield Client.withKeyInfo({key: hubKey})
-    let userToken       = yield client.getToken(identity)  
+    console.log('2')
+    let userToken       = yield client.getToken(identity) 
+    console.log('3') 
     let threads         = yield client.listThreads()
     let identityString  = identity.public.toString()
 
