@@ -230,6 +230,10 @@ const readFilterRaw = (reader, instance) => {
     return false
 }
 
+const customValidatorForGlobalThread = (writer, event, instance) => {
+    return true
+}
+
 
 
 export let Textile = actions
