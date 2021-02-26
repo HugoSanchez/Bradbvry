@@ -32,7 +32,7 @@ let actions = {
         // that only the owner can read or right into a collection.
         // let validatorsArray = JSON.stringify([identityString])
         return getFunctionBody(replaceThisValidator).replace('replaceThis', identityString)
-        console.log('Here', writeValidatorString)
+        // console.log('Here', writeValidatorString)
         // Little hack to make it work.
         //  new Function(writeValidatorString)
     },
