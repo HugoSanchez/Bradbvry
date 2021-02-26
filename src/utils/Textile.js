@@ -108,8 +108,8 @@ let actions = {
         let writeValidator = actions.getWriteValidator(identityString)
         console.log('Write Val: ', writeValidator)
         let readFilter = actions.getReadFilter(identityString, config.type)
-        await client.newCollectionFromObject(threadID, configObject, {name: 'config', writeValidator, readFilter})
-        await client.newCollectionFromObject(threadID, entriesSchema, {name: 'entries',  writeValidator, readFilter})
+        await client.newCollectionFromObject(threadID, configObject, {name: 'config', replaceThisValidator, readFilter})
+        await client.newCollectionFromObject(threadID, entriesSchema, {name: 'entries',  replaceThisValidator, readFilter})
         await client.create(threadID, 'config', [collectionConfig])
 
         console.log('write validation')
@@ -207,12 +207,13 @@ function replaceThisValidator(writer) {
         if (arr[i] === writer) return true;
         else return false;
     }  
-     */
-
+     
     if (writer === 'replaceThis') {
         return true
     } 
     return false
+    */
+    return true
 };
 
 const parseCollectionObject = (threadID, collectionConfig) => {
