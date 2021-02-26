@@ -201,11 +201,18 @@ const parseSignedMessage = async (hash) => {
 function replaceThisValidator(writer) {
     // In order to have a write permission set, 
     // we first need to create this function
+    /**
     var arr = JSON.parse('replaceThis');
     for (var i = 0; i < arr.length; i++) {
         if (arr[i] === writer) return true;
         else return false;
     }  
+     */
+    
+    if (writer === 'replaceThis') {
+        return true
+    } 
+    return false
 };
 
 const parseCollectionObject = (threadID, collectionConfig) => {
