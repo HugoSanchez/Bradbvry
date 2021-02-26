@@ -108,6 +108,7 @@ let actions = {
         let writeValidator = actions.getWriteValidator(identityString)
         console.log('Write Val: ', writeValidator)
         let readFilter = actions.getReadFilter(identityString, config.type)
+        console.log('Read Fil: ', readFilter)
         await client.newCollectionFromObject(threadID, configObject, {name: 'config', writeValidator, readFilter})
         await client.newCollectionFromObject(threadID, entriesSchema, {name: 'entries',  writeValidator, readFilter})
         await client.create(threadID, 'config', [collectionConfig])
@@ -227,10 +228,6 @@ const readFilterRaw = (reader, instance) => {
         return instance
     } 
     return false
-}
-
-const customValidatorForGlobalThread = (writer, event, instance) => {
-    return true
 }
 
 
