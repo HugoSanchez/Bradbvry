@@ -49,7 +49,7 @@ let actions = {
         else {
             // If collection is not private, alwais return instance 
             let readFilter = (reader, instance) => {return instance};
-            return readFilter
+            return getFunctionBody(readFilter)
         }
     },
     getCollectionsFromGlobalThread: async (client) => { 
