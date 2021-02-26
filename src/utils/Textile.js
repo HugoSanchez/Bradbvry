@@ -31,10 +31,10 @@ let actions = {
         // Return the write validator function that makes it such
         // that only the owner can read or right into a collection.
         // let validatorsArray = JSON.stringify([identityString])
-        let writeValidatorString = getFunctionBody(replaceThisValidator).replace('replaceThis', identityString)
+        return getFunctionBody(replaceThisValidator).replace('replaceThis', identityString)
         console.log('Here', writeValidatorString)
         // Little hack to make it work.
-        return new Function(writeValidatorString)
+        //  new Function(writeValidatorString)
     },
 
     getReadFilter: (identityString, collectionType) => {
