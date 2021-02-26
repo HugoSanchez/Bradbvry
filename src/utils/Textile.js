@@ -105,6 +105,7 @@ let actions = {
 
         // Instantate and create the config and entries collections in DB.   
         let writeValidator = actions.getWriteValidator(identityString)
+        console.log('Write Val: ', writeValidator)
         let readFilter = actions.getReadFilter(identityString, config.type)
         await client.newCollectionFromObject(threadID, configObject, {name: 'config', writeValidator, readFilter})
         await client.newCollectionFromObject(threadID, entriesSchema, {name: 'entries',  writeValidator, readFilter})
@@ -201,8 +202,8 @@ const replaceThisValidator = (writer) => {
     // we first need to create this function
     var arr = JSON.parse('replaceThis')
     for (var i = 0; i < arr.length; i++) {
-        if (arr[i] === writer) {return (true)}
-        else {return (false)}
+        if (arr[i] === writer) return true
+        else return false
     }    
 }
 
