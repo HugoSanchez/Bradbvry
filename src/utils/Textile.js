@@ -30,7 +30,7 @@ let actions = {
     getWriteValidator: (identityString) => {
         // Return the write validator function that makes it such
         // that only the owner can read or right into a collection.
-        let validatorsArray = JSON.stringify([identityString])
+        // let validatorsArray = JSON.stringify([identityString])
         let writeValidatorString = getFunctionBody(replaceThisValidator).replace('replaceThis', identityString)
         console.log('Here', writeValidatorString)
         // Little hack to make it work.
@@ -108,8 +108,8 @@ let actions = {
         let writeValidator = actions.getWriteValidator(identityString)
         console.log('Write Val: ', writeValidator)
         let readFilter = actions.getReadFilter(identityString, config.type)
-        await client.newCollectionFromObject(threadID, configObject, {name: 'config', replaceThisValidator, readFilter})
-        await client.newCollectionFromObject(threadID, entriesSchema, {name: 'entries',  replaceThisValidator, readFilter})
+        await client.newCollectionFromObject(threadID, configObject, {name: 'config', writeValidator, readFilter})
+        await client.newCollectionFromObject(threadID, entriesSchema, {name: 'entries',  writeValidator, readFilter})
         await client.create(threadID, 'config', [collectionConfig])
 
         console.log('write validation')
@@ -213,7 +213,7 @@ function replaceThisValidator(writer) {
     } 
     return false
     */
-    return true
+    return writer === 'replaceThis'
 };
 
 const parseCollectionObject = (threadID, collectionConfig) => {
