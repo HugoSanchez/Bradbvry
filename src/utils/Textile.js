@@ -26,17 +26,16 @@ let actions = {
         let masterThreadName = 'master-' + identityHash.toString()
         return masterThreadName
     },
-
     getWriteValidator: (identityString) => {
         // Return the write validator function that makes it such
         // that only the owner can read or right into a collection.
-        // let validatorsArray = JSON.stringify([identityString])
-        return getFunctionBody(replaceThisValidator).replace('replaceThis', identityString)
+        let validatorsArray = JSON.stringify([identityString])
+        return getFunctionBody(replaceThisValidator).replace('replaceThis', validatorsArray)
         // console.log('Here', writeValidatorString)
         // Little hack to make it work.
-        //  new Function(writeValidatorString)
+        // return new Function(writeValidatorString)
     },
-
+    
     getReadFilter: (identityString, collectionType) => {
         // Read filter has two options depending on wether or 
         // not the collection is private.
@@ -202,19 +201,21 @@ const parseSignedMessage = async (hash) => {
 function replaceThisValidator(writer) {
     // In order to have a write permission set, 
     // we first need to create this function
-    /**
+    
     var arr = JSON.parse('replaceThis');
     for (var i = 0; i < arr.length; i++) {
         if (arr[i] === writer) return true;
         else return false;
     }  
-     
+
+    /**
     if (writer === 'replaceThis') {
         return true
     } 
     return false
-    */
+    
     return writer === 'replaceThis'
+    */
 };
 
 const parseCollectionObject = (threadID, collectionConfig) => {
