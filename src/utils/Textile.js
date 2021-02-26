@@ -198,7 +198,7 @@ const parseSignedMessage = async (hash) => {
 }
 
 
-const replaceThisValidator = (writer) => {
+function replaceThisValidator(writer) {
     // In order to have a write permission set, 
     // we first need to create this function
     var arr = JSON.parse('replaceThis');
