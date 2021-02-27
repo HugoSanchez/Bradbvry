@@ -75,6 +75,7 @@ function* handleMailboxSetUp(identity) {
 
 
 function* handleConfig(action) {
+    
     yield console.time('set')
     // Get user address and email from magic.
     let data = yield magic.user.getMetadata()
@@ -91,12 +92,6 @@ function* handleConfig(action) {
     let userToken       = yield client.getToken(identity)  
     let threads         = yield client.listThreads()
     let identityString  = identity.public.toString()
-
-    let globalThreadID = yield Textile.getThreadIDFromString(process.env.REACT_APP_BRADBVRY_GLOBAL_THREAD_ID)
- 
-
-    let coll = yield client.find(globalThreadID, 'public-collections', {})
-    console.log('COLL: ', coll)
 
 
     // Dispatch initial user data to reducer

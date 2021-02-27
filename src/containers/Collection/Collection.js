@@ -191,6 +191,8 @@ export const Collection = props => {
 				message={message}
 			/>
 
+			
+
 			<MoreOptionsPositioner>
 				<MoreButton 
 					isOwner={isOwner}

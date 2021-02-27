@@ -1,9 +1,15 @@
-import {HANDLE_DELETE_COLLECTION} from '../actions/types';
 import {take, put, select} from 'redux-saga/effects';
-import {setThreadArray_Action, setUserItems_Action} from '../actions';
+import {handleSnackBarRender_Action, setThreadArray_Action, setUserItems_Action} from '../actions';
 import {Mixpanel, Textile} from '../utils';
 import {deleteCollection} from '../constants';
 import axios from 'axios'
+
+import {
+    HANDLE_DELETE_COLLECTION,
+    SNACK_TYPE_SUCCESS,
+    SNACK_TYPE_ERROR,
+} from '../actions/types';
+
 
 
 
@@ -37,10 +43,12 @@ function* handleDeleteCollection(action) {
         yield action.history.push(`/app/${address}`)
         yield axios.post(deleteCollection, {id: activeThread.id})
         yield Mixpanel.track('COLLECTION_DELETED')
+        yield put(handleSnackBarRender_Action(SNACK_TYPE_SUCCESS))
     }
 
     catch (e) {
         yield console.log(e)
+        yield put(handleSnackBarRender_Action(SNACK_TYPE_ERROR))
     }
 }
 

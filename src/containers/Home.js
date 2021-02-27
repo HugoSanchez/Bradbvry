@@ -79,6 +79,7 @@ export const Home = (props) => {
 
 
     const handleConfig = async () => {
+        console.log('WTF')
         if (!client) {
             dispatch(
                 setInitialConfiguration_Action(
@@ -98,6 +99,7 @@ export const Home = (props) => {
 
     return (
         <Fragment>
+            
             <Header />
                 {   
                     loading 

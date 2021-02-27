@@ -1,9 +1,16 @@
-import {HANDLE_CREATE_COLLECTION} from '../actions/types';
 import {take, put, select} from 'redux-saga/effects';
-import {setThreadArray_Action} from '../actions';
+import {setThreadArray_Action, handleSnackBarRender_Action} from '../actions';
 import {Mixpanel, Textile} from '../utils';
 import {addCollection} from '../constants';
-import axios from 'axios'
+import axios from 'axios';
+
+import {
+    HANDLE_CREATE_COLLECTION,
+    SNACK_TYPE_ERROR,
+    SNACK_TYPE_SUCCESS,
+
+} from '../actions/types';
+
 
 
 const getThreadsState = state => state
@@ -29,12 +36,14 @@ function* handleCreateCollection(action) {
 
         // Fire callback and track event
         yield action.callback(true)
+        yield put(handleSnackBarRender_Action(SNACK_TYPE_SUCCESS))
         Mixpanel.track('NEW_COLLECTION_CREATED')
     }
 
     catch (e) {
         yield console.log(e)
         yield action.callback(false)
+        yield put(handleSnackBarRender_Action(SNACK_TYPE_ERROR))
     }
 }
 
