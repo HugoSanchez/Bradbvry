@@ -70,7 +70,7 @@ export const AddMemberForm = props => {
         let collectionInfoRaw = await client.getDBInfo(collectionID)
         let collectionInfo = JSON.stringify(collectionInfoRaw)
 
-        let joinUrl = joinCollectionUrl(senderAddress, activeThread.id, collectionName)
+        let joinUrl = joinCollectionUrl(senderAddress, collectionName)
         
         return {
             sender, 
