@@ -630,6 +630,7 @@ nav {
   }
   .main-screenshot img {
     width: 90vw;
+    height: 55vw;
     border-radius: 0.5vw;
     animation: drop 1.5s ease;
     box-shadow: 0 15px 25px rgba(0,0,0,0.2); 
