@@ -8,7 +8,6 @@ import axios from 'axios';
 
 import {
 	useMixpanel,
-	useIsOwner,
 	useIsLogged
 } from '../../hooks'
 
@@ -51,8 +50,8 @@ export const Collection = props => {
 	useMixpanel('COLLECTION')
 
 	const dispatch = useDispatch()
-	const isLogged = useIsLogged()
-	const isOwner  = useIsOwner(user)
+	const [isLogged, isOwner] = useIsLogged(user)
+    const loggedAndOwner = isLogged && isOwner
 	
 
 	// Try to fix this:
@@ -70,9 +69,9 @@ export const Collection = props => {
 	const activeThread = useSelector(state => state.threads.activeThread)
 
 	useEffect(() => {
-		if (isLogged) {handleComponentConfig()}
-		else if (isLogged === false) {fetchThreadEntries()}
-	}, [isLogged])
+		if (loggedAndOwner) {handleComponentConfig()}
+		else if (loggedAndOwner === false) {fetchThreadEntries()}
+	}, [loggedAndOwner])
 
 	useEffect(() => {
 		// Check selectedThread is correct.

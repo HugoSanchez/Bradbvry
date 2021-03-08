@@ -57,6 +57,7 @@ export const ItemsAndSpaces = React.memo((props) => {
                 success={snackSuccess} 
                 message={snackMessage}/>
             <SpacesCarousel 
+                isOwner={props.isOwner}
                 collections={props.collections}/> 
             <ItemsList items={items}/>
             <Drawer 
