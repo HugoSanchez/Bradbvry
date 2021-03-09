@@ -3,6 +3,9 @@ import {take, select, put} from 'redux-saga/effects';
 import {ThreadID} from '@textile/hub';
 import {replaceItemInArray} from '../utils/utils';
 import {setThreadArray_Action, setUserItems_Action} from '../actions';
+import {updateCollectionUrl} from '../constants';
+import axios from 'axios';
+
 const getThreadsState = state => state
 
 function* addItemToPreview(action) {
@@ -54,14 +57,15 @@ function* addItemToPreview(action) {
     let threadId = ThreadID.fromString(activeThread.id)
     yield client.save(threadId, 'config', [newConfig])
 
-    // 4. Update Master Thread
-    yield client.save(masterThreadID, 'collections-list', [newConfig])
-
-    // 5. Update redux state.
+    // 4. Update redux state.
     let newThreadsArray = replaceItemInArray(threadsArray, activeThread, newConfig)
     let newItemsArray = updatePreviewItems(action.subType, itemsArray, item, oldItem)
     yield put(setUserItems_Action(newItemsArray))
     yield put(setThreadArray_Action(newThreadsArray))
+
+    // 5. Update Master Thread and Global
+    yield client.save(masterThreadID, 'collections-list', [newConfig])
+    yield yield axios.post(updateCollectionUrl, {collection: newConfig})
 }
 
 

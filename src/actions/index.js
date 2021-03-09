@@ -18,6 +18,9 @@ import {
     HANDLE_CREATE_COLLECTION,
     HANDLE_DELETE_COLLECTION,
     HANDLE_ADD_ITEM_TO_PREVIEW,
+
+
+    HANDLE_SNACKBAR_RENDER,
 } from './types';
 
 
@@ -171,5 +174,14 @@ export const handleAddCollectionToMaster_Action_Action = (object, history) => {
     }
 }
 
+///////////////////////////////////////////////
+////// USER REDUCER ACTIONS
+///////////////////////////////////////////////
 
-
+export const handleSnackBarRender_Action = (object, message) => {
+    return {
+        type: HANDLE_SNACKBAR_RENDER,
+        payload: object,
+        message: message
+    }
+}

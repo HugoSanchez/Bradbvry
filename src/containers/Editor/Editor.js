@@ -24,7 +24,6 @@ import {
 } from 'react-redux';
 
 import {
-    useIsOwner,
     useIsLogged
 } from '../../hooks';
 
@@ -43,8 +42,7 @@ export const Editor = props => {
     const location = props.location
     
     const dispatch = useDispatch()
-    const isLogged = useIsLogged()
-    const isOwner  = useIsOwner(user)
+    const [isLogged, isOwner] = useIsLogged(user)
     const loggedOwner = isLogged && isOwner
 
     const [entry, setEntry] = useState(null)

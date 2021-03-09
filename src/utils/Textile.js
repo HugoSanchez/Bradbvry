@@ -112,10 +112,6 @@ let actions = {
         await client.newCollectionFromObject(threadID, entriesSchema, {name: 'entries',  writeValidator, readFilter})
         await client.create(threadID, 'config', [collectionConfig])
 
-        console.log('write validation')
-        // Add public collection to global registry and set config
-        // await actions.addCollectionToGlobalThread(client, collectionConfig)
-
         // Parse object and return.
         let collectionObject = parseCollectionObject(threadID, collectionConfig)
         return {threadID, collectionObject}

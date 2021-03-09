@@ -27,3 +27,12 @@ export const HANDLE_CREATE_COLLECTION       = 'HANDLE_CREATE_COLLECTION';
 export const HANDLE_DELETE_COLLECTION       = 'HANDLE_DELETE_COLLECTION';
 export const HANDLE_ADD_ITEM_TO_PREVIEW     = 'HANDLE_ADD_ITEM_TO_PREVIEW';
 export const ADD_ITEM_TO_THREAD_ITEMS       = 'ADD_ITEM_TO_THREAD_ITEMS';
+
+
+///////////////////////////////////////////////
+////// SNACKBAR REDUCER
+///////////////////////////////////////////////
+
+export const HANDLE_SNACKBAR_RENDER          = 'HANDLE_SNACKBAR_RENDER';
+export const SNACK_TYPE_SUCCESS              = 'SNACK_TYPE_SUCCESS';
+export const SNACK_TYPE_ERROR                = 'SNACK_TYPE_ERROR';

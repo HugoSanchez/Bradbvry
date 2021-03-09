@@ -63,17 +63,6 @@ export const MoreButton = props => {
                 onClose={handleClose}
                 >
 
-                <MenuItem onClick={handleClose}>
-                    <ItemRow>
-                        <IconContext.Provider value={{size: '16px', color: 'gray'}}>
-                            <RiEditLine /> 
-                        </IconContext.Provider> 
-                        <TextBox>
-                            <Text>Edit Collection</Text>
-                        </TextBox>
-                    </ItemRow>
-                </MenuItem>
-
                 <MenuItem onClick={handleDelete}>
                     <ItemRow>
                         <IconContext.Provider value={{size: '16px', color: 'gray'}}>

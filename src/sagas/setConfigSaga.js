@@ -75,6 +75,7 @@ function* handleMailboxSetUp(identity) {
 
 
 function* handleConfig(action) {
+    
     yield console.time('set')
     // Get user address and email from magic.
     let data = yield magic.user.getMetadata()

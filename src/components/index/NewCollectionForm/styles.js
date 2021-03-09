@@ -52,3 +52,9 @@ export const Warning = styled(Text)`
     padding: 2%;
     padding-bottom: 4%;
 `
+
+export const Error = styled(Text)`
+    font-size: 14px;
+    color: rgb(232, 142, 142);
+    padding: 2%;
+`

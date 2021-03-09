@@ -1,5 +1,9 @@
 
-
+export const isASCII = (str) => {
+    // Check if string has regular characters
+    // ASCII compliant
+    return /^[\x00-\x7F]*$/.test(str);
+}
 
 export const getBase64 = (file) => {
     // Turn a given file into a Base64 

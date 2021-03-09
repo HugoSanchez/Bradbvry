@@ -8,7 +8,6 @@ import axios from 'axios';
 
 import {
 	useMixpanel,
-	useIsOwner,
 	useIsLogged
 } from '../../hooks'
 
@@ -23,7 +22,6 @@ import {
 	LoadingCard,
 	MoreButton,
 	ItemsList, 
-	SnackBar,
 	Header
 } from '../../components';
 
@@ -51,8 +49,8 @@ export const Collection = props => {
 	useMixpanel('COLLECTION')
 
 	const dispatch = useDispatch()
-	const isLogged = useIsLogged()
-	const isOwner  = useIsOwner(user)
+	const [isLogged, isOwner] = useIsLogged(user)
+    const loggedAndOwner = isLogged && isOwner
 	
 
 	// Try to fix this:
@@ -60,9 +58,6 @@ export const Collection = props => {
 	const [loading, setLoading] = useState(true)
 	const [renderForm, setRenderForm] = useState(false) 
 	const [renderMemberForm, setRenderMemberForm] = useState(false) 
-	const [openSnack, setOpenSnack] = useState('')
-	const [uploadSuccess, setUploadSuccess] = useState(false)
-	const [message, setMessage] = useState(null)
 
 	const client = useSelector(state => state.user.client)
 	const threadsArray = useSelector(state => state.threads.threadsArray)
@@ -70,9 +65,9 @@ export const Collection = props => {
 	const activeThread = useSelector(state => state.threads.activeThread)
 
 	useEffect(() => {
-		if (isLogged) {handleComponentConfig()}
-		else if (isLogged === false) {fetchThreadEntries()}
-	}, [isLogged])
+		if (loggedAndOwner) {handleComponentConfig()}
+		else if (loggedAndOwner === false) {fetchThreadEntries()}
+	}, [loggedAndOwner])
 
 	useEffect(() => {
 		// Check selectedThread is correct.
@@ -126,20 +121,8 @@ export const Collection = props => {
 		dispatch(setThreadItems_Action(data.entries.reverse()))
 		setLoading(false)
 	}
-
-	
-
-	const handleShowSnackbar = bool => {
-		if (bool) {setMessage('Success !')}
-		else {setMessage('Something went wrong, please try again.')}
-	
-        setUploadSuccess(bool)
-        setOpenSnack('show')
-        setTimeout(() => setOpenSnack(''), 4000)
-	}
 	
 	const handleCloseMemberForm = bool => {
-		handleShowSnackbar(bool)
 		setRenderMemberForm(false)
 	}
 
@@ -183,13 +166,7 @@ export const Collection = props => {
 				open={renderMemberForm} 
 				onClose={() => setRenderMemberForm(false)} >
 					<AddMemberForm onClose={(bool) => handleCloseMemberForm(bool)}/>
-			</Drawer>
-
-			<SnackBar 
-				className={openSnack} 
-				success={uploadSuccess} 
-				message={message}
-			/>
+			</Drawer>			
 
 			<MoreOptionsPositioner>
 				<MoreButton 

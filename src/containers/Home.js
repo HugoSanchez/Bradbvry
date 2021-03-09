@@ -18,7 +18,6 @@ import {
 } from '../components';
 
 import {
-    useIsOwner,
     useIsLogged,
     useMixpanel,
 } from '../hooks'
@@ -29,7 +28,9 @@ import {
 } from '../components';
 
 import {
-    setInitialConfiguration_Action
+    setInitialConfiguration_Action, 
+    setThreadArray_Action, 
+    setUserItems_Action
 } from '../actions';
 
 import {getUserPubliData} from '../constants';
@@ -44,8 +45,7 @@ export const Home = (props) => {
     const {user} = props.match.params
 
 	const dispatch = useDispatch()
-	const isLogged = useIsLogged()
-    const isOwner  = useIsOwner(user)
+	const [isLogged, isOwner] = useIsLogged(user)
     const loggedAndOwner = isLogged && isOwner
 
     const [profile, setProfile] = useState({})
@@ -58,9 +58,10 @@ export const Home = (props) => {
 
 
     useEffect(() => {
-		if (isLogged) {handleConfig()}
-		else if (isLogged === false) {fetchUserPublicData()}
-    }, [isLogged])
+		if (loggedAndOwner) {handleConfig()}
+		else if (loggedAndOwner === false) {
+            fetchUserPublicData()}
+    }, [loggedAndOwner])
 
 
     useEffect(() => {
@@ -92,12 +93,25 @@ export const Home = (props) => {
     const fetchUserPublicData = async () => {
         let fetchUrl = getUserPubliData(user)
         let {data} = await axios(fetchUrl)
+        let items = parsePreviews(data.collections)
+        dispatch(setThreadArray_Action(data.collections))
+        dispatch(setUserItems_Action(items))
         setCollections(data.collections)
         setLoading(false)
     }
 
+    const parsePreviews = (collections) => {
+        let prev = []
+        collections.forEach(col => {
+            prev = prev.concat(col.previewEntries)
+        })
+
+        return prev
+    }
+
     return (
         <Fragment>
+            
             <Header />
                 {   
                     loading 

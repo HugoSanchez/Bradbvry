@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {handleCreateCollection_Action} from '../../../actions';
 
 import {
@@ -8,6 +8,7 @@ import {
 import {
     Gn,
     Label,
+    Error,
     Warning,
     ModalTitle,
     FormBodyBox,
@@ -24,6 +25,7 @@ import {
 } from '../../common';
 
 import {
+    isASCII,
     getBase64, 
 } from '../../../utils';
 
@@ -36,10 +38,16 @@ export const NewCollectionForm = props => {
     let [name, setName] = useState('')
     let [desc, setDesc] = useState('')
     let [image, setImage] = useState(false)
-    let [error, setError] = useState(errorObj)
+    let [error, setError] = useState(false)
     let [loading, setLoading] = useState(false)
     let [collectionType, setCollectionType] = useState('public')
 
+    useEffect(() => {
+        let checked = isASCII(name)
+        if (!checked) {setError(true)}
+        else {setError(false)}
+    
+    }, [name])
 
     const onImageUpload = async e => {
         if (e.target.files.length > 0) {
@@ -60,10 +68,7 @@ export const NewCollectionForm = props => {
     }
 
     const handleCreateCollection = async () => {
-        let callback = (bool) => {
-            props.handleSnack(bool)
-            props.onClose()
-        }
+        let callback = (bool) => { props.onClose() }
         let threadConfig = parseCollectionConfigObject()
         dispatch(handleCreateCollection_Action(threadConfig, callback))        
     }
@@ -83,7 +88,9 @@ export const NewCollectionForm = props => {
     }
 
     return (
-        <DrawerCont width={window.innerWidth}>     
+        <DrawerCont 
+            opacity={loading ? '0.7' : '0.9'}
+            width={window.innerWidth}>     
             <CloseTab onClick={() => {props.onClose()}}>
                 x
             </CloseTab>     
@@ -94,6 +101,7 @@ export const NewCollectionForm = props => {
 
             <FormBodyBox>
                 <Label><Gn>1.</Gn> Set your Collection's name</Label>
+                {error ? <Error>{'* Invalid character'}</Error> : null}
                 <NameInput 
                     value={name}
                     maxLength="20"
@@ -123,6 +131,7 @@ export const NewCollectionForm = props => {
                     name && 
                     desc && 
                     image && 
+                    !error &&
                     <FormButton 
                         text={'Create Collection'}
                         loading={loading}

@@ -2,16 +2,17 @@
 ////// URLS
 ////////////////////////////////////
 
-export const uploadUrl = `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}api/uploadToIpfs`;
-export const addCollection = `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}api/add/collections`;
-export const deleteCollection = `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}api/delete/collections`;
-export const shareBaseUrl = `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}api/share/send-invite-email`;
-export const acceptBaseUrl = `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}api/share/add-invited-member`;
+export const uploadUrl = `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}/api/uploadToIpfs`;
+export const addCollection = `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}/api/add/collections`;
+export const deleteCollection = `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}/api/delete/collections`;
+export const updateCollectionUrl = `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}/api/update/collections`;
+export const shareBaseUrl = `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}/api/share/send-invite-email`;
+export const acceptBaseUrl = `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}/api/share/add-invited-member`;
 
-export const joinCollectionUrl = (address, threadName) => `${process.env.REACT_APP_BRADBVRY_URL}/app/${address}/${threadName}`
-export const getSpecificItemsUrl = (address, threadName, itemId) => `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}api/collections/${address}/${threadName}/${itemId}`;
-export const getCollectionItemsUrl = (address, threadName) => `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}api/collections/${address}/${threadName}`;
-export const getUserPubliData = (address) => `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}api/collections/${address}`;
+export const joinCollectionUrl = (address, threadId, threadName) => `${process.env.REACT_APP_BRADBVRY_URL}/app/${address}/${threadName}`
+export const getSpecificItemsUrl = (address, threadName, itemId) => `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}/api/collections/${address}/${threadName}/${itemId}`;
+export const getCollectionItemsUrl = (address, threadName) => `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}/api/collections/${address}/${threadName}`;
+export const getUserPubliData = (address) => `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}/api/collections/${address}`;
 
 
 export const ZoraSubGraph =  "https://api.thegraph.com/subgraphs/name/ourzora/zora-v1"
@@ -77,22 +78,6 @@ export const configObject = {
     ]
 }
 
-
-export const globalThreadModeratorAddress = "0xCc74308838BbAcEEC226611A0C2b3fD5f4a7D8a2";
-
-
-export const threadObj =  {
-    owner                 : null,       // Owner's did
-    image                 : null,       // Image to display
-    type                  : null,       // [open || members only || private]
-    name                  : null,       // Title to display,
-    address               : null,       // Thread's address.
-    description           : null,       // Description to display.
-    subscriptionList      : null,       // Subscription thread DID.
-    subscriptionType      : null,       // [stake || free || invite-only || montly]
-    options               : null,       // Any additional info.
-}
-
 ////////////////////////////////////
 ////// SIZES & DEVICES 
 ////////////////////////////////////
@@ -137,19 +122,3 @@ export const dummyProfile = {
     proof_did: "eyJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NksifQ.eyJpYXQiOjE…Xl8dHl4713uzITuUyy7kExvN767upGmo3RLiaRXxR48-m1v1A"
 }
 
-
-////////////////////////////////////
-////// SPACE IMAGES
-////////////////////////////////////
-
-
-export const images = [
-    "https://images.unsplash.com/photo-1512168203104-3910bc2bcd54?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=668&q=80",
-    "https://images.unsplash.com/photo-1503075131240-fe4b3a7fa473?ixlib=rb-1.2.1&auto=format&fit=crop&w=668&q=80",
-    "https://images.unsplash.com/photo-1534778061111-b71fa828e390?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
-    "https://images.unsplash.com/photo-1558725177-79763c6e9014?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
-    "https://images.unsplash.com/photo-1559871753-75a00941f6b2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
-    "https://images.unsplash.com/photo-1559248457-80403d9e3898?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
-    "https://images.unsplash.com/photo-1522279602607-85334538fabd?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60",
-    "https://images.unsplash.com/photo-1587480346370-f9097215a7a1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"
-]

@@ -28,7 +28,7 @@ export const SpacesCarousel = props => {
 
     return (
         <Container>
-            <Text>Your collections</Text>
+            <Text>{props.isOwner ? 'Your C' : 'C'}ollections</Text>
             <Underline />
             <Carousel>
                 {   
