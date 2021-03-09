@@ -178,9 +178,10 @@ export const handleAddCollectionToMaster_Action_Action = (object, history) => {
 ////// USER REDUCER ACTIONS
 ///////////////////////////////////////////////
 
-export const handleSnackBarRender_Action = (object) => {
+export const handleSnackBarRender_Action = (object, message) => {
     return {
         type: HANDLE_SNACKBAR_RENDER,
-        payload: object
+        payload: object,
+        message: message
     }
 }

@@ -8,7 +8,6 @@ import {
     setShowSnack_Action,
     setSnackColor_Action,
     setSnackMessage_Action,
-
 } from '../actions';
 
 import {
@@ -40,7 +39,8 @@ function* handleSnackBar(action) {
             return yield toast.success("Success!", snackOptions)
 
         case SNACK_TYPE_ERROR:
-            return yield toast.error('Oops, please try again!', snackOptions)
+            if (action.message) return yield toast.error(action.message, snackOptions)
+            else return yield toast.error('Oops, please try again!', snackOptions)
 
         default: return;
     }

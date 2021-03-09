@@ -41,9 +41,14 @@ function* handleCreateCollection(action) {
     }
 
     catch (e) {
-        yield console.log(e)
+        if (e.toString().includes('multiple write errors')) {
+            yield put(handleSnackBarRender_Action(SNACK_TYPE_ERROR, 'Please choose a different name!'))
+        }
+        else {
+            yield put(handleSnackBarRender_Action(SNACK_TYPE_ERROR))
+            yield console.log(e)
+        }
         yield action.callback(false)
-        yield put(handleSnackBarRender_Action(SNACK_TYPE_ERROR))
     }
 }
 

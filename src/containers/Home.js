@@ -80,7 +80,6 @@ export const Home = (props) => {
 
 
     const handleConfig = async () => {
-        console.log('WTF')
         if (!client) {
             dispatch(
                 setInitialConfiguration_Action(
