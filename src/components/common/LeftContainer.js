@@ -5,4 +5,5 @@ export const LeftContainer = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow-wrap: break-word; 
 `;

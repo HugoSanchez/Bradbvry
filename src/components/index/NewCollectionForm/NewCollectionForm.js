@@ -88,7 +88,9 @@ export const NewCollectionForm = props => {
     }
 
     return (
-        <DrawerCont width={window.innerWidth}>     
+        <DrawerCont 
+            opacity={loading ? '0.7' : '0.9'}
+            width={window.innerWidth}>     
             <CloseTab onClick={() => {props.onClose()}}>
                 x
             </CloseTab>     
@@ -129,6 +131,7 @@ export const NewCollectionForm = props => {
                     name && 
                     desc && 
                     image && 
+                    !error &&
                     <FormButton 
                         text={'Create Collection'}
                         loading={loading}
