@@ -1,31 +1,30 @@
+
 import React from 'react';
-import {MessageBox, SnackText} from './styles';
-import {useSelector} from 'react-redux';
-import {WaveLoading} from 'react-loadingg';
-import {primaryGray85} from '../../../constants/colors';
+import styled from 'styled-components';
+import { ToastContainer } from 'react-toastify';
+import {primaryGreen, primaryGray75} from '../../../constants/colors';
 
-
-export const SnackBar = props => {
-	
-	const loading = false
-	const show = useSelector(state => state.snack.show)
-	const color = useSelector(state => state.snack.color)
-	const message = useSelector(state => state.snack.message)
-  
-	return (
-		<div id="Snackbar" className={show ? 'show' : ''}> 
-			<MessageBox color={color}>
-				{
-					loading ? 
-					<WaveLoading 
-						speed={2}
-						size='small' 
-						color={primaryGray85}/>
-					:
-					<SnackText>{message}</SnackText>
-				}
-			</MessageBox>
-		</div>
-	)
-}
-
+export const StyledToastContainer = styled(ToastContainer).attrs({
+	className: 'toast-container',
+	toastClassName: 'toast',
+	bodyClassName: 'body',
+	progressClassName: 'progress',
+  })`
+  .Toastify__toast-container {}
+  .Toastify__toast {}
+  .Toastify__toast--error {
+	background-color: rgb(232, 142, 142);
+	color: ${primaryGray75};
+	  font-family: Montserrat;
+	  font-size: 14px;
+  }
+  .Toastify__toast--warning {}
+  .Toastify__toast--success {
+	  background-color: ${primaryGreen};
+	  color: ${primaryGray75};
+	  font-family: Montserrat;
+	  font-size: 14px;
+  }
+  .Toastify__toast-body {}
+  .Toastify__progress-bar {}
+`;

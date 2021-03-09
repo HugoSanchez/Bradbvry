@@ -41,9 +41,9 @@ function* handleDeleteCollection(action) {
         
         // Redirect and track.
         yield action.history.push(`/app/${address}`)
+        yield put(handleSnackBarRender_Action(SNACK_TYPE_SUCCESS))
         yield axios.post(deleteCollection, {id: activeThread.id})
         yield Mixpanel.track('COLLECTION_DELETED')
-        yield put(handleSnackBarRender_Action(SNACK_TYPE_SUCCESS))
     }
 
     catch (e) {

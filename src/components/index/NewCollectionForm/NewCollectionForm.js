@@ -60,10 +60,7 @@ export const NewCollectionForm = props => {
     }
 
     const handleCreateCollection = async () => {
-        let callback = (bool) => {
-            props.handleSnack(bool)
-            props.onClose()
-        }
+        let callback = (bool) => { props.onClose() }
         let threadConfig = parseCollectionConfigObject()
         dispatch(handleCreateCollection_Action(threadConfig, callback))        
     }

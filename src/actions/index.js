@@ -21,9 +21,6 @@ import {
 
 
     HANDLE_SNACKBAR_RENDER,
-    SET_SNACK_COLOR,
-    SET_SHOW_SNACK_BAR,
-    SET_SNACK_MESSAGE,
 } from './types';
 
 
@@ -181,29 +178,7 @@ export const handleAddCollectionToMaster_Action_Action = (object, history) => {
 ////// USER REDUCER ACTIONS
 ///////////////////////////////////////////////
 
-export const setShowSnack_Action = (bool) => {
-    return {
-        type: SET_SHOW_SNACK_BAR,
-        payload: bool
-    }
-}
-
-export const setSnackColor_Action = (string) => {
-    return {
-        type: SET_SNACK_COLOR,
-        payload: string
-    }
-}
-
-export const setSnackMessage_Action = (string) => {
-    return {
-        type: SET_SNACK_MESSAGE,
-        payload: string
-    }
-}
-
 export const handleSnackBarRender_Action = (object) => {
-    console.log('What happened?')
     return {
         type: HANDLE_SNACKBAR_RENDER,
         payload: object

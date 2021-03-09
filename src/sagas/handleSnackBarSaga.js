@@ -17,32 +17,33 @@ import {
     delay,
 } from 'redux-saga/effects';
 
+import { toast } from 'react-toastify';
+
 
 function* handleSnackBar(action) {
 
     const snackType = action.payload;
 
-    console.log('HANDLE SNACK SAGA')
+    const snackOptions = {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+    }
 
     switch(snackType){
 
         case SNACK_TYPE_SUCCESS:
-            yield put(setSnackMessage_Action('Success!'))
-            yield put(setSnackColor_Action('#C5FFDC'))
-            yield put(setShowSnack_Action(true))
-            yield delay(4000)
-            yield put(setShowSnack_Action(false))
+            return yield toast.success("Success!", snackOptions)
 
         case SNACK_TYPE_ERROR:
-            yield put(setSnackMessage_Action('Oops, please try again!'))
-            yield put(setSnackColor_Action('rgb(254, 200, 200)'))
-            yield put(setShowSnack_Action(true))
-            yield delay(4000)
-            yield put(setShowSnack_Action(false))
-        
+            return yield toast.error('Oops, please try again!', snackOptions)
+
         default: return;
     }
-
 }
 
 

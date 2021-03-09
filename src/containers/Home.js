@@ -28,7 +28,9 @@ import {
 } from '../components';
 
 import {
-    setInitialConfiguration_Action, setThreadArray_Action, setUserItems_Action
+    setInitialConfiguration_Action, 
+    setThreadArray_Action, 
+    setUserItems_Action
 } from '../actions';
 
 import {getUserPubliData} from '../constants';

@@ -41,7 +41,6 @@ export const AddMember = props => {
 	
 	const dispatch = useDispatch()
     const history = useHistory();
-	const [openSnack, setOpenSnack] = useState('')
 	const [loading, setLoading] = useState(true)
 
 	const client = useSelector(state => state.user.client)
@@ -68,24 +67,12 @@ export const AddMember = props => {
 		let data = await magic.user.getMetadata()
 		let details = {id, email, threadName, memberAddress}
 		dispatch(handleAddCollectionToMaster_Action_Action(details))
-		showSnackBarAndRedirect(data.publicAddress)
     }
 
-    const showSnackBarAndRedirect = address => {
-		setOpenSnack('show')
-		setTimeout(() => {
-			setOpenSnack('')
-			// history.push(`/app/${address}`)
-		}, 3500)
-	}
 	
 	if (loading) {
 		return (
 			<Fragment>
-				<SnackBar 
-					className={openSnack} 
-					success={true} 
-					message={'New member added successfully!'}/>
 				<LoadingCard />
 			</Fragment>
 		)

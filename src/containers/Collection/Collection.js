@@ -22,7 +22,6 @@ import {
 	LoadingCard,
 	MoreButton,
 	ItemsList, 
-	SnackBar,
 	Header
 } from '../../components';
 
@@ -59,9 +58,6 @@ export const Collection = props => {
 	const [loading, setLoading] = useState(true)
 	const [renderForm, setRenderForm] = useState(false) 
 	const [renderMemberForm, setRenderMemberForm] = useState(false) 
-	const [openSnack, setOpenSnack] = useState('')
-	const [uploadSuccess, setUploadSuccess] = useState(false)
-	const [message, setMessage] = useState(null)
 
 	const client = useSelector(state => state.user.client)
 	const threadsArray = useSelector(state => state.threads.threadsArray)
@@ -125,20 +121,8 @@ export const Collection = props => {
 		dispatch(setThreadItems_Action(data.entries.reverse()))
 		setLoading(false)
 	}
-
-	
-
-	const handleShowSnackbar = bool => {
-		if (bool) {setMessage('Success !')}
-		else {setMessage('Something went wrong, please try again.')}
-	
-        setUploadSuccess(bool)
-        setOpenSnack('show')
-        setTimeout(() => setOpenSnack(''), 4000)
-	}
 	
 	const handleCloseMemberForm = bool => {
-		handleShowSnackbar(bool)
 		setRenderMemberForm(false)
 	}
 
@@ -182,15 +166,7 @@ export const Collection = props => {
 				open={renderMemberForm} 
 				onClose={() => setRenderMemberForm(false)} >
 					<AddMemberForm onClose={(bool) => handleCloseMemberForm(bool)}/>
-			</Drawer>
-
-			<SnackBar 
-				className={openSnack} 
-				success={uploadSuccess} 
-				message={message}
-			/>
-
-			
+			</Drawer>			
 
 			<MoreOptionsPositioner>
 				<MoreButton 

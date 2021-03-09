@@ -2,6 +2,8 @@ import React, {Fragment, useEffect} from 'react';
 import {Switch, Route, Redirect} from 'react-router-dom';
 import LandingPage from '../containers/LandingPage';
 import Settings from '../containers/Settings';
+import {StyledToastContainer} from '../components';
+import 'react-toastify/dist/ReactToastify.css';
 import '../App.css';
 
 import {
@@ -15,20 +17,12 @@ import {
     JoinCollection
 } from '../containers';
 
-import {
-    SnackBar
-} from '../components';
-
 const Router = () => {
 
     return (
         <Fragment>
 
-                <SnackBar 
-                    className={'show'}
-                    success={true}
-                    message={'Success'}
-                />
+            <StyledToastContainer />
 
             <Switch>
                 <Route path='/signin' component={SignIn} />
