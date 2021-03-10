@@ -52,8 +52,8 @@ export const NewCollectionForm = props => {
     const onImageUpload = async e => {
         if (e.target.files.length > 0) {
             let fileName = e.target.files[0].name
-            let stringFile = await getBase64(e.target.files[0])
-            setImage({name: fileName, file: stringFile})
+            // let stringFile = await getBase64(e.target.files[0])
+            setImage({name: fileName, file: e.target.files[0]})
         }
     }
 

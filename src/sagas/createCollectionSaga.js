@@ -1,7 +1,7 @@
 import {take, put, select} from 'redux-saga/effects';
 import {setThreadArray_Action, handleSnackBarRender_Action} from '../actions';
 import {Mixpanel, Textile} from '../utils';
-import {addCollection} from '../constants';
+import {addCollection, uploadUrl} from '../constants';
 import axios from 'axios';
 
 import {
@@ -10,8 +10,6 @@ import {
     SNACK_TYPE_SUCCESS,
 
 } from '../actions/types';
-
-
 
 const getThreadsState = state => state
 
@@ -24,17 +22,26 @@ function* handleCreateCollection(action) {
     const masterThreadID = state.threads.masterThreadID
 
     try {
-        // Create new ThreadDB and lists all DB's
+        // 1. Get image URL.
+        let protoCofig = action.payload
+        let formData = new FormData();
+        formData.append('file', action.payload.image);
+        formData.append('type', action.payload.image.type);
+        let res = yield axios.post(uploadUrl, formData)
+
+        // 2. Create new ThreadDB and add DB to global.
+        protoCofig.image = res.data.contentURI
         let {threadID, collectionObject} = yield Textile.createNewThreadDB(client, action.payload, address, identityString)
         yield client.create(masterThreadID, 'collections-list', [collectionObject])
 
         yield axios.post(addCollection, collectionObject)
 
-        // Get new collections list and set in state.
+        // 3. Get new collections list and set in state.
         let collections = yield client.find(masterThreadID, 'collections-list', {})
+        console.log('Collection: ', collections)
         yield put(setThreadArray_Action(collections))
 
-        // Fire callback and track event
+        // 4. Fire callback and track event
         yield action.callback(true)
         yield put(handleSnackBarRender_Action(SNACK_TYPE_SUCCESS))
         Mixpanel.track('NEW_COLLECTION_CREATED')
@@ -42,7 +49,8 @@ function* handleCreateCollection(action) {
 
     catch (e) {
         if (e.toString().includes('multiple write errors')) {
-            yield put(handleSnackBarRender_Action(SNACK_TYPE_ERROR, 'Please choose a different name!'))
+            yield put(handleSnackBarRender_Action(SNACK_TYPE_ERROR, 
+                'Please choose a different name!'))
         }
         else {
             yield put(handleSnackBarRender_Action(SNACK_TYPE_ERROR))
@@ -59,8 +67,3 @@ export default function* watchCreateCollection() {
         yield handleCreateCollection(action)    
     }
 }
-
-/////////////////////////////////////////////////
-/////// HELPER FUNCTIONS
-////////////////////////////////////////////////
-
