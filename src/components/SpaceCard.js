@@ -32,8 +32,8 @@ export const SpaceCard = props => {
         <SpaceCardContainer onClick={handleOnClick}>
             <SpaceImage src={image}/>
             <TextBox>
-                <SpaceTitle color={"white"}>{spacename}</SpaceTitle>
-                <Text color={"white"}>{description}</Text>
+                <SpaceTitle color={"black"}>{spacename}</SpaceTitle>
+                <Text color={"black"}>{description}</Text>
             </TextBox>
         </SpaceCardContainer>
     );
@@ -48,11 +48,13 @@ const SpaceCardContainer = styled.div`
     display: flex;
     flex-direction: column;
 	border-radius: 10px;
-	
+	overflow: hiddden;
+    overflow-wrap: break-word;
 	background: white;
 	position: relative;
 	align-items: flex-end;
     transition: 0.6s ease-out;
+    
     opacity: 0.8;
     box-shadow: 0px 7px 10px rgba(0,0,0,0.1);
 
@@ -64,11 +66,13 @@ const SpaceCardContainer = styled.div`
 
 const SpaceTitle = styled(Title)`
     text-transform: capitalize; 
+    font-size: 30px;
 `
 
 const TextBox = styled(View)`
     width: 200px;
-    padding: 1.5rem;
+    padding: 8%;
+    
 `;
 
 const SpaceImage = styled.img`

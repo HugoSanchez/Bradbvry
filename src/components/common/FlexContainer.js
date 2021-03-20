@@ -9,7 +9,9 @@ export const FlexContainer = styled.div`
     padding-right: 8vw;
 
     @media ${device.tablet} {
-	  flex-direction: column;
-	  padding-top: 12vh;
+        flex-direction: column;
+        padding-top: 12vh;
+        padding-left: 1vw;
+        padding-right: 1vw;
     }
 `;

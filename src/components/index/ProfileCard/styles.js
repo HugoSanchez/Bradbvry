@@ -25,6 +25,8 @@ export const ProfileCardDiv = styled.div`
         flex-direction: row;
         height: 20vh;
         width: 100%;
+        padding-left: 4%;
+        padding-top: 0px;
         box-shadow: 0 0 0px rgba(0,0,0,0);
     }
 `;
