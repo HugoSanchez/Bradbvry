@@ -74,7 +74,7 @@ export const Collection = props => {
 		// If activeThread is not set, 
 		// user is reloading and should be set.
 		const checkActiveThread = async () => {
-			if (!activeThread && threadsArray.length > 0) {
+			if (!activeThread && threadsArray) {
 				let thread = threadsArray.find(thread => thread.name === threadName)
 				dispatch(setActiveThread_Action(thread))
 				await fetchThreadData(thread)
@@ -104,8 +104,8 @@ export const Collection = props => {
 		await client.listen(threadId, [], (e) => {
 			if (e === undefined) {return}
 			if (e.action === 'CREATE') {
-				let item = e.instance
-				dispatch(addItemToThreadItems_Action(item))
+				// let item = e.instance
+				// dispatch(addItemToThreadItems_Action(item))
 			}			
 		})
 	}

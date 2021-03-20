@@ -10,7 +10,7 @@ const Card = styled(Row)`
     margin-right: ${props => props.marginRight || '0px'};
     margin-left: ${props => props.marginLeft || '0px'};
     margin-bottom: ${props => props.marginBottom || '5vh'};
-    border-radius: ${props => props.borderRadius || '10px'};
+    border-radius: ${props => props.borderRadius || '6px'};
     vertical-align: ${props => props.verticalAlign || 'middle'};
     background-color: ${props => props.backgroundColor || 'white'};
     transition: 0.4s ease-out;

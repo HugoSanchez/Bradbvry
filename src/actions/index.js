@@ -11,6 +11,7 @@ import {
     SET_THREAD_ITEMS,
     SET_MASTER_THREAD_ID,
     ADD_ITEM_TO_THREAD_ITEMS,
+    ADD_ITEM_TO_ITEMS_ARRAY,
     HANDLE_SAVE_ITEM,
     HANDLE_SAVE_IMAGE,
     HANDLE_DELETE_ITEM,
@@ -75,6 +76,13 @@ export const setMasterThreadID_Action = id => {
 export const addItemToThreadItems_Action = item => {
     return { 
         type: ADD_ITEM_TO_THREAD_ITEMS, 
+        payload: item 
+    }
+}
+
+export const addItemToItemsArray_Action = item => {
+    return { 
+        type: ADD_ITEM_TO_ITEMS_ARRAY, 
         payload: item 
     }
 }
@@ -175,7 +183,7 @@ export const handleAddCollectionToMaster_Action_Action = (object, history) => {
 }
 
 ///////////////////////////////////////////////
-////// USER REDUCER ACTIONS
+////// SNACKBAR ACTIONS
 ///////////////////////////////////////////////
 
 export const handleSnackBarRender_Action = (object, message) => {
