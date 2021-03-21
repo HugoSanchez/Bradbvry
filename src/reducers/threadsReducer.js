@@ -41,7 +41,6 @@ const threadsReducer = (state = initialState, action) => {
 		return {...state, masterThreadID: action.payload}
 
 		case SET_THREAD_ITEMS: 
-		console.log('reducer', action.payload)
 		return {...state, threadItems: action.payload}
 
 		case ADD_ITEM_TO_ITEMS_ARRAY: 	

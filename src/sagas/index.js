@@ -6,6 +6,7 @@ import deleteItemSaga from './deleteItemSaga';
 import addNewCollection from './addNewCollection';
 import handleRenderSnack from './handleSnackBarSaga';
 import createCollectionSaga from './createCollectionSaga';
+import updateCollectionSaga from './updateCollectionSaga';
 import deleteCollectionSaga from './deleteCollectionSaga';
 
 export default function * rootSaga() {
@@ -16,6 +17,7 @@ export default function * rootSaga() {
         deleteItemSaga(),
         addNewCollection(),
         createCollectionSaga(),
+        updateCollectionSaga(),
         deleteCollectionSaga(),
 
         handleRenderSnack()

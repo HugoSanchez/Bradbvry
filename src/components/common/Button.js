@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import '../../App.css';
 
 import {
+    primaryGray45,
     primaryGray55,
     primaryGreen
 } from '../../constants/colors';
@@ -62,7 +63,9 @@ const SimpleEmptyButton = props => {
 
 const FormButton = props => {
     return (
-        <FormButtonLayout onClick={props.onClick}>
+        <FormButtonLayout 
+            isActive={props.isActive}
+            onClick={props.isActive ? props.onClick : null}>
             {
                 props.loading ? 
                 <WaveLoading 
@@ -117,7 +120,7 @@ const EmptyButtonLayout = styled.div`
 `;
 
 const FormButtonLayout = styled.div`
-    background: ${primaryGreen};
+    background: ${props => props.isActive ? primaryGreen : primaryGray45};
     margin-top: 4%;
     margin-right: 2%;
     margin-left: 2%;

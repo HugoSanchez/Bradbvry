@@ -1,5 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {handleCreateCollection_Action} from '../../../actions';
+
+import {
+    handleUpdateCollection_Action,
+    handleCreateCollection_Action
+} from '../../../actions';
 
 import {
     useDispatch
@@ -39,6 +43,7 @@ export const NewCollectionForm = props => {
     let [desc, setDesc] = useState('')
     let [image, setImage] = useState(false)
     let [error, setError] = useState(false)
+    let [isEdit, setIsEdit] = useState(false)
     let [loading, setLoading] = useState(false)
     let [collectionType, setCollectionType] = useState('public')
 
@@ -48,6 +53,14 @@ export const NewCollectionForm = props => {
         else {setError(false)}
     
     }, [name])
+
+    useEffect(() => {
+        if (props.collection) {
+            setName(props.collection.name)
+            setDesc(props.collection.description)
+            setIsEdit(true)
+        }
+    }, [])
 
     const onImageUpload = async e => {
         if (e.target.files.length > 0) {
@@ -63,12 +76,20 @@ export const NewCollectionForm = props => {
         else if (name.length < 1) {setError({...error, name: errorCodes.name})}
         else if (desc.length < 1) {setError({...error, desc: errorCodes.desc})}
         else {
-            handleCreateCollection()
+            if (isEdit){handleEditCollection()}
+            else {handleCreateCollection()}
         }
     }
 
+    const callback = () => {props.onClose()}
+
+
+    const handleEditCollection = async () => {
+        let threadConfig = parseCollectionConfigObject()
+        dispatch(handleUpdateCollection_Action(threadConfig, props.history, props.collection, callback))
+    }
+
     const handleCreateCollection = async () => {
-        let callback = (bool) => { props.onClose() }
         let threadConfig = parseCollectionConfigObject()
         dispatch(handleCreateCollection_Action(threadConfig, callback))        
     }
@@ -96,7 +117,7 @@ export const NewCollectionForm = props => {
             </CloseTab>     
             
             <ModalTitle>
-                Create A New Collection
+                {isEdit ? 'Update' : 'Create A New'}  Collection
             </ModalTitle>
 
             <FormBodyBox>
@@ -127,16 +148,12 @@ export const NewCollectionForm = props => {
                     onChange={(e) => onImageUpload(e)}
                 />  
 
-                { 
-                    name && 
-                    desc && 
-                    image && 
-                    !error &&
-                    <FormButton 
-                        text={'Create Collection'}
-                        loading={loading}
-                        onClick={handleFormSubmit}/>
-                }
+                <FormButton 
+                    text={isEdit ? 'Update Collection' : 'Create Collection'}
+                    loading={loading}
+                    isActive={name && desc && image || isEdit && !error}
+                    onClick={handleFormSubmit}/>
+
             </FormBodyBox>               
         </DrawerCont>
     )

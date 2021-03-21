@@ -12,9 +12,11 @@ import {
 } from '../../hooks'
 
 import {
+
 	FlexContainer,
 	LeftContainer,
 	RightContainer,
+	NewCollectionForm,
 	CollectionButtons,
 	CollectionCardBig,
 	UploadImageForm,
@@ -22,7 +24,8 @@ import {
 	LoadingCard,
 	MoreButton,
 	ItemsList, 
-	Header
+	Header,
+	
 } from '../../components';
 
 import {
@@ -58,6 +61,7 @@ export const Collection = props => {
 	const [loading, setLoading] = useState(true)
 	const [renderForm, setRenderForm] = useState(false) 
 	const [renderMemberForm, setRenderMemberForm] = useState(false) 
+	const [renderCollectionForm, setRenderCollectionForm] = useState(false)
 
 	const client = useSelector(state => state.user.client)
 	const threadsArray = useSelector(state => state.threads.threadsArray)
@@ -126,6 +130,10 @@ export const Collection = props => {
 		setRenderMemberForm(false)
 	}
 
+	const handleCloseCollectionForm = bool => {
+		setRenderCollectionForm(false)
+	}
+
 	const handleNewEditor = async () => {
 		dispatch(setActiveItem_Action(null))
 		props.history.push(`/app/${user}/${threadName}/new`, 
@@ -154,6 +162,7 @@ export const Collection = props => {
   	return (
 		<Fragment>
 			<Header />
+
 			<Drawer 
 				anchor={'right'} 
 				open={renderForm} 
@@ -166,12 +175,23 @@ export const Collection = props => {
 				open={renderMemberForm} 
 				onClose={() => setRenderMemberForm(false)} >
 					<AddMemberForm onClose={(bool) => handleCloseMemberForm(bool)}/>
+			</Drawer>
+
+			<Drawer 
+				anchor={'right'} 
+				open={renderCollectionForm} 
+				onClose={() => setRenderCollectionForm(false)} >
+					<NewCollectionForm 
+						history={props.history}
+						collection={activeThread}
+						onClose={(bool) => handleCloseCollectionForm(bool)}/>
 			</Drawer>			
 
 			<MoreOptionsPositioner>
 				<MoreButton 
 					isOwner={isOwner}
-					history={props.history}/>
+					history={props.history}
+					renderForm={() => setRenderCollectionForm(true)}/>
 			</MoreOptionsPositioner>
 
 

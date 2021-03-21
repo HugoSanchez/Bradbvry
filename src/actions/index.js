@@ -16,6 +16,7 @@ import {
     HANDLE_SAVE_IMAGE,
     HANDLE_DELETE_ITEM,
     HANDLE_ADD_COLLECTION,
+    HANDLE_UPDATE_COLLECTION,
     HANDLE_CREATE_COLLECTION,
     HANDLE_DELETE_COLLECTION,
     HANDLE_ADD_ITEM_TO_PREVIEW,
@@ -107,6 +108,16 @@ export const handleDeleteItem_Action = (item, callback) => {
         type: HANDLE_DELETE_ITEM, 
         payload: item,
         callback: callback
+    }
+}
+
+export const handleUpdateCollection_Action = (object, history, activeThread, callback) => {
+    return {
+        type: HANDLE_UPDATE_COLLECTION,
+        payload: object,
+        history: history,
+        activeThread: activeThread,
+        callback: (bool) => callback(bool),
     }
 }
 

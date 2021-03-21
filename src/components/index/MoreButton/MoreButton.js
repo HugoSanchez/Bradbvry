@@ -36,8 +36,9 @@ export const MoreButton = props => {
     };
 
     const handleDelete = () => {
-        //setOpen(false);
-        dispatch(handleDeleteCollection_Action(props.history))
+        dispatch(
+            handleDeleteCollection_Action(
+                props.history))
     };
 
 
@@ -62,6 +63,17 @@ export const MoreButton = props => {
                 open={open}
                 onClose={handleClose}
                 >
+
+                <MenuItem onClick={() => props.renderForm()}>
+                    <ItemRow>
+                        <IconContext.Provider value={{size: '16px', color: 'gray'}}>
+                            <RiEditLine /> 
+                        </IconContext.Provider> 
+                        <TextBox>
+                            <Text>Update Collection</Text>
+                        </TextBox>
+                    </ItemRow>
+                </MenuItem>   
 
                 <MenuItem onClick={handleDelete}>
                     <ItemRow>

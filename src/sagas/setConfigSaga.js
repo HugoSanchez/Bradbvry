@@ -46,8 +46,6 @@ function* handleThreads(threads, client, identity, action) {
         let collections = yield client.find(threadID, 'collections-list', {})
         let previewItems = yield concatPreviewItems(collections, client)
 
-        yield console.log('preview: ', previewItems)
-
         yield put(setMasterThreadID_Action(threadID))
         yield put(setThreadArray_Action(collections.reverse()))
         yield put(setUserItems_Action(previewItems))
@@ -132,16 +130,15 @@ const sortItemsArray = (itemsArray) => {
 
 
 const concatPreviewItems = async (threadsArray, client) => {
-
+    // For each collection, get all entries 
+    // and set the most recent ones in the itemsArray for preview.
     let itemsArray = [];
 
     for (let i = 0; i < threadsArray.length; i++) {
-
         let threadID = ThreadID.fromString(threadsArray[i].id)
         let entries = await client.find(threadID, 'entries', {})
         itemsArray = itemsArray.concat(entries.slice(entries.length - 10, entries.length))
     }
 
     return sortItemsArray(itemsArray)
-
 }
