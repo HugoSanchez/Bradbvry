@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import {View, Title, Text} from '../../common';
 import {device} from '../../../constants';
+import { primaryGray85, primaryGreen } from '../../../constants/colors';
 
 
 
@@ -34,6 +35,8 @@ export const CollectionTitle = styled(Title)`
     text-transform: capitalize; 
     font-size: 5vh;
     color: rgb(85, 85, 85);
+    margin-left: 0px;
+    padding-left: 0px;
 
     @media ${device.tablet} {
         color: rgb(85, 85, 85);
@@ -56,7 +59,7 @@ export const Description = styled(Text)`
 
 export const TextBox = styled(View)`
     width: 100%;
-    margin-top: 50%;
+    margin-top: 45%;
     margin-bottom: 8%;
 
     @media ${device.tablet} {
@@ -65,5 +68,28 @@ export const TextBox = styled(View)`
         padding: 0px;
         margin-top: 5%;
     }
+`;
+
+export const FollowContainer = styled.div`
+    width: 100%;
+    margin-top: 8%;
+    margin-left: 2%;
+`;
+
+export const FollowButton = styled.div`
+    background: ${primaryGreen};
+    width: 90px;
+    height: 30px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`;
+
+export const ButtonText = styled(Text)`
+    font-weight: 500;
+    font-size: 14px;
+    text-decoration: ${props => props.isActive ? 'underline' : null};
+    color: ${primaryGray85} 
 `;
 

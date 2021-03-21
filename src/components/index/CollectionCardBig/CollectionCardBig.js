@@ -1,11 +1,15 @@
-import React  from 'react';
+import React, {useState}  from 'react';
 
+import {Text} from '../../common';
 import {ProfileRow} from '../ProfileRow';
 
 import {
     CollectionCardContainer,
     CollectionTitle,
+    FollowContainer,
+    FollowButton,
     Description,
+    ButtonText,
     TextBox
 } from './styles';
 
@@ -20,6 +24,8 @@ import {
 
 
 export const CollectionCardBig = props => {
+
+    let [isActive, setIsActive] = useState(false)
 
     // If user is not logged, or not owner, external == false.
     // The thread object is different based in this condition.
@@ -38,6 +44,14 @@ export const CollectionCardBig = props => {
             </TextBox>
 
             <ProfileRow member={props.member}/>
+
+            <FollowContainer>
+                <FollowButton 
+                    onMouseEnter={() => setIsActive(true)}
+                    onMouseLeave={() => setIsActive(false)}>
+                    <ButtonText isActive={isActive}> Follow </ButtonText>
+                </FollowButton>
+            </FollowContainer>
         </CollectionCardContainer>
     );
 }
