@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import {View, Title, Text} from '../../common';
 import {device} from '../../../constants';
-import { primaryGray85, primaryGreen } from '../../../constants/colors';
+import { lightGray150, lightGray195P07, primaryGray85, primaryGreen } from '../../../constants/colors';
 
 
 
@@ -77,7 +77,7 @@ export const FollowContainer = styled.div`
 `;
 
 export const FollowButton = styled.div`
-    background: ${primaryGreen};
+    background: ${props => props.isFollower ? lightGray195P07 : primaryGreen};
     width: 90px;
     height: 30px;
     cursor: pointer;
@@ -87,8 +87,9 @@ export const FollowButton = styled.div`
 `;
 
 export const ButtonText = styled(Text)`
-    font-weight: 500;
+    font-weight: ${props => props.isFollower ? '300' : '400'};
     font-size: 14px;
+    font-style: ${props => props.isFollower ? 'italic' : null};
     text-decoration: ${props => props.isActive ? 'underline' : null};
     color: ${primaryGray85} 
 `;

@@ -9,5 +9,6 @@ export const primaryGray45 = 'rgba(45, 45, 45, 1)'; // Darker
 export const lightGray150 = 'rgba(150, 150, 150, 1)'; // Lighter
 export const lightGray175 = 'rgba(175, 175, 175, 1)'; // Lighter
 export const lightGray195 = 'rgba(195, 195, 195, 1)'; // Lighter
+export const lightGray195P07 = 'rgba(195, 195, 195, 0.4)'; // Lighter
 
 export const primaryGreen = '#C5FFDC';

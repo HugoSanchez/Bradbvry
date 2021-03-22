@@ -47,9 +47,19 @@ export const CollectionCardBig = props => {
 
             <FollowContainer>
                 <FollowButton 
+                    isFollower={props.isFollower}
+                    onClick={() => console.log('clicked!')}
                     onMouseEnter={() => setIsActive(true)}
                     onMouseLeave={() => setIsActive(false)}>
-                    <ButtonText isActive={isActive}> Follow </ButtonText>
+                    <ButtonText 
+                        isFollower={props.isFollower}
+                        isActive={isActive}> 
+                            {
+                                props.isFollower ?
+                                'Following':
+                                'Follow'
+                            }
+                    </ButtonText>
                 </FollowButton>
             </FollowContainer>
         </CollectionCardContainer>
