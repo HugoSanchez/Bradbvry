@@ -77,8 +77,8 @@ export const FollowContainer = styled.div`
 `;
 
 export const FollowButton = styled.div`
-    background: ${props => props.isFollower ? lightGray195P07 : primaryGreen};
-    width: 90px;
+    background: ${props => props.isFollower && props.isLogged ? lightGray195P07 : primaryGreen};
+    width: ${props => props.isLogged ? '90px' : '130px'};
     height: 30px;
     cursor: pointer;
     display: flex;
@@ -87,8 +87,8 @@ export const FollowButton = styled.div`
 `;
 
 export const ButtonText = styled(Text)`
-    font-weight: ${props => props.isFollower ? '300' : '400'};
     font-size: 14px;
+    font-weight: ${props => props.isFollower ? '400' : '400'};
     font-style: ${props => props.isFollower ? 'italic' : null};
     text-decoration: ${props => props.isActive ? 'underline' : null};
     color: ${primaryGray85} 

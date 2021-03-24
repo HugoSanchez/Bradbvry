@@ -8,6 +8,9 @@ export const deleteCollection = `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}/
 export const updateCollectionUrl = `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}/api/update/collections`;
 export const shareBaseUrl = `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}/api/share/send-invite-email`;
 export const acceptBaseUrl = `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}/api/share/add-invited-member`;
+export const followBaseUrl = `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}/api/follow`;
+export const unfollowBaseUrl = `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}/api/unfollow`;
+
 
 export const joinCollectionUrl = (address, threadId, threadName) => `${process.env.REACT_APP_BRADBVRY_URL}/app/${address}/${threadName}`
 export const getSpecificItemsUrl = (address, threadName, itemId) => `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}/api/collections/${address}/${threadName}/${itemId}`;
@@ -32,6 +35,13 @@ export const pendingObject = {
     threadId: '', 
     threadName: '', 
     owner: ''
+}
+
+export const followerObject = {
+    _id: '',
+    address: '',
+    identity: '',
+    did: '',
 }
 
 export const entriesObject = {

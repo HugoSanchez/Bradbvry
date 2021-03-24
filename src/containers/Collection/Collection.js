@@ -59,6 +59,7 @@ export const Collection = props => {
 	// Try to fix this:
 	// This makes the component re-render everytime the modal is opened and closed.
 	const [loading, setLoading] = useState(true)
+	const [followers, setFollowers] = useState(true)
 	const [renderForm, setRenderForm] = useState(false) 
 	const [renderMemberForm, setRenderMemberForm] = useState(false) 
 	const [renderCollectionForm, setRenderCollectionForm] = useState(false)
@@ -101,20 +102,13 @@ export const Collection = props => {
 		// Fetch entries and set up listener
 		let threadId = ThreadID.fromString(thread.id)
 		let items = await client.find(threadId, 'entries', {})
+		let followers = await client.find(threadId, 'followers', {})
 
+		setFollowers(followers)
+		console.log('followers: ', followers)
 		dispatch(setThreadItems_Action(items.reverse()))
 		setLoading(false)
-
-		await client.listen(threadId, [], (e) => {
-			if (e === undefined) {return}
-			if (e.action === 'CREATE') {
-				// let item = e.instance
-				// dispatch(addItemToThreadItems_Action(item))
-			}			
-		})
 	}
-	
-	
 
 	const fetchThreadEntries = async () => {
 		// This functions only gets called if user is not logged.
@@ -199,8 +193,11 @@ export const Collection = props => {
 					<LeftContainer>
 						<CollectionCardBig
 							member={user}
+							followers={followers}
 							isOwner={isOwner}
 							isLogged={isLogged} 
+							history={props.history}
+							match={props.match}
 							thread={activeThread} />
 					</LeftContainer>
 

@@ -11,7 +11,7 @@ export const SignInCard = styled.div`
 	padding: 2%;
 	mmin-height: 80%;
 	width: 30%;
-	border-radius: 12px;
+	border-radius: 4px;
 	box-shadow: 0 0 80px rgba(0,0,0,0.1); 
 	background-color: rgba(255, 255, 255, 1);
 
@@ -57,7 +57,7 @@ export const Input = styled.input`
 	box-sizing: border-box;
 	outline: none;
 	border: 0.5px solid rgb(220, 220, 220);
-	border-radius: 5px;
+	border-radius: 3px;
 	font-family: 'Montserrat';
 	font-size: 15px;
 	font-weight: 400;
@@ -67,8 +67,8 @@ export const Input = styled.input`
 	::-webkit-input-placeholder {
 		color: gray;
 		font-family: 'Montserrat';
-		font-size: 70%;
-		font-weight: 300;
+		font-size: 16px;
+		font-weight: 400;
 		font-style: italic;
 	},
 
@@ -91,7 +91,7 @@ export const Input = styled.input`
 export const Button = styled.button`
 	outline: none;
 	border: none;
-	border-radius: 5px;
+	border-radius: 3px;
 	margin-top: 5%;
 	margin-bottom: 10%;
 	height: 55px;

@@ -1,7 +1,9 @@
-import React, {useState}  from 'react';
-
-import {Text} from '../../common';
+import React, {useEffect, useState}  from 'react';
+import {useSelector} from 'react-redux';
 import {ProfileRow} from '../ProfileRow';
+import { CircularProgress } from '@material-ui/core';
+import {followBaseUrl, unfollowBaseUrl} from '../../../constants';
+import axios from 'axios';
 
 import {
     CollectionCardContainer,
@@ -12,8 +14,6 @@ import {
     ButtonText,
     TextBox
 } from './styles';
-
-
 
 /**
  * @param {onPress} props: function to execute;
@@ -26,15 +26,52 @@ import {
 export const CollectionCardBig = props => {
 
     let [isActive, setIsActive] = useState(false)
-
-    // If user is not logged, or not owner, external == false.
-    // The thread object is different based in this condition.
+    let [isLoading, setIsLoading] = useState(false)
+    let [following, setfollowing] = useState(false)
     let external = props.isLogged && props.isOwner
 
     let {thread} = props
     let image = thread.image
     let spacename = thread.name.replace(/-/g, ' ')
     let description = thread.description.slice(0, 96)
+
+    let address = useSelector(state => state.user.address)
+    let identity = useSelector(state => state.user.identityString)
+
+    let reqObject = {
+        threadID: props.thread.id,
+            follower: {
+                address: address, 
+                identity: identity
+        }
+    }
+
+    useEffect(() => {
+        if (props.isLogged) {
+            let follows = props.followers.find(
+                followers => followers.address === address)
+            setfollowing(follows)
+        }
+    }, [])
+
+    const handleFollowUnfollow = async () => {
+        setIsLoading(true)
+        await handleRequest()
+        setfollowing(!following)
+        setIsLoading(false)
+    }
+
+    const handleRequest = async () => {
+        if (!following) { await axios.post(followBaseUrl, reqObject)}      
+        else {
+            let data = {threadID: props.thread.id, followID: following._id}
+            await axios.post(unfollowBaseUrl, data)
+        }
+    }
+
+    const handleRedirect = async () => {
+        props.history.push('/signin', {redirect: props.match.url})
+    }
 
     return (
         <CollectionCardContainer>
@@ -46,20 +83,40 @@ export const CollectionCardBig = props => {
             <ProfileRow member={props.member}/>
 
             <FollowContainer>
-                <FollowButton 
-                    isFollower={props.isFollower}
-                    onClick={() => console.log('clicked!')}
+                <FollowButton
+                    isLogged={props.isLogged} 
+                    isFollower={!!following}
+                    onClick={() => props.isLogged ? handleFollowUnfollow() : handleRedirect()}
                     onMouseEnter={() => setIsActive(true)}
                     onMouseLeave={() => setIsActive(false)}>
-                    <ButtonText 
-                        isFollower={props.isFollower}
-                        isActive={isActive}> 
-                            {
-                                props.isFollower ?
-                                'Following':
-                                'Follow'
-                            }
-                    </ButtonText>
+
+                        {
+                            isLoading && <CircularProgress 
+                                size={15} 
+                                color={'inherit'}/>
+
+                        }
+
+                        {
+                             !isLoading && props.isLogged && <ButtonText 
+                                isFollower={!!following}
+                                isActive={isActive}> 
+                                    {
+                                        !!following ?
+                                        'following':
+                                        'Follow'
+                                    }
+                            </ButtonText>
+                        }
+
+{
+                             !isLoading && !props.isLogged && <ButtonText 
+                                isFollower={!!following}
+                                isActive={isActive}> 
+                                    Signup to follow
+                            </ButtonText>
+                        }
+                    
                 </FollowButton>
             </FollowContainer>
         </CollectionCardContainer>
