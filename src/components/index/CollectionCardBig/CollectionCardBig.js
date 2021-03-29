@@ -83,41 +83,59 @@ export const CollectionCardBig = props => {
             <ProfileRow member={props.member}/>
 
             <FollowContainer>
-                <FollowButton
-                    isLogged={props.isLogged} 
-                    isFollower={!!following}
-                    onClick={() => props.isLogged ? handleFollowUnfollow() : handleRedirect()}
-                    onMouseEnter={() => setIsActive(true)}
-                    onMouseLeave={() => setIsActive(false)}>
+                {
+                    !props.isOwner ? 
+                    <FollowButton
+                        isLogged={props.isLogged} 
+                        isFollower={!!following}
+                        onClick={() => props.isLogged ? handleFollowUnfollow() : handleRedirect()}
+                        onMouseEnter={() => setIsActive(true)}
+                        onMouseLeave={() => setIsActive(false)}>
 
-                        {
-                            isLoading && <CircularProgress 
-                                size={15} 
-                                color={'inherit'}/>
+                            {
+                                isLoading && <CircularProgress 
+                                    size={15} 
+                                    color={'inherit'}/>
 
-                        }
+                            }
 
-                        {
-                             !isLoading && props.isLogged && <ButtonText 
-                                isFollower={!!following}
-                                isActive={isActive}> 
-                                    {
-                                        !!following ?
-                                        'following':
-                                        'Follow'
-                                    }
+                            {
+                                !isLoading && props.isLogged && <ButtonText 
+                                    isFollower={!!following}
+                                    isActive={isActive}> 
+                                        {
+                                            !!following ?
+                                            'following':
+                                            'Follow'
+                                        }
+                                </ButtonText>
+                            }
+
+                            {
+                                !isLoading && !props.isLogged && <ButtonText 
+                                    isFollower={!!following}
+                                    isActive={isActive}> 
+                                        Signup to follow
+                                </ButtonText>
+                            }
+                        
+                    </FollowButton>
+
+                    :
+
+                    <FollowButton
+                        isLogged={props.isLogged} 
+                        isFollower={true}>
+                           <ButtonText 
+                                isFollower={true}
+                                isActive={false}> 
+                                    Owner
                             </ButtonText>
-                        }
-
-{
-                             !isLoading && !props.isLogged && <ButtonText 
-                                isFollower={!!following}
-                                isActive={isActive}> 
-                                    Signup to follow
-                            </ButtonText>
-                        }
-                    
-                </FollowButton>
+                            
+                        
+                    </FollowButton>
+                }
+                
             </FollowContainer>
         </CollectionCardContainer>
     );

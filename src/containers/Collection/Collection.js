@@ -32,7 +32,6 @@ import {
 	setActiveItem_Action,
 	setActiveThread_Action, 
 	setThreadItems_Action,
-	addItemToThreadItems_Action,
 	handleSaveImage_Action,
 	setInitialConfiguration_Action
 } from '../../actions';
@@ -44,22 +43,16 @@ import {
 
 export const Collection = props => {
 
-	let {
-		threadName,
-		user
-	} = props.match.params
 
 	useMixpanel('COLLECTION')
+	const {threadName, user} = props.match.params
 
 	const dispatch = useDispatch()
 	const [isLogged, isOwner] = useIsLogged(user)
     const loggedAndOwner = isLogged && isOwner
-	
 
-	// Try to fix this:
-	// This makes the component re-render everytime the modal is opened and closed.
 	const [loading, setLoading] = useState(true)
-	const [followers, setFollowers] = useState(true)
+	const [followers, setFollowers] = useState([])
 	const [renderForm, setRenderForm] = useState(false) 
 	const [renderMemberForm, setRenderMemberForm] = useState(false) 
 	const [renderCollectionForm, setRenderCollectionForm] = useState(false)
@@ -70,6 +63,7 @@ export const Collection = props => {
 	const activeThread = useSelector(state => state.threads.activeThread)
 
 	useEffect(() => {
+		console.log(threadName)
 		if (loggedAndOwner) {handleComponentConfig()}
 		else if (loggedAndOwner === false) {fetchThreadEntries()}
 	}, [loggedAndOwner])
@@ -99,14 +93,15 @@ export const Collection = props => {
 	
 	const fetchThreadData = async (thread) => {
 		// If selected thread exists, 
-		// Fetch entries and set up listener
+		// Fetch entries and set up listener.
 		let threadId = ThreadID.fromString(thread.id)
 		let items = await client.find(threadId, 'entries', {})
-		let followers = await client.find(threadId, 'followers', {})
-
-		setFollowers(followers)
-		console.log('followers: ', followers)
+		try {let followers = await client.find(threadId, 'followers', {})}
+		catch (e) {console.log(e)}
+		
+		// Manage and set state.
 		dispatch(setThreadItems_Action(items.reverse()))
+		setFollowers(followers)
 		setLoading(false)
 	}
 

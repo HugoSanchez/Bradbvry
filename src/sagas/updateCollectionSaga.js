@@ -1,6 +1,6 @@
 import {take, put, select} from 'redux-saga/effects';
 import ThreadID from '@textile/threads-id';
-import {uploadUrl} from '../constants';
+import {uploadUrl, updateCollectionUrl} from '../constants';
 import axios from 'axios';
 
 import {
@@ -31,7 +31,6 @@ function* handleUpdateCollection(action) {
     const masterThreadID = state.threads.masterThreadID
 
     try {
-
         // 1. Update name, description and image if any.
         let updatedThread = Object.assign({}, action.activeThread)
         updatedThread.name = action.payload.name
@@ -53,6 +52,7 @@ function* handleUpdateCollection(action) {
         updatedConfig.description = updatedThread.description
         updatedConfig.image = updatedThread.image
         yield client.save(threadId, 'config', [updatedConfig])
+        yield axios.post(updateCollectionUrl, {collection: updatedConfig})
 
         // 3. Update master thread too.
         yield client.save(masterThreadID, 'collections-list', [updatedThread])
