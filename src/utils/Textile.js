@@ -118,11 +118,7 @@ let actions = {
 
         // Instantate and create the config and entries collections in DB.   
         let writeValidator = actions.getWriteValidator(identityString)
-<<<<<<< HEAD
-        console.log('Write Val: ', writeValidator)
-=======
         let wirteValidatorFollowers = actions.getFollowresCollectionWriteValidator(identityString)
->>>>>>> encryption
         let readFilter = actions.getReadFilter(identityString, config.type)
         console.log('Read Fil: ', readFilter)
         await client.newCollectionFromObject(threadID, configObject, {name: 'config', writeValidator, readFilter})
