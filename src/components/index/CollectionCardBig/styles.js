@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import {View, Title, Text} from '../../common';
 import {device} from '../../../constants';
+import { lightGray150, lightGray195P07, primaryGray85, primaryGreen } from '../../../constants/colors';
 
 
 
@@ -34,6 +35,8 @@ export const CollectionTitle = styled(Title)`
     text-transform: capitalize; 
     font-size: 5vh;
     color: rgb(85, 85, 85);
+    margin-left: 0px;
+    padding-left: 0px;
 
     @media ${device.tablet} {
         color: rgb(85, 85, 85);
@@ -56,7 +59,7 @@ export const Description = styled(Text)`
 
 export const TextBox = styled(View)`
     width: 100%;
-    margin-top: 50%;
+    margin-top: 45%;
     margin-bottom: 8%;
 
     @media ${device.tablet} {
@@ -65,5 +68,29 @@ export const TextBox = styled(View)`
         padding: 0px;
         margin-top: 5%;
     }
+`;
+
+export const FollowContainer = styled.div`
+    width: 100%;
+    margin-top: 8%;
+    margin-left: 2%;
+`;
+
+export const FollowButton = styled.div`
+    background: ${props => props.isFollower && props.isLogged ? lightGray195P07 : primaryGreen};
+    width: ${props => props.isLogged ? '90px' : '130px'};
+    height: 30px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`;
+
+export const ButtonText = styled(Text)`
+    font-size: 14px;
+    font-weight: ${props => props.isFollower ? '400' : '400'};
+    font-style: ${props => props.isFollower ? 'italic' : null};
+    text-decoration: ${props => props.isActive ? 'underline' : null};
+    color: ${primaryGray85} 
 `;
 

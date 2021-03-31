@@ -6,6 +6,7 @@ import {
     SET_ACTIVE_THREAD,
 	SET_THREAD_ITEMS,
 	SET_MASTER_THREAD_ID,
+	ADD_ITEM_TO_ITEMS_ARRAY,
 	ADD_ITEM_TO_THREAD_ITEMS,
 	
 } from '../actions/types';
@@ -13,7 +14,7 @@ import {
 const initialState = {
 
     itemsArray: [],           // Preview items (entries)
-    threadsArray: [],         // Array of user's threads
+    threadsArray: null,         // Array of user's threads
 	threadItems: [],          // Entries for a given thread (activeThread)
 	masterThreadID: null, 	  // String ID of master thread
     activeThread: null,       // Thread that the user has selected
@@ -41,6 +42,12 @@ const threadsReducer = (state = initialState, action) => {
 
 		case SET_THREAD_ITEMS: 
 		return {...state, threadItems: action.payload}
+
+		case ADD_ITEM_TO_ITEMS_ARRAY: 	
+		let updatedItems = Array.from(state.itemsArray)
+		updatedItems.unshift(action.payload)
+		return {...state, itemsArray: updatedItems}
+		 
 
 		case ADD_ITEM_TO_THREAD_ITEMS: 
 		let includes = state.threadItems.includes(action.payload)

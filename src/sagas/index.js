@@ -4,9 +4,9 @@ import saveItemSaga from './saveItemSaga';
 import saveImageSaga from './saveImageSaga';
 import deleteItemSaga from './deleteItemSaga';
 import addNewCollection from './addNewCollection';
-import addItemToPreview from './addItemToPreview';
 import handleRenderSnack from './handleSnackBarSaga';
 import createCollectionSaga from './createCollectionSaga';
+import updateCollectionSaga from './updateCollectionSaga';
 import deleteCollectionSaga from './deleteCollectionSaga';
 
 export default function * rootSaga() {
@@ -16,8 +16,8 @@ export default function * rootSaga() {
         saveItemSaga(),
         deleteItemSaga(),
         addNewCollection(),
-        addItemToPreview(),
         createCollectionSaga(),
+        updateCollectionSaga(),
         deleteCollectionSaga(),
 
         handleRenderSnack()

@@ -6,8 +6,8 @@ import {uploadUrl} from '../constants';
 import axios from 'axios';
 
 import {
+    addItemToItemsArray_Action,
     setThreadItems_Action, 
-    handleAddItemToPreview_Action
 } from '../actions';
 
 
@@ -68,9 +68,6 @@ function* handleSaveItem(action) {
             let array = threadItems.filter(item => item !== activeItem)
             array.splice(index, 0, updatedEntry)
             yield put(setThreadItems_Action(array))
-
-            // 
-            yield put(handleAddItemToPreview_Action(updatedEntry, 'UPDATE'))
         }
 
     }
@@ -97,7 +94,7 @@ function* handleSaveItem(action) {
 		updatedItems.unshift(savedEntry)
 
         // 4. Fire previewSaga and track
-        yield put(handleAddItemToPreview_Action(savedEntry, 'CREATE'))
+        yield put(addItemToItemsArray_Action(savedEntry[0]))
         Mixpanel.track('NEW_ITEM', {type: 'post'})
     }
 

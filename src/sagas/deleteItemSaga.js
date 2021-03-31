@@ -3,6 +3,7 @@ import {take, put, select} from 'redux-saga/effects';
 import {ThreadID} from '@textile/hub';
 import {Mixpanel} from '../utils';
 import {
+    setUserItems_Action,
     setThreadItems_Action,
     handleAddItemToPreview_Action
 } from '../actions';
@@ -14,7 +15,9 @@ function* handleDeleteItem(action) {
     // It deletes de item and updates the state in the reducer.
     const state = yield select(getThreadsState)
     const client = state.user.client
+    const itemsArray = state.threads.itemsArray
     const activeThread = state.threads.activeThread
+
 
     yield console.log(action.payload)
     if (!activeThread) {throw new Error('no selected thread')}
@@ -30,7 +33,8 @@ function* handleDeleteItem(action) {
     Mixpanel.track('ITEM_DELETED', {type: action.payload.type})
     if (action.callback !== undefined) {yield action.callback()}
 
-    yield put(handleAddItemToPreview_Action(action.payload, 'DELETE'))
+    let newItemsArray = filterItemOut(itemsArray, action.payload)
+    yield put(setUserItems_Action(newItemsArray))
 }
 
 
@@ -39,4 +43,14 @@ export default function* watchSaveImage() {
         let action = yield take(HANDLE_DELETE_ITEM)
         yield handleDeleteItem(action)    
     }
+}
+
+
+/////////////////////////////////////////////////
+/////// HELPER FUNCTIONS
+////////////////////////////////////////////////
+
+const filterItemOut = (itemsArray, itemToDelete) => {
+    let array = Array.from(itemsArray)
+    return array.filter(item => item._id !== itemToDelete._id)
 }

@@ -84,7 +84,7 @@ export const SignIn = props => {
 					placeholder={
 						isInputFocused ? 
 						'' :
-						"thomas.pynchon@email.com" 
+						"your@email.com" 
 					}/>
 
 				<br></br>

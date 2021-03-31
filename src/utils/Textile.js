@@ -8,6 +8,7 @@ import {
     entriesObject, 
     configObject,
     pendingObject, 
+    followerObject,
 } from '../constants';
 
 
@@ -35,7 +36,18 @@ let actions = {
         // Little hack to make it work.
         // return new Function(writeValidatorString)
     },
-    
+
+    getFollowresCollectionWriteValidator: (identityString) => {
+        // Return the write validator function that makes it such
+        // that only the owner can read or right into a collection.
+        let validatorsArray = JSON.stringify([identityString, process.env.REACT_APP_TEXTILE_BV_ID])
+        let writeValidatorString = getFunctionBody(
+            replaceThisValidator
+        ).replace('replaceThis', validatorsArray)
+        // Little hack to make it work.
+        return new Function(writeValidatorString)
+    },
+
     getReadFilter: (identityString, collectionType) => {
         // Read filter has two options depending on wether or 
         // not the collection is private.
@@ -96,7 +108,8 @@ let actions = {
 
         // Copy schemas.
         let collectionConfig = Object.assign(configObject, config)
-        let entriesSchema = Object.assign({}, entriesObject)
+        let entriesSchema = entriesObject
+        let followerSchema = followerObject
 
         // Instantiate new threadDB with name.
         let threadID = await client.newDB(undefined, collectionConfig.name)
@@ -105,11 +118,16 @@ let actions = {
 
         // Instantate and create the config and entries collections in DB.   
         let writeValidator = actions.getWriteValidator(identityString)
+<<<<<<< HEAD
         console.log('Write Val: ', writeValidator)
+=======
+        let wirteValidatorFollowers = actions.getFollowresCollectionWriteValidator(identityString)
+>>>>>>> encryption
         let readFilter = actions.getReadFilter(identityString, config.type)
         console.log('Read Fil: ', readFilter)
         await client.newCollectionFromObject(threadID, configObject, {name: 'config', writeValidator, readFilter})
         await client.newCollectionFromObject(threadID, entriesSchema, {name: 'entries',  writeValidator, readFilter})
+        await client.newCollectionFromObject(threadID, followerSchema, {name: 'followers',  wirteValidatorFollowers, readFilter})
         await client.create(threadID, 'config', [collectionConfig])
 
         // Parse object and return.

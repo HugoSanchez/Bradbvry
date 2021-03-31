@@ -31,7 +31,7 @@ function* handleThreads(threads, client, identity, action) {
         let masterThreadID = yield Textile.createMasterThreadDB(client, masterThreadName)
         let collections = yield client.find(masterThreadID, 'collections-list', {})
         yield put(setMasterThreadID_Action(masterThreadID))
-        yield put(setThreadArray_Action(collections))
+        yield put(setThreadArray_Action(collections.reverse()))
 
 
         if (action.callback !== undefined) {
@@ -44,10 +44,10 @@ function* handleThreads(threads, client, identity, action) {
         let masterThread = threads.find(thread => thread.name === masterThreadName)
         let threadID = ThreadID.fromString(masterThread.id)
         let collections = yield client.find(threadID, 'collections-list', {})
-        let previewItems = concatPreviewItems(collections)
+        let previewItems = yield concatPreviewItems(collections, client)
 
         yield put(setMasterThreadID_Action(threadID))
-        yield put(setThreadArray_Action(collections))
+        yield put(setThreadArray_Action(collections.reverse()))
         yield put(setUserItems_Action(previewItems))
         
         if (action.callback !== undefined) {
@@ -128,12 +128,15 @@ const sortItemsArray = (itemsArray) => {
 }
 
 
-const concatPreviewItems = (threadsArray) => {
-
+const concatPreviewItems = async (threadsArray, client) => {
+    // For each collection, get all entries 
+    // and set the most recent ones in the itemsArray for preview.
     let itemsArray = [];
 
     for (let i = 0; i < threadsArray.length; i++) {
-        itemsArray = itemsArray.concat(threadsArray[i].previewEntries)
+        let threadID = ThreadID.fromString(threadsArray[i].id)
+        let entries = await client.find(threadID, 'entries', {})
+        itemsArray = itemsArray.concat(entries.slice(entries.length - 10, entries.length))
     }
 
     return sortItemsArray(itemsArray)

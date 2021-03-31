@@ -24,9 +24,11 @@ export const HANDLE_SAVE_ITEM               = 'HANDLE_SAVE_ITEM';
 export const HANDLE_SAVE_IMAGE              = 'HANDLE_SAVE_IMAGE';
 export const HANDLE_DELETE_ITEM             = 'HANDLE_DELETE_ITEM';
 export const HANDLE_CREATE_COLLECTION       = 'HANDLE_CREATE_COLLECTION';
+export const HANDLE_UPDATE_COLLECTION       = 'HANDLE_UPDATE_COLLECTION';
 export const HANDLE_DELETE_COLLECTION       = 'HANDLE_DELETE_COLLECTION';
 export const HANDLE_ADD_ITEM_TO_PREVIEW     = 'HANDLE_ADD_ITEM_TO_PREVIEW';
 export const ADD_ITEM_TO_THREAD_ITEMS       = 'ADD_ITEM_TO_THREAD_ITEMS';
+export const ADD_ITEM_TO_ITEMS_ARRAY        = 'ADD_ITEM_TO_ITEMS_ARRAY'
 
 
 ///////////////////////////////////////////////

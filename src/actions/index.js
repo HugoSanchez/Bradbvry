@@ -11,10 +11,12 @@ import {
     SET_THREAD_ITEMS,
     SET_MASTER_THREAD_ID,
     ADD_ITEM_TO_THREAD_ITEMS,
+    ADD_ITEM_TO_ITEMS_ARRAY,
     HANDLE_SAVE_ITEM,
     HANDLE_SAVE_IMAGE,
     HANDLE_DELETE_ITEM,
     HANDLE_ADD_COLLECTION,
+    HANDLE_UPDATE_COLLECTION,
     HANDLE_CREATE_COLLECTION,
     HANDLE_DELETE_COLLECTION,
     HANDLE_ADD_ITEM_TO_PREVIEW,
@@ -79,6 +81,13 @@ export const addItemToThreadItems_Action = item => {
     }
 }
 
+export const addItemToItemsArray_Action = item => {
+    return { 
+        type: ADD_ITEM_TO_ITEMS_ARRAY, 
+        payload: item 
+    }
+}
+
 export const handleSaveItem_Action = (item, callback) => {
     return { 
         type: HANDLE_SAVE_ITEM, 
@@ -99,6 +108,16 @@ export const handleDeleteItem_Action = (item, callback) => {
         type: HANDLE_DELETE_ITEM, 
         payload: item,
         callback: callback
+    }
+}
+
+export const handleUpdateCollection_Action = (object, history, activeThread, callback) => {
+    return {
+        type: HANDLE_UPDATE_COLLECTION,
+        payload: object,
+        history: history,
+        activeThread: activeThread,
+        callback: (bool) => callback(bool),
     }
 }
 
@@ -175,7 +194,7 @@ export const handleAddCollectionToMaster_Action_Action = (object, history) => {
 }
 
 ///////////////////////////////////////////////
-////// USER REDUCER ACTIONS
+////// SNACKBAR ACTIONS
 ///////////////////////////////////////////////
 
 export const handleSnackBarRender_Action = (object, message) => {

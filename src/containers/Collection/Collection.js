@@ -12,9 +12,11 @@ import {
 } from '../../hooks'
 
 import {
+
 	FlexContainer,
 	LeftContainer,
 	RightContainer,
+	NewCollectionForm,
 	CollectionButtons,
 	CollectionCardBig,
 	UploadImageForm,
@@ -22,14 +24,14 @@ import {
 	LoadingCard,
 	MoreButton,
 	ItemsList, 
-	Header
+	Header,
+	
 } from '../../components';
 
 import {
 	setActiveItem_Action,
 	setActiveThread_Action, 
 	setThreadItems_Action,
-	addItemToThreadItems_Action,
 	handleSaveImage_Action,
 	setInitialConfiguration_Action
 } from '../../actions';
@@ -41,23 +43,19 @@ import {
 
 export const Collection = props => {
 
-	let {
-		threadName,
-		user
-	} = props.match.params
 
 	useMixpanel('COLLECTION')
+	const {threadName, user} = props.match.params
 
 	const dispatch = useDispatch()
 	const [isLogged, isOwner] = useIsLogged(user)
     const loggedAndOwner = isLogged && isOwner
-	
 
-	// Try to fix this:
-	// This makes the component re-render everytime the modal is opened and closed.
 	const [loading, setLoading] = useState(true)
+	const [followers, setFollowers] = useState([])
 	const [renderForm, setRenderForm] = useState(false) 
 	const [renderMemberForm, setRenderMemberForm] = useState(false) 
+	const [renderCollectionForm, setRenderCollectionForm] = useState(false)
 
 	const client = useSelector(state => state.user.client)
 	const threadsArray = useSelector(state => state.threads.threadsArray)
@@ -65,6 +63,7 @@ export const Collection = props => {
 	const activeThread = useSelector(state => state.threads.activeThread)
 
 	useEffect(() => {
+		console.log(threadName)
 		if (loggedAndOwner) {handleComponentConfig()}
 		else if (loggedAndOwner === false) {fetchThreadEntries()}
 	}, [loggedAndOwner])
@@ -74,7 +73,7 @@ export const Collection = props => {
 		// If activeThread is not set, 
 		// user is reloading and should be set.
 		const checkActiveThread = async () => {
-			if (!activeThread && threadsArray.length > 0) {
+			if (!activeThread && threadsArray) {
 				let thread = threadsArray.find(thread => thread.name === threadName)
 				dispatch(setActiveThread_Action(thread))
 				await fetchThreadData(thread)
@@ -94,23 +93,17 @@ export const Collection = props => {
 	
 	const fetchThreadData = async (thread) => {
 		// If selected thread exists, 
-		// Fetch entries and set up listener
+		// Fetch entries and set up listener.
 		let threadId = ThreadID.fromString(thread.id)
 		let items = await client.find(threadId, 'entries', {})
-
+		try {let followers = await client.find(threadId, 'followers', {})}
+		catch (e) {console.log(e)}
+		
+		// Manage and set state.
 		dispatch(setThreadItems_Action(items.reverse()))
+		setFollowers(followers)
 		setLoading(false)
-
-		await client.listen(threadId, [], (e) => {
-			if (e === undefined) {return}
-			if (e.action === 'CREATE') {
-				let item = e.instance
-				dispatch(addItemToThreadItems_Action(item))
-			}			
-		})
 	}
-	
-	
 
 	const fetchThreadEntries = async () => {
 		// This functions only gets called if user is not logged.
@@ -124,6 +117,10 @@ export const Collection = props => {
 	
 	const handleCloseMemberForm = bool => {
 		setRenderMemberForm(false)
+	}
+
+	const handleCloseCollectionForm = bool => {
+		setRenderCollectionForm(false)
 	}
 
 	const handleNewEditor = async () => {
@@ -154,6 +151,7 @@ export const Collection = props => {
   	return (
 		<Fragment>
 			<Header />
+
 			<Drawer 
 				anchor={'right'} 
 				open={renderForm} 
@@ -166,12 +164,23 @@ export const Collection = props => {
 				open={renderMemberForm} 
 				onClose={() => setRenderMemberForm(false)} >
 					<AddMemberForm onClose={(bool) => handleCloseMemberForm(bool)}/>
+			</Drawer>
+
+			<Drawer 
+				anchor={'right'} 
+				open={renderCollectionForm} 
+				onClose={() => setRenderCollectionForm(false)} >
+					<NewCollectionForm 
+						history={props.history}
+						collection={activeThread}
+						onClose={(bool) => handleCloseCollectionForm(bool)}/>
 			</Drawer>			
 
 			<MoreOptionsPositioner>
 				<MoreButton 
 					isOwner={isOwner}
-					history={props.history}/>
+					history={props.history}
+					renderForm={() => setRenderCollectionForm(true)}/>
 			</MoreOptionsPositioner>
 
 
@@ -179,8 +188,11 @@ export const Collection = props => {
 					<LeftContainer>
 						<CollectionCardBig
 							member={user}
+							followers={followers}
 							isOwner={isOwner}
 							isLogged={isLogged} 
+							history={props.history}
+							match={props.match}
 							thread={activeThread} />
 					</LeftContainer>
 

@@ -6,6 +6,7 @@ export const ProfileCont = styled.div`
     height: 50px;
     width: 100%;
     display: flex;
+    margin-left: 2%;
     flex-direction: row;
 `;
 
