@@ -2,7 +2,7 @@
 ////// URLS
 ////////////////////////////////////
 
-export const uploadUrl = `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}/api/uploadToIpfs`;
+export const uploadUrl = `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}api/uploadToIpfs`;
 export const addCollection = `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}/api/add/collections`;
 export const deleteCollection = `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}/api/delete/collections`;
 export const updateCollectionUrl = `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}/api/update/collections`;
