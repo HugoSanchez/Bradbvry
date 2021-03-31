@@ -13,10 +13,10 @@ import {
 
 
 let actions = {
-    getIdentity: async (magic) => {
+    getIdentity: async (signer) => {
         let identityString = localStorage.getItem('textile-identity')
         console.log('iD: ', identityString)
-        if (!identityString) {return generateIdentity(magic)}
+        if (!identityString) {return generateIdentity(signer)}
         else {return PrivateKey.fromString(identityString)}
     },
 
@@ -174,11 +174,11 @@ let actions = {
 }
 
 
-const generateIdentity = async (magic) => {
+const generateIdentity = async (signer) => {
     // Generate a new Textile identity from the user's Ethereum private key
     // 1) Users signs message, 2) Message is hashed, 3) hash is turned into array
     // 4) Array is used as a seed to derive a private key (identity) from.
-    let signer = await Eth.getSigner(magic)
+    // let signer = await Eth.getSigner(magic)
     let seed = await generateSeedFromEthKey(signer)
     let identity = PrivateKey.fromRawEd25519Seed(Uint8Array.from(seed))
     let identityString = identity.toString()

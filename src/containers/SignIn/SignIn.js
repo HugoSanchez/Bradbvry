@@ -2,10 +2,12 @@ import React, {useEffect, useState} from 'react';
 import {useHistory} from "react-router-dom";
 import {useDispatch} from 'react-redux';
 import logo from '../../resources/favicon.png';
+import {LoadingCard} from '../../components';
+import {Eth} from '../../utils';
+
 import {
 	setInitialConfiguration_Action
 } from '../../actions';
-import {LoadingCard} from '../../components'
 
 import {
     SignInCard,
@@ -14,6 +16,7 @@ import {
     Text,
     Input,
     Button,
+	Connect,
     ButtonText
 } from './styles';
 
@@ -22,18 +25,19 @@ const magic = new Magic(process.env.REACT_APP_MAGIC_API_KEY);
 
 export const SignIn = props => {
 
-	useEffect(() => {
-		const func = async () => {
-			localStorage.removeItem('textile-identity')
-			await magic.user.logout();
-		}
-		func()
-	}, [])
 
-    const history = useHistory();
+	const history = useHistory();
 	const dispatch = useDispatch()
 	const [loading, setLoading] = useState(false)
 	const [isInputFocused, setInputFocused] = useState(false)
+
+	useEffect(() => {
+		const LogUserOut = async () => {
+			localStorage.removeItem('textile-identity')
+			await magic.user.logout();
+		}
+		LogUserOut()
+	}, [])
 
     const handleLogin = async e => {
 		setLoading(true)
@@ -43,19 +47,28 @@ export const SignIn = props => {
         if (email) {
 			await magic.auth.loginWithMagicLink({ email });
 			await magic.user.isLoggedIn();
-
 			dispatch(setInitialConfiguration_Action())
-
-			
-			
-			if (!!props.location.state) {
-				history.push(props.location.state.redirect)
-			} else {
-				let data = await magic.user.getMetadata()
-				let route = `/app/${data.publicAddress}`
-				history.push(route)
-			}
+			conditionalUserRedirect()	
         }
+	}
+
+	const handleWallet = async () => {
+		let provider = await Eth.getProvider()
+		console.log('P: ', provider)
+		dispatch(setInitialConfiguration_Action(null, provider))
+		// conditionalUserRedirect(provider)	
+	}
+
+	const conditionalUserRedirect = async (provider) => {
+		if (!!props.location.state) {history.push(props.location.state.redirect)}
+		else if (provider) {history.push(`/app/${provider.address.substring(0, 42)}`)}
+		else { handleMagicRedirect() }
+	}
+
+	const handleMagicRedirect = async () => {
+		let data = await magic.user.getMetadata()
+		let route = `/app/${data.publicAddress}`
+		history.push(route)
 	}
 	
 	if (loading) {
@@ -91,6 +104,7 @@ export const SignIn = props => {
 				<Button type="submit">
 					<ButtonText>Sign In</ButtonText>
 				</Button>
+				<Connect onClick={() => handleWallet()}>or connect Metamask</Connect>
 			</form>
 		</SignInCard>
 	)

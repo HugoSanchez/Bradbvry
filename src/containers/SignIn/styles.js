@@ -50,6 +50,7 @@ export const Text = styled.p`
 	margin-bottom: 10%;
 `;
 
+
 export const Input = styled.input`
 	margin-top: 5%;
 	width: 90%;
@@ -113,4 +114,15 @@ export const ButtonText = styled.p`
 	font-family: 'Montserrat';
 	font-size: 18px;
 	font-weight: 400;
+`;
+
+
+export const Connect = styled.p`
+	font-family: 'Montserrat';
+	font-style: italic;
+	font-weight: 300;
+	font-size: 16px;
+¡	color: rgb(85, 85, 85);
+	margin-top: -20px;
+	cursor: pointer;
 `;

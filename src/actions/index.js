@@ -150,9 +150,10 @@ export const handleDeleteCollection_Action = (history) => {
 ////// USER REDUCER ACTIONS
 ///////////////////////////////////////////////
 
-export const setInitialConfiguration_Action = (callbackFunction) => {
+export const setInitialConfiguration_Action = (callbackFunction, provider) => {
     return {
         type: SET_INITIAL_CONFIG,
+        provider: provider,
         callback: callbackFunction
     }
 }

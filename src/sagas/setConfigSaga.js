@@ -1,6 +1,8 @@
 import {SET_INITIAL_CONFIG} from '../actions/types';
 import {take, put} from 'redux-saga/effects';
-import {Textile, Eth} from '../utils';
+import {Textile, Eth, createCeramic, createIDX} from '../utils';
+import { ThreeIdConnect, EthereumAuthProvider } from '3id-connect'
+
 
 import {
     Client, 
@@ -19,7 +21,7 @@ import {
 
 const { Magic } = require('magic-sdk');
 const magic = new Magic(process.env.REACT_APP_MAGIC_API_KEY);
-
+const threeID = new ThreeIdConnect()
 
 function* handleThreads(threads, client, identity, action) { 
     // Get master thread name string.
@@ -77,23 +79,52 @@ function* handleMailboxSetUp(identity) {
 function* handleConfig(action) {
     
     yield console.time('set')
-    // Get user address and email from magic.
-    let data = yield magic.user.getMetadata()
-    let email = data.email
-    let address = data.publicAddress
-    let provider = magic.rpcProvider
+    let email
+    let address
+    let provider 
+    
+    if (action.provider) {
+        email = null
+        provider = action.provider
+        address = action.provider.address
+    }
+    else {
+        let data = yield magic.user.getMetadata()
+        email = data.email
+        address = data.publicAddress
+        provider = magic.rpcProvider
+    }
 
-    // Get user public profile and signer.
+    yield threeID.connect(provider)
+    let didProvider = yield threeID.getDidProvider()
+    let ceramic = yield createCeramic()
+
+    yield ceramic.setDIDProvider(didProvider)
+    let idx = yield createIDX(ceramic)
+   
+
+    /** 
+
+
+    console.log('provider__ ', provider)
+
+    Get user public profile and signer.
     // Get user identity (textile), instantiate client, 
-    let signer          = yield Eth.getSigner(magic)
+
+  
+    
+    let signer          = yield Eth.getSigner(provider)
+    console.log('1')
     let hubKey          = process.env.REACT_APP_TEXTILE_HUB_KEY
-    let identity        = yield Textile.getIdentity(magic)
+    let identity        = yield Textile.getIdentity(signer)
     let client          = yield Client.withKeyInfo({key: hubKey})
     let userToken       = yield client.getToken(identity)  
     let threads         = yield client.listThreads()
     let identityString  = identity.public.toString()
 
+    console.log('here: ', identityString)
 
+  
     // Dispatch initial user data to reducer
     yield put(setInitialUserData_Action({
         email,
@@ -107,6 +138,7 @@ function* handleConfig(action) {
     yield console.timeEnd('set')
     yield handleThreads(threads, client, identity, action)
     yield handleMailboxSetUp(identity)
+    */
 }
 
 export default function * watchInitialConfig() {

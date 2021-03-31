@@ -3,3 +3,5 @@ export * from './Textile';
 export * from './Ethers';
 export * from './3box';
 export * from './utils';
+export * from './Ceramic';
+export * from './Idx';
