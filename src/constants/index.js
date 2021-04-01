@@ -12,10 +12,10 @@ export const followBaseUrl = `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}api/
 export const unfollowBaseUrl = `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}api/unfollow`;
 
 
-export const joinCollectionUrl = (address, threadId, threadName) => `${process.env.REACT_APP_BRADBVRY_URL}/app/${address}/${threadName}`
-export const getSpecificItemsUrl = (address, threadName, itemId) => `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}/api/collections/${address}/${threadName}/${itemId}`;
-export const getCollectionItemsUrl = (address, threadName) => `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}/api/collections/${address}/${threadName}`;
-export const getUserPubliData = (address) => `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}/api/collections/${address}`;
+export const joinCollectionUrl = (address, threadId, threadName) => `${process.env.REACT_APP_BRADBVRY_URL}app/${address}/${threadName}`
+export const getSpecificItemsUrl = (address, threadName, itemId) => `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}api/collections/${address}/${threadName}/${itemId}`;
+export const getCollectionItemsUrl = (address, threadName) => `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}api/collections/${address}/${threadName}`;
+export const getUserPubliData = (address) => `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}api/collections/${address}`;
 
 
 export const ZoraSubGraph =  "https://api.thegraph.com/subgraphs/name/ourzora/zora-v1"

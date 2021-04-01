@@ -41,11 +41,9 @@ let actions = {
         // Return the write validator function that makes it such
         // that only the owner can read or right into a collection.
         let validatorsArray = JSON.stringify([identityString, process.env.REACT_APP_TEXTILE_BV_ID])
-        let writeValidatorString = getFunctionBody(
-            replaceThisValidator
-        ).replace('replaceThis', validatorsArray)
+        return getFunctionBody(replaceThisValidator).replace('replaceThis', validatorsArray)
         // Little hack to make it work.
-        return new Function(writeValidatorString)
+        // return new Function(writeValidatorString)
     },
 
     getReadFilter: (identityString, collectionType) => {
@@ -217,15 +215,6 @@ function replaceThisValidator(writer) {
         if (arr[i] === writer) return true;
         else return false;
     }  
-
-    /**
-    if (writer === 'replaceThis') {
-        return true
-    } 
-    return false
-    
-    return writer === 'replaceThis'
-    */
 };
 
 const parseCollectionObject = (threadID, collectionConfig) => {
