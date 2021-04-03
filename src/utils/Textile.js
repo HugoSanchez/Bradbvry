@@ -30,20 +30,21 @@ let actions = {
     getWriteValidator: (identityString) => {
         // Return the write validator function that makes it such
         // that only the owner can read or right into a collection.
+        let env_check = process.env.NODE_ENV === 'production';
         let validatorsArray = JSON.stringify([identityString])
-        return getFunctionBody(replaceThisValidator).replace('replaceThis', validatorsArray)
-        // console.log('Here', writeValidatorString)
-        // Little hack to make it work.
-        // return new Function(writeValidatorString)
+        let stringifiedFunc = getFunctionBody(replaceThisValidator).replace('replaceThis', validatorsArray)
+        if (env_check) return stringifiedFunc
+        else return new Function(stringifiedFunc)
     },
 
     getFollowresCollectionWriteValidator: (identityString) => {
         // Return the write validator function that makes it such
         // that only the owner can read or right into a collection.
+        let env_check = process.env.NODE_ENV === 'production';
         let validatorsArray = JSON.stringify([identityString, process.env.REACT_APP_TEXTILE_BV_ID])
-        return getFunctionBody(replaceThisValidator).replace('replaceThis', validatorsArray)
-        // Little hack to make it work.
-        // return new Function(writeValidatorString)
+        let stringifiedFunc = getFunctionBody(replaceThisValidator).replace('replaceThis', validatorsArray)
+        if (env_check) return stringifiedFunc
+        else return new Function(stringifiedFunc)
     },
 
     getReadFilter: (identityString, collectionType) => {
@@ -118,7 +119,8 @@ let actions = {
         let writeValidator = actions.getWriteValidator(identityString)
         let wirteValidatorFollowers = actions.getFollowresCollectionWriteValidator(identityString)
         let readFilter = actions.getReadFilter(identityString, config.type)
-        console.log('Read Fil: ', readFilter)
+        
+        // Create collections and save the config.
         await client.newCollectionFromObject(threadID, configObject, {name: 'config', writeValidator, readFilter})
         await client.newCollectionFromObject(threadID, entriesSchema, {name: 'entries',  writeValidator, readFilter})
         await client.newCollectionFromObject(threadID, followerSchema, {name: 'followers',  wirteValidatorFollowers, readFilter})
