@@ -6,9 +6,6 @@ import {JoinWaitlist} from '../components';
 
 import main from '../resources/home.png';
 import screenshot from '../resources/collection.png';
-import privacy from '../resources/pablo-camera-access.png';
-import terms from '../resources/pablo-basketball-game.png';
-import beautiful from '../resources/pablo-augmented-reality.png'
 import '../App.css';
 
 const LandingPage = props => {
@@ -48,8 +45,6 @@ const LandingPage = props => {
 							Built on IPFS and Ethereum, Bradbvry allows you to 
 							share your last trip with your loved ones or follow your favorite creator 
 							in a way that's<span className="bold"> intimate</span>, <span className="bold"> beatiful</span>, and <span className="bold">decentralized. </span>
-							
-							
 						</p>
 					</div>
 						{
