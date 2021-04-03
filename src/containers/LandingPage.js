@@ -2,6 +2,7 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import {Mixpanel} from '../utils';
 import {Header} from '../components/common/Header';
+import {JoinWaitlist} from '../components';
 
 import main from '../resources/home.png';
 import screenshot from '../resources/collection.png';
@@ -27,15 +28,12 @@ const LandingPage = props => {
                         <h1>Store {"&"} Share,</h1>
                         <h1>On your terms.</h1>
                         <p>
-                            Bradbvry allows you to
-							<span className="bold"> own intimate collections </span>
-                            to store and share your digital creations.
+							A new way to connect and share online where you are in control.
+							Try it out!
                         </p>
                     </div>
                     <div className="cta">
-                        <Link to="/signin">
-                            <button className="cta-add">Get started</button>
-                        </Link>
+                        <JoinWaitlist/>
                     </div>
                 </div>
                 <div className="main-screenshot">
@@ -46,42 +44,37 @@ const LandingPage = props => {
 			
 				<section className="presentation section final">
 					<div className="intro-text section text description">
-						<p> This is where you<span className="bold"> store and share the things you want to keep forever. </span>
-							It's also a new way to connect and share online where users are in control. It feels<span className="bold"> intimate</span>, it's<span className="bold"> beatiful</span> and <span className="bold">decentralized. </span>
-							Try it out!
+						<p> 
+							Built on IPFS and Ethereum, Bradbvry allows you to 
+							share your last trip with your loved ones or follow your favorite creator 
+							in a way that it's<span className="bold"> intimate</span>, <span className="bold"> beatiful</span>, and <span className="bold">decentralized. </span>
+							
+							
 						</p>
 					</div>
-					{
-						width ? 
-						<div className="screenshot">
-							<img src={main} alt="matebook" />
-						</div>
-						:
-						null
+						{
+							width ? 
+							<div className="screenshot">
+								<img src={main} alt="matebook" />
+							</div>
+							:
+							null
 	
 						}
-					
 				</section>
 				
             
-
-			
 				{
 					width ? 
 					<section className="presentation section final footer">
-						<div className="intro-text section text final footer">
-							<p>
-								This is Bradbvry's MVP, please use it with caution and at your own risk. 
 
-								Also, feel free to reach out with any feedback, bugs or petitions here: hugo@bradbvry.com. Thanks! :)
-							</p>
-						</div>
 					</section>
 					:
 					null
-				}
 
-			
+				}
+	
+
         </div>
     );
 }
