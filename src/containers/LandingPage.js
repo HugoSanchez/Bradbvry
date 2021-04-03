@@ -47,7 +47,7 @@ const LandingPage = props => {
 						<p> 
 							Built on IPFS and Ethereum, Bradbvry allows you to 
 							share your last trip with your loved ones or follow your favorite creator 
-							in a way that it's<span className="bold"> intimate</span>, <span className="bold"> beatiful</span>, and <span className="bold">decentralized. </span>
+							in a way that's<span className="bold"> intimate</span>, <span className="bold"> beatiful</span>, and <span className="bold">decentralized. </span>
 							
 							
 						</p>

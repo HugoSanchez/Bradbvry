@@ -28,8 +28,9 @@ export const JoinWaitlist = props => {
 
     const addUserToWaitlist = async (email) => {
         let apiKey = 'NVKPEI'
+        let referral_link = "https://bradbvry.now.sh/landing"
         let url = 'https://getwaitlist.com/api/v1/waitlists/submit'
-        axios.post(url, {api_key: apiKey, email})
+        axios.post(url, {api_key: apiKey, email, referral_link})
             .then(res => dispatch(handleSnackBarRender_Action(SNACK_TYPE_SUCCESS)))
             .catch(e => dispatch(handleSnackBarRender_Action(SNACK_TYPE_ERROR)))
     }
