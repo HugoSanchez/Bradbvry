@@ -10,7 +10,8 @@ export const Waitlist = styled.form`
     display: flex;
     flex-direction: row;
     @media ${device.mobileL} {
-        width: 80vw;
+        width: 90vw;
+        margin-left: 2%;
         margin-bottom: 15%;
     }
 `;
@@ -30,6 +31,13 @@ export const WaitlistInput = styled.input`
     border:0;
     :focus {
         outline-width: 0;
+    }
+    @media ${device.mobileL} {
+        width: 100%;
+        margin-right: 0px;
+        margin-left: 0px;
+        padding-left: 2%;
+        padding-right: 2%;
     }
 `;  
 

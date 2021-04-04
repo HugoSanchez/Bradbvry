@@ -565,11 +565,13 @@ nav {
 	.introduction {
     width: 100%;
 		margin-top: 0vh;
-		text-align: center;
     display: flex;
+		text-align: center;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding-left: 0px;
+    padding-right: 0px;
 	}
 	.intro-text h1 {
     text-align: center;
