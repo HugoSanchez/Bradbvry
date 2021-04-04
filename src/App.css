@@ -356,6 +356,7 @@ nav {
 	margin: auto;
 	min-height: 90vh;
 	align-items: center;
+
 }
 
 .presentation.section {
@@ -363,19 +364,6 @@ nav {
 	padding-right: 15vw;
 	min-height: 15vh;
 	max-height: 100vh;
-}
-
-
-.intro-text.section.text.final{
-  width: 100%;
-  padding: 10%;
-  padding-top: 6%;
-	margin-top: 50px;
-}
-
-.intro-text.section.text.final p{
-  font-size: 14px;
-  font-weight: 300;
 }
 
 .introduction {
@@ -451,7 +439,6 @@ nav {
 .intro-text.section.text.description {
   padding: 10%;
 	margin-bottom: 10%;
-
 }
 
 .intro-text.section.text.description p {
@@ -460,7 +447,6 @@ nav {
 	font-size: 28px;
 	font-weight: 200;
 	line-height: 1.5;
-
 }
 
 .intro-text.section.text p {
@@ -633,7 +619,8 @@ nav {
 	.presentation.section {
 		flex-direction: column;
 		margin-bottom: 2vh;
-    padding-left: 10vw;
+    padding-left: 5vw;
+    padding-right: 5vw;
   }
   .introduction.section {
     padding-top: 0vh;

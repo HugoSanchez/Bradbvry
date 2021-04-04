@@ -4,6 +4,8 @@ import LandingPage from '../containers/LandingPage';
 import Settings from '../containers/Settings';
 import {StyledToastContainer} from '../components';
 import 'react-toastify/dist/ReactToastify.css';
+import emptyCache from '../emptyCache';
+
 import '../App.css';
 
 import {
