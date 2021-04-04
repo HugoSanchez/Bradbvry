@@ -1,10 +1,9 @@
-import React, {Fragment, useEffect} from 'react';
+import React, {Fragment} from 'react';
 import {Switch, Route, Redirect} from 'react-router-dom';
 import LandingPage from '../containers/LandingPage';
 import Settings from '../containers/Settings';
 import {StyledToastContainer} from '../components';
 import 'react-toastify/dist/ReactToastify.css';
-import emptyCache from '../emptyCache';
 
 import '../App.css';
 
@@ -20,10 +19,6 @@ import {
 } from '../containers';
 
 const Router = () => {
-
-    useEffect(() => {
-        emptyCache()
-    })
 
     return (
         <Fragment>

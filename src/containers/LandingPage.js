@@ -25,7 +25,7 @@ const LandingPage = props => {
                         <h1>Store {"&"} Share,</h1>
                         <h1>On your terms.</h1>
                         <p>
-							A new way to CONNECT and share online where you are in control.
+							A new way to connect and share online where you are in control.
 							Try it out!
                         </p>
                     </div>
