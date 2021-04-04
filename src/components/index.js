@@ -21,7 +21,6 @@ export * from './index/UserCard';
 export * from './ListItemWrapper';
 export * from './ItemsAndSpaces';
 export * from './SpaceCard';
-export * from './EmptyHome';
 export * from './ItemsList';
 export * from './ListItem';
 export * from './common';
