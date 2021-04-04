@@ -13,17 +13,17 @@ export const useIsLogged = (user) => {
 
     useEffect(() => {
         async function checkUserIsLogged() {
-            let checkLog = await magic.user.isLoggedIn();
-            dispatch(setUserIsLogged_Action(checkLog))
-            setIsLogged(checkLog)
+            let checkLog = localStorage.getItem('textile-identity')
+            dispatch(setUserIsLogged_Action(!!checkLog))
+            setIsLogged(!!checkLog)
 
-            if (checkLog) {
+            if (false) {
                 let data = await magic.user.getMetadata()
                 setIsOwner(data.publicAddress === user)
             }
         }
         checkUserIsLogged()
-    }, [isLogged, isOwner]);
+    }, [isLogged, true]);
 
     return [isLogged, isOwner];
 }

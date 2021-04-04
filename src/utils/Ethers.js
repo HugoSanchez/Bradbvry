@@ -31,7 +31,8 @@ const  actions = {
     getProvider: async () => {
         const ethProvider = await web3Modal.connect()
         const addresses = await ethProvider.enable()
-        return new EthereumAuthProvider(ethProvider, addresses[0])
+        // return new EthereumAuthProvider(ethProvider, addresses[0])
+        return ethProvider
     }
 }
 

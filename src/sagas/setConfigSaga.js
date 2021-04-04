@@ -36,7 +36,7 @@ function* handleThreads(threads, client, identity, action) {
         yield put(setThreadArray_Action(collections.reverse()))
 
 
-        if (action.callback !== undefined) {
+        if (action.callback !== undefined && action.callback)  {
             yield action.callback() }
     } 
     
@@ -52,7 +52,7 @@ function* handleThreads(threads, client, identity, action) {
         yield put(setThreadArray_Action(collections.reverse()))
         yield put(setUserItems_Action(previewItems))
         
-        if (action.callback !== undefined) {
+        if (action.callback !== undefined && action.callback) {
             yield action.callback() }
     }    
 }
@@ -95,26 +95,22 @@ function* handleConfig(action) {
         provider = magic.rpcProvider
     }
 
-    yield threeID.connect(provider)
-    let didProvider = yield threeID.getDidProvider()
-    let ceramic = yield createCeramic()
-
-    yield ceramic.setDIDProvider(didProvider)
-    let idx = yield createIDX(ceramic)
-   
-
-    /** 
-
-
-    console.log('provider__ ', provider)
-
-    Get user public profile and signer.
-    // Get user identity (textile), instantiate client, 
-
-  
-    
-    let signer          = yield Eth.getSigner(provider)
     console.log('1')
+    yield threeID.connect(new EthereumAuthProvider(provider, address))
+    console.log('2')
+    let didProvider = yield threeID.getDidProvider()
+    console.log('3')
+    let ceramic = yield createCeramic()
+    console.log('4')
+    yield ceramic.setDIDProvider(didProvider)
+    console.log('5')
+    let idx = yield createIDX(ceramic)
+    console.log('6', idx)
+    
+
+    // Get user public profile and signer.
+    // Get user identity (textile), instantiate client, 
+    let signer          = yield Eth.getSigner(provider)
     let hubKey          = process.env.REACT_APP_TEXTILE_HUB_KEY
     let identity        = yield Textile.getIdentity(signer)
     let client          = yield Client.withKeyInfo({key: hubKey})
@@ -138,7 +134,7 @@ function* handleConfig(action) {
     yield console.timeEnd('set')
     yield handleThreads(threads, client, identity, action)
     yield handleMailboxSetUp(identity)
-    */
+    
 }
 
 export default function * watchInitialConfig() {

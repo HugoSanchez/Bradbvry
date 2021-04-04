@@ -52,16 +52,16 @@ export const SignIn = props => {
         }
 	}
 
-	const handleWallet = async () => {
+	const handleMetamaskWallet = async () => {
 		let provider = await Eth.getProvider()
-		console.log('P: ', provider)
+		let addresses = await provider.enable()
 		dispatch(setInitialConfiguration_Action(null, provider))
-		// conditionalUserRedirect(provider)	
+		conditionalUserRedirect(addresses)	
 	}
 
-	const conditionalUserRedirect = async (provider) => {
+	const conditionalUserRedirect = async (addresses) => {
 		if (!!props.location.state) {history.push(props.location.state.redirect)}
-		else if (provider) {history.push(`/app/${provider.address.substring(0, 42)}`)}
+		else if (addresses) {history.push(`/app/${addresses[0].substring(0, 42)}`)}
 		else { handleMagicRedirect() }
 	}
 
@@ -104,7 +104,7 @@ export const SignIn = props => {
 				<Button type="submit">
 					<ButtonText>Sign In</ButtonText>
 				</Button>
-				<Connect onClick={() => handleWallet()}>or connect Metamask</Connect>
+				<Connect onClick={() => handleMetamaskWallet()}>or connect Metamask</Connect>
 			</form>
 		</SignInCard>
 	)
