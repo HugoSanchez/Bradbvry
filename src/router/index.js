@@ -21,6 +21,10 @@ import {
 
 const Router = () => {
 
+    useEffect(() => {
+        emptyCache()
+    })
+
     return (
         <Fragment>
 

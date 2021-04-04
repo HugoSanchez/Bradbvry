@@ -1,5 +1,6 @@
 export default function emptyCache(){
     if('caches' in window){
+        // console.log('we here: ', window)
         caches.keys().then((names) => {
             // Delete all the cache files
             names.forEach(name => {
