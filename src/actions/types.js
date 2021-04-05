@@ -13,6 +13,7 @@ export const HANDLE_ADD_COLLECTION          = 'HANDLE_ADD_COLLECTIONM';
 ////// THREADS REDUCER
 ///////////////////////////////////////////////
 
+export const HANDLE_THREADS                 = 'HANDLE_THREADS';
 export const SET_USER_ITEMS                 = 'SET_USER_ITEMS';
 export const DELETE_USER_ENTRY              = 'DELETE_USER_ENTRY';
 export const SET_ACTIVE_ITEM                = 'SET_ACTIVE_ITEM';

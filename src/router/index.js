@@ -32,8 +32,8 @@ const Router = () => {
                 <Route path='/discover' component={Discover} />        
                 <Route path='/app/add-member/:memberAddress/:id/:threadName/:email' component={AddMember}/>
                 <Route path='/app/accept-invite/:user/:threadId/:threadName' component={JoinCollection}/>
-                <Route path='/app/:user/:threadName/:itemId' component={Editor} />
-                <Route path='/app/:user/:threadName' component={Collection} />
+                <Route path='/app/:user/:threadID/:itemId' component={Editor} />
+                <Route path='/app/:user/:threadID' component={Collection} />
                 <Route path='/app/:user' component={Home} />
                 <Route path='/profile' component={Settings} />
                 <Route exact path="/" render={() => (<Redirect to="/landing" />)} /> 

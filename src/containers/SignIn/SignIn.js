@@ -2,10 +2,11 @@ import React, {useEffect, useState} from 'react';
 import {useHistory} from "react-router-dom";
 import {useDispatch} from 'react-redux';
 import logo from '../../resources/favicon.png';
+import {LoadingCard} from '../../components';
+
 import {
 	setInitialConfiguration_Action
 } from '../../actions';
-import {LoadingCard} from '../../components'
 
 import {
     SignInCard,
@@ -23,11 +24,12 @@ const magic = new Magic(process.env.REACT_APP_MAGIC_API_KEY);
 export const SignIn = props => {
 
 	useEffect(() => {
-		const func = async () => {
+		const logUserOut = async () => {
 			localStorage.removeItem('textile-identity')
+			localStorage.removeItem('masterThreadID')
 			await magic.user.logout();
 		}
-		func()
+		logUserOut()
 	}, [])
 
     const history = useHistory();
@@ -45,8 +47,6 @@ export const SignIn = props => {
 			await magic.user.isLoggedIn();
 
 			dispatch(setInitialConfiguration_Action())
-
-			
 			
 			if (!!props.location.state) {
 				history.push(props.location.state.redirect)

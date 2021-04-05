@@ -1,4 +1,6 @@
 import {
+
+    //// SET
     SET_USER_MAILBOX,
     SET_USER_ITEMS,
     SET_ACTIVE_ITEM,
@@ -10,8 +12,13 @@ import {
     SET_THREAD_ARRAY,
     SET_THREAD_ITEMS,
     SET_MASTER_THREAD_ID,
+
+    //// ADD
     ADD_ITEM_TO_THREAD_ITEMS,
     ADD_ITEM_TO_ITEMS_ARRAY,
+
+    //// HANDLE
+    HANDLE_THREADS,
     HANDLE_SAVE_ITEM,
     HANDLE_SAVE_IMAGE,
     HANDLE_DELETE_ITEM,
@@ -20,9 +27,8 @@ import {
     HANDLE_CREATE_COLLECTION,
     HANDLE_DELETE_COLLECTION,
     HANDLE_ADD_ITEM_TO_PREVIEW,
-
-
     HANDLE_SNACKBAR_RENDER,
+
 } from './types';
 
 
@@ -85,6 +91,15 @@ export const addItemToItemsArray_Action = item => {
     return { 
         type: ADD_ITEM_TO_ITEMS_ARRAY, 
         payload: item 
+    }
+}
+
+
+export const handleTheads_Action = (client, identity) => {
+    return {
+        type: HANDLE_THREADS,
+        client: client,
+        identity: identity
     }
 }
 

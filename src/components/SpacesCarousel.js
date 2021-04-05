@@ -1,12 +1,8 @@
-import React, { Fragment } from "react";
+import React from "react";
 import styled from 'styled-components';
 
 import {
-    useSelector
-} from "react-redux";
-
-import {
-    SpaceCard,
+    CollectionCard,
 } from './index';
 
 import {
@@ -36,7 +32,7 @@ export const SpacesCarousel = props => {
                     <Title>You have no collections, create one!</Title>
                     :
                     collections.map((thread, index) => {
-                        return <SpaceCard 
+                        return <CollectionCard 
                                     key={index} 
                                     thread={thread} />
                     })

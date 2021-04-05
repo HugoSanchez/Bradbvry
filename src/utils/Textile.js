@@ -27,6 +27,11 @@ let actions = {
         let masterThreadName = 'master-' + identityHash.toString()
         return masterThreadName
     },
+
+    getPreviewEntriesString: (masterThreadName) => {
+        return 'preview-entries-' + masterThreadName;
+    },
+
     getWriteValidator: (identityString) => {
         // Return the write validator function that makes it such
         // that only the owner can read or right into a collection.
@@ -96,6 +101,16 @@ let actions = {
         return threadID
     },
 
+    createMasterPreviewEntriesDB: async (client, masterThreadName) => {
+        let previewEntriesThreadName =  actions.getPreviewEntriesString(masterThreadName)
+        // Instantiate new threadDB with name.
+        let threadID = await client.newDB(undefined, previewEntriesThreadName)
+        // Instantate and entries collection in DB.
+        await client.newCollectionFromObject(threadID, entriesObject, {name: 'preview-entries'})
+        // Return threadID
+        return threadID
+    },
+
     createNewThreadDB: async (client, config, address, identityString) => {
         // Parse collection's owner data
         let owner = {ethAddress: address, identity: identityString, did: ''}
@@ -145,7 +160,6 @@ let actions = {
         let newEntry = Object.assign(entriesObject, entry)
         let newDate = Date.now()
         newEntry.timestamp = newDate
-
         // Store new entry in thread.
         let storedEntry = await client.create(threadID, 'entries', [newEntry])
         return storedEntry
@@ -211,7 +225,6 @@ const parseSignedMessage = async (hash) => {
 function replaceThisValidator(writer) {
     // In order to have a write permission set, 
     // we first need to create this function
-    
     var arr = JSON.parse('replaceThis');
     for (var i = 0; i < arr.length; i++) {
         if (arr[i] === writer) return true;
