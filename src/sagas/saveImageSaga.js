@@ -43,9 +43,15 @@ function* handleSaveImage(action) {
         let savedEntry = savedEntries[threadItems.length + i]
         yield put(addItemToThreadItems_Action(savedEntry))
         yield put(addItemToItemsArray_Action(savedEntry))
-
+        yield addItemToPreview(client, savedEntry)
         Mixpanel.track('NEW_ITEM', {type: 'image'})
     }
+}
+
+function* addItemToPreview(client, item) {
+    let previewThreadId = localStorage.getItem('previewEntriesID')
+    let threadID = ThreadID.fromString(previewThreadId)
+    yield client.create(threadID, 'preview-entries', [item])
 }
 
 

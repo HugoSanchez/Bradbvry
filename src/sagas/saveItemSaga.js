@@ -7,7 +7,8 @@ import axios from 'axios';
 
 import {
     addItemToItemsArray_Action,
-    setThreadItems_Action, 
+    setThreadItems_Action,
+    setUserItems_Action, 
 } from '../actions';
 
 
@@ -68,6 +69,9 @@ function* handleSaveItem(action) {
             let array = threadItems.filter(item => item !== activeItem)
             array.splice(index, 0, updatedEntry)
             yield put(setThreadItems_Action(array))
+
+            // 5. Update preview.
+            yield updatePreviewItem(client, activeItem, updatedEntry)
         }
 
     }
@@ -93,12 +97,31 @@ function* handleSaveItem(action) {
         let updatedItems = Array.from(threadItems)
 		updatedItems.unshift(savedEntry)
 
-        // 4. Fire previewSaga and track
+        // 4. Add item to preview and track
         yield put(addItemToItemsArray_Action(savedEntry[0]))
+        yield addItemToPreview(client, savedEntry[0])
         Mixpanel.track('NEW_ITEM', {type: 'post'})
     }
 
         yield action.callback()
+}
+
+function* addItemToPreview(client, item) {
+    let previewThreadId = localStorage.getItem('previewEntriesID')
+    let threadID = ThreadID.fromString(previewThreadId)
+    yield client.create(threadID, 'preview-entries', [item])
+}
+
+function* updatePreviewItem(client, oldItem, newItem) {
+    let previewThreadId = localStorage.getItem('previewEntriesID')
+    let threadID = ThreadID.fromString(previewThreadId)
+    let previews = yield client.find(threadID, 'preview-entries', {})
+
+    let itemToUpdate = previews.filter(item => item._id === oldItem._id)
+    newItem._id = itemToUpdate[0]._id
+    yield client.save(threadID, 'preview-entries', [newItem])
+    let previews2 = yield client.find(threadID, 'preview-entries', {})
+    yield put(setUserItems_Action(previews2.reverse()))
 }
 
 

@@ -27,6 +27,7 @@ export const SignIn = props => {
 		const logUserOut = async () => {
 			localStorage.removeItem('textile-identity')
 			localStorage.removeItem('masterThreadID')
+			localStorage.removeItem('previewEntriesID')
 			await magic.user.logout();
 		}
 		logUserOut()
