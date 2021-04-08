@@ -45,7 +45,7 @@ export const Collection = props => {
 
 
 	useMixpanel('COLLECTION')
-	const {threadName, user} = props.match.params
+	const {threadID, user} = props.match.params
 
 	const dispatch = useDispatch()
 	const [isLogged, isOwner] = useIsLogged(user)
@@ -63,10 +63,9 @@ export const Collection = props => {
 	const activeThread = useSelector(state => state.threads.activeThread)
 
 	useEffect(() => {
-		console.log(threadName)
 		if (loggedAndOwner) {handleComponentConfig()}
 		else if (loggedAndOwner === false) {fetchThreadEntries()}
-	}, [loggedAndOwner])
+	}, [loggedAndOwner, client])
 
 	useEffect(() => {
 		// Check selectedThread is correct.
@@ -74,7 +73,7 @@ export const Collection = props => {
 		// user is reloading and should be set.
 		const checkActiveThread = async () => {
 			if (!activeThread && threadsArray) {
-				let thread = threadsArray.find(thread => thread.name === threadName)
+				let thread = threadsArray.find(thread => thread.id === threadID)
 				dispatch(setActiveThread_Action(thread))
 				await fetchThreadData(thread)
 			}
@@ -86,18 +85,18 @@ export const Collection = props => {
 		// If state is empty, set initial configuration.
 		// Else, fetch thread data and set listeners.
 		if (isLogged && !client) {dispatch(setInitialConfiguration_Action())}
-		else if (isLogged && client) {fetchThreadData(activeThread)}
-		else if (isLogged && client && activeThread) {setLoading(false)}
+		else if (isLogged && client) {fetchThreadData()}
+		if (isLogged && activeThread && loading) {setLoading(false)}
 	}
 
 	
-	const fetchThreadData = async (thread) => {
+	const fetchThreadData = async () => {
 		// If selected thread exists, 
 		// Fetch entries and set up listener.
-		let threadId = ThreadID.fromString(thread.id)
+		let threadId = ThreadID.fromString(threadID)
 		let items = await client.find(threadId, 'entries', {})
-		try {let followers = await client.find(threadId, 'followers', {})}
-		catch (e) {console.log(e)}
+		// try {let followers = await client.find(threadId, 'followers', {})}
+		// catch (e) {console.log(e)}
 		
 		// Manage and set state.
 		dispatch(setThreadItems_Action(items.reverse()))
@@ -108,7 +107,7 @@ export const Collection = props => {
 	const fetchThreadEntries = async () => {
 		// This functions only gets called if user is not logged.
 		// It fetches the collection entries from the backend.
-		let fetchUrl = getCollectionItemsUrl(user, threadName)
+		let fetchUrl = getCollectionItemsUrl(user, threadID)
 		let {data} = await axios.get(fetchUrl)
 		dispatch(setActiveThread_Action(data.collection[0]))
 		dispatch(setThreadItems_Action(data.entries.reverse()))
@@ -125,7 +124,7 @@ export const Collection = props => {
 
 	const handleNewEditor = async () => {
 		dispatch(setActiveItem_Action(null))
-		props.history.push(`/app/${user}/${threadName}/new`, 
+		props.history.push(`/app/${user}/${threadID}/new`, 
 			{onlyRead: !isOwner})
 	}
 

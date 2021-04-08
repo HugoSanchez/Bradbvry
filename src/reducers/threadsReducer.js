@@ -14,7 +14,7 @@ import {
 const initialState = {
 
     itemsArray: [],           // Preview items (entries)
-    threadsArray: null,         // Array of user's threads
+    threadsArray: null,       // Array of user's threads
 	threadItems: [],          // Entries for a given thread (activeThread)
 	masterThreadID: null, 	  // String ID of master thread
     activeThread: null,       // Thread that the user has selected

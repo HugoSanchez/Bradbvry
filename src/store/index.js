@@ -28,8 +28,11 @@ const transformCircular = createTransform(
 const persistConfig = {
     key: 'root',
     storage,
-    transforms: [transformCircular]
+    transforms: [transformCircular],
+    blacklist: ['user']
 }
+
+
 
 // Here we are instantiating a reducer object with redux-persist
 // as opposed to passing the rootReducer directly into the createStore function.

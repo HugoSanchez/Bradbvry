@@ -80,14 +80,12 @@ export const Home = (props) => {
 
 
     const handleConfig = async () => {
-        if (!client) {
-            dispatch(
-                setInitialConfiguration_Action(
-                    () => setLoading(false)
-                )
+        dispatch(
+            setInitialConfiguration_Action(
+                () => setLoading(false)
             )
-        }
-        else {setLoading(false)}
+        )
+        if (client) {setLoading(false)}
     }
 
     const fetchUserPublicData = async () => {

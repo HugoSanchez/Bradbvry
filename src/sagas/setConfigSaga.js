@@ -70,9 +70,10 @@ function* handleConfig(action) {
 
     yield console.timeEnd('set')
 
-    yield put(handleTheads_Action(client, identity))
-    //yield handleThreads(threads, client, identity, action)
-    // yield handleMailboxSetUp(identity)
+    yield put(handleTheads_Action(client, identity, action))
+
+    if (action.callback !== undefined) {
+        yield action.callback() }
 }
 
 export default function * watchInitialConfig() {

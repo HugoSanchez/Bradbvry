@@ -1,10 +1,11 @@
-import React, {Component, useEffect} from 'react';
+import React, {Component} from 'react';
 import {Provider} from 'react-redux';
+import {PersistGate} from 'redux-persist/integration/react'
 import configureStore from './store';
 import Router from './router';
 import './App.css'
 
-const store = configureStore();
+const {store, persistor} = configureStore();
 
 class App extends Component {
 
@@ -13,7 +14,11 @@ class App extends Component {
 
             <main className="App">
                 <Provider store={store}>
-                    <Router />
+                    <PersistGate 
+                        loading={null} 
+                        persistor={persistor}>
+                            <Router />
+                    </PersistGate>
                 </Provider>
             </main>
 
