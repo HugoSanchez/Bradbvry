@@ -22,7 +22,13 @@ const Card = styled(Row)`
     }
 
     @media ${device.mobileL} {
-        height: ${props => props.height || '15vh'};
+        height: ${props => props.height || '25vh'};
+        box-shadow: 0 0 0px rgba(0,0,0,0); 
+
+        &:hover {
+            box-shadow: 0; 
+            transform: translateY(0px);
+        }
     }
 `;
 

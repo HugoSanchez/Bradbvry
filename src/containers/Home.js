@@ -65,10 +65,10 @@ export const Home = (props) => {
 
 
     useEffect(() => {
-        if (isLogged && threads && loading) {
+        if (loggedAndOwner && threads && loading) {
            setLoading(false)
         }
-    }, [isLogged, threads, loading])
+    }, [loggedAndOwner, threads, loading])
 
     useEffect(() => {
         const fetchAndSetProfile = async () => {
@@ -91,20 +91,10 @@ export const Home = (props) => {
     const fetchUserPublicData = async () => {
         let fetchUrl = getUserPubliData(user)
         let {data} = await axios(fetchUrl)
-        let items = parsePreviews(data.collections)
         dispatch(setThreadArray_Action(data.collections))
-        dispatch(setUserItems_Action(items))
+        dispatch(setUserItems_Action(data.previewEntries))
         setCollections(data.collections)
         setLoading(false)
-    }
-
-    const parsePreviews = (collections) => {
-        let prev = []
-        collections.forEach(col => {
-            prev = prev.concat(col.previewEntries)
-        })
-
-        return prev
     }
 
     return (

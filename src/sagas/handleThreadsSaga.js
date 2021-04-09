@@ -1,5 +1,5 @@
 import { HANDLE_THREADS } from '../actions/types';
-import { take, put } from 'redux-saga/effects';
+import { take, put, select } from 'redux-saga/effects';
 import { Textile } from '../utils';
 import { ThreadID } from '@textile/hub';
 
@@ -8,6 +8,8 @@ import {
     setThreadArray_Action,
     setMasterThreadID_Action,
 } from '../actions';
+import axios from 'axios';
+import { createUserUrl } from '../constants';
 
 
 function* handleThreads(action) { 
@@ -20,20 +22,21 @@ function* handleThreads(action) {
     // We first get the client and identity,
     // and check if master thread exists in local storage.
     let {client, identity} = action
+    let address = yield select(state => state.user.address)
     let masterThreadID = localStorage.getItem('masterThreadID')
     if (!masterThreadID) {
         // We first check wether the user has threads or not.
         let threads = yield client.listThreads()
         // If, masterThread does not exist, and threads.length is 0,
         // this is a new signup and everything should be instantiated first.
-        if (threads.length === 0) { yield handleNewUser(client, identity) }
+        if (threads.length === 0) { yield handleNewUser(client, identity, address) }
         // If masterThread does not exist in localStorage, but threads is > 0
         // this is an existing user logging from a new device or clean browser.
         else { yield handleExistingUserNewSession(threads, client, identity) }
     }
     // Else user is realoding probably 
     // or loging in again in the same device.
-    else { yield handleExistingUser(client, masterThreadID, identity) }    
+    else { yield handleExistingUser(client, masterThreadID, address) }    
 
     if (action.callback !== undefined) {
         yield action.callback() }
@@ -42,15 +45,17 @@ function* handleThreads(action) {
 ///////////////////////////////////////////////////
 ///// SCENARIO 1: NEW USER SIGN UP
 ///////////////////////////////////////////////////
-function* handleNewUser(client, identity) {
+function* handleNewUser(client, identity, address) {
     // If user is new, create masterThread and set state
     // Collections will be an empty array.
     let masterThreadName = Textile.getMasterThreadString(identity)
     let masterThreadID = yield Textile.createMasterThreadDB(client, masterThreadName)
     let previewEntriesThreadID = yield Textile.createMasterPreviewEntriesDB(client, masterThreadName)
-    //  Set local sotage for future sessions
+    //  Set local sotage for future sessions and create user
     localStorage.setItem('masterThreadID', masterThreadID)
     localStorage.setItem('previewEntriesID', previewEntriesThreadID)
+    yield axios.post(createUserUrl, {address, masterThreadID, previewEntriesThreadID})
+
     // Set redux state.
     yield put(setMasterThreadID_Action(masterThreadID))
     yield put(setThreadArray_Action([]))
@@ -77,7 +82,7 @@ function* handleExistingUserNewSession(threads, client, identity) {
 ///////////////////////////////////////////////////
 ///// SCENARIO 3: EXISTING USER, EXISTING DEVICE
 ///////////////////////////////////////////////////
-function* handleExistingUser(client, masterThreadID) {
+function* handleExistingUser(client, masterThreadID, address) {
     // If user already exists, get their collections,
     // and preview items and set state.
     let threadID = ThreadID.fromString(masterThreadID)

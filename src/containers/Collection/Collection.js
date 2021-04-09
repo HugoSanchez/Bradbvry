@@ -7,8 +7,10 @@ import {ThreadID} from '@textile/hub';
 import axios from 'axios';
 
 import {
+
 	useMixpanel,
 	useIsLogged
+
 } from '../../hooks'
 
 import {
@@ -29,16 +31,20 @@ import {
 } from '../../components';
 
 import {
+
 	setActiveItem_Action,
 	setActiveThread_Action, 
 	setThreadItems_Action,
 	handleSaveImage_Action,
 	setInitialConfiguration_Action
+
 } from '../../actions';
 
 import {
+
 	DropZoneCont,
 	MoreOptionsPositioner
+
 } from './styles';
 
 export const Collection = props => {
@@ -67,38 +73,25 @@ export const Collection = props => {
 		else if (loggedAndOwner === false) {fetchThreadEntries()}
 	}, [loggedAndOwner, client])
 
-	useEffect(() => {
-		// Check selectedThread is correct.
-		// If activeThread is not set, 
-		// user is reloading and should be set.
-		const checkActiveThread = async () => {
-			if (!activeThread && threadsArray) {
-				let thread = threadsArray.find(thread => thread.id === threadID)
-				dispatch(setActiveThread_Action(thread))
-				await fetchThreadData(thread)
-			}
-		}
-		checkActiveThread()
-	}, [activeThread, threadsArray])
-
 	const handleComponentConfig =  async () => {
 		// If state is empty, set initial configuration.
 		// Else, fetch thread data and set listeners.
-		if (isLogged && !client) {dispatch(setInitialConfiguration_Action())}
-		else if (isLogged && client) {fetchThreadData()}
-		if (isLogged && activeThread && loading) {setLoading(false)}
+		if (isLogged && client) {fetchThreadData()}
+		else if (isLogged && !client) {dispatch(setInitialConfiguration_Action())}
+		if (activeThread.threadId === threadID && threadItems) {setLoading(false)}
 	}
 
-	
 	const fetchThreadData = async () => {
 		// If selected thread exists, 
 		// Fetch entries and set up listener.
 		let threadId = ThreadID.fromString(threadID)
 		let items = await client.find(threadId, 'entries', {})
-		// try {let followers = await client.find(threadId, 'followers', {})}
-		// catch (e) {console.log(e)}
+		let collection = await client.find(threadId, 'config', {})
+		try {let followers = await client.find(threadId, 'followers', {})}
+		catch (e) {console.log(e)}
 		
 		// Manage and set state.
+		dispatch(setActiveThread_Action(collection[0]))
 		dispatch(setThreadItems_Action(items.reverse()))
 		setFollowers(followers)
 		setLoading(false)
