@@ -11,7 +11,7 @@ const Title = styled.h1`
     margin-top: ${ props => props.marginTop ? props.marginTop : null};
     color: ${ props => props.color ? props.color : 'rgb(85, 85, 85)'};
     @media ${device.mobileL} {
-        font-size: 18px;
+        font-size: 22px;
     }
 `;
 

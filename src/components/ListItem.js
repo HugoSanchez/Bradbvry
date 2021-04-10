@@ -124,7 +124,7 @@ const ListItem = React.memo((props) => {
                 onMouseLeave={() => {handleMouseOver()}}>
 
                 <DateBox>
-                    <DayText>{31}</DayText>
+                    <DayText>{day}</DayText>
                     <MonthText>{month}</MonthText>
                 </DateBox>
 
