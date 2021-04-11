@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import Gallery from "react-photo-gallery";
 
 import {
@@ -28,6 +28,10 @@ const GalleryIterator = props => {
         getParsedArray()
     }, [])
 
+    const handleImageClick = (e) => {
+        e.stopPropagation()
+    }
+
     const parseItemsArray = async (items) => {
 
         let photos = items.map(item => {
@@ -43,22 +47,6 @@ const GalleryIterator = props => {
         })
         return photos 
     }
-    
-    /**
-    let imageRenderer = useCallback(
-        ({ index, left, top, key, photo}) => (
-            <ImageCard
-                key={key}
-                entry={photo}
-                margin={"2px"}
-                index={index}
-                left={left}
-                top={top}
-            />
-           ),
-        []
-    );
-     */
 
     if (!photos) {
         return null
@@ -69,6 +57,7 @@ const GalleryIterator = props => {
             <Gallery
                 margin={2} 
                 photos={photos} 
+                onClick={handleImageClick}
                 targetRowHeight={50}
                 />
         )
@@ -107,6 +96,7 @@ const ListItemsIterator = props => {
 }
 
 export const ItemsList = props => {
+
     // This is a nested iterator that will render either
     // groups of text entries, of groups of images using 
     // a masontry layout.
@@ -116,11 +106,11 @@ export const ItemsList = props => {
         <Container>
             <Text>Latest entries</Text>
             <Underline />
-            {
+            {   
                 groupedItems.length === 0 ?
                     <Row>
                         <Title marginTop={'2%'} >
-                            This collection is empty.
+                            
                         </Title>
                     </Row>
                 :

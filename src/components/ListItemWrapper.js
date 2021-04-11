@@ -14,6 +14,7 @@ export const ListItemWrapper = props => {
             setEntry(entry.data)
         }
         getEntry()
+        return () => null
     }, [])
 
     if (entry) return (

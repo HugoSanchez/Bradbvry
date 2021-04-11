@@ -168,6 +168,13 @@
   align-items: center;
 }
 
+/* 
+  photo-gallery fix
+*/
+.react-photo-gallery--gallery > div > img {
+  object-fit: cover;
+  max-height: 450px;
+}
 
 /* 
   Dropzone

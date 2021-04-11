@@ -15,7 +15,7 @@ const initialState = {
 
     itemsArray: [],           // Preview items (entries)
     threadsArray: null,       // Array of user's threads
-	threadItems: [],          // Entries for a given thread (activeThread)
+	threadItems: null,          // Entries for a given thread (activeThread)
 	masterThreadID: null, 	  // String ID of master thread
     activeThread: null,       // Thread that the user has selected
     activeItem: null,         // Item that the user has selected within the thread.

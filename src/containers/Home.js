@@ -61,6 +61,7 @@ export const Home = (props) => {
 		if (loggedAndOwner && !client) {handleConfig()}
 		else if (loggedAndOwner === false) {
             fetchUserPublicData()}
+        return () => null
     }, [loggedAndOwner])
 
 

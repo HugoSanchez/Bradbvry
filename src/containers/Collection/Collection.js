@@ -92,7 +92,6 @@ export const Collection = props => {
 		let collection = await client.find(threadId, 'config', {})
 		try {let followers = await client.find(threadId, 'followers', {})}
 		catch (e) {console.log(e)}
-		
 		// Manage and set state.
 		dispatch(setActiveThread_Action(collection[0]))
 		dispatch(setThreadItems_Action(items.reverse()))

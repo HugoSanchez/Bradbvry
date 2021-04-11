@@ -34,6 +34,7 @@ export const ProfileRow = props => {
             setLoading(false)
         }
         fetchProfile()
+        return () => null
     }, [])
 
 
