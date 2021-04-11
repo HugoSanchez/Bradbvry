@@ -1,4 +1,4 @@
-import React, {Fragment, useState}  from 'react';
+import React, {Fragment, useEffect, useState}  from 'react';
 import NFTLogo from '../../../resources/NFTLogo.png'
 
 import {
@@ -28,6 +28,7 @@ import {
 
 
 export const ImageCard = props => {
+    console.log(props.entry)
 
     let {
         title,
@@ -37,7 +38,26 @@ export const ImageCard = props => {
 
     const [isActive, setActive] = useState(false); 
     const [border, setBorder] = useState(false);
-    const [loaded, setLoaded] = useState(false)
+    const [loaded, setLoaded] = useState(true);
+    const [width, setWidth] = useState(1);
+    const [height, setHeight] = useState(1);
+    const [img, setImg] = useState(null)
+
+    useEffect(() => {
+        /** 
+        const getImageHeightAndWidth = async () => {
+            const img = new Image();
+            img.src = contentURI;
+            img.onload = function() {
+                setWidth(this.width)
+                setHeight(this.height)
+                setImg(img)
+                setLoaded(true)
+            }
+        }
+        getImageHeightAndWidth()
+        */
+    }, [])
 
     const handleMouseOver = () => {
         setActive(!isActive)
@@ -67,55 +87,57 @@ export const ImageCard = props => {
         dispatch(handleDeleteItem_Action(props.entry))
     }
 
-
+    if (!loaded) return null;
     
-        return (
+    return (
 
-            <ImageCardContainer 
-                border={border}
-                shadow={props.shadow}
-                onClick={handleOnClick}
-                onMouseEnter={() => handleMouseOver()}
-                onMouseLeave={() => handleMouseOver()}>
+        <ImageCardContainer
+            width={width}
+            height={height} 
+            border={border}
+            shadow={props.shadow}
+            onClick={handleOnClick}
+            onMouseEnter={() => handleMouseOver()}
+            onMouseLeave={() => handleMouseOver()}>
 
-                    <DeleteBox>
-                        {
-                            props.isModerator ?
-                            <DeleteBin 
-                                isActive={isActive}
-                                zIndex={isActive ? '4' : '2'}
-                                onClick={(e) => deleteImage(e)}/>
-                            :
-                            null
-                        }
-                        
-                    </DeleteBox>
-
+                <DeleteBox>
                     {
-                        loaded ? 
-                        <Fragment>
-                            <TextBox>
-                            <ImageTitle>{title}</ImageTitle>
-                                {
-                                    window.innerWidth < 500 ?
-                                    null
-                                    :
-                                    <Description>{description}</Description>
-                                }
-                            </TextBox>
-                            <Date>{day + ' ' + month + ' ' + year}</Date>
-                        </Fragment>
+                        props.isModerator ?
+                        <DeleteBin 
+                            isActive={isActive}
+                            zIndex={isActive ? '4' : '2'}
+                            onClick={(e) => deleteImage(e)}/>
                         :
                         null
-                    } 
+                    }
+                    
+                </DeleteBox>
 
-                    <Image 
-                        src={contentURI}
-                        onLoad={() => setLoaded(true)}
-                        onError={props.onError}/>
-                        
-            </ImageCardContainer>
-        );
+                {
+                    loaded ? 
+                    <Fragment>
+                        <TextBox>
+                        <ImageTitle>{title}</ImageTitle>
+                            {
+                                window.innerWidth < 500 ?
+                                null
+                                :
+                                <Description>{description}</Description>
+                            }
+                        </TextBox>
+                        <Date>{day + ' ' + month + ' ' + year}</Date>
+                    </Fragment>
+                    :
+                    null
+                } 
+
+                <Image 
+                    src={contentURI}
+                    onLoad={() => setLoaded(true)}
+                    onError={props.onError}/>
+                    
+        </ImageCardContainer>
+    );
 
 }
 

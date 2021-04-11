@@ -1,4 +1,6 @@
-import React from "react";
+import React, {useCallback, useEffect, useState} from "react";
+import Gallery from "react-photo-gallery";
+
 
 import {
     Container,
@@ -14,6 +16,59 @@ import {
     ListItemWrapper
 } from '../components';
 
+
+const GalleryIterator = props => {
+
+    let [photos, setPhotos] = useState([])
+
+    useEffect(() => {   
+        const getParsedArray = async () => {
+            const photos = await parseItemsArray(props.items) 
+            setPhotos(photos)
+        }
+        getParsedArray()
+    }, [])
+
+    const parseItemsArray = async (items) => {
+        let photos = items.map(item => {
+            item.src = item.contentURI
+            const img = new Image();
+            img.src = item.contentURI;
+            img.onload = function() {
+                item.width = this.width
+                item.height = this.height
+            }
+            return item
+        })
+        return photos 
+    }
+    
+
+    console.log(photos)
+
+    let imageRenderer = useCallback(
+        ({ index, left, top, key, photo }) => (
+            <ImageCard
+                key={key}
+                entry={photo}
+                margin={"2px"}
+                index={index}
+                left={left}
+                top={top}
+            />
+           ),
+        []
+    );
+
+    return (
+        <Gallery
+            margin={2} 
+            columns={3}
+            photos={photos} 
+            direction={"column"}
+            renderImage={imageRenderer} />
+    )
+}
 
 const MasonryIterator = props => {
     return (
@@ -71,7 +126,7 @@ export const ItemsList = props => {
                             shadow={props.shadow}
                             isModerator={props.isModerator}/>
                     } else if (group.groupType.includes('image')) {
-                        return <MasonryIterator 
+                        return <GalleryIterator 
                             key={index}
                             items={group.items}
                             shadow={props.shadow}

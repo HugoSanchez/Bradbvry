@@ -5,7 +5,8 @@ import {primaryGreen} from '../../../constants/colors';
 
 export const ImageCardContainer = styled.div`
     position: relative;
-    width: 100%;
+    height: ${props => props.height};
+    width: ${props => props.width};
     border-radius: 2px;
     display: flex;
     flex-direction: column;
