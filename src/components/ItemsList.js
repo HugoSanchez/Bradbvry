@@ -1,7 +1,6 @@
 import React, {useCallback, useEffect, useState} from "react";
 import Gallery from "react-photo-gallery";
 
-
 import {
     Container,
     Underline,
@@ -19,7 +18,7 @@ import {
 
 const GalleryIterator = props => {
 
-    let [photos, setPhotos] = useState([])
+    let [photos, setPhotos] = useState(null)
 
     useEffect(() => {   
         const getParsedArray = async () => {
@@ -30,24 +29,24 @@ const GalleryIterator = props => {
     }, [])
 
     const parseItemsArray = async (items) => {
+
         let photos = items.map(item => {
-            item.src = item.contentURI
+            let photo = {width: 10, height: 20}
+            photo.src = item.contentURI
             const img = new Image();
             img.src = item.contentURI;
             img.onload = function() {
-                item.width = this.width
-                item.height = this.height
+                photo.width = this.width
+                photo.height = this.height
             }
-            return item
+            return photo
         })
         return photos 
     }
     
-
-    console.log(photos)
-
+    /**
     let imageRenderer = useCallback(
-        ({ index, left, top, key, photo }) => (
+        ({ index, left, top, key, photo}) => (
             <ImageCard
                 key={key}
                 entry={photo}
@@ -59,15 +58,22 @@ const GalleryIterator = props => {
            ),
         []
     );
+     */
 
-    return (
-        <Gallery
-            margin={2} 
-            columns={3}
-            photos={photos} 
-            direction={"column"}
-            renderImage={imageRenderer} />
-    )
+    if (!photos) {
+        return null
+    }
+
+    else {
+        return (
+            <Gallery
+                margin={2} 
+                photos={photos} 
+                targetRowHeight={50}
+                />
+        )
+    }
+    
 }
 
 const MasonryIterator = props => {

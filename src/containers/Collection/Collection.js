@@ -64,7 +64,6 @@ export const Collection = props => {
 	const [renderCollectionForm, setRenderCollectionForm] = useState(false)
 
 	const client = useSelector(state => state.user.client)
-	const threadsArray = useSelector(state => state.threads.threadsArray)
 	const threadItems = useSelector(state => state.threads.threadItems)
 	const activeThread = useSelector(state => state.threads.activeThread)
 
@@ -72,6 +71,10 @@ export const Collection = props => {
 		if (loggedAndOwner) {handleComponentConfig()}
 		else if (loggedAndOwner === false) {fetchThreadEntries()}
 	}, [loggedAndOwner, client])
+
+	useEffect(() => {
+		return () => cleanUpFunction()
+	}, [])
 
 	const handleComponentConfig =  async () => {
 		// If state is empty, set initial configuration.
@@ -105,6 +108,13 @@ export const Collection = props => {
 		dispatch(setActiveThread_Action(data.collection[0]))
 		dispatch(setThreadItems_Action(data.entries.reverse()))
 		setLoading(false)
+	}
+
+	const cleanUpFunction = () => {
+		// Clean state when component unmounts
+		// Here we also clean redux.
+		dispatch(setActiveThread_Action(null))
+		dispatch(setThreadItems_Action([]))
 	}
 	
 	const handleCloseMemberForm = bool => {

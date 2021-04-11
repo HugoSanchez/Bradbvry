@@ -31,17 +31,18 @@ export const ImageCard = props => {
     console.log(props.entry)
 
     let {
+        width,
         title,
+        height,
         description,
-        contentURI
+        contentURI,
+        targetRowHeight
     } = props.entry;
+
 
     const [isActive, setActive] = useState(false); 
     const [border, setBorder] = useState(false);
     const [loaded, setLoaded] = useState(true);
-    const [width, setWidth] = useState(1);
-    const [height, setHeight] = useState(1);
-    const [img, setImg] = useState(null)
 
     useEffect(() => {
         /** 

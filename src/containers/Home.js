@@ -58,7 +58,7 @@ export const Home = (props) => {
 
 
     useEffect(() => {
-		if (loggedAndOwner) {handleConfig()}
+		if (loggedAndOwner && !client) {handleConfig()}
 		else if (loggedAndOwner === false) {
             fetchUserPublicData()}
     }, [loggedAndOwner])
