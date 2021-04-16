@@ -28,7 +28,6 @@ import {
 
 
 export const ImageCard = props => {
-    console.log(props.entry)
 
     let {
         width,

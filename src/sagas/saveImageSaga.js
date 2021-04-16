@@ -18,7 +18,7 @@ const getThreadsState = state => state
 function* handleSaveImage(action) {
     // Every time the user saves a new photo from the UploadImageForm
     // this saga gets executed.
-    console.log('here')
+   
     const state = yield select(getThreadsState)
     const files = action.payload.files 
 
@@ -28,8 +28,12 @@ function* handleSaveImage(action) {
     const activeThread = state.threads.activeThread
 
     if (files.length === 0){throw new Error('no files present')}
+    console.log('here: ', action.payload)
     if (!activeThread) {throw new Error('no selected thread')}
-    const threadId = ThreadID.fromString(activeThread.id)
+    console.log('here: ', activeThread)
+    const threadId = ThreadID.fromString(activeThread.threadId)
+    console.log('here: ', threadId)
+
 
     for (let i = 0; i < files.length; i++) {
         console.log('not herehere')

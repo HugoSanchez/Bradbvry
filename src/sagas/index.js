@@ -9,6 +9,7 @@ import handleRenderSnack from './handleSnackBarSaga';
 import createCollectionSaga from './createCollectionSaga';
 import updateCollectionSaga from './updateCollectionSaga';
 import deleteCollectionSaga from './deleteCollectionSaga';
+import deleteItemFromPreview from './deleteItemFromPreview';
 
 export default function * rootSaga() {
     yield all([
@@ -20,6 +21,7 @@ export default function * rootSaga() {
         createCollectionSaga(),
         updateCollectionSaga(),
         deleteCollectionSaga(),
+        deleteItemFromPreview(),
         handleThreadsSaga(),
         handleRenderSnack()
     ])

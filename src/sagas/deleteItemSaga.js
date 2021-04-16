@@ -5,7 +5,7 @@ import {Mixpanel} from '../utils';
 import {
     setUserItems_Action,
     setThreadItems_Action,
-    handleAddItemToPreview_Action
+    handleDeleteFromPreview_Action,
 } from '../actions';
 
 const getThreadsState = state => state
@@ -18,12 +18,10 @@ function* handleDeleteItem(action) {
     const itemsArray = state.threads.itemsArray
     const activeThread = state.threads.activeThread
 
-
-    yield console.log(action.payload)
     if (!activeThread) {throw new Error('no selected thread')}
 
     // Delete the given item in its thread.
-    const threadID = ThreadID.fromString(activeThread.id)
+    const threadID = ThreadID.fromString(activeThread.threadId)
     yield client.delete(threadID, 'entries', [action.payload._id])
 
     // Update the state and track the action.
@@ -35,22 +33,9 @@ function* handleDeleteItem(action) {
 
     let newItemsArray = filterItemOut(itemsArray, action.payload)
     yield put(setUserItems_Action(newItemsArray))
-    yield deleteFromPreview(client, action.payload)
+    yield put(handleDeleteFromPreview_Action(action.payload))
 
 }
-
-function* deleteFromPreview(client, itemToDelete) {
-    let previewThreadId = localStorage.getItem('previewEntriesID')
-    let threadID = ThreadID.fromString(previewThreadId)
-    let previews = yield client.find(threadID, 'preview-entries', {})
-    console.log('item: ', previews)
-    let item = previews.filter(item => item.timestamp === itemToDelete.timestamp)
-    
-    yield client.delete(threadID, 'preview-entries', [item[0]._id])
-    let previews2 = yield client.find(threadID, 'preview-entries', {})
-    yield put(setUserItems_Action(previews2.reverse()))
-}   
-
 export default function* watchSaveImage() {
     while(true) {
         let action = yield take(HANDLE_DELETE_ITEM)

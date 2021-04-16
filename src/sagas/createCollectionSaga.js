@@ -34,8 +34,6 @@ function* handleCreateCollection(action) {
         let {threadID, collectionObject} = yield Textile.createNewThreadDB(client, action.payload, address, identityString)
         yield client.create(masterThreadID, 'collections-list', [collectionObject])
 
-        yield axios.post(addCollection, collectionObject)
-
         // 3. Get new collections list and set in state.
         let collections = yield client.find(masterThreadID, 'collections-list', {})
         console.log('Collection: ', collections)

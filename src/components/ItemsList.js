@@ -56,6 +56,7 @@ const GalleryIterator = props => {
         return (
             <Gallery
                 margin={2} 
+                columns={3}
                 photos={photos} 
                 onClick={handleImageClick}
                 targetRowHeight={50}
@@ -122,7 +123,7 @@ export const ItemsList = props => {
                             shadow={props.shadow}
                             isModerator={props.isModerator}/>
                     } else if (group.groupType.includes('image')) {
-                        return <GalleryIterator 
+                        return <MasonryIterator 
                             key={index}
                             items={group.items}
                             shadow={props.shadow}

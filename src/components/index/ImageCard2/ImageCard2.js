@@ -1,3 +1,4 @@
+/** 
 import React, {useState, Fragment}  from 'react';
 import NFTLogo from '../../../resources/NFTLogo.png';
 import {IconContext} from 'react-icons';
@@ -47,9 +48,10 @@ import {
 } from '../../../actions';
 
 
-
+*/
 export const ImageCard2 = props => {
 
+    /** 
     let {
         title,
         description
@@ -130,5 +132,6 @@ export const ImageCard2 = props => {
                     
         </CardContainer>
     );
+    */
 }
 

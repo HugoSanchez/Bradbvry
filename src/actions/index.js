@@ -27,6 +27,7 @@ import {
     HANDLE_CREATE_COLLECTION,
     HANDLE_DELETE_COLLECTION,
     HANDLE_ADD_ITEM_TO_PREVIEW,
+    HANDLE_DELETE_FROM_PREVIEW,
     HANDLE_SNACKBAR_RENDER,
 
 } from './types';
@@ -153,6 +154,13 @@ export const handleAddItemToPreview_Action = (object, subType, callback) => {
     }
 }
 
+
+export const handleDeleteFromPreview_Action = (object) => {
+    return {
+        type: HANDLE_DELETE_FROM_PREVIEW,
+        payload: object,
+    }
+}
 
 export const handleDeleteCollection_Action = (history) => {
     return {
