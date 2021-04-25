@@ -1,21 +1,18 @@
 import {SET_INITIAL_CONFIG} from '../actions/types';
 import {take, put} from 'redux-saga/effects';
 import {Textile, Eth} from '../utils';
+import { PrivateKey, PublicKey } from "@textile/hub"
+import randomBytes from 'randombytes';
 
 import {
     Client, 
-    ThreadID, 
     Users
 } from '@textile/hub';
 
 import {
     handleTheads_Action,
-    setUserItems_Action,
-    setThreadArray_Action,
     setInitialUserData_Action,
-    setMasterThreadID_Action,
     setUserMailbox_Action,
-    setUserIsLogged_Action
 } from '../actions';
 
 const { Magic } = require('magic-sdk');
@@ -42,8 +39,7 @@ function* handleMailboxSetUp(identity) {
 
 
 function* handleConfig(action) {
-    
-    yield console.time('set')
+
     // Get user address and email from magic.
     let data = yield magic.user.getMetadata()
     let email = data.email
@@ -53,6 +49,14 @@ function* handleConfig(action) {
     // Get user public profile and signer.
     // Get user identity (textile), instantiate client, 
     let identity        = yield Textile.getIdentity(magic)
+
+    /**
+    let publicKey = PublicKey.fromString(identity.public.toString())
+    let enc = new TextEncoder()
+    let mes = yield publicKey.encrypt(enc.encode('hellooooo'))
+    let res = yield identity.decrypt(mes)
+    */
+
     let hubKey          = process.env.REACT_APP_TEXTILE_HUB_KEY
     let client          = yield Client.withKeyInfo({key: hubKey})
     let userToken       = yield client.getToken(identity) 
@@ -67,8 +71,6 @@ function* handleConfig(action) {
         provider,
         identityString
     }))
-
-    yield console.timeEnd('set')
 
     yield put(handleTheads_Action(client, identity, action))
 

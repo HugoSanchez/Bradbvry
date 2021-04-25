@@ -68,6 +68,7 @@ let actions = {
             return getFunctionBody(readFilter)
         }
     },
+
     getCollectionsFromGlobalThread: async (client) => { 
         // This functions returns all collections from the global thread
         // which is a public registry of collections.       
@@ -91,6 +92,28 @@ let actions = {
         // Returns the correct Thread ID class
         return ThreadID.fromString(threadObject.id)
     },
+
+    getKeyOwner: (config, address, identityString) => {
+        let keyOwner = {}
+        if (config.type !== 'public') {
+            
+        }
+    },
+
+    getCollectionConfig: (config, address, identityString) => {
+        // Parse collection's owner data
+        let owner = {ethAddress: address, identity: identityString, did: ''}
+        let keyOwner = actions.getKeyOwner(config)
+        // Parse config and entries objects (DB collection schemas)
+        let newDate = Date.now()
+        config.owner = owner
+        config.timestamp = newDate
+        config.name = parseCollectionName(config.name)
+
+        // Copy schemas.
+        return Object.assign(configObject, config)
+    },
+
     createMasterThreadDB: async (client, masterThreadName) => {
         // Instantiate new threadDB with name.
         let threadID = await client.newDB(undefined, masterThreadName)
@@ -112,18 +135,8 @@ let actions = {
     },
 
     createNewThreadDB: async (client, config, address, identityString) => {
-        // Parse collection's owner data
-        let owner = {ethAddress: address, identity: identityString, did: ''}
-        // Parse config and entries objects (DB collection schemas)
-        let newDate = Date.now()
-        config.owner = owner
-        config.timestamp = newDate
-        config.name = parseCollectionName(config.name)
-
-        // Copy schemas.
-        let collectionConfig = Object.assign(configObject, config)
-        let entriesSchema = entriesObject
-        let followerSchema = followerObject
+        // Get the config object for the collection.
+        let collectionConfig = actions.getCollectionConfig(config, address, identityString)
 
         // Instantiate new threadDB with name.
         let threadID = await client.newDB(undefined, collectionConfig.name)
@@ -137,8 +150,8 @@ let actions = {
         
         // Create collections and save the config.
         await client.newCollectionFromObject(threadID, configObject, {name: 'config', writeValidator, readFilter})
-        await client.newCollectionFromObject(threadID, entriesSchema, {name: 'entries',  writeValidator, readFilter})
-        await client.newCollectionFromObject(threadID, followerSchema, {name: 'followers',  wirteValidatorFollowers, readFilter})
+        await client.newCollectionFromObject(threadID, entriesObject, {name: 'entries',  writeValidator, readFilter})
+        await client.newCollectionFromObject(threadID, followerObject, {name: 'followers',  wirteValidatorFollowers, readFilter})
         await client.create(threadID, 'config', [collectionConfig])
 
         // Parse object and return.

@@ -34,6 +34,13 @@ export const CollectionButtons = props => {
                     onClick={props.openEditor()}
                 />
 
+                <CircularButton
+                    imageAdd
+                    size={'25px'}
+                    bottom={'26vh'} 
+                    onClick={() => props.addImage()}
+                />
+
             </View>
         )
     }
@@ -43,10 +50,5 @@ export const CollectionButtons = props => {
 
 
 /**
- *              <CircularButton
-                    imageAdd
-                    size={'25px'}
-                    bottom={'26vh'} 
-                    onClick={() => props.addImage()}
-                />
+ *              
  */
