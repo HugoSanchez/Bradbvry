@@ -18,7 +18,7 @@ import {
 
 const MasonryIterator = props => {
     return (
-        <Masonry gap={15}>
+        <Masonry gap={10}>
             {
                 props.items.map((p, i) => {
                     return (

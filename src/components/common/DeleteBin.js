@@ -2,7 +2,7 @@ import React from 'react';
 import {View} from './View';
 import styled from 'styled-components';
 import {IconContext} from 'react-icons';
-import {RiDeleteBin6Line} from 'react-icons/ri';
+import {RiDeleteBinLine} from 'react-icons/ri';
 
 
 /**
@@ -17,7 +17,15 @@ const IconContainer = styled.div`
     align-self: flex-start;
 `;
 
-const size = window.innerWidth < 400 ? 18 : 22
+const BinBox = styled(View)`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 30px;
+    width: 30px;
+    border-radius: 15px;
+    background: white;
+`;
 
 const DeleteBin = props => {
 
@@ -25,11 +33,11 @@ const DeleteBin = props => {
         <IconContainer>
             {
                 props.isActive ?
-                    <View onClick={props.onClick}>
-                        <IconContext.Provider value={{size: size, color: 'gray'}}>
-                            <RiDeleteBin6Line /> 
+                    <BinBox onClick={props.onClick}>
+                        <IconContext.Provider value={{size: '18px', color: 'gray'}}>
+                            <RiDeleteBinLine /> 
                         </IconContext.Provider> 
-                    </View>
+                    </BinBox>
                 :
                 null
             }

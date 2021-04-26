@@ -72,8 +72,8 @@ export const DeleteBox = styled.div`
     height: 15%;
     width: 15%;
     position: absolute;
-    top: 8%;
-    right: 5%;
+    top: 10px;
+    right: 0px;
     z-index: 3;
 
     @media ${device.mobileL} {
