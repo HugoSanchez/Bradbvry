@@ -2,20 +2,12 @@ import {
     HANDLE_SNACKBAR_RENDER,
     SNACK_TYPE_SUCCESS,
     SNACK_TYPE_ERROR,
+    SNACK_TYPE_INFO,
+    SNACK_DISMISS,
 } from '../actions/types';
 
-import {
-    setShowSnack_Action,
-    setSnackColor_Action,
-    setSnackMessage_Action,
-} from '../actions';
-
-import {
-    take, 
-    put, 
-    delay,
-} from 'redux-saga/effects';
-
+import { take } from 'redux-saga/effects';
+import {LoadingToast} from '../components';
 import { toast } from 'react-toastify';
 
 
@@ -42,6 +34,18 @@ function* handleSnackBar(action) {
             if (action.message) return yield toast.error(action.message, snackOptions)
             else return yield toast.error('Oops, please try again!', snackOptions)
 
+        case SNACK_TYPE_INFO:
+            return yield toast.warning(
+                LoadingToast, {
+                    ...snackOptions, 
+                    autoClose: false, 
+                    closeButton: false
+                }
+            )
+        
+        case SNACK_DISMISS:
+            return yield toast.dismiss()
+
         default: return;
     }
 }
@@ -53,8 +57,4 @@ export default function* watchHandleSnackBar() {
         yield handleSnackBar(action)    
     }
 }
-
-/////////////////////////////////////////////////
-/////// HELPER FUNCTIONS
-////////////////////////////////////////////////
 

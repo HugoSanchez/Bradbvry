@@ -36,7 +36,8 @@ import {
 	setActiveThread_Action, 
 	setThreadItems_Action,
 	handleSaveImage_Action,
-	setInitialConfiguration_Action
+	setInitialConfiguration_Action,
+	handleSnackBarRender_Action
 
 } from '../../actions';
 
@@ -46,6 +47,8 @@ import {
 	MoreOptionsPositioner
 
 } from './styles';
+
+import { SNACK_TYPE_INFO } from '../../actions/types';
 
 export const Collection = props => {
 
@@ -135,6 +138,7 @@ export const Collection = props => {
 	}
 	
 	const onDrop = (files) => {
+		dispatch(handleSnackBarRender_Action(SNACK_TYPE_INFO))
 		const formData = new FormData();
 		formData.append('files', files);
 		dispatch(handleSaveImage_Action({files}))

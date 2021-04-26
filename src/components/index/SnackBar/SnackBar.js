@@ -18,7 +18,9 @@ export const StyledToastContainer = styled(ToastContainer).attrs({
 	  font-family: Montserrat;
 	  font-size: 14px;
   }
-  .Toastify__toast--warning {}
+  .Toastify__toast--warning {
+	background-color: ${primaryGray75};
+  }
   .Toastify__toast--success {
 	  background-color: ${primaryGreen};
 	  color: ${primaryGray75};

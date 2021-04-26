@@ -40,3 +40,5 @@ export const ADD_ITEM_TO_ITEMS_ARRAY        = 'ADD_ITEM_TO_ITEMS_ARRAY'
 export const HANDLE_SNACKBAR_RENDER          = 'HANDLE_SNACKBAR_RENDER';
 export const SNACK_TYPE_SUCCESS              = 'SNACK_TYPE_SUCCESS';
 export const SNACK_TYPE_ERROR                = 'SNACK_TYPE_ERROR';
+export const SNACK_TYPE_INFO                 = 'SNACK_TYPE_INFO';
+export const SNACK_DISMISS                   = 'SNACK_DISMISS';

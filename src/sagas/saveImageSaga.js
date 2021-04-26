@@ -1,4 +1,4 @@
-import {HANDLE_SAVE_IMAGE} from '../actions/types';
+import {HANDLE_SAVE_IMAGE, SNACK_DISMISS, SNACK_TYPE_SUCCESS} from '../actions/types';
 import {take, select, put, call} from 'redux-saga/effects';
 import {ThreadID} from '@textile/hub';
 import {Mixpanel, Textile} from '../utils';
@@ -10,7 +10,8 @@ import {
     addItemToThreadItems_Action,
     addItemToItemsArray_Action,
     setUserItems_Action,
-    setThreadItems_Action
+    setThreadItems_Action,
+    handleSnackBarRender_Action
 } from '../actions';
 
 const getThreadsState = state => state
@@ -28,12 +29,8 @@ function* handleSaveImage(action) {
     const activeThread = state.threads.activeThread
 
     if (files.length === 0){throw new Error('no files present')}
-    console.log('here: ', action.payload)
     if (!activeThread) {throw new Error('no selected thread')}
-    console.log('here: ', activeThread)
     const threadId = ThreadID.fromString(activeThread.threadId)
-    console.log('here: ', threadId)
-
 
     for (let i = 0; i < files.length; i++) {
         console.log('not herehere')
@@ -51,6 +48,9 @@ function* handleSaveImage(action) {
         yield addItemToPreview(client, savedEntry)
         Mixpanel.track('NEW_ITEM', {type: 'image'})
     }
+
+    yield put(handleSnackBarRender_Action(SNACK_DISMISS))
+    yield put(handleSnackBarRender_Action(SNACK_TYPE_SUCCESS))
 }
 
 function* addItemToPreview(client, item) {
