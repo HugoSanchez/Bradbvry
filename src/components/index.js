@@ -1,4 +1,3 @@
-export * from './index/AudioCard/index.js';
 export * from './index/CollectionButtons';
 export * from './index/NewCollectionForm';
 export * from './index/CollectionCardBig';
@@ -16,6 +15,8 @@ export * from './index/UserAvatar';
 export * from './index/ImageCard2';
 export * from './index/MoreButton';
 export * from './index/ImageCard';
+export * from './index/VideoCard';
+export * from './index/AudioCard';
 export * from './SpacesCarousel';
 export * from './index/SnackBar';
 export * from './index/UserCard';

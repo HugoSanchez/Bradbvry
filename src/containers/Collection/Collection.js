@@ -200,8 +200,8 @@ export const Collection = props => {
 					<RightContainer>
 						<Dropzone 
 							onDrop={onDrop}
-							accept={'image/jpeg, image/png, image/gif'}
-							maxSize={20000000}
+							accept={'image/jpeg, image/png, image/gif, video/mp4, video/mpeg, video/3gpp, video/ogg'}
+							maxSize={2000000000}
 							multiple={true}>
 
 							{(

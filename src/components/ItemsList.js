@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from "react";
-import Gallery from "react-photo-gallery";
 
 import {
     Container,
@@ -12,59 +11,10 @@ import {
 import {
     Masonry,
     ImageCard,
+    VideoCard,
     ListItemWrapper
 } from '../components';
 
-
-const GalleryIterator = props => {
-
-    let [photos, setPhotos] = useState(null)
-
-    useEffect(() => {   
-        const getParsedArray = async () => {
-            const photos = await parseItemsArray(props.items) 
-            setPhotos(photos)
-        }
-        getParsedArray()
-    }, [])
-
-    const handleImageClick = (e) => {
-        e.stopPropagation()
-    }
-
-    const parseItemsArray = async (items) => {
-
-        let photos = items.map(item => {
-            let photo = {width: 10, height: 20}
-            photo.src = item.contentURI
-            const img = new Image();
-            img.src = item.contentURI;
-            img.onload = function() {
-                photo.width = this.width
-                photo.height = this.height
-            }
-            return photo
-        })
-        return photos 
-    }
-
-    if (!photos) {
-        return null
-    }
-
-    else {
-        return (
-            <Gallery
-                margin={2} 
-                columns={3}
-                photos={photos} 
-                onClick={handleImageClick}
-                targetRowHeight={50}
-                />
-        )
-    }
-    
-}
 
 const MasonryIterator = props => {
     return (
@@ -96,6 +46,16 @@ const ListItemsIterator = props => {
     })
 }
 
+const VideoIterator = props => {
+    return props.items.map((item, index) => {
+        return  <VideoCard 
+                    key={item._id}
+                    entry={item}
+                    isModerator={props.isModerator}
+                    />
+    })
+}
+
 export const ItemsList = props => {
 
     // This is a nested iterator that will render either
@@ -118,16 +78,21 @@ export const ItemsList = props => {
                 groupedItems.map((group, index) => {
                     if (group.groupType === 'post') {
                         return <ListItemsIterator 
-                            key={index}
-                            items={group.items} 
-                            shadow={props.shadow}
-                            isModerator={props.isModerator}/>
+                                    key={index}
+                                    items={group.items} 
+                                    shadow={props.shadow}
+                                    isModerator={props.isModerator}/>
                     } else if (group.groupType.includes('image')) {
                         return <MasonryIterator 
-                            key={index}
-                            items={group.items}
-                            shadow={props.shadow}
-                            isModerator={props.isModerator}/>
+                                    key={index}
+                                    items={group.items}
+                                    shadow={props.shadow}
+                                    isModerator={props.isModerator}/>
+                    } else if (group.groupType.includes('video')) {
+                        return <VideoIterator
+                                    key={index}
+                                    items={group.items}
+                                    isModerator={props.isModerator}/>
                     }
                 })
             }
