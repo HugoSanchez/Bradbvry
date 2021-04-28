@@ -31,9 +31,12 @@ function* handleDeleteItem(action) {
     Mixpanel.track('ITEM_DELETED', {type: action.payload.type})
     if (action.callback !== undefined) {yield action.callback()}
 
+    /** 
     let newItemsArray = filterItemOut(itemsArray, action.payload)
     yield put(setUserItems_Action(newItemsArray))
-    yield put(handleDeleteFromPreview_Action(action.payload))
+    */
+
+    yield put(handleDeleteFromPreview_Action([action.payload]))
 
 }
 export default function* watchSaveImage() {
@@ -50,5 +53,5 @@ export default function* watchSaveImage() {
 
 const filterItemOut = (itemsArray, itemToDelete) => {
     let array = Array.from(itemsArray)
-    return array.filter(item => item.contentUri !== itemToDelete.contentUri)
+    return array.filter(item => item.timestamp !== itemToDelete.timestamp)
 }

@@ -127,7 +127,7 @@ export const ImageCard = props => {
                                     <Description>{description}</Description>
                                 }
                             </TextBox>
-                            <Date>{day + ' ' + month + ' ' + year}</Date>
+                        
                         </Fragment>
                     :
                     null

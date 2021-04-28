@@ -1,11 +1,7 @@
 import {HANDLE_DELETE_FROM_PREVIEW} from '../actions/types';
 import {take, put, select} from 'redux-saga/effects';
 import {ThreadID} from '@textile/hub';
-import {
-    setUserItems_Action,
-    setThreadItems_Action,
-    handleAddItemToPreview_Action
-} from '../actions';
+import {setUserItems_Action} from '../actions';
 
 
 function* handleDeleteFromPreview(itemsToDelete) {
@@ -14,7 +10,7 @@ function* handleDeleteFromPreview(itemsToDelete) {
     let state = yield select(state => state)
     let client = state.user.client
     let itemsArray = state.threads.itemsArray
-    
+
     let arrayToDelete = getDeleteItemsArray(itemsToDelete, itemsArray)
 
     let previewThreadId = localStorage.getItem('previewEntriesID')
@@ -22,7 +18,7 @@ function* handleDeleteFromPreview(itemsToDelete) {
     yield client.delete(threadID, 'preview-entries', arrayToDelete)
 
     let previews2 = yield client.find(threadID, 'preview-entries', {})
-    yield put(setUserItems_Action(previews2.reverse()))
+    yield put(setUserItems_Action(previews2))
 }   
 
 export default function* watchSaveImage() {
@@ -40,6 +36,7 @@ export default function* watchSaveImage() {
 const getDeleteItemsArray = (itemsToDelete, previews) => {
     let array = []
     for (let i = 0; i < itemsToDelete.length; i++) {
+        console.log(itemsToDelete[i])
         let item = previews.filter(item => item.timestamp === itemsToDelete[i].timestamp)
         if (item[0] !== undefined) array.push(item[0]._id)
     }

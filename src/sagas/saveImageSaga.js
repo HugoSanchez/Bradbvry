@@ -33,7 +33,6 @@ function* handleSaveImage(action) {
     const threadId = ThreadID.fromString(activeThread.threadId)
 
     for (let i = 0; i < files.length; i++) {
-        console.log('not herehere')
         let formData = new FormData();
         formData.append('file', files[i]);
         formData.append('type', files[i].type);
