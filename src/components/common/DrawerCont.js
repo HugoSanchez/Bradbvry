@@ -10,7 +10,7 @@ export const DrawerCont = styled.div`
     dislay: flex;
     overflow: scroll;
     background: #191919;
-    opacity: ${props => props.opacity};
+    opacity: 0.9;
     ::-webkit-scrollbar {
         width: 0px;  
     }

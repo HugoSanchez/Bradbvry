@@ -115,7 +115,6 @@ export const Collection = props => {
 	const cleanUpFunction = () => {
 		// Clean state when component unmounts
 		// Here we also clean redux.
-		dispatch(setActiveThread_Action(null))
 		dispatch(setThreadItems_Action([]))
 	}
 	

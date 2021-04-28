@@ -85,7 +85,7 @@ export const Image = styled.img`
     width: 100%;
     object-fit: cover;
     border-radius: 2px;
-    opacity: 1;
+    opacity: ${props => props.visible ? '1' : '0'};
     z-index: 1;
     &:hover{
         opacity: 0.1; 

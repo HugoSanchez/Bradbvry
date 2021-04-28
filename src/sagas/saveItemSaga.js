@@ -41,7 +41,7 @@ function* handleSaveItem(action) {
     // First check if there is activeThread, and throw error if not
     // Then get the threadId instance for the current thread.
     if (!activeThread) {throw new Error('No selected thread')}
-    const threadId = ThreadID.fromString(activeThread.id)
+    const threadId = ThreadID.fromString(activeThread.threadId)
 
     // If activeItem exists, it means that the user edited an existing post
     // We check weather any changes were actually made and update if so.
