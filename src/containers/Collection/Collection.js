@@ -137,10 +137,9 @@ export const Collection = props => {
 	}
 	
 	const onDrop = (files) => {
-		dispatch(handleSnackBarRender_Action(SNACK_TYPE_INFO))
 		const formData = new FormData();
 		formData.append('files', files);
-		dispatch(handleSaveImage_Action({files}))
+		dispatch(handleSaveImage_Action(files))
 	}
 
 	if (loading){

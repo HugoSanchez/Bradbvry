@@ -27,26 +27,56 @@ import {
 } from '../../common';
 
 import {
+    UploadVideoForm,
     UploadImageForm
 } from '../../index';
 
 export const UploadMediaForm = props => {
 
+    let dispatch = useDispatch()
     let [name, setName] = useState('')
     let [desc, setDesc] = useState('')
     let [image, setImage] = useState(false)
+    let [video, setVideo] = useState(false)
     let [mediaType, setMediaType] = useState('image')
+    let [activeButton, setActiveButton] = useState(false)
 
-    const dispatch = useDispatch()
 
     const onImageUpload = async e => {
         setImage({name: e.target.files[0].name, file: e.target.files})
+        if (mediaType === 'image') {setActiveButton(true)}
+    }
+
+    const onVideoUpload = async e => {
+        setVideo({name: e.target.files[0].name, file: e.target.files})
+        setActiveButton(true)
+    }
+
+    const handleMediaTypeChange = type => {
+        setActiveButton(false)
+        setMediaType(type)
+        setImage(false)
+        setVideo(false)
+        setName('')
+        setDesc('')
     }
 
     const handleFormSubmit = async () => {
+        if (mediaType === 'image') return handleUploadImage()
+        if (mediaType === 'video') return handleUploadVideo()
+    }
+
+    const handleUploadImage = async () => {
         image.file[0].title = name
         image.file[0].description = desc
-        dispatch(handleSaveImage_Action({files: image.file}))
+        dispatch(handleSaveImage_Action(image.file))
+        props.onClose()
+    }
+
+    const handleUploadVideo = async () => {
+        video.file[0].title = name
+        video.file[0].description = desc
+        dispatch(handleSaveImage_Action(video.file, image.file))
         props.onClose()
     }
 
@@ -63,7 +93,7 @@ export const UploadMediaForm = props => {
                 <TypeBox>
                     <MediaType
                         color={ mediaType === 'image' ? primaryGray45 : null }
-                        onClick={() => setMediaType('image')}>
+                        onClick={() => handleMediaTypeChange('image')}>
                         <Text
                             color={lightGray150}
                             fontWeight={mediaType === 'image' ? '500' : null}>
@@ -73,7 +103,7 @@ export const UploadMediaForm = props => {
 
                     <MediaType
                         color={ mediaType === 'video' ? primaryGray45 : null }
-                        onClick={() => setMediaType('video')}>
+                        onClick={() => handleMediaTypeChange('video')}>
                         <Text
                             color={lightGray150}
                             fontWeight={mediaType === 'video' ? '500' : null}>
@@ -83,19 +113,35 @@ export const UploadMediaForm = props => {
                 </TypeBox>
                 
 
-                <UploadImageForm
-                    name={name}
-                    desc={desc}
-                    image={image}
-                    setName={setName}
-                    setDesc={setDesc}
-                    onImageUpload={onImageUpload}
-                />
+                {
+                    mediaType === 'image' ?   
+
+                        <UploadImageForm
+                            name={name}
+                            desc={desc}
+                            image={image}
+                            setName={setName}
+                            setDesc={setDesc}
+                            onImageUpload={onImageUpload}
+                        />
+                    :
+
+                        <UploadVideoForm
+                            name={name}
+                            desc={desc}
+                            image={image}
+                            video={video}
+                            setName={setName}
+                            setDesc={setDesc}
+                            onVideoUpload={onVideoUpload}
+                            onImageUpload={onImageUpload}
+                        />
+                }
 
                 <FormButton 
-                    isActive={!!image}
+                    isActive={activeButton}
                     text={'Upload Media'}
-                    onClick={!!image ? handleFormSubmit : null}
+                    onClick={activeButton ? handleFormSubmit : null}
                 />
                     
             </FormBodyBox>               

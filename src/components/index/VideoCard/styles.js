@@ -7,7 +7,6 @@ export const CardContainer = styled.div`
     position: relative;
     min-width: 100%;
     background-color: white;
-    transition: 0.4s ease-out;
     border-radius: 5px;
     box-shadow: 0 0 80px rgba(0,0,0,0.1);
     margin-bottom: 4%;
@@ -15,7 +14,6 @@ export const CardContainer = styled.div`
 
     &:hover{
         box-shadow: 0 0 60px rgba(0,0,0,0.2); 
-        transform: translateY(5px);
     }
 `;
 
@@ -30,9 +28,10 @@ export const CardBody = styled.div`
 
 export const Video = styled.video`
     width: 100%;
+    max-height: 56.25%;
     box-shadow: 0 0 80px rgba(0,0,0,0.1);
-
     border-radius: 5px;
+    background-size:cover; 
     &:focus {
         outline: none;
     }

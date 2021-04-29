@@ -112,10 +112,11 @@ export const handleSaveItem_Action = (item, callback) => {
     }
 }
 
-export const handleSaveImage_Action = object => {
+export const handleSaveImage_Action = (mainFile, poster) => {
     return { 
         type: HANDLE_SAVE_IMAGE, 
-        payload: object 
+        payload: mainFile,
+        poster: poster
     }
 }
 

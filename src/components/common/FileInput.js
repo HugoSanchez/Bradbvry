@@ -7,6 +7,7 @@ import {primaryGray85, primaryGreen} from '../../constants/colors';
 export const FileInput = props => {
     let {
         file,
+        accept,
         onChange
     } = props;
 
@@ -20,7 +21,9 @@ export const FileInput = props => {
                 </InputText>
             </TextDiv>
 
-            <InputTypeFile onChange={onChange} />
+            <InputTypeFile 
+                accept={accept}
+                onChange={onChange} />
         </FileInputBox>
         
     );

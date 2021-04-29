@@ -22,7 +22,8 @@ function* handleSaveImage(action) {
     // this saga gets executed.
    
     const state = yield select(getThreadsState)
-    const files = action.payload.files 
+    const files = action.payload
+    const poster = action.poster
 
     const client = state.user.client
     const address = state.user.address
@@ -41,12 +42,16 @@ function* handleSaveImage(action) {
         formData.append('file', files[i]);
         formData.append('type', files[i].type);
 
+        let videoPosterUrl
+        if (poster) {videoPosterUrl = yield getVideoPosterUrl(poster)}
         let res = yield axios.post(uploadUrl, formData) 
+
 
         let entry = {
             name: files[i].title,
             description: files[i].description,
             contentURI: res.data.contentURI, 
+            other: poster ? videoPosterUrl : '',
             type: files[i].type, 
             createdBy: address, 
             timestamp: Date.now()
@@ -77,4 +82,18 @@ export default function* watchSaveImage() {
         let action = yield take(HANDLE_SAVE_IMAGE)
         yield handleSaveImage(action)    
     }
+}
+
+
+/////////////////////////////////////////////////
+/////// Helper Function
+////////////////////////////////////////////////
+
+const getVideoPosterUrl = async poster => {
+    let formData = new FormData();
+    formData.append('file', poster[0]);
+    formData.append('type', poster[0].type);
+
+    let res = await axios.post(uploadUrl, formData) 
+    return res.data.contentURI
 }

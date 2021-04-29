@@ -3,7 +3,7 @@ import React, {Fragment} from 'react';
 import {
     Gn,
     Label,
-    Optional,
+    Optional
 } from './styles';
 
 import {
@@ -12,14 +12,21 @@ import {
     DescriptionInput,
 } from '../../common';
 
-export const UploadImageForm = props => {
+export const UploadVideoForm = props => {
 
     return (
             <Fragment>
-                <Label><Gn>2.</Gn> Upload image</Label>
+                <Label><Gn>2.</Gn> Upload Video</Label>
+                <FileInput 
+                    file={props.video}
+                    accept="video/mp4, video/mpeg, video/3gpp, video/ogg"
+                    onChange={(e) => props.onVideoUpload(e)}
+                />  
+                <Label><Gn>2.</Gn> Upload the poster image
+                <Optional> (optional)</Optional></Label>
                 <FileInput 
                     file={props.image}
-                    accept="image/*"
+                    accept="image/jpeg, image/png, image/gif"
                     onChange={(e) => props.onImageUpload(e)}
                 />  
                 <Label><Gn>3.</Gn> Choose a title 

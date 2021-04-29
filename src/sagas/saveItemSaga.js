@@ -133,7 +133,7 @@ export default function* watchSaveItem() {
 }
 
 /////////////////////////////////////////////////
-/////// HELPER FUNCTIONS
+/////// Helper Functions
 ////////////////////////////////////////////////
 
 const checkIfImageAndUploadToIPFS = async (post) => {

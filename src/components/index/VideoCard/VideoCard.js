@@ -26,11 +26,11 @@ import {
 export const VideoCard = props => {
 
     let {
+        other,
         title,
-        description
+        description,
+        contentURI
     } = props.entry;
-
-    let content = props.entry.contentURI
 
     const dispatch = useDispatch()
     // Instantiate state
@@ -64,8 +64,9 @@ export const VideoCard = props => {
             <CardBody>
                     <Video 
                         controls="controls" 
-                        src={content}>
-                        <source src={content}/>
+                        src={contentURI}
+                        poster={other}>
+                        <source src={contentURI}/>
                     </Video>
             </CardBody>
 
