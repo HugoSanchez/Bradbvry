@@ -35,29 +35,12 @@ export const ImageCard = props => {
         height,
         description,
         contentURI,
-        targetRowHeight
     } = props.entry;
 
 
     const [isActive, setActive] = useState(false); 
     const [border, setBorder] = useState(false);
     const [loaded, setLoaded] = useState(true);
-
-    useEffect(() => {
-        /** 
-        const getImageHeightAndWidth = async () => {
-            const img = new Image();
-            img.src = contentURI;
-            img.onload = function() {
-                setWidth(this.width)
-                setHeight(this.height)
-                setImg(img)
-                setLoaded(true)
-            }
-        }
-        getImageHeightAndWidth()
-        */
-    }, [])
 
     const handleMouseOver = () => {
         setActive(!isActive)

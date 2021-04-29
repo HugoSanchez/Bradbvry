@@ -2,6 +2,7 @@ export * from './index/CollectionButtons';
 export * from './index/NewCollectionForm';
 export * from './index/CollectionCardBig';
 export * from './index/UploadImageForm';
+export * from './index/UploadMediaForm';
 export * from './index/CollectionCard';
 export * from './index/PlainTextCard';
 export * from './index/AddMemberForm';

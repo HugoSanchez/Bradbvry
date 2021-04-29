@@ -21,7 +21,7 @@ import {
 	NewCollectionForm,
 	CollectionButtons,
 	CollectionCardBig,
-	UploadImageForm,
+	UploadMediaForm,
 	AddMemberForm,
 	LoadingCard,
 	MoreButton,
@@ -160,7 +160,7 @@ export const Collection = props => {
 				anchor={'right'} 
 				open={renderForm} 
 				onClose={() => setRenderForm(false)} >
-					<UploadImageForm onClose={() => onImageUpload()}/>
+					<UploadMediaForm onClose={() => onImageUpload()}/>
 			</Drawer>
 
 			<Drawer 

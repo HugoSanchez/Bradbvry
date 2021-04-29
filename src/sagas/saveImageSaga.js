@@ -1,4 +1,4 @@
-import {HANDLE_SAVE_IMAGE, SNACK_DISMISS, SNACK_TYPE_SUCCESS} from '../actions/types';
+import {HANDLE_SAVE_IMAGE, SNACK_DISMISS, SNACK_TYPE_SUCCESS, SNACK_TYPE_INFO} from '../actions/types';
 import {take, select, put, call} from 'redux-saga/effects';
 import {ThreadID} from '@textile/hub';
 import {Mixpanel, Textile} from '../utils';
@@ -17,6 +17,7 @@ import {
 const getThreadsState = state => state
 
 function* handleSaveImage(action) {
+
     // Every time the user saves a new photo from the UploadImageForm
     // this saga gets executed.
    
@@ -32,13 +33,25 @@ function* handleSaveImage(action) {
     if (!activeThread) {throw new Error('no selected thread')}
     const threadId = ThreadID.fromString(activeThread.threadId)
 
+    yield put(handleSnackBarRender_Action(SNACK_TYPE_INFO))
+
+
     for (let i = 0; i < files.length; i++) {
         let formData = new FormData();
         formData.append('file', files[i]);
         formData.append('type', files[i].type);
 
         let res = yield axios.post(uploadUrl, formData) 
-        let entry = {contentURI: res.data.contentURI, type: files[i].type, createdBy: address, timestamp: Date.now()}
+
+        let entry = {
+            name: files[i].title,
+            description: files[i].description,
+            contentURI: res.data.contentURI, 
+            type: files[i].type, 
+            createdBy: address, 
+            timestamp: Date.now()
+        }
+
         let saved = yield Textile.createNewEntry(client, threadId, entry)
         let savedEntries = yield client.find(threadId, 'entries', {_id: saved[0]})
         let savedEntry = savedEntries[threadItems.length + i]
