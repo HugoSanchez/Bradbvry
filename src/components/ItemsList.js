@@ -48,9 +48,10 @@ const ListItemsIterator = props => {
 
 const VideoIterator = props => {
     return props.items.map((item, index) => {
-        return  <VideoCard 
-                    key={item._id}
+        return  <VideoCard
                     entry={item}
+                    key={item._id}
+                    shadow={props.shadow}
                     isModerator={props.isModerator}
                     />
     })
@@ -92,6 +93,7 @@ export const ItemsList = props => {
                         return <VideoIterator
                                     key={index}
                                     items={group.items}
+                                    shadow={props.shadow}
                                     isModerator={props.isModerator}/>
                     }
                 })

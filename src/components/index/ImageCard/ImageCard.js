@@ -30,8 +30,8 @@ import {
 export const ImageCard = props => {
 
     let {
+        name,
         width,
-        title,
         height,
         description,
         contentURI,
@@ -41,6 +41,11 @@ export const ImageCard = props => {
     const [isActive, setActive] = useState(false); 
     const [border, setBorder] = useState(false);
     const [loaded, setLoaded] = useState(true);
+    const [renderText, setRenderText] = useState(true);
+
+    useEffect(() => {
+        if (loaded) {setRenderText(true)}
+    },[loaded])
 
     const handleMouseOver = () => {
         setActive(!isActive)
@@ -78,13 +83,14 @@ export const ImageCard = props => {
             width={width}
             height={height} 
             border={border}
+            visible={renderText}
             shadow={props.shadow}
             onClick={handleOnClick}
             onMouseEnter={() => handleMouseOver()}
             onMouseLeave={() => handleMouseOver()}>
 
                 {
-                    loaded ? 
+                    renderText ? 
                         <Fragment>
                             <DeleteBox>
                                 {
@@ -102,7 +108,7 @@ export const ImageCard = props => {
                     
                         
                             <TextBox>
-                            <ImageTitle>{title}</ImageTitle>
+                            <ImageTitle>{name}</ImageTitle>
                                 {
                                     window.innerWidth < 500 ?
                                     null

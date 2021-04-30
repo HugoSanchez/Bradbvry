@@ -30,7 +30,6 @@ import {
 
 import {
     isASCII,
-    getBase64, 
 } from '../../../utils';
 
 
@@ -86,12 +85,14 @@ export const NewCollectionForm = props => {
 
     const handleEditCollection = async () => {
         let threadConfig = parseCollectionConfigObject()
-        dispatch(handleUpdateCollection_Action(threadConfig, props.history, props.collection, callback))
+        dispatch(handleUpdateCollection_Action(threadConfig, props.history, props.collection))
+        props.onClose()
     }
 
     const handleCreateCollection = async () => {
         let threadConfig = parseCollectionConfigObject()
-        dispatch(handleCreateCollection_Action(threadConfig, callback))        
+        dispatch(handleCreateCollection_Action(threadConfig))     
+        props.onClose()   
     }
 
     const parseCollectionConfigObject = () => {

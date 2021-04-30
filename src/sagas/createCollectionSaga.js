@@ -1,13 +1,16 @@
 import {take, put, select} from 'redux-saga/effects';
 import {setThreadArray_Action, handleSnackBarRender_Action} from '../actions';
 import {Mixpanel, Textile} from '../utils';
-import {addCollection, uploadUrl} from '../constants';
+import {uploadUrl} from '../constants';
 import axios from 'axios';
 
 import {
+
     HANDLE_CREATE_COLLECTION,
     SNACK_TYPE_ERROR,
     SNACK_TYPE_SUCCESS,
+    SNACK_TYPE_INFO,
+    SNACK_DISMISS
 
 } from '../actions/types';
 
@@ -21,6 +24,9 @@ function* handleCreateCollection(action) {
     const identityString = state.user.identityString
     const masterThreadID = state.threads.masterThreadID
 
+    yield put(handleSnackBarRender_Action(SNACK_TYPE_INFO))
+
+
     try {
         // 1. Get image URL.
         let protoCofig = action.payload
@@ -31,30 +37,30 @@ function* handleCreateCollection(action) {
 
         // 2. Create new ThreadDB and add DB to global.
         protoCofig.image = res.data.contentURI
-        let {threadID, collectionObject} = yield Textile.createNewThreadDB(client, action.payload, address, identityString)
+        let {collectionObject} = yield Textile.createNewThreadDB(client, action.payload, address, identityString)
         yield client.create(masterThreadID, 'collections-list', [collectionObject])
 
         // 3. Get new collections list and set in state.
         let collections = yield client.find(masterThreadID, 'collections-list', {})
-        console.log('Collection: ', collections)
         yield put(setThreadArray_Action(collections))
 
         // 4. Fire callback and track event
-        yield action.callback(true)
+        yield put(handleSnackBarRender_Action(SNACK_DISMISS))
         yield put(handleSnackBarRender_Action(SNACK_TYPE_SUCCESS))
         Mixpanel.track('NEW_COLLECTION_CREATED')
     }
 
     catch (e) {
         if (e.toString().includes('multiple write errors')) {
+            yield put(handleSnackBarRender_Action(SNACK_DISMISS))
             yield put(handleSnackBarRender_Action(SNACK_TYPE_ERROR, 
                 'Please choose a different name!'))
         }
         else {
+            yield put(handleSnackBarRender_Action(SNACK_DISMISS))
             yield put(handleSnackBarRender_Action(SNACK_TYPE_ERROR))
             yield console.log(e)
         }
-        yield action.callback(false)
     }
 }
 

@@ -1,6 +1,6 @@
 import {take, put, select} from 'redux-saga/effects';
 import ThreadID from '@textile/threads-id';
-import {uploadUrl, updateCollectionUrl} from '../constants';
+import {uploadUrl} from '../constants';
 import axios from 'axios';
 
 import {
@@ -52,7 +52,6 @@ function* handleUpdateCollection(action) {
         updatedConfig.description = updatedThread.description
         updatedConfig.image = updatedThread.image
         yield client.save(threadId, 'config', [updatedConfig])
-        yield axios.post(updateCollectionUrl, {collection: updatedConfig})
 
         // 3. Update master thread too.
         yield client.save(masterThreadID, 'collections-list', [updatedThread])

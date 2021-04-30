@@ -3,9 +3,6 @@
 ////////////////////////////////////
 
 export const uploadUrl = `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}api/uploadToIpfs`;
-export const addCollection = `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}api/add/collections`;
-export const deleteCollection = `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}api/delete/collections`;
-export const updateCollectionUrl = `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}api/update/collections`;
 export const shareBaseUrl = `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}api/share/send-invite-email`;
 export const acceptBaseUrl = `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}api/share/add-invited-member`;
 export const createUserUrl = `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}api/user/create`;

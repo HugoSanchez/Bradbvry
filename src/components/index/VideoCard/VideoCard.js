@@ -57,6 +57,7 @@ export const VideoCard = props => {
 
     return (
         <CardContainer 
+            shadow={props.shadow}
             onMouseEnter={() => handleMouseOver()}
             onMouseLeave={() => handleMouseOver()}>
                 

@@ -37,7 +37,6 @@ import {
 	setThreadItems_Action,
 	handleSaveImage_Action,
 	setInitialConfiguration_Action,
-	handleSnackBarRender_Action
 
 } from '../../actions';
 
@@ -48,7 +47,6 @@ import {
 
 } from './styles';
 
-import { SNACK_TYPE_INFO } from '../../actions/types';
 
 export const Collection = props => {
 

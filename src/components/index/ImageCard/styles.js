@@ -12,7 +12,7 @@ export const ImageCardContainer = styled.div`
     flex-direction: column;
     background: white;
     transition: 0.4s ease-out;
-    opacity: 1;
+    opacity: ${props => props.visible ? 1 : 0};
     box-shadow: ${props => props.shadow ? '0 0 80px rgba(0,0,0,0.2)' : null};
     
     border: ${props => props.border ? '15px solid rgba(55,55,55,0.3)' : null};
