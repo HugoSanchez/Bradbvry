@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 
@@ -41,31 +41,10 @@ const ListItem = React.memo((props) => {
     // Instantiate dispatch function.
     const history = useHistory();
     const dispatch = useDispatch()
+
     // Instantiate state
     const [isActive, setActive] = useState(false); 
-    const [thread, setThread] = useState(null)
-    // Get threads
-    const threads = useSelector(state => state.threads.threadsArray);
-    const activeThread = useSelector(state => state.threads.activeThread);
-
-
-    useEffect(() => {   
-        const setItemThread = async () => {
-            // If !activeThread it means user is in preview.
-            // else, user is in collection. This allows to 
-            // properly navigate the user to the editor.
-			if (!activeThread && threads.length > 0) {
-				let thread = threads.filter(thread => {
-                    return thread.previewEntries.includes(props.item)
-                })
-                setThread(thread[0])
-            }
-            else {setThread(activeThread)}
-        }
-		setItemThread()
-    }, [threads])
-
-
+    
     // Create setter function
     const handleMouseOver = () => {
         setActive(!isActive)
@@ -98,7 +77,6 @@ const ListItem = React.memo((props) => {
     // Dispatches action to delete item from global store.
     const deleteEntry = async (e) => {
         e.stopPropagation();
-        console.log('Item: ', item)
         dispatch(handleDeleteItem_Action(item))
     }
 
@@ -107,7 +85,7 @@ const ListItem = React.memo((props) => {
     const onItemClick = async (e) => {
         e.stopPropagation()
         dispatch(setActiveItem_Action(item))
-        history.push(`/app/${props.item.createdBy}/${thread.name}/${props.item._id}`, {
+        history.push(`/app/${props.item.createdBy}/${props.item.threadId}/${props.item._id}`, {
             item: props.item,
             entry: props.entry,
             onlyRead: !props.isModerator})

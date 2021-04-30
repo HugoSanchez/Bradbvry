@@ -48,13 +48,14 @@ export const entriesObject = {
     _id: '', 
     name: '',                           // Entry name
     description: '',                    // Entry description
+    threadId: '',                       // // The thread's ID string the entry belongs to.
     type: 'file',                       // Entry type file/post
     entry: '',                          // Actual entry
     other: '',                          // Other info
     timestamp: 0,                       // Entry creation date
-    contentURI: '',
-    metadataURI: '',
-    createdBy: ''
+    contentURI: '',                     // Url 
+    metadataURI: '',                    // TBD
+    createdBy: ''                       // Ethereum Address
 }
 
 export const configObject = {
@@ -68,11 +69,7 @@ export const configObject = {
     subscriptionType : '',               // [stake || free || invite-only || montly]
     timestamp: 0,                        // Creation day timestamp
     options: '',                         // Any additional info.
-    memebers: [''],                      // Members array.  
-    preview: '',                         // Boolean - wether or not there's preview entries
-    previewEntries: [                    // Array of public entries to preview
-        entriesObject
-    ],                  
+    version: 1,                          // Collection version, to track updates!  
     owner: {                             // Owner data.
         did: '',
         identity: '',

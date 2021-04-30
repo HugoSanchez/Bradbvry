@@ -50,6 +50,7 @@ function* handleSaveImage(action) {
         let entry = {
             name: files[i].title,
             description: files[i].description,
+            threadId: activeThread.threadId,
             contentURI: res.data.contentURI, 
             other: poster ? videoPosterUrl : '',
             type: files[i].type, 

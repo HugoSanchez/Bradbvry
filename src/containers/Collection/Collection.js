@@ -84,7 +84,7 @@ export const Collection = props => {
 		// Else, fetch thread data and set listeners.
 		if (isLogged && client) {fetchThreadData()}
 		else if (isLogged && !client) {dispatch(setInitialConfiguration_Action())}
-		if (activeThread.id === threadID && threadItems) {setLoading(false)}
+		if (activeThread.threadId === threadID && threadItems) {setLoading(false)}
 	}
 
 	const fetchThreadData = async () => {

@@ -88,7 +88,7 @@ function* handleSaveItem(action) {
         let res = yield axios.post(uploadUrl, data) 
         
         // 2. Save entry in threadDB
-        let entry = {contentURI: res.data.contentURI, type: 'post', createdBy: address}
+        let entry = {contentURI: res.data.contentURI, type: 'post', createdBy: address, threadId: activeThread.threadId,}
         let saved = yield Textile.createNewEntry(client, threadId, entry)
 
         // 3. Update redux state with new entry
