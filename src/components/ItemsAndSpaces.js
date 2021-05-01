@@ -60,6 +60,7 @@ const Container = styled(View)`
     overflow: hidden;
     padding-left: 7px;
     padding-right: 7px;
+
     @media ${device.mobileL} {
         padding-top: 30px;
     }
