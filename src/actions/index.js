@@ -12,6 +12,7 @@ import {
     SET_THREAD_ARRAY,
     SET_THREAD_ITEMS,
     SET_MASTER_THREAD_ID,
+    RESET_INITIAL_STATE,
 
     //// ADD
     ADD_ITEM_TO_THREAD_ITEMS,
@@ -214,6 +215,13 @@ export const handleAddCollectionToMaster_Action_Action = (object, history) => {
         type: HANDLE_ADD_COLLECTION,
         payload: object,
         history: history
+    }
+}
+
+export const resetInitialState_Action = () => {
+    return {
+        type: RESET_INITIAL_STATE,
+        payload: null
     }
 }
 

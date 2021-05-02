@@ -1,6 +1,7 @@
 import {
 	SET_USER_MAILBOX,
 	SET_USER_IS_LOGGED,
+	RESET_INITIAL_STATE,
 	SET_USER_INITIAL_DATA,
 } from '../actions/types';
 
@@ -11,7 +12,7 @@ const initialState = {
 	profile: null, 			// Public 3box profile
 	client: null,			// Textile threadsDB client
 	identity: null, 		// Textile identity
-	mailboxClient: null,		// Textile mailbox client
+	mailboxClient: null,	// Textile mailbox client
 	inbox: [], 				// Textile user mailbox (received messages)
 	sentBox: [],			// Textile user mailbox (sent messages)
 }
@@ -36,6 +37,9 @@ const userProfileReducer = (state = initialState, action) => {
 				...state, 
 				...action.payload
 			}
+
+		case RESET_INITIAL_STATE: 
+			return initialState
 
 		default: return state
 	}

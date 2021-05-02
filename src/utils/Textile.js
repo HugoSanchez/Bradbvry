@@ -200,6 +200,10 @@ let actions = {
 }
 
 
+///////////////////////////////////////////////
+/////// Helper Functions
+///////////////////////////////////////////////
+
 const generateIdentity = async (magic) => {
     // Generate a new Textile identity from the user's Ethereum private key
     // 1) Users signs message, 2) Message is hashed, 3) hash is turned into array
@@ -215,7 +219,7 @@ const generateIdentity = async (magic) => {
 const generateSeedFromEthKey = async (signer) => {
     // Sign and hash message using Ethereum's private key.
     // Then parse signedMessage to create seed array.
-    const message = 'Welcome to Bradbvry! Signing this message proves you are in possesion of' +
+    const message = 'Welcome to Bradbvry.xyz! Signing this message proves that you are in possesion of' +
     ' the private key to access and control your account. Thank you for joining :)'
     const signed = await signer.signMessage(message)
     const hashed = await utils.keccak256(signed)

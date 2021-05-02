@@ -5,6 +5,7 @@ import logo from '../../resources/favicon.png';
 import {LoadingCard} from '../../components';
 
 import {
+	resetInitialState_Action,
 	setInitialConfiguration_Action
 } from '../../actions';
 
@@ -23,20 +24,21 @@ const magic = new Magic(process.env.REACT_APP_MAGIC_API_KEY);
 
 export const SignIn = props => {
 
+	const history = useHistory();
+	const dispatch = useDispatch()
+	const [loading, setLoading] = useState(false)
+	const [isInputFocused, setInputFocused] = useState(false)
+
 	useEffect(() => {
 		const logUserOut = async () => {
 			localStorage.removeItem('textile-identity')
 			localStorage.removeItem('masterThreadID')
 			localStorage.removeItem('previewEntriesID')
+			dispatch(resetInitialState_Action())
 			await magic.user.logout();
 		}
 		logUserOut()
 	}, [])
-
-    const history = useHistory();
-	const dispatch = useDispatch()
-	const [loading, setLoading] = useState(false)
-	const [isInputFocused, setInputFocused] = useState(false)
 
     const handleLogin = async e => {
 		setLoading(true)

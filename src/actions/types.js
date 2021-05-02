@@ -8,6 +8,7 @@ export const SET_USER_PROFILE               = 'SET_USER_PROFILE;';
 export const SET_USER_IS_LOGGED             = 'SET_USER_IS_LOGGED';
 export const SET_USER_MAILBOX               = 'SET_USER_MAILBOX';
 export const HANDLE_ADD_COLLECTION          = 'HANDLE_ADD_COLLECTIONM';
+export const RESET_INITIAL_STATE            = 'RESET_INITIAL_STATE';
 
 ///////////////////////////////////////////////
 ////// THREADS REDUCER

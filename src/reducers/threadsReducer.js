@@ -5,6 +5,7 @@ import {
     SET_ACTIVE_ITEM,
     SET_ACTIVE_THREAD,
 	SET_THREAD_ITEMS,
+	RESET_INITIAL_STATE,
 	SET_MASTER_THREAD_ID,
 	ADD_ITEM_TO_ITEMS_ARRAY,
 	ADD_ITEM_TO_THREAD_ITEMS,
@@ -15,7 +16,7 @@ const initialState = {
 
     itemsArray: [],           // Preview items (entries)
     threadsArray: null,       // Array of user's threads
-	threadItems: null,          // Entries for a given thread (activeThread)
+	threadItems: null,        // Entries for a given thread (activeThread)
 	masterThreadID: null, 	  // String ID of master thread
     activeThread: null,       // Thread that the user has selected
     activeItem: null,         // Item that the user has selected within the thread.
@@ -48,7 +49,6 @@ const threadsReducer = (state = initialState, action) => {
 		updatedItems.unshift(action.payload)
 		return {...state, itemsArray: updatedItems}
 		 
-
 		case ADD_ITEM_TO_THREAD_ITEMS: 
 		let includes = state.threadItems.includes(action.payload)
 		if (!includes) {
@@ -58,6 +58,9 @@ const threadsReducer = (state = initialState, action) => {
 		} else {
 			return {...state, threadItems: []}
 		}
+
+		case RESET_INITIAL_STATE: 
+			return initialState
 
 		default: return state
     }
