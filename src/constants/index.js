@@ -77,7 +77,8 @@ export const configObject = {
             memberId: '',
             memberAddress: '',
             memberPubkey: '',
-            collectionKey: ''
+            collectionKey: '',
+            acknowledged: false
         }
     ]
 }

@@ -149,23 +149,14 @@ let actions = {
         let readFilter = actions.getReadFilter(identityString, config.type)
         
         // Create collections and save the config.
-        await client.newCollectionFromObject(threadID, configObject, {name: 'config', writeValidator, readFilter})
         await client.newCollectionFromObject(threadID, entriesObject, {name: 'entries',  writeValidator, readFilter})
+        await client.newCollectionFromObject(threadID, configObject, {name: 'config', wirteValidatorFollowers, readFilter})
         await client.newCollectionFromObject(threadID, followerObject, {name: 'followers',  wirteValidatorFollowers, readFilter})
         await client.create(threadID, 'config', [collectionConfig])
 
         // Parse object and return.
         let collectionObject = parseCollectionObject(threadID, collectionConfig)
         return {threadID, collectionObject}
-    },
-
-    createGlobalThread: async (client) => {
-        // Instantiate new threadDB with name.
-        let writeValidator = customValidatorForGlobalThread
-        let threadID = await client.newDB(undefined, 'Tst-Global-Thread-BV')
-        await client.newCollectionFromObject(threadID, configObject, {
-            name: 'public-collections', writeValidator})
-        return threadID
     },
 
     createNewEntry: async (client, threadID, entry) => {
@@ -176,12 +167,6 @@ let actions = {
         // Store new entry in thread.
         let storedEntry = await client.create(threadID, 'entries', [newEntry])
         return storedEntry
-    },
-
-    addCollectionToGlobalThread: async (client, collection) => {
-        // Add a public collection to the public registry.
-        let globalThreadID = actions.getThreadIDFromString(process.env.REACT_APP_BRADBVRY_GLOBAL_THREAD_ID)
-        await client.create(globalThreadID, 'public-collections', [collection])
     },
 
     sendMessage: async (mailClient, message, identity, recipientIdentity) => {
@@ -260,10 +245,6 @@ const readFilterRaw = (reader, instance) => {
         return instance
     } 
     return false
-}
-
-const customValidatorForGlobalThread = (writer, event, instance) => {
-    return true
 }
 
 
