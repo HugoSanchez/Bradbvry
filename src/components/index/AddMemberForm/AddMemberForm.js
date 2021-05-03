@@ -1,21 +1,27 @@
 import React, {useState, useEffect} from 'react';
+import {parseToDisplayCollectionName} from '../../../utils/utils';
+import {handleSnackBarRender_Action} from '../../../actions';
 import {FormButton} from '../../common';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import axios from 'axios';
-import {Textile} from '../../../utils';
+
+import {
+    SNACK_DISMISS,
+    SNACK_TYPE_INFO,
+    SNACK_TYPE_ERROR,
+    SNACK_TYPE_SUCCESS
+} from '../../../actions/types'
 
 import {
     Gn,
     Note,
     Label,
-    MemberCont,
     ModalTitle,
     FormBodyBox,
 } from './styles';
 
 import {
     NameInput,
-    ProfileRow,
     DrawerCont,
 } from '../../index';
 
@@ -24,53 +30,40 @@ import {
     joinCollectionUrl
 } from '../../../constants';
 
-const RenderProfiles = props => {
-
-    return props.members.map((m, i) => {
-        return <ProfileRow 
-                    key={i} 
-                    member={m} 
-                    moderators={props.moderators}
-                    handleAddModerator={member => {
-                        props.handleAddModerator(member)}}
-                />
-    })
-}
-
 
 export const AddMemberForm = props => {
 
     let [email, setEmail] = useState('')
-    let [loading, setLoading] = useState(false)
-    let [profiles, setProfiles] = useState([])
 
-
+    const dispatch = useDispatch()
     const sender = useSelector(state => state.user.email)
-    const client = useSelector(state => state.user.client)
     const identity = useSelector(state => state.user.identity)
     const senderAddress = useSelector(state => state.user.address)
     const activeThread = useSelector(state => state.threads.activeThread)
 
     const handleFormSubmit = async () => {
-        setEmail('')
-        setLoading(true)
-        let data = await parseRequestData()
-        
-        let res = await axios.post(shareBaseUrl, data)
-        if (res.data.success) {props.onClose(true)}
-        else {props.onClose(false)}
+        props.onClose()
+        dispatch(handleSnackBarRender_Action(SNACK_TYPE_INFO))
+        try {
+            let data = await parseRequestData()
+            let res = await axios.post(shareBaseUrl, data)
+            dispatch(handleSnackBarRender_Action(SNACK_DISMISS))
+            dispatch(handleSnackBarRender_Action(SNACK_TYPE_SUCCESS))
+
+        }
+        catch (e) {
+            dispatch(handleSnackBarRender_Action(SNACK_DISMISS))
+            dispatch(handleSnackBarRender_Action(SNACK_TYPE_ERROR))
+        }
     }
 
     const parseRequestData = async () => {
         let recipientEmail = email
-        let collectionName = activeThread.name
-        let collectionAddress = activeThread.id
+        let collectionName = parseToDisplayCollectionName(activeThread.name)
+        let collectionAddress = activeThread.threadId
         let identityStr = identity.public.str
-        let collectionID = Textile.getThreadID(activeThread)
-        let collectionInfoRaw = await client.getDBInfo(collectionID)
-        let collectionInfo = JSON.stringify(collectionInfoRaw)
 
-        let joinUrl = joinCollectionUrl(senderAddress, collectionName)
+        let joinUrl = joinCollectionUrl(senderAddress, collectionAddress, activeThread.name)
         
         return {
             sender, 
@@ -80,7 +73,6 @@ export const AddMemberForm = props => {
             collectionName, 
             recipientEmail, 
             collectionAddress,
-            collectionInfo
         }
 
     }
@@ -103,24 +95,11 @@ export const AddMemberForm = props => {
                     onChange={(e) => setEmail(e.target.value)}/> 
 
                 <FormButton 
+                    isActive={true}
                     text={'Send Invite!'}
-                    loading={loading}
                     onClick={handleFormSubmit}>
                 </FormButton>
             </FormBodyBox>   
-
-            <MemberCont>
-                <Label>
-                    Current Members ({profiles.length})
-                </Label>
-                {
-                    profiles.length > 0 ?
-                    null
-                    :
-                    null
-                }  
-            </MemberCont>
-                      
         </DrawerCont>
     )
 }
