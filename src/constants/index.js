@@ -4,7 +4,7 @@
 
 export const uploadUrl = `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}api/uploadToIpfs`;
 export const shareBaseUrl = `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}api/share/send-invite-email`;
-export const acceptBaseUrl = `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}api/share/add-invited-member`;
+export const acceptBaseUrl = `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}api/add-invited-member`;
 export const createUserUrl = `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}api/user/create`;
 export const followBaseUrl = `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}api/follow`;
 export const unfollowBaseUrl = `${process.env.REACT_APP_EMAIL_SERVICE_BASEURL}api/unfollow`;

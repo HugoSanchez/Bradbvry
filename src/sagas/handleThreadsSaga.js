@@ -27,7 +27,6 @@ function* handleThreads(action) {
     if (!masterThreadID) {
         // We first check wether the user has threads or not.
         let threads = yield client.listThreads()
-        console.log('T: ', threads)
         // If, masterThread does not exist, and threads.length is 0,
         // this is a new signup and everything should be instantiated first.
         if (threads.length === 0) { yield handleNewUser(client, identity, address) }
@@ -47,7 +46,6 @@ function* handleThreads(action) {
 ///// SCENARIO 1: NEW USER SIGN UP
 ///////////////////////////////////////////////////
 function* handleNewUser(client, identity, address) {
-    console.log('here')
     // If user is new, create masterThread and set state
     // Collections will be an empty array.
     let masterThreadName = Textile.getMasterThreadString(identity)
@@ -58,10 +56,7 @@ function* handleNewUser(client, identity, address) {
     let previewEntriesThreadID = previewEntriesThreadIDBuffer.toString()
     localStorage.setItem('masterThreadID', masterThreadID)
     localStorage.setItem('previewEntriesID', previewEntriesThreadID)
-    console.log('here 2')
     yield axios.post(createUserUrl, {address, masterThreadID, previewEntriesThreadID})
-    console.log('Not here')
-
     // Set redux state.
     yield put(setMasterThreadID_Action(masterThreadID))
     yield put(setThreadArray_Action([]))
@@ -73,7 +68,6 @@ function* handleNewUser(client, identity, address) {
 function* handleExistingUserNewSession(threads, client, identity) {
     // If the user is loging from a new device, 
     // get the names for master thread and preview.
-    console.log('Awesome!')
     let masterThreadName = Textile.getMasterThreadString(identity)
     let previewEntriesName = Textile.getPreviewEntriesString(masterThreadName)
     // Get the threads objects.

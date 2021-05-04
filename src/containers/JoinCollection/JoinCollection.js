@@ -49,6 +49,8 @@ export const JoinCollection = props => {
 	const [invitationSecret, setinvitationSecret] = useState(null)
 
 	const client = useSelector(state => state.user.client)
+	const identity = useSelector(state => state.user.identity)
+	const identityString = useSelector(state => state.user.identityString)
 	const masterThreadID = useSelector(state => state.threads.masterThreadID)
 	const collectionName = parseToDisplayCollectionName(threadName)
 
@@ -61,6 +63,10 @@ export const JoinCollection = props => {
 		}
 		checkIfLogged()
 	}, [])
+
+	useEffect(() => {
+		addCollection(invitationSecret)
+	}, [identity])
 	
 	const handleLogin = async e => {
 		setLoading(true)	
@@ -74,25 +80,24 @@ export const JoinCollection = props => {
 			await magic.auth.loginWithMagicLink({ email });
 			// If user wasen't logged in, we need to set the initial config.
 			// once initial config is set, we can add the collection to "pending".
-			if (!isLogged) {dispatch(setInitialConfiguration_Action(handleFireAddCollection(secret)))}
+			if (!isLogged) {dispatch(setInitialConfiguration_Action(() => handleSetinvitationSecret(secret)))}
 			// Else, if user is logged but no client exists, it means he is refreshing
 			// and this initialConfig must be dispatched
-			else if (isLogged && !masterThreadID) {dispatch(setInitialConfiguration_Action(handleFireAddCollection(secret)))}
+			else if (isLogged && !masterThreadID) {dispatch(setInitialConfiguration_Action(() => handleSetinvitationSecret(secret)))}
 			// If he was logged in, we just execute the addCollection function
 			// because the client and the masterThreadID are accessible.
 			else {await addCollection(secret)}
 		}
 	}
 
-	const handleFireAddCollection = (secret) => {
-		return addCollection(secret)
+	const handleSetinvitationSecret = (secret) => {
+		return setinvitationSecret(secret)
 	}
 
 	const addCollection = async (secret) => {
 		if (masterThreadID) {
-			console.log('Mast')
-			// let details = await getCollectionDetails(secret)	
-			dispatch(handleAddCollectionToMaster_Action_Action(threadId, props.history))
+			let details = await getCollectionDetails(secret)	
+			// dispatch(handleAddCollectionToMaster_Action_Action(threadId, props.history))
 		}
 	}
 
@@ -101,7 +106,7 @@ export const JoinCollection = props => {
 		let object = parseReqObject(data, secret)
 		
 		let req = await axios.post(acceptBaseUrl, object)
-		return req.data
+		console.log(req.data)
 		/**
 		if (req.data.success) {history.push(`/app/${data.publicAddress}`)}
 		else {setLoading(false)}
@@ -109,16 +114,22 @@ export const JoinCollection = props => {
 	}
 
 	const parseReqObject = (data, secret) => {
+		console.log('hello', user)
+
 		let inviter = user
-		let sender = data.email
-		let senderAddress = data.publicAddress
+		let acceptantID = identityString
+		let acceptantPubkey = identity.public.toString()
+		let acceptantEmail = data.email
+		let acceptantEthAddress = data.publicAddress
 		let collectionAddress = threadId
 		
 		return {
 			secret,
 			inviter,
-			sender, 
-			senderAddress, 
+			acceptantID, 
+			acceptantPubkey, 
+			acceptantEmail,
+			acceptantEthAddress,
 			collectionAddress,
 		}
 	}
