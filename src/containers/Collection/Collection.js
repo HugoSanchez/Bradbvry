@@ -27,6 +27,7 @@ import {
 	MoreButton,
 	ItemsList, 
 	Header,
+	Text
 	
 } from '../../components';
 
@@ -41,7 +42,9 @@ import {
 } from '../../actions';
 
 import {
-
+	CloseBox,
+	WarningText,
+	MessageBar,
 	DropZoneCont,
 	MoreOptionsPositioner
 
@@ -152,6 +155,11 @@ export const Collection = props => {
   	return (
 		<Fragment>
 			<Header />
+
+			<MessageBar>
+				<WarningText>You'll be able to post to this collection once the owner confirms your membership</WarningText>
+				<CloseBox/>
+			</MessageBar>
 
 			<Drawer 
 				anchor={'right'} 

@@ -4,17 +4,15 @@ import {LoadingCard} from '../../components';
 import {useDispatch, useSelector} from 'react-redux';
 import {parseToDisplayCollectionName, Textile} from '../../utils';
 import logo from '../../resources/favicon.png';
-import {ThreadID} from '@textile/hub';
 import axios from 'axios';
 
 import {
 	setInitialConfiguration_Action,
-	handleAddCollectionToMaster_Action_Action
+	handleAddCollectionToMaster_Action_Action,
+	handleSnackBarRender_Action
 } from '../../actions';
 
 import {
-	pendingObject,
-	addMemberUrl,
 	acceptBaseUrl
 } from '../../constants';
 
@@ -29,6 +27,11 @@ import {
 	Button,
 	ButtonText
 } from './styles';
+
+import { 
+	SNACK_TYPE_ERROR, 
+	SNACK_TYPE_SUCCESS 
+} from '../../actions/types';
 
 const { Magic } = require('magic-sdk');
 const magic = new Magic(process.env.REACT_APP_MAGIC_API_KEY);
@@ -48,7 +51,6 @@ export const JoinCollection = props => {
 	const [isLogged, setisLogged] = useState(false)
 	const [invitationSecret, setinvitationSecret] = useState(null)
 
-	const client = useSelector(state => state.user.client)
 	const identity = useSelector(state => state.user.identity)
 	const identityString = useSelector(state => state.user.identityString)
 	const masterThreadID = useSelector(state => state.threads.masterThreadID)
@@ -96,25 +98,23 @@ export const JoinCollection = props => {
 
 	const addCollection = async (secret) => {
 		if (masterThreadID) {
-			let details = await getCollectionDetails(secret)	
-			// dispatch(handleAddCollectionToMaster_Action_Action(threadId, props.history))
+			let request = await handleJoinCollection(secret)	
+			history.push(`/app/${user}/${threadId}`)
+			if (request.data.success) {
+				// dispatch(handleAddCollectionToMaster_Action_Action(threadId, props.history))
+				dispatch(handleSnackBarRender_Action(SNACK_TYPE_SUCCESS))
+			}
+			else dispatch(handleSnackBarRender_Action(SNACK_TYPE_ERROR))
 		}
 	}
 
-	const getCollectionDetails = async (secret) => {
+	const handleJoinCollection = async (secret) => {
 		let data = await magic.user.getMetadata()
 		let object = parseReqObject(data, secret)
-		
-		let req = await axios.post(acceptBaseUrl, object)
-		console.log(req.data)
-		/**
-		if (req.data.success) {history.push(`/app/${data.publicAddress}`)}
-		else {setLoading(false)}
-		 */
+		return await axios.post(acceptBaseUrl, object)
 	}
 
 	const parseReqObject = (data, secret) => {
-		console.log('hello', user)
 
 		let inviter = user
 		let acceptantID = identityString
