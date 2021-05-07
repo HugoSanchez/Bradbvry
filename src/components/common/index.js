@@ -7,6 +7,7 @@ export * from './FlexContainer';
 export * from './LeftContainer';
 export * from './LoadingToast';
 export * from './SectionTitle';
+export * from './MessageBar';
 export * from './DrawerCont';
 export * from './NameInput';
 export * from './Underline';

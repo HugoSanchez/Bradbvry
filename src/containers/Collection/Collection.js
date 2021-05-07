@@ -1,10 +1,16 @@
 import React, {useEffect, useState, Fragment} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {getCollectionItemsUrl} from '../../constants';
 import Drawer from '@material-ui/core/Drawer';
 import Dropzone from 'react-dropzone';
 import {ThreadID} from '@textile/hub';
 import axios from 'axios';
+
+import {
+
+	getCollectionItemsUrl, 
+	WaitingForOwnerConfirmMessage
+
+} from '../../constants';
 
 import {
 
@@ -24,10 +30,10 @@ import {
 	UploadMediaForm,
 	AddMemberForm,
 	LoadingCard,
+	MessageBar,
 	MoreButton,
 	ItemsList, 
 	Header,
-	Text
 	
 } from '../../components';
 
@@ -42,9 +48,7 @@ import {
 } from '../../actions';
 
 import {
-	CloseBox,
-	WarningText,
-	MessageBar,
+
 	DropZoneCont,
 	MoreOptionsPositioner
 
@@ -64,21 +68,35 @@ export const Collection = props => {
 	const [loading, setLoading] = useState(true)
 	const [followers, setFollowers] = useState([])
 	const [renderForm, setRenderForm] = useState(false) 
+	const [isPendingMember, setIsPendingMember] = useState(false)
 	const [renderMemberForm, setRenderMemberForm] = useState(false) 
 	const [renderCollectionForm, setRenderCollectionForm] = useState(false)
 
 	const client = useSelector(state => state.user.client)
+	const address = useSelector(state => state.user.address)
 	const threadItems = useSelector(state => state.threads.threadItems)
 	const activeThread = useSelector(state => state.threads.activeThread)
 
 	useEffect(() => {
-		if (loggedAndOwner) {handleComponentConfig()}
-		else if (loggedAndOwner === false) {fetchThreadEntries()}
-	}, [loggedAndOwner, client])
+		if (isLogged) {handleComponentConfig()}
+		else if (isLogged === false) {fetchThreadEntries()}
+	}, [isLogged, client])
 
 	useEffect(() => {
 		return () => cleanUpFunction()
 	}, [])
+
+	useEffect(() => {
+		// We check wether the current user is a member/keyowner
+		// for this collections and wether she's been acknowledged or not.
+		if (activeThread && address) {
+			let kO = activeThread.keyOwners
+			let isPending = kO.filter(
+				owner => owner.memberAddress === address 
+				&& owner.acknowledged === false)
+			setIsPendingMember(!!isPending[0])
+		}
+	}, [activeThread, address])
 
 	const handleComponentConfig =  async () => {
 		// If state is empty, set initial configuration.
@@ -155,11 +173,9 @@ export const Collection = props => {
   	return (
 		<Fragment>
 			<Header />
-
-			<MessageBar>
-				<WarningText>You'll be able to post to this collection once the owner confirms your membership</WarningText>
-				<CloseBox/>
-			</MessageBar>
+			<MessageBar 
+				isActive={isPendingMember}
+				message={WaitingForOwnerConfirmMessage}/>
 
 			<Drawer 
 				anchor={'right'} 

@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import {Text} from '../../components';
 
 export const DropZoneCont = styled.div`
 	height: ${window.innerHeight}px;
@@ -24,30 +23,3 @@ export const MoreOptionsPositioner = styled.div`
     }
 `;
 
-export const MessageBar = styled.div`
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	position: fixed;
-	top: 0px;
-	width: 100%;
-	height: 60px;
-	background: rgba(237, 202, 142, 0.8);
-	z-index: 16;
-`;
-
-export const WarningText = styled(Text)`
-	font-weight: 500;
-`;
-
-export const CloseBox = styled.div`
-	position: absolute;
-	top: 0px;
-	right: 10px;
-	width: 60px;
-	height: 60px; 
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	border: 1px solid black;
-`;

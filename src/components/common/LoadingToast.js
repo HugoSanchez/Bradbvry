@@ -1,9 +1,5 @@
 import React from 'react';
-import {View} from './View';
-import {Text} from './Text';
 import styled from 'styled-components';
-import {IconContext} from 'react-icons';
-import {RiDeleteBin6Line} from 'react-icons/ri';
 import {primaryGreen } from '../../constants/colors';
 import {WaveLoading} from 'react-loadingg';
 
