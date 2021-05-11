@@ -23,7 +23,7 @@ import {
 } from './styles';
 
 import {
-	handleAddCollectionToMaster_Action_Action,
+	handleAddCollection_Action,
 	setInitialConfiguration_Action
 } from '../../actions';
 
@@ -66,7 +66,7 @@ export const AddMember = props => {
 		setLoading(true)
 		let data = await magic.user.getMetadata()
 		let details = {id, email, threadName, memberAddress}
-		dispatch(handleAddCollectionToMaster_Action_Action(details))
+		dispatch(handleAddCollection_Action(details))
     }
 
 	

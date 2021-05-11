@@ -1,16 +1,13 @@
 import {HANDLE_SAVE_IMAGE, SNACK_DISMISS, SNACK_TYPE_SUCCESS, SNACK_TYPE_INFO} from '../actions/types';
-import {take, select, put, call} from 'redux-saga/effects';
+import {take, select, put} from 'redux-saga/effects';
 import {ThreadID} from '@textile/hub';
 import {Mixpanel, Textile} from '../utils';
 import {uploadUrl} from '../constants';
 import axios from 'axios';
 
 import {
-    handleAddItemToPreview_Action, 
     addItemToThreadItems_Action,
     addItemToItemsArray_Action,
-    setUserItems_Action,
-    setThreadItems_Action,
     handleSnackBarRender_Action
 } from '../actions';
 

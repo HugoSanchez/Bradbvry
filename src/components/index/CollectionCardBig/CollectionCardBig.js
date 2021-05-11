@@ -1,9 +1,18 @@
 import React, {useEffect, useState}  from 'react';
-import {useSelector} from 'react-redux';
 import {ProfileRow} from '../ProfileRow';
 import { CircularProgress } from '@material-ui/core';
-import {followBaseUrl, unfollowBaseUrl} from '../../../constants';
+import { handleAddCollection_Action } from '../../../actions';
 import axios from 'axios';
+
+import {
+    useSelector, 
+    useDispatch
+} from 'react-redux';
+
+import {
+    followBaseUrl, 
+    unfollowBaseUrl
+} from '../../../constants';
 
 import {
     CollectionCardContainer,
@@ -25,6 +34,7 @@ import {
 
 export const CollectionCardBig = props => {
 
+    let dispatch = useDispatch()
     let [isActive, setIsActive] = useState(false)
     let [isLoading, setIsLoading] = useState(false)
     let [following, setfollowing] = useState(false)
@@ -37,6 +47,7 @@ export const CollectionCardBig = props => {
 
     let address = useSelector(state => state.user.address)
     let identity = useSelector(state => state.user.identityString)
+    let activeThread = useSelector(state => state.threads.activeThread)
 
     let reqObject = {
         threadID: props.thread.id,
@@ -62,7 +73,10 @@ export const CollectionCardBig = props => {
     }
 
     const handleRequest = async () => {
-        if (!following) { await axios.post(followBaseUrl, reqObject)}      
+        if (!following) { 
+            await axios.post(followBaseUrl, reqObject)
+            // dispatch(handleAddCollection_Action(activeThread))
+        }      
         else {
             let data = {threadID: props.thread.id, followID: following._id}
             await axios.post(unfollowBaseUrl, data)

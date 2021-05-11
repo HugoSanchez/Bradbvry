@@ -30,6 +30,7 @@ import {
     HANDLE_ADD_ITEM_TO_PREVIEW,
     HANDLE_DELETE_FROM_PREVIEW,
     HANDLE_SNACKBAR_RENDER,
+    
 
 } from './types';
 
@@ -210,11 +211,10 @@ export const setUserMailbox_Action = (object) => {
     }
 }
 
-export const handleAddCollectionToMaster_Action_Action = (object, history) => {
+export const handleAddCollection_Action = (object) => {
     return {
         type: HANDLE_ADD_COLLECTION,
-        payload: object,
-        history: history
+        payload: object
     }
 }
 

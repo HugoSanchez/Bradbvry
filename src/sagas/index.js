@@ -11,6 +11,7 @@ import updateCollectionSaga from './updateCollectionSaga';
 import deleteCollectionSaga from './deleteCollectionSaga';
 import deleteItemFromPreview from './deleteItemFromPreview';
 
+
 export default function * rootSaga() {
     yield all([
         setConfigSaga(),
@@ -23,7 +24,7 @@ export default function * rootSaga() {
         deleteCollectionSaga(),
         deleteItemFromPreview(),
         handleThreadsSaga(),
-        handleRenderSnack()
+        handleRenderSnack(),
     ])
 }
 
