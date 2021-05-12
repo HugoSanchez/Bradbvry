@@ -48,16 +48,12 @@ export const SignIn = props => {
         if (email) {
 			await magic.auth.loginWithMagicLink({ email });
 			await magic.user.isLoggedIn();
-
-			dispatch(setInitialConfiguration_Action())
+			let data = await magic.user.getMetadata()
+			let route = `/app/${data.publicAddress}`
+			dispatch(setInitialConfiguration_Action(() => history.push(route)))
 			
-			if (!!props.location.state) {
-				history.push(props.location.state.redirect)
-			} else {
-				let data = await magic.user.getMetadata()
-				let route = `/app/${data.publicAddress}`
-				history.push(route)
-			}
+			if (!!props.location.state) {history.push(props.location.state.redirect)}
+			else {history.push(route)}
         }
 	}
 	

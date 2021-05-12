@@ -14,6 +14,7 @@ export const useIsLogged = (user) => {
     useEffect(() => {
         async function checkUserIsLogged() {
             let checkLog = await magic.user.isLoggedIn();
+            let data = await magic.user.getMetadata()
             dispatch(setUserIsLogged_Action(checkLog))
             setIsLogged(checkLog)
 

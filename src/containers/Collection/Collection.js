@@ -68,6 +68,8 @@ export const Collection = props => {
 	const [loading, setLoading] = useState(true)
 	const [followers, setFollowers] = useState([])
 	const [renderForm, setRenderForm] = useState(false) 
+	const [keyOwners, setKeyOwners] = useState(null) 
+	const [isKeyOwner, setIsKeyOwner] = useState(null) 
 	const [isPendingMember, setIsPendingMember] = useState(false)
 	const [renderMemberForm, setRenderMemberForm] = useState(false) 
 	const [renderCollectionForm, setRenderCollectionForm] = useState(false)
@@ -90,20 +92,21 @@ export const Collection = props => {
 		// We check wether the current user is a member/keyowner
 		// for this collections and wether she's been acknowledged or not.
 		if (activeThread && address) {
-			let kO = activeThread.keyOwners
-			let isPending = kO.filter(
-				owner => owner.memberAddress === address 
-				&& owner.acknowledged === false)
-			setIsPendingMember(!!isPending[0])
+			let keyOwners = activeThread.keyOwners
+			let checkIsKeyOwner = keyOwners.filter(owner => owner.memberAddress === address)
+			if (!!checkIsKeyOwner[0]) setIsPendingMember(!checkIsKeyOwner[0].acknowledged)
+			setIsKeyOwner(!!checkIsKeyOwner[0])
+			setKeyOwners(keyOwners)
 		}
 	}, [activeThread, address])
 
 	const handleComponentConfig =  async () => {
 		// If state is empty, set initial configuration.
 		// Else, fetch thread data and set listeners.
+		console.log(isLogged && !client)
 		if (isLogged && client) {fetchThreadData()}
 		else if (isLogged && !client) {dispatch(setInitialConfiguration_Action())}
-		if (activeThread.threadId === threadID && threadItems) {setLoading(false)}
+		if (activeThread && threadItems) {setLoading(false)}
 	}
 
 	const fetchThreadData = async () => {

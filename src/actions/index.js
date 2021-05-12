@@ -211,10 +211,11 @@ export const setUserMailbox_Action = (object) => {
     }
 }
 
-export const handleAddCollection_Action = (object) => {
+export const handleAddCollection_Action = (object, redirect) => {
     return {
         type: HANDLE_ADD_COLLECTION,
-        payload: object
+        payload: object,
+        redirect: redirect
     }
 }
 

@@ -8,8 +8,8 @@ import axios from 'axios';
 
 import {
 	setInitialConfiguration_Action,
-	handleAddCollectionToMaster_Action_Action,
-	handleSnackBarRender_Action
+	handleSnackBarRender_Action,
+	handleAddCollection_Action,
 } from '../../actions';
 
 import {
@@ -51,6 +51,7 @@ export const JoinCollection = props => {
 	const [isLogged, setisLogged] = useState(false)
 	const [invitationSecret, setinvitationSecret] = useState(null)
 
+	const client = useSelector(state => state.user.client)
 	const identity = useSelector(state => state.user.identity)
 	const identityString = useSelector(state => state.user.identityString)
 	const masterThreadID = useSelector(state => state.threads.masterThreadID)
@@ -59,7 +60,7 @@ export const JoinCollection = props => {
 	useEffect(() => {
 		const checkIfLogged = async () => {
 			let isLogged = await magic.user.isLoggedIn();
-			if (isLogged && !masterThreadID) {dispatch(setInitialConfiguration_Action())}
+			if (isLogged && !identity) {dispatch(setInitialConfiguration_Action())}
 			setisLogged(isLogged)
 			setLoading(false)
 		}
@@ -67,8 +68,11 @@ export const JoinCollection = props => {
 	}, [])
 
 	useEffect(() => {
-		addCollection(invitationSecret)
-	}, [identity])
+		if (identity && invitationSecret) {
+			console.log('4')
+			addCollection(invitationSecret)
+		}
+	}, [invitationSecret])
 	
 	const handleLogin = async e => {
 		setLoading(true)	
@@ -77,18 +81,22 @@ export const JoinCollection = props => {
 		const secret = new FormData(e.target).get("secret");
 
 		if (email) {
-			setinvitationSecret(secret)
+			// setinvitationSecret(secret)
 			// First log the user in if he isn't.
 			await magic.auth.loginWithMagicLink({ email });
 			// If user wasen't logged in, we need to set the initial config.
 			// once initial config is set, we can add the collection to "pending".
-			if (!isLogged) {dispatch(setInitialConfiguration_Action(() => handleSetinvitationSecret(secret)))}
+			if (!isLogged) {
+				dispatch(setInitialConfiguration_Action(() => handleSetinvitationSecret(secret)))}
 			// Else, if user is logged but no client exists, it means he is refreshing
 			// and this initialConfig must be dispatched
-			else if (isLogged && !masterThreadID) {dispatch(setInitialConfiguration_Action(() => handleSetinvitationSecret(secret)))}
+			else if (isLogged && !masterThreadID) {
+				dispatch(setInitialConfiguration_Action(() => handleSetinvitationSecret(secret)))}
 			// If he was logged in, we just execute the addCollection function
 			// because the client and the masterThreadID are accessible.
-			else {await addCollection(secret)}
+			else {
+				await addCollection(secret)
+			}
 		}
 	}
 
@@ -99,12 +107,13 @@ export const JoinCollection = props => {
 	const addCollection = async (secret) => {
 		if (masterThreadID) {
 			let request = await handleJoinCollection(secret)	
-			history.push(`/app/${user}/${threadId}`)
+			let redirect = history.push(`/app/${user}/${threadId}`)
 			if (request.data.success) {
-				// dispatch(handleAddCollectionToMaster_Action_Action(threadId, props.history))
+				let threadID = Textile.getThreadIDFromString(threadId)
+				let config = await client.find(threadID, 'config', {})
+				dispatch(handleAddCollection_Action(config[0], redirect))
 				dispatch(handleSnackBarRender_Action(SNACK_TYPE_SUCCESS))
-			}
-			else dispatch(handleSnackBarRender_Action(SNACK_TYPE_ERROR))
+			} else dispatch(handleSnackBarRender_Action(SNACK_TYPE_ERROR))
 		}
 	}
 
@@ -118,7 +127,7 @@ export const JoinCollection = props => {
 
 		let inviter = user
 		let acceptantID = identityString
-		let acceptantPubkey = identity.public.toString()
+		let acceptantPubkey = identity ? identity.public.toString() : null
 		let acceptantEmail = data.email
 		let acceptantEthAddress = data.publicAddress
 		let collectionAddress = threadId

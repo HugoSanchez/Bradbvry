@@ -49,7 +49,6 @@ function* handleConfig(action) {
     // Get user public profile and signer.
     // Get user identity (textile), instantiate client, 
     let identity        = yield Textile.getIdentity(magic)
-
     /**
     let publicKey = PublicKey.fromString(identity.public.toString())
     let enc = new TextEncoder()
@@ -84,4 +83,5 @@ export default function * watchInitialConfig() {
         yield handleConfig(action)    
     }
 }
+
 
