@@ -93,21 +93,27 @@ let actions = {
         return ThreadID.fromString(threadObject.id)
     },
 
-    getKeyOwner: (config, address, identityString) => {
+    getKeyOwner: (config, address, identityString, identity) => {
         let keyOwner = {}
-        if (config.type !== 'public') {
-            
+        if (config.type !== 'public' || true) {
+            keyOwner.memberAddress = address
+            keyOwner.memberId = identityString
+            keyOwner.memberPubkey = identity.public.toString()
+            keyOwner.collectionKey = ''
+            keyOwner.acknowledged = true
         }
+        return keyOwner
     },
 
-    getCollectionConfig: (config, address, identityString) => {
+    getCollectionConfig: (config, address, identityString, identity) => {
         // Parse collection's owner data
         let owner = {ethAddress: address, identity: identityString, did: ''}
-        let keyOwner = actions.getKeyOwner(config)
+        let keyOwner = actions.getKeyOwner(config, address, identityString, identity)
         // Parse config and entries objects (DB collection schemas)
         let newDate = Date.now()
         config.owner = owner
         config.timestamp = newDate
+        config.keyOwners = [keyOwner]
         config.name = parseCollectionName(config.name)
 
         // Copy schemas.
@@ -134,10 +140,10 @@ let actions = {
         return threadID
     },
 
-    createNewThreadDB: async (client, config, address, identityString) => {
+    createNewThreadDB: async (client, config, address, identityString, identity) => {
         // Get the config object for the collection.
-        let collectionConfig = actions.getCollectionConfig(config, address, identityString)
-
+        let collectionConfig = actions.getCollectionConfig(config, address, identityString, identity)
+        console.log('COnfig: ', collectionConfig)
         // Instantiate new threadDB with name.
         let threadID = await client.newDB(undefined, collectionConfig.name)
         collectionConfig.threadId = threadID.toString()

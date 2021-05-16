@@ -78,7 +78,7 @@ export const configObject = {
             memberAddress: '',
             memberPubkey: '',
             collectionKey: '',
-            acknowledged: false
+            acknowledged: true
         }
     ]
 }
@@ -111,7 +111,7 @@ export const device = {
 ////////////////////////////////////
 ////// LOREM IPSUM & OTHER TEXTS
 ////////////////////////////////////
-
+export const updateCollectionMessage = "New members are waiting for your confirmation."
 export const WaitingForOwnerConfirmMessage = "You'll be able to post to this collection once the owner confirms your membership"
 export const LoremIpsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut velit metus, interdum quis risus id, varius lacinia neque. Suspendisse eget luctus lectus. Phasellus nulla neque, dignissim semper nisi id, interdum porta lorem. Donec in justo tellus. Curabitur placerat mi neque, sed luctus lectus interdum sodales. Cras vel viverra ante. Mauris ac condimentum dui, et venenatis quam. Integer pellentesque convallis placerat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In a elit aliquam, vulputate leo quis, sodales massa. Interdum et malesuada fames ac ante ipsum primis in faucibus. Cras pharetra mollis consequat. Vivamus rutrum libero non imperdiet consectetur. Integer auctor metus at libero fringilla"
 export const firstDefaultEntry = {"blocks":[{"key":"d0pp5","text":"Welcome to Bradbvry!","type":"header-one","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"3j6jp","text":"","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"4jfjl","text":"","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"2ofh7","text":"We're happy to have you here. Bradbvry is where you create, store and share, the things that really matter to you, with its own, built-in text-editor. Everything here is encrypted with your Ethereum private keys and stored in IPFS, meaning that only you can control who can access your information.","type":"unstyled","depth":0,"inlineStyleRanges":[{"offset":30,"length":83,"style":"ITALIC"},{"offset":30,"length":83,"style":"BOLD"}],"entityRanges":[],"data":{}},{"key":"boivj","text":"","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"kisq","text":"Bradbvury is also a place to hide away from today's extreme overexposure and exhibitionism. This is strcitly between you, your content and whomever you choose to share it with. This is a place for individual freedom, and digitial intimacy.","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"c9plv","text":"","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"8v1md","text":"This is, obviously, the editor, try playing around with it after you have read this. Everytime you click on the round \"back\" button you can see on the top left here, the document will be automatically saved in it's corresponding collection. ","type":"unstyled","depth":0,"inlineStyleRanges":[{"offset":0,"length":85,"style":"BOLD"},{"offset":0,"length":85,"style":"ITALIC"}],"entityRanges":[],"data":{}}],"entityMap":{}}

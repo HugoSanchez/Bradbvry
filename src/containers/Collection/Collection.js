@@ -8,6 +8,7 @@ import axios from 'axios';
 import {
 
 	getCollectionItemsUrl, 
+	updateCollectionMessage,
 	WaitingForOwnerConfirmMessage
 
 } from '../../constants';
@@ -53,6 +54,7 @@ import {
 	MoreOptionsPositioner
 
 } from './styles';
+import { primaryGreen } from '../../constants/colors';
 
 
 export const Collection = props => {
@@ -70,6 +72,7 @@ export const Collection = props => {
 	const [renderForm, setRenderForm] = useState(false) 
 	const [keyOwners, setKeyOwners] = useState(null) 
 	const [isKeyOwner, setIsKeyOwner] = useState(null) 
+	const [renderUpdate, setRenderUpdate] = useState(false) 
 	const [isPendingMember, setIsPendingMember] = useState(false)
 	const [renderMemberForm, setRenderMemberForm] = useState(false) 
 	const [renderCollectionForm, setRenderCollectionForm] = useState(false)
@@ -91,9 +94,13 @@ export const Collection = props => {
 	useEffect(() => {
 		// We check wether the current user is a member/keyowner
 		// for this collections and wether she's been acknowledged or not.
+		// We also check whether she's an acknowledged user and there's
+		// pending members. In this case, we render update message.
 		if (activeThread && address) {
 			let keyOwners = activeThread.keyOwners
-			let checkIsKeyOwner = keyOwners.filter(owner => owner.memberAddress === address)
+			let checkIsKeyOwner = keyOwners.filter(keyOwner => keyOwner.memberAddress === address)
+			let checkIfPending = keyOwners.filter(keyOwner => keyOwner.acknowledged === false)
+			if (!!checkIsKeyOwner[0] && checkIfPending[0]) {setRenderUpdate(true)}
 			if (!!checkIsKeyOwner[0]) setIsPendingMember(!checkIsKeyOwner[0].acknowledged)
 			setIsKeyOwner(!!checkIsKeyOwner[0])
 			setKeyOwners(keyOwners)
@@ -103,7 +110,6 @@ export const Collection = props => {
 	const handleComponentConfig =  async () => {
 		// If state is empty, set initial configuration.
 		// Else, fetch thread data and set listeners.
-		console.log(isLogged && !client)
 		if (isLogged && client) {fetchThreadData()}
 		else if (isLogged && !client) {dispatch(setInitialConfiguration_Action())}
 		if (activeThread && threadItems) {setLoading(false)}
@@ -179,6 +185,12 @@ export const Collection = props => {
 			<MessageBar 
 				isActive={isPendingMember}
 				message={WaitingForOwnerConfirmMessage}/>
+
+			<MessageBar
+				onActionClick={true} 
+				color={primaryGreen}
+				isActive={renderUpdate && !isPendingMember}
+				message={updateCollectionMessage}/>
 
 			<Drawer 
 				anchor={'right'} 

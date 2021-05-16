@@ -69,7 +69,6 @@ export const JoinCollection = props => {
 
 	useEffect(() => {
 		if (identity && invitationSecret) {
-			console.log('4')
 			addCollection(invitationSecret)
 		}
 	}, [invitationSecret])
@@ -107,11 +106,17 @@ export const JoinCollection = props => {
 	const addCollection = async (secret) => {
 		if (masterThreadID) {
 			let request = await handleJoinCollection(secret)	
+			console.log('1')
 			let redirect = history.push(`/app/${user}/${threadId}`)
+			console.log('2')
 			if (request.data.success) {
+				console.log('3')
 				let threadID = Textile.getThreadIDFromString(threadId)
+				console.log('4')
 				let config = await client.find(threadID, 'config', {})
+				console.log('5')
 				dispatch(handleAddCollection_Action(config[0], redirect))
+				console.log('6')
 				dispatch(handleSnackBarRender_Action(SNACK_TYPE_SUCCESS))
 			} else dispatch(handleSnackBarRender_Action(SNACK_TYPE_ERROR))
 		}

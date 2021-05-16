@@ -8,8 +8,6 @@ const getThreadsState = state => state
 
 function* handleAddCollectionToMaster_Action(action) {
 
-    console.log(action.payload)
-    /** 
     // Instantiate the things
     const state = yield select(getThreadsState)
     const client = state.user.client
@@ -26,9 +24,7 @@ function* handleAddCollectionToMaster_Action(action) {
         yield put(setThreadArray_Action(newCollectionsArrray))
     }
 
-    Mixpanel.track('NEW_FOLLOW')
-    */
-
+    // Mixpanel.track('NEW_FOLLOW')
     if (action.redirect) yield action.redirect()
 }
 

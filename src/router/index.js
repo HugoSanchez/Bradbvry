@@ -30,7 +30,7 @@ const Router = () => {
                 <Route path='/landing' component={LandingPage} /> 
                 <Route path='/gallery' component={Gallery} />  
                 <Route path='/discover' component={Discover} />        
-                <Route path='/app/add-member/:memberAddress/:id/:threadName/:email' component={AddMember}/>
+                <Route path='/app/add-member/:memberAddress/:id/:threadName' component={AddMember}/>
                 <Route path='/app/accept-invite/:user/:threadId/:threadName' component={JoinCollection}/>
                 <Route path='/app/:user/:threadID/:itemId' component={Editor} />
                 <Route path='/app/:user/:threadID' component={Collection} />

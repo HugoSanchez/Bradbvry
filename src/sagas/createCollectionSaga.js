@@ -21,6 +21,7 @@ function* handleCreateCollection(action) {
     const state = yield select(getThreadsState)
     const client = state.user.client
     const address = state.user.address
+    const identity = state.user.identity
     const identityString = state.user.identityString
     const masterThreadID = state.threads.masterThreadID
 
@@ -37,7 +38,7 @@ function* handleCreateCollection(action) {
 
         // 2. Create new ThreadDB and add DB to global.
         protoCofig.image = res.data.contentURI
-        let {collectionObject} = yield Textile.createNewThreadDB(client, action.payload, address, identityString)
+        let {collectionObject} = yield Textile.createNewThreadDB(client, action.payload, address, identityString, identity)
         yield client.create(masterThreadID, 'collections-list', [collectionObject])
 
         // 3. Get new collections list and set in state.

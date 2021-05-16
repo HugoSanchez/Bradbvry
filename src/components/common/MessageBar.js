@@ -10,22 +10,38 @@ import {Text} from './Text';
  * @param {text}: text to display.
  */
 
-const MessageBar = ({isActive, message}) => {
+const MessageBar = ({isActive, message, color, onActionClick}) => {
 
     let [isClosed, setIsClosed] = useState(false)
 
+    const handleAction = () => {
+        setIsClosed(true)
+        onActionClick()
+    }
+
     return (
         <MessageBox 
+            color={color}
             isClosed={isClosed} 
             isActive={isActive}>
             <WarningText>
                 {message}
             </WarningText>
-            <CloseBox onClick={() => setIsClosed(true)}>
-                <IconContext.Provider value={{size: '20px', color: primaryGray85}}>
-                    <RiCloseLine /> 
-                </IconContext.Provider> 
-            </CloseBox>
+            {
+                onActionClick ? 
+                <ActionBox onClick={handleAction}>
+                    <ConfirmText>
+                        Confirm
+                    </ConfirmText>
+                </ActionBox>
+                :
+                <CloseBox onClick={() => setIsClosed(true)}>
+                    <IconContext.Provider value={{size: '20px', color: primaryGray85}}>
+                        <RiCloseLine /> 
+                    </IconContext.Provider> 
+                </CloseBox>
+            }
+            
         </MessageBox>
     );
 }
@@ -51,12 +67,18 @@ const MessageBox = styled.div`
     visibility: ${props => !props.isClosed && props.isActive ? 'visible' : 'hidden'};
     animation: ${props => !props.isClosed && props.isActive? fadeIn : fadeOut} 0.5s linear;
     transition: visibility 0s 0.5s, opacity 0.5s linear;
-	background: rgba(237, 202, 142, 0.8);
+	background: ${props => props.color ? props.color : 'rgba(237, 202, 142, 0.8)'};
 	z-index: 16;
 `;
 
 const WarningText = styled(Text)`
 	font-weight: 500;
+`;
+
+const ConfirmText = styled(WarningText)`
+	text-decoration: underline;
+    margin-right: 20px;
+    cursor: pointer;
 `;
 
 const CloseBox = styled.div`
@@ -68,6 +90,17 @@ const CloseBox = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: center;
+`;
+
+const ActionBox = styled.div`
+    position: absolute;
+    top: 0px;
+    right: 50px;
+    width: 60px;
+    height: 60px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
 `;
 
 
