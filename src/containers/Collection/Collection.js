@@ -66,7 +66,6 @@ export const Collection = props => {
 
 	const dispatch = useDispatch()
 	const [isLogged, isOwner] = useIsLogged(user)
-    const loggedAndOwner = isLogged && isOwner
 
 	const [loading, setLoading] = useState(true)
 	const [followers, setFollowers] = useState([])
@@ -103,7 +102,6 @@ export const Collection = props => {
 			let checkIfPending = keyOwners.filter(keyOwner => keyOwner.acknowledged === false)
 			if (!!checkIsKeyOwner[0]) setIsPendingMember(!checkIsKeyOwner[0].acknowledged)
 			if (!!checkIsKeyOwner[0] && checkIfPending[0]) {setRenderUpdate(true)}
-			console.log('is: ', isPendingMember)
 			setIsKeyOwner(!!checkIsKeyOwner[0])
 			setKeyOwners(keyOwners)
 		}
@@ -146,6 +144,7 @@ export const Collection = props => {
 		// Clean state when component unmounts
 		// Here we also clean redux.
 		dispatch(setThreadItems_Action([]))
+		dispatch(setActiveThread_Action(null))
 	}
 	
 	const handleCloseMemberForm = bool => {
@@ -220,8 +219,8 @@ export const Collection = props => {
 
 			<MoreOptionsPositioner>
 				<MoreButton 
-					isOwner={isOwner}
 					history={props.history}
+					isOwner={isKeyOwner || isOwner}
 					renderForm={() => setRenderCollectionForm(true)}/>
 			</MoreOptionsPositioner>
 
@@ -267,7 +266,7 @@ export const Collection = props => {
 				addImage={() => setRenderForm(true)}
 				openEditor={() => handleNewEditor}
 				activeThread={activeThread}
-				isOwner={isOwner}/>
+				isOwner={isKeyOwner && !isPendingMember}/>
 
 		</Fragment>
   	)

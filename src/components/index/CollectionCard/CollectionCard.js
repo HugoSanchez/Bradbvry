@@ -1,8 +1,6 @@
 import React  from 'react';
 import { Text } from '../../common';
-import { useDispatch } from 'react-redux';
 import { useHistory } from "react-router-dom";
-import { setActiveThread_Action } from '../../../actions';
 
 import {
     SpaceCardContainer,
@@ -22,7 +20,6 @@ import {
 export const CollectionCard = props => {
 
     const history = useHistory();
-    const dispatch = useDispatch()
 
     let {thread} = props
     let image = thread.image
@@ -30,7 +27,6 @@ export const CollectionCard = props => {
     let description = thread.description.slice(0, 96) 
 
     const handleOnClick = () => {
-        dispatch(setActiveThread_Action(thread))
         history.push(`/app/${thread.owner.ethAddress + '/' + thread.threadId}`)
     }
 

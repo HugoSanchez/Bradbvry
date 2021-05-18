@@ -220,10 +220,11 @@ function replaceThisValidator(writer) {
     // In order to have a write permission set, 
     // we first need to create this function
     var arr = JSON.parse('replaceThis');
+    var check = false
     for (var i = 0; i < arr.length; i++) {
-        if (arr[i] === writer) return true;
-        else return false;
+        if (arr[i] === writer) check = true;
     }  
+    return check
 };
 
 const parseCollectionObject = (threadID, collectionConfig) => {

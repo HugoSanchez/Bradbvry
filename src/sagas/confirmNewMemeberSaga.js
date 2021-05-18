@@ -27,7 +27,7 @@ function* handleConfirmNewMemeber(action) {
     let config = Object.assign(collection, {})
     config.keyOwners = newKeyOwnerArray
 
-    yield client.updateCollection(threadID, {name: 'entries', writeValidator: writeValidator})
+    yield client.updateCollection(threadID, {name: 'entries', writeValidator})
     yield client.save(threadID, 'config', [config])
     yield put(handleSnackBarRender_Action(SNACK_TYPE_SUCCESS))
     // Mixpanel.track('NEW_FOLLOW')

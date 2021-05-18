@@ -78,6 +78,7 @@ function* handleSaveImage(action) {
         
     }
     catch (e) {
+        console.log(e)
         yield put(handleSnackBarRender_Action(SNACK_DISMISS))
         yield put(handleSnackBarRender_Action(SNACK_TYPE_ERROR))
     }
