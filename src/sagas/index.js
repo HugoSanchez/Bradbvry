@@ -6,6 +6,7 @@ import deleteItemSaga from './deleteItemSaga';
 import addNewCollection from './addNewCollection';
 import handleThreadsSaga from './handleThreadsSaga';
 import handleRenderSnack from './handleSnackBarSaga';
+import confirmNewMember from './confirmNewMemeberSaga';
 import createCollectionSaga from './createCollectionSaga';
 import updateCollectionSaga from './updateCollectionSaga';
 import deleteCollectionSaga from './deleteCollectionSaga';
@@ -25,6 +26,7 @@ export default function * rootSaga() {
         deleteItemFromPreview(),
         handleThreadsSaga(),
         handleRenderSnack(),
+        confirmNewMember()
     ])
 }
 

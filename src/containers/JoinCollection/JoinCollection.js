@@ -10,6 +10,7 @@ import {
 	setInitialConfiguration_Action,
 	handleSnackBarRender_Action,
 	handleAddCollection_Action,
+	resetInitialState_Action,
 } from '../../actions';
 
 import {
@@ -47,7 +48,7 @@ export const JoinCollection = props => {
 	const history = useHistory();
 	const dispatch = useDispatch();
 
-	const [loading, setLoading] = useState(true)
+	const [loading, setLoading] = useState(false)
 	const [isLogged, setisLogged] = useState(false)
 	const [invitationSecret, setinvitationSecret] = useState(null)
 
@@ -64,14 +65,25 @@ export const JoinCollection = props => {
 			setisLogged(isLogged)
 			setLoading(false)
 		}
-		checkIfLogged()
+		// checkIfLogged()
+	}, [])
+
+	useEffect(() => {
+		const logUserOut = async () => {
+			localStorage.removeItem('textile-identity')
+			localStorage.removeItem('masterThreadID')
+			localStorage.removeItem('previewEntriesID')
+			dispatch(resetInitialState_Action())
+			await magic.user.logout();
+		}
+		logUserOut()
 	}, [])
 
 	useEffect(() => {
 		if (identity && invitationSecret) {
 			addCollection(invitationSecret)
 		}
-	}, [invitationSecret])
+	}, [invitationSecret, identity])
 	
 	const handleLogin = async e => {
 		setLoading(true)	
@@ -104,22 +116,14 @@ export const JoinCollection = props => {
 	}
 
 	const addCollection = async (secret) => {
-		if (masterThreadID) {
-			let request = await handleJoinCollection(secret)	
-			console.log('1')
-			let redirect = history.push(`/app/${user}/${threadId}`)
-			console.log('2')
-			if (request.data.success) {
-				console.log('3')
-				let threadID = Textile.getThreadIDFromString(threadId)
-				console.log('4')
-				let config = await client.find(threadID, 'config', {})
-				console.log('5')
-				dispatch(handleAddCollection_Action(config[0], redirect))
-				console.log('6')
-				dispatch(handleSnackBarRender_Action(SNACK_TYPE_SUCCESS))
-			} else dispatch(handleSnackBarRender_Action(SNACK_TYPE_ERROR))
-		}
+		let request = await handleJoinCollection(secret)	
+		let redirect = history.push(`/app/${user}/${threadId}`)
+		if (request.data.success) {
+			let threadID = Textile.getThreadIDFromString(threadId)
+			let config = await client.find(threadID, 'config', {})
+			dispatch(handleAddCollection_Action(config[0], redirect))
+			dispatch(handleSnackBarRender_Action(SNACK_TYPE_SUCCESS))
+		} else dispatch(handleSnackBarRender_Action(SNACK_TYPE_ERROR))
 	}
 
 	const handleJoinCollection = async (secret) => {

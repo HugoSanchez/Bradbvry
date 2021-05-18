@@ -31,7 +31,7 @@ export const CollectionCard = props => {
 
     const handleOnClick = () => {
         dispatch(setActiveThread_Action(thread))
-        history.push(`/app/${thread.owner.ethAddress + '/' + thread.id}`)
+        history.push(`/app/${thread.owner.ethAddress + '/' + thread.threadId}`)
     }
 
     return (

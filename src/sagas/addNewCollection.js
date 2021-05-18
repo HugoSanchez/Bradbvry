@@ -6,7 +6,7 @@ import {setThreadArray_Action} from '../actions'
 
 const getThreadsState = state => state
 
-function* handleAddCollectionToMaster_Action(action) {
+function* handleAddCollectionToMaster(action) {
 
     // Instantiate the things
     const state = yield select(getThreadsState)
@@ -29,9 +29,9 @@ function* handleAddCollectionToMaster_Action(action) {
 }
 
 
-export default function* watchSaveImage() {
+export default function* watchAddCollection() {
     while(true) {
         let action = yield take(HANDLE_ADD_COLLECTION)
-        yield handleAddCollectionToMaster_Action(action)    
+        yield handleAddCollectionToMaster(action)    
     }
 }

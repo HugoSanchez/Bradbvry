@@ -1,9 +1,17 @@
-import {HANDLE_SAVE_IMAGE, SNACK_DISMISS, SNACK_TYPE_SUCCESS, SNACK_TYPE_INFO} from '../actions/types';
 import {take, select, put} from 'redux-saga/effects';
 import {ThreadID} from '@textile/hub';
 import {Mixpanel, Textile} from '../utils';
 import {uploadUrl} from '../constants';
 import axios from 'axios';
+
+import {
+    HANDLE_SAVE_IMAGE, 
+    SNACK_DISMISS, 
+    SNACK_TYPE_SUCCESS, 
+    SNACK_TYPE_INFO, 
+    SNACK_TYPE_ERROR
+} from '../actions/types';
+
 
 import {
     addItemToThreadItems_Action,
@@ -33,39 +41,48 @@ function* handleSaveImage(action) {
 
     yield put(handleSnackBarRender_Action(SNACK_TYPE_INFO))
 
+    try {
+        for (let i = 0; i < files.length; i++) {
+        
+            let formData = new FormData();
+            formData.append('file', files[i]);
+            formData.append('type', files[i].type);
 
-    for (let i = 0; i < files.length; i++) {
-        let formData = new FormData();
-        formData.append('file', files[i]);
-        formData.append('type', files[i].type);
-
-        let videoPosterUrl
-        if (poster) {videoPosterUrl = yield getVideoPosterUrl(poster)}
-        let res = yield axios.post(uploadUrl, formData) 
+            let videoPosterUrl
+            if (poster) {videoPosterUrl = yield getVideoPosterUrl(poster)}
+            let res = yield axios.post(uploadUrl, formData) 
 
 
-        let entry = {
-            name: files[i].title,
-            description: files[i].description,
-            threadId: activeThread.threadId,
-            contentURI: res.data.contentURI, 
-            other: poster ? videoPosterUrl : '',
-            type: files[i].type, 
-            createdBy: address, 
-            timestamp: Date.now()
+            let entry = {
+                name: files[i].title,
+                description: files[i].description,
+                threadId: activeThread.threadId,
+                contentURI: res.data.contentURI, 
+                other: poster ? videoPosterUrl : '',
+                type: files[i].type, 
+                createdBy: address, 
+                timestamp: Date.now()
+            }
+            let saved = yield Textile.createNewEntry(client, threadId, entry)
+            let savedEntries = yield client.find(threadId, 'entries', {_id: saved[0]})
+            let savedEntry = savedEntries[threadItems.length + i]
+            yield put(addItemToThreadItems_Action(savedEntry))
+            yield put(addItemToItemsArray_Action(savedEntry))
+            yield addItemToPreview(client, savedEntry)
+            Mixpanel.track('NEW_ITEM', {type: 'image'})
+        
         }
 
-        let saved = yield Textile.createNewEntry(client, threadId, entry)
-        let savedEntries = yield client.find(threadId, 'entries', {_id: saved[0]})
-        let savedEntry = savedEntries[threadItems.length + i]
-        yield put(addItemToThreadItems_Action(savedEntry))
-        yield put(addItemToItemsArray_Action(savedEntry))
-        yield addItemToPreview(client, savedEntry)
-        Mixpanel.track('NEW_ITEM', {type: 'image'})
+        yield put(handleSnackBarRender_Action(SNACK_DISMISS))
+        yield put(handleSnackBarRender_Action(SNACK_TYPE_SUCCESS))
+        
+    }
+    catch (e) {
+        yield put(handleSnackBarRender_Action(SNACK_DISMISS))
+        yield put(handleSnackBarRender_Action(SNACK_TYPE_ERROR))
     }
 
-    yield put(handleSnackBarRender_Action(SNACK_DISMISS))
-    yield put(handleSnackBarRender_Action(SNACK_TYPE_SUCCESS))
+    
 }
 
 function* addItemToPreview(client, item) {

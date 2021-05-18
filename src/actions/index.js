@@ -29,6 +29,7 @@ import {
     HANDLE_DELETE_COLLECTION,
     HANDLE_ADD_ITEM_TO_PREVIEW,
     HANDLE_DELETE_FROM_PREVIEW,
+    HANDLE_CONFIRM_NEW_MEMBER,
     HANDLE_SNACKBAR_RENDER,
     
 
@@ -161,6 +162,13 @@ export const handleAddItemToPreview_Action = (object, subType, callback) => {
 export const handleDeleteFromPreview_Action = (object) => {
     return {
         type: HANDLE_DELETE_FROM_PREVIEW,
+        payload: object,
+    }
+}
+
+export const handleConfirmNewMember_Action = (object) => {
+    return {
+        type: HANDLE_CONFIRM_NEW_MEMBER,
         payload: object,
     }
 }

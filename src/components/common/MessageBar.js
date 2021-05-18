@@ -41,7 +41,6 @@ const MessageBar = ({isActive, message, color, onActionClick}) => {
                     </IconContext.Provider> 
                 </CloseBox>
             }
-            
         </MessageBox>
     );
 }
@@ -66,8 +65,8 @@ const MessageBox = styled.div`
 	height: 60px;
     visibility: ${props => !props.isClosed && props.isActive ? 'visible' : 'hidden'};
     animation: ${props => !props.isClosed && props.isActive? fadeIn : fadeOut} 0.5s linear;
+    background: ${props => props.color ? props.color : 'rgba(237, 202, 142, 0.8)'};
     transition: visibility 0s 0.5s, opacity 0.5s linear;
-	background: ${props => props.color ? props.color : 'rgba(237, 202, 142, 0.8)'};
 	z-index: 16;
 `;
 

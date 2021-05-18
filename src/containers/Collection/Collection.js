@@ -44,6 +44,7 @@ import {
 	setActiveThread_Action, 
 	setThreadItems_Action,
 	handleSaveImage_Action,
+	handleConfirmNewMember_Action,
 	setInitialConfiguration_Action,
 
 } from '../../actions';
@@ -100,8 +101,9 @@ export const Collection = props => {
 			let keyOwners = activeThread.keyOwners
 			let checkIsKeyOwner = keyOwners.filter(keyOwner => keyOwner.memberAddress === address)
 			let checkIfPending = keyOwners.filter(keyOwner => keyOwner.acknowledged === false)
-			if (!!checkIsKeyOwner[0] && checkIfPending[0]) {setRenderUpdate(true)}
 			if (!!checkIsKeyOwner[0]) setIsPendingMember(!checkIsKeyOwner[0].acknowledged)
+			if (!!checkIsKeyOwner[0] && checkIfPending[0]) {setRenderUpdate(true)}
+			console.log('is: ', isPendingMember)
 			setIsKeyOwner(!!checkIsKeyOwner[0])
 			setKeyOwners(keyOwners)
 		}
@@ -187,10 +189,10 @@ export const Collection = props => {
 				message={WaitingForOwnerConfirmMessage}/>
 
 			<MessageBar
-				onActionClick={true} 
 				color={primaryGreen}
+				message={updateCollectionMessage}
 				isActive={renderUpdate && !isPendingMember}
-				message={updateCollectionMessage}/>
+				onActionClick={() => dispatch(handleConfirmNewMember_Action(activeThread))}/>
 
 			<Drawer 
 				anchor={'right'} 

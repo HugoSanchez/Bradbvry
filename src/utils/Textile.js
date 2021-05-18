@@ -32,11 +32,11 @@ let actions = {
         return 'preview-entries-' + masterThreadName;
     },
 
-    getWriteValidator: (identityString) => {
+    getWriteValidator: (identityStrings) => {
         // Return the write validator function that makes it such
-        // that only the owner can read or right into a collection.
+        // that only the owner can read or write into a collection.
         let env_check = process.env.NODE_ENV === 'production';
-        let validatorsArray = JSON.stringify([identityString])
+        let validatorsArray = JSON.stringify(identityStrings)
         let stringifiedFunc = getFunctionBody(replaceThisValidator).replace('replaceThis', validatorsArray)
         if (env_check) return stringifiedFunc
         else return new Function(stringifiedFunc)
@@ -44,7 +44,7 @@ let actions = {
 
     getFollowresCollectionWriteValidator: (identityString) => {
         // Return the write validator function that makes it such
-        // that only the owner can read or right into a collection.
+        // that only the owner can read or write into a collection.
         let env_check = process.env.NODE_ENV === 'production';
         let validatorsArray = JSON.stringify([identityString, process.env.REACT_APP_TEXTILE_BV_ID])
         let stringifiedFunc = getFunctionBody(replaceThisValidator).replace('replaceThis', validatorsArray)
@@ -67,20 +67,6 @@ let actions = {
             let readFilter = (reader, instance) => {return instance};
             return getFunctionBody(readFilter)
         }
-    },
-
-    getCollectionsFromGlobalThread: async (client) => { 
-        // This functions returns all collections from the global thread
-        // which is a public registry of collections.       
-        let globalThreadID = actions.getThreadIDFromString(process.env.REACT_APP_BRADBVRY_GLOBAL_THREAD_ID)
-        let collections = await client.find(globalThreadID, 'public-collections', {})
-        return collections
-    },
-
-    getCollectionsFromGlobalThreadFilteredByAddress: async (client, address) => {
-        // Return collections filtered by the owner's eth address.
-        let collections = await actions.getCollectionsFromGlobalThread(client)
-        return collections.filter(collection => collection.owner.address === address)
     },
 
     getThreadIDFromString: (stringID) => {
@@ -150,7 +136,7 @@ let actions = {
         collectionConfig.previewEntries = []
 
         // Instantate and create the config and entries collections in DB.   
-        let writeValidator = actions.getWriteValidator(identityString)
+        let writeValidator = actions.getWriteValidator([identityString])
         let wirteValidatorFollowers = actions.getFollowresCollectionWriteValidator(identityString)
         let readFilter = actions.getReadFilter(identityString, config.type)
         
