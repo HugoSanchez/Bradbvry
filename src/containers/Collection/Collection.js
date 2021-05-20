@@ -133,8 +133,10 @@ export const Collection = props => {
 	const fetchThreadEntries = async () => {
 		// This functions only gets called if user is not logged.
 		// It fetches the collection entries from the backend.
+		console.log('here')
 		let fetchUrl = getCollectionItemsUrl(user, threadID)
 		let {data} = await axios.get(fetchUrl)
+		console.log('d: ', data)
 		dispatch(setActiveThread_Action(data.collection[0]))
 		dispatch(setThreadItems_Action(data.entries.reverse()))
 		setLoading(false)

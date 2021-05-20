@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { setUserIsLogged_Action } from '../actions';
+import { entriesObject } from '../constants';
 
 const { Magic } = require('magic-sdk');
 const magic = new Magic(process.env.REACT_APP_MAGIC_API_KEY);
@@ -14,7 +15,8 @@ export const useIsLogged = (user) => {
     useEffect(() => {
         async function checkUserIsLogged() {
             let checkLog = await magic.user.isLoggedIn();
-            let data = await magic.user.getMetadata()
+            try {let data = await magic.user.getMetadata()}
+            catch (e) {console.log('User not logged in.')}
             dispatch(setUserIsLogged_Action(checkLog))
             setIsLogged(checkLog)
 
