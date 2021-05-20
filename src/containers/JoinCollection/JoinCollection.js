@@ -164,7 +164,7 @@ export const JoinCollection = props => {
 			</Title>
 			<Text>  
 				Please note that you will need to wait for the owner to confirm
-				tour memebership.
+				your memebership.
 			</Text>
 			<FormBody onSubmit={handleLogin}>
 
