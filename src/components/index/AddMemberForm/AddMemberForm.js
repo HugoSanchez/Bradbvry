@@ -84,8 +84,8 @@ export const AddMemberForm = props => {
             </ModalTitle>
 
             <Note>
-                Collections are invite-only. To share your collection, 
-                please type the email of the person you want to share this collection with.
+                Members are able to read and post entries to this collection. If
+                you'd like to share this collection with someone, this is the way to do it.
             </Note>
 
             <FormBodyBox>
