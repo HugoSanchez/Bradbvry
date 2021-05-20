@@ -49,7 +49,7 @@ function* handleSaveImage(action) {
             formData.append('type', files[i].type);
 
             let videoPosterUrl
-            console.log('1')
+            console.log('1', uploadUrl)
             if (poster) {videoPosterUrl = yield getVideoPosterUrl(poster)}
             console.log('2', formData)
             let res = yield axios.post(uploadUrl, formData) 
