@@ -36,7 +36,6 @@ export default function* watchSaveImage() {
 const getDeleteItemsArray = (itemsToDelete, previews) => {
     let array = []
     for (let i = 0; i < itemsToDelete.length; i++) {
-        console.log(itemsToDelete[i])
         let item = previews.filter(item => item.timestamp === itemsToDelete[i].timestamp)
         if (item[0] !== undefined) array.push(item[0]._id)
     }

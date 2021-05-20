@@ -22,13 +22,11 @@ const Settings = props => {
     let client = useSelector(state => state.user.client)
 
     useEffect(() => {
-        console.log('called')
         if (!client) {dispatch(setInitialConfiguration_Action())}
         else if (client && !space) {setBoxAndSpace()}
     }, [client])
 
     const setBoxAndSpace = async () => {
-        console.log('called!!')
         let box = await Box.openBox(address, provider, {})
         let space = await box.openSpace('bradbvry-main')
         setBox(box)

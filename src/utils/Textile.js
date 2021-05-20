@@ -129,7 +129,6 @@ let actions = {
     createNewThreadDB: async (client, config, address, identityString, identity) => {
         // Get the config object for the collection.
         let collectionConfig = actions.getCollectionConfig(config, address, identityString, identity)
-        console.log('COnfig: ', collectionConfig)
         // Instantiate new threadDB with name.
         let threadID = await client.newDB(undefined, collectionConfig.name)
         collectionConfig.threadId = threadID.toString()
@@ -229,7 +228,6 @@ function replaceThisValidator(writer) {
 
 const parseCollectionObject = (threadID, collectionConfig) => {
     collectionConfig.id = threadID.toString()
-    console.log(collectionConfig)
     return collectionConfig
 }
 
