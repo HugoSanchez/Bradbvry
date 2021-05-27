@@ -74,7 +74,6 @@ export const AddMemberForm = props => {
             recipientEmail, 
             collectionAddress,
         }
-
     }
 
     return (
@@ -87,7 +86,7 @@ export const AddMemberForm = props => {
                 Members are able to read and post entries to this collection. If
                 you'd like to share this collection with someone, this is the way to do it.
 
-                
+
             </Note>
 
             <FormBodyBox>

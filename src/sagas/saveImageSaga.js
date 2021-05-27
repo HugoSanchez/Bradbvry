@@ -62,14 +62,21 @@ function* handleSaveImage(action) {
                 createdBy: address, 
                 timestamp: Date.now()
             }
+            console.log('1')
             let saved = yield Textile.createNewEntry(client, threadId, entry)
+            console.log('2')
             let savedEntries = yield client.find(threadId, 'entries', {_id: saved[0]})
+            console.log('3')
             let savedEntry = savedEntries[threadItems.length + i]
+            console.log('4')
             yield put(addItemToThreadItems_Action(savedEntry))
+            console.log('5')
             yield put(addItemToItemsArray_Action(savedEntry))
+            console.log('6')
             yield addItemToPreview(client, savedEntry)
+            console.log('7')
             Mixpanel.track('NEW_ITEM', {type: 'image'})
-        
+            console.log('8')
         }
 
         yield put(handleSnackBarRender_Action(SNACK_DISMISS))
