@@ -38,11 +38,14 @@ function* handleCreateCollection(action) {
 
         // 2. Create new ThreadDB and add DB to global.
         protoCofig.image = contentURI
+        console.log('1')
         let {collectionObject} = yield Textile.createNewThreadDB(client, action.payload, address, identityString, identity)
+        console.log('2', masterThreadID)
         yield client.create(masterThreadID, 'collections-list', [collectionObject])
-
+        console.log('3')
         // 3. Get new collections list and set in state.
         let collections = yield client.find(masterThreadID, 'collections-list', {})
+        console.log('4')
         yield put(setThreadArray_Action(collections))
 
         // 4. Fire callback and track event
