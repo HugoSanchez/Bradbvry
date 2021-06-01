@@ -1,6 +1,6 @@
 import {take, put, select} from 'redux-saga/effects';
 import {setThreadArray_Action, handleSnackBarRender_Action} from '../actions';
-import {Mixpanel, Textile} from '../utils';
+import {Mixpanel, Textile, UploadToIPFS} from '../utils';
 import {uploadUrl} from '../constants';
 import axios from 'axios';
 
@@ -34,10 +34,10 @@ function* handleCreateCollection(action) {
         let formData = new FormData();
         formData.append('file', action.payload.image);
         formData.append('type', action.payload.image.type);
-        let res = yield axios.post(uploadUrl, formData)
+        let contentURI = yield UploadToIPFS(action.payload.image)
 
         // 2. Create new ThreadDB and add DB to global.
-        protoCofig.image = res.data.contentURI
+        protoCofig.image = contentURI
         let {collectionObject} = yield Textile.createNewThreadDB(client, action.payload, address, identityString, identity)
         yield client.create(masterThreadID, 'collections-list', [collectionObject])
 

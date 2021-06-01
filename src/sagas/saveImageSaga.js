@@ -1,8 +1,11 @@
 import {take, select, put} from 'redux-saga/effects';
 import {ThreadID} from '@textile/hub';
-import {Mixpanel, Textile} from '../utils';
-import {uploadUrl} from '../constants';
-import axios from 'axios';
+
+import {
+    Mixpanel, 
+    Textile, 
+    UploadToIPFS
+} from '../utils';
 
 import {
     HANDLE_SAVE_IMAGE, 
@@ -11,7 +14,6 @@ import {
     SNACK_TYPE_INFO, 
     SNACK_TYPE_ERROR
 } from '../actions/types';
-
 
 import {
     addItemToThreadItems_Action,
@@ -43,40 +45,30 @@ function* handleSaveImage(action) {
 
     try {
         for (let i = 0; i < files.length; i++) {
-        
-            let formData = new FormData();
-            formData.append('file', files[i]);
-            formData.append('type', files[i].type);
 
             let videoPosterUrl
-            if (poster) {videoPosterUrl = yield getVideoPosterUrl(poster)}
-            let res = yield axios.post(uploadUrl, formData) 
+            if (poster) {videoPosterUrl = yield UploadToIPFS(poster)}
+            let contentURI = yield UploadToIPFS(files[i])
 
             let entry = {
                 name: files[i].title,
                 description: files[i].description,
                 threadId: activeThread.threadId,
-                contentURI: res.data.contentURI, 
+                contentURI: contentURI, 
                 other: poster ? videoPosterUrl : '',
                 type: files[i].type, 
                 createdBy: address, 
                 timestamp: Date.now()
             }
-            console.log('1')
+
             let saved = yield Textile.createNewEntry(client, threadId, entry)
-            console.log('2')
             let savedEntries = yield client.find(threadId, 'entries', {_id: saved[0]})
-            console.log('3')
             let savedEntry = savedEntries[threadItems.length + i]
-            console.log('4')
+
             yield put(addItemToThreadItems_Action(savedEntry))
-            console.log('5')
             yield put(addItemToItemsArray_Action(savedEntry))
-            console.log('6')
             yield addItemToPreview(client, savedEntry)
-            console.log('7')
             Mixpanel.track('NEW_ITEM', {type: 'image'})
-            console.log('8')
         }
 
         yield put(handleSnackBarRender_Action(SNACK_DISMISS))
@@ -106,16 +98,3 @@ export default function* watchSaveImage() {
     }
 }
 
-
-/////////////////////////////////////////////////
-/////// Helper Function
-////////////////////////////////////////////////
-
-const getVideoPosterUrl = async poster => {
-    let formData = new FormData();
-    formData.append('file', poster[0]);
-    formData.append('type', poster[0].type);
-
-    let res = await axios.post(uploadUrl, formData) 
-    return res.data.contentURI
-}
